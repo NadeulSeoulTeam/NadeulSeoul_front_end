@@ -6,6 +6,12 @@
     position: absolute;
     display: inline-block;
     z-index: 2;
-    top: 20px;
+    top: 100px;
     left: 80%;
+}
+.search{
+    position: absolute;
+    z-index: 2;
+    top: 20px;
+    left: 35%;
 }
