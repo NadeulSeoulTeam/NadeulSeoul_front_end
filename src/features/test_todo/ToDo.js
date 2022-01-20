@@ -1,12 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { remove } from './test_todoSlice';
+import { remove } from './todoSlice';
 
 // Home으로 부터 props text
 // mapDispatchToProps으로 부터 props dispatch
 // ownProps으로 부터 props id
-function ToDo({ text, onBtnClick, id }) {
+function ToDo({ todo }) {
+  const dispatch = useDispatch();
+  const { text, id } = todo;
+  const onBtnClick = () => {
+    dispatch(remove(id));
+  };
   return (
     <li>
       <Link to={`/${id}`}>{text}</Link>
@@ -17,10 +22,10 @@ function ToDo({ text, onBtnClick, id }) {
   );
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    onBtnClick: () => dispatch(remove(ownProps.id)),
-  };
-}
+// function mapDispatchToProps(dispatch, ownProps) {
+//   return {
+//     onBtnClick: () => dispatch(remove(ownProps.id)),
+//   };
+// }
 
-export default connect(null, mapDispatchToProps)(ToDo);
+export default ToDo;
