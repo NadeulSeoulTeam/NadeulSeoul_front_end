@@ -11,6 +11,8 @@ import GoogleLoginCallback from '../features/Auth/Google/GoogleLoginCallback';
 
 // Common
 import Error404 from '../common/error/Error404';
+import CourseMap from '../features/Course/CourseMap';
+import CourseCart from '../features/Course/CourseCart';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/googlelogin" element={<GoogleLogin />} />
         <Route path="/callback" element={<NaverLoginCallback />} />
         <Route path="/auth/google/callback" element={<GoogleLoginCallback />} />
+        <Route path="/CourseMap" element={<CourseMap />} />
+        <Route path="/CourseCart" element={<CourseCart />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </BrowserRouter>
