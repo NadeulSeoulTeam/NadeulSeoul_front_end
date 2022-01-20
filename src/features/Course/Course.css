@@ -1,0 +1,11 @@
+.map{
+    position: relative;
+    z-index: 1;
+}
+.cart{
+    position: absolute;
+    display: inline-block;
+    z-index: 2;
+    top: 20px;
+    left: 80%;
+}

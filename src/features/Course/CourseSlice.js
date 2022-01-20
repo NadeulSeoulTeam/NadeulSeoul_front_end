@@ -8,19 +8,28 @@ const course = createSlice({
     Lng: 126.570667,
     level: 3,
     // course state
-    course: {
-      name: '너스레',
-      address: '서울 서대문구 이화여대7길 22',
-    },
+    course: [
+      {
+        name: '너스레',
+        address: '서울 서대문구 이화여대7길 22',
+      },
+    ],
   },
   reducers: {
     // add: (state, action) => {
     //   state.push({ text: action.payload, id: Date.now() });
     // },
+    addCourse: (state) => {
+      console.log('addCourse');
+      state.course.push({
+        name: '카라멘야',
+        address: '서울 서대문구 연세로7안길 34-1',
+      });
+    },
   },
 });
 
-export const { add, remove } = course.actions;
+export const { addCourse } = course.actions;
 
 export default course.reducer;
 export const selectLat = (state) => state.course.Lat;

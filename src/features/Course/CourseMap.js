@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectLang, selectLat, selectLevel } from './CourseSlice';
 
+import CourseCart from './CourseCart';
+
+import './Course.css';
+
 function CourseMap() {
   const { kakao } = window;
   const lat = useSelector(selectLat);
@@ -19,13 +23,17 @@ function CourseMap() {
     setMap(kakaoMap);
   }, []);
   return (
-    <div
-      id="map"
-      style={{
-        width: '100%',
-        height: '700px',
-      }}
-    />
+    <div>
+      <div
+        className="map"
+        id="map"
+        style={{
+          width: '100%',
+          height: '700px',
+        }}
+      />
+      <CourseCart />
+    </div>
   );
 }
 
