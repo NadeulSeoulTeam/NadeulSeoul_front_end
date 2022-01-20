@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 
 function GoogleLogin() {
   const googleLoginBtn = useRef(null);
-  // eslint-disable-next-line no-unused-vars
   // 추후 redux 활용 예정
+  // eslint-disable-next-line no-unused-vars
   const [token, setToken] = useState('');
 
   const googleSDK = () => {
@@ -17,6 +17,7 @@ function GoogleLogin() {
           scope: 'profile email',
         });
         // 버튼 클릭
+        // authorization만 필요할 경우 profile 받을 필요 없음
         auth2.attachClickHandler(
           googleLoginBtn.current,
           {},
@@ -24,6 +25,7 @@ function GoogleLogin() {
           (googleUser) => {
             const profile = googleUser.getBasicProfile();
             console.log(profile);
+            // if back이 id_token과 access 토큰을 요구할 경우
             console.log(`Token || ${googleUser.getAuthResponse().id_token}`);
             setToken(googleUser.getAuthResponse().id_token);
             console.log(`ID: ${profile.getId()}`);

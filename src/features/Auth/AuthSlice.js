@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const requestNaverCode = createAsyncThunk(
-  'REQUEST',
+// data에는 인가 code가 담긴다.
+export const PostNaverCode = createAsyncThunk(
+  'POST_NAVERCODE',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get('https://httpbin.org/get');
+      const response = await axios.post('벡엔드 주소', data);
+      // saveToken => 유니버셜 쿠키 라이브러리
       console.log(response.data);
       return response;
     } catch (error) {
@@ -16,10 +18,9 @@ export const requestNaverCode = createAsyncThunk(
 
 // 기본 state
 export const initialState = {
-  naverCode: null,
-  LoginNaverCodeLoading: false,
-  LoginNaverCodeDone: false,
-  LoginNaverCodeError: false,
+  postNaverCodeLoading: false, // naver 인가 코드 post 시도중
+  postNaverCodeDone: false,
+  postNaverCodeError: false,
 };
 
 const authSlice = createSlice({
@@ -27,30 +28,20 @@ const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(requestNaverCode.pending, (state) => {
-      state.LoginNaverCodeLoading = true;
+    builder.addCase(PostNaverCode.pending, (state) => {
+      state.postNaverCodeLoading = true;
+      state.postNaverCodeDone = false;
+      state.postNaverCodeError = false;
     });
-    // [requestNaverCode.fulfilled]: (state) => {
-    //   state.LoginNaverCodeLoading = true;
-    // },
+    builder.addCase(PostNaverCode.fulfilled, (state) => {
+      state.postNaverCodeLoading = false;
+      state.postNaverCodeDone = true;
+    });
+    builder.addCase(PostNaverCode.rejected, (state, action) => {
+      state.postNaverCodeLoading = false;
+      state.postNaverCodeError = action.payload;
+    });
   },
-
-  // extraReducers: (builder) =>
-  //   builder
-  //     .addCase(requestNaverCode.pending, (state) => {
-  //       state.LoginNaverCodeLoading = true;
-  //       state.LoginNaverCodeDone = false;
-  //       state.LoginNaverCodeError = null;
-  //     })
-  //     .addCase(requestNaverCode.fulfilled, (state) => {
-  //       state.LoginNaverCodeLoading = false;
-  //       state.LoginNaverCodeDone = true;
-  //     })
-  //     .addCase(requestNaverCode.rejectetd, (state) => {
-  //       state.LoginNaverCodeLoading = false;
-  //     })
-  //     .addDefaultCase((state) => state),
 });
 
 export default authSlice.reducer;
-//         'https://nid.naver.com/oauth2.0/authorize?client_id=m7ElqUoPxOdxQ1WacsCU&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&state=AAAAOoObjtSBmB9vtukF3w0BC7BYZ4vId2kOSCBSDcxmov_DtjY3u8ATb9I3L-pdJisk9KulUsWrgCOmu2LKDH-i6U0'

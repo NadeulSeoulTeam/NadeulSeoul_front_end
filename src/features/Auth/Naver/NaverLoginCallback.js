@@ -6,7 +6,7 @@ function NaverLoginCallback() {
 
   const getStateToken = () => {
     try {
-      const key = location.sea.split('=')[0];
+      const key = location.hash.split('=')[0];
       console.log(location);
       console.log(key);
       if (key !== '#access_token') throw new Error();
