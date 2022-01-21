@@ -14,6 +14,7 @@ const course = createSlice({
         address: '서울 서대문구 이화여대7길 22',
       },
     ],
+    searchKeyword: 'abc',
   },
   reducers: {
     // add: (state, action) => {
@@ -26,13 +27,19 @@ const course = createSlice({
         address: '서울 서대문구 연세로7안길 34-1',
       });
     },
+    keywordInput: (state, action) => {
+      console.log('keyword Input');
+      console.log(action.payload);
+      state.searchKeyword = action.payload;
+    },
   },
 });
 
-export const { addCourse } = course.actions;
+export const { addCourse, keywordInput } = course.actions;
 
 export default course.reducer;
 export const selectLat = (state) => state.course.Lat;
 export const selectLang = (state) => state.course.Lng;
 export const selectLevel = (state) => state.course.level;
 export const getCourse = (state) => state.course.course;
+export const getKeyword = (state) => state.course.keywordInput;
