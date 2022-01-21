@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // data에는 인가 code가 담긴다.
-export const PostNaverCode = createAsyncThunk(
-  'POST_NAVERCODE', // convention 'postNaverCode'
+export const postNaverCode = createAsyncThunk(
+  'auth/postNaverCode',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post('벡엔드 주소', data);
@@ -28,16 +28,16 @@ const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(PostNaverCode.pending, (state) => {
+    builder.addCase(postNaverCode.pending, (state) => {
       state.postNaverCodeLoading = true;
       state.postNaverCodeDone = false;
       state.postNaverCodeError = false;
     });
-    builder.addCase(PostNaverCode.fulfilled, (state) => {
+    builder.addCase(postNaverCode.fulfilled, (state) => {
       state.postNaverCodeLoading = false;
       state.postNaverCodeDone = true;
     });
-    builder.addCase(PostNaverCode.rejected, (state, action) => {
+    builder.addCase(postNaverCode.rejected, (state, action) => {
       state.postNaverCodeLoading = false;
       state.postNaverCodeError = action.payload;
     });
