@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // data에는 인가 code가 담긴다.
 export const PostNaverCode = createAsyncThunk(
-  'POST_NAVERCODE',
+  'POST_NAVERCODE', // convention 'postNaverCode'
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post('벡엔드 주소', data);
