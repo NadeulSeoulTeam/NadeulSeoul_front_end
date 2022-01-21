@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
-import { StylesProvider } from '@material-ui/core';
+import { StylesProvider } from '@mui/styles';
 
 export const MainTitle = styled.h1`
   font-family: 'Hahmlet';
@@ -21,13 +21,10 @@ export const GreenBtn = styled(Button)`
   border: none;
 `;
 
-function MainPage() {
+export default function StyledComponents() {
   return (
-    <div>
-      <MainTitle>나들서울</MainTitle>
-      <GreenBtn>현재 위치 기준으로 보기</GreenBtn>
-    </div>
+    <StylesProvider injectFirst>
+      <GreenBtn />
+    </StylesProvider>
   );
 }
-
-export default MainPage;
