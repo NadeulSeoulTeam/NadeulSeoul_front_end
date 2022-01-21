@@ -16,23 +16,16 @@ function NaverLoginCallback() {
       return <Link to="/error" />;
     }
   };
+  useEffect(() => {
+    window.location.href = `https://nid.naver.com/oauth2.0/authorize?client_id=m7ElqUoPxOdxQ1WacsCU&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&state=${getStateToken()}`;
+  }, []);
 
-  const getAccessCode = () => {
-    try {
-      const code = new URL(window.location.href).searchParams.get('code');
-      return code;
-    } catch (e) {
-      return <Link to="/error" />;
-    }
-  };
-
-  // get to naver server https://nid.naver.com/oauth2.0/authorize?client_id=m7ElqUoPxOdxQ1WacsCU&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&state=AAAAOoObjtSBmB9vtukF3w0BC7BYZ4vId2kOSCBSDcxmov_DtjY3u8ATb9I3L-pdJisk9KulUsWrgCOmu2LKDH-i6U0
+  // https://nid.naver.com/oauth2.0/authorize?client_id=m7ElqUoPxOdxQ1WacsCU&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&state=AAAAOoObjtSBmB9vtukF3w0BC7BYZ4vId2kOSCBSDcxmov_DtjY3u8ATb9I3L-pdJisk9KulUsWrgCOmu2LKDH-i6U0
 
   return (
     <div>
       <Link to="/">Main</Link>
       <div>상태 토큰 : {getStateToken()}</div>
-      <div>접근 코드 : {getAccessCode()}</div>
     </div>
   );
 }

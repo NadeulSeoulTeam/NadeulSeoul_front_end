@@ -22,6 +22,7 @@ function App() {
         {/* login 파일 통일 필요 */}
         <Route path="/googlelogin" element={<GoogleLogin />} />
         <Route path="/callback" element={<NaverLoginCallback />} />
+        <Route path="/callback/?code" element={<NaverLoginCallback />} />
         <Route path="/auth/google/callback" element={<GoogleLoginCallback />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
