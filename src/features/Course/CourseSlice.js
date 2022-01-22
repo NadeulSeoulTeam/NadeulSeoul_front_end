@@ -8,12 +8,7 @@ const course = createSlice({
     Lng: 127.0016985,
     level: 3,
     // course state
-    course: [
-      {
-        name: '너스레',
-        address: '서울 서대문구 이화여대7길 22',
-      },
-    ],
+    course: [],
     searchKeyword: 'abc',
     searchData: {
       data: [],
