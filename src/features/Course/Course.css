@@ -15,3 +15,9 @@
     top: 20px;
     left: 35%;
 }
+.list{
+    position: absolute;
+    z-index: 2;
+    top: 500px;
+    left: 5%;
+}

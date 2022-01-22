@@ -10,7 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
 
-import { getCourse, keywordInput } from './CourseSlice';
+import { getCourse, keywordInput, searchDataInput } from './CourseSlice';
 
 import './Course.css';
 
@@ -30,18 +30,16 @@ function CourseSearch() {
   // eslint-disable-next-line no-unused-vars
 
   const placesSearchCB = (data, status, pagination) => {
-    console.log('시작');
-    console.log(data);
-    console.log(status);
-    console.log(pagination);
     if (status === kakao.maps.services.Status.OK) {
       // 정상적으로 검색이 완료됐으면
       // 검색 목록과 마커를 표출합니다
       // displayPlaces(data);
       // 페이지 번호를 표출합니다
       // displayPagination(pagination);
+      const tempInputData = { data, status, pagination };
       console.log('성공');
-      console.log(status);
+      console.log(tempInputData);
+      dispatch(searchDataInput(tempInputData));
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
       alert('검색 결과가 존재하지 않습니다.');
     } else if (status === kakao.maps.services.Status.ERROR) {
