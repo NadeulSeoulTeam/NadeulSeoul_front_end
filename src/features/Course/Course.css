@@ -16,6 +16,8 @@
     left: 35%;
 }
 .list{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     position: absolute;
     z-index: 2;
     top: 500px;
