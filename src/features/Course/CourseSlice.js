@@ -26,11 +26,12 @@ const course = createSlice({
     // add: (state, action) => {
     //   state.push({ text: action.payload, id: Date.now() });
     // },
-    addCourse: (state) => {
+    addCourse: (state, action) => {
       console.log('addCourse');
+      console.log(action.payload.name);
       state.course.push({
-        name: '카라멘야',
-        address: '서울 서대문구 연세로7안길 34-1',
+        name: action.payload.name,
+        address: action.payload.address,
       });
     },
     keywordInput: (state, action) => {
