@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 // material UI
 import Card from '@mui/material/Card';
@@ -10,12 +11,13 @@ import Typography from '@mui/material/Typography';
 // css
 import './Course.css';
 
-import { getCourse, addCourse } from './CourseSlice';
+import { getCourse } from './CourseSlice';
 
 function CourseCart() {
   // 현재 카트에 리스트가 저장되어있는 배열
   const carts = useSelector(getCourse);
-  const dispatch = useDispatch();
+  // Navigation
+  const navigate = useNavigate();
   useEffect(() => {
     console.log(carts);
   }, [carts]);
@@ -43,8 +45,13 @@ function CourseCart() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => dispatch(addCourse())}>
-          test
+        <Button
+          size="small"
+          onClick={() => {
+            navigate(`/CourseCreationForm`);
+          }}
+        >
+          이대로 코스 생성하기
         </Button>
       </CardActions>
     </Card>

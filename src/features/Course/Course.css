@@ -23,3 +23,7 @@
     top: 500px;
     left: 5%;
 }
+.creation_cart{
+    display: inline-block;
+    grid-template-columns: repeat(5, 1fr);
+}
