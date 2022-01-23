@@ -24,10 +24,7 @@ const course = createSlice({
     addCourse: (state, action) => {
       console.log('addCourse');
       console.log(action.payload.name);
-      state.course.push({
-        name: action.payload.name,
-        address: action.payload.address,
-      });
+      state.course.push(action.payload);
     },
     keywordInput: (state, action) => {
       console.log('keywordInput Start');

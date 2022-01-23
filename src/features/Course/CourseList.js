@@ -15,9 +15,7 @@ function CourseList() {
   const addToCart = (search) => {
     console.log('addtocart');
     console.log(search);
-    dispatch(
-      addCourse({ name: search.place_name, address: search.address_name })
-    );
+    dispatch(addCourse(search));
   };
   const mapToComponent = (data) => {
     console.log('start maptocomponent');
