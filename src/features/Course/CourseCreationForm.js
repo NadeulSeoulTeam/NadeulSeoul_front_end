@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // material UI
@@ -12,13 +12,73 @@ import { getCourse } from './CourseSlice';
 // css
 import './Course.css';
 
+import CourseCreationModal from './CourseCreationModal';
+
 function CourseCreactionForm() {
   const carts = useSelector(getCourse);
+  const navigate = useNavigate();
+
+  // info
+  const [courseInfo, setCourseInfo] = useState({
+    courseName: '',
+    courseExplain: '',
+    fixedNumber: '',
+    budget: '',
+  });
+
+  // modal
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    console.log(carts);
-  }, []);
+    console.log(courseInfo);
+  }, [courseInfo]);
 
+  const sendCourse = () => {
+    console.log('sendCourse');
+    handleOpen();
+    console.log(open);
+  };
+  // course 정보 backend 송신 함수
+  const sendFinalCourseInfo = () => {
+    console.log('sendFinalCourseInfo');
+    // navigaion
+    navigate(`/`);
+  };
+
+  // input 값 저장하기
+  // eslint-disable-next-line consistent-return
+  const onChange = (e) => {
+    console.log('on change');
+    console.log(courseInfo);
+
+    // eslint-disable-next-line default-case
+    switch (e.target.id) {
+      case 'courseName':
+        courseInfo.courseName = e.target.value;
+        setCourseInfo(courseInfo);
+        break;
+
+      case 'courseExplain':
+        courseInfo.courseExplain = e.target.value;
+        setCourseInfo(courseInfo);
+        break;
+
+      case 'fixedNumber':
+        courseInfo.fixedNumber = e.target.value;
+        setCourseInfo(courseInfo);
+        break;
+
+      case 'budget':
+        courseInfo.budget = e.target.value;
+        setCourseInfo(courseInfo);
+        break;
+
+      default:
+        return console.log('no match');
+    }
+  };
   const mapToComponent = () => {
     console.log('start maptocomponent');
     console.log(carts);
@@ -43,7 +103,12 @@ function CourseCreactionForm() {
       <h3>나만의 코스 만들기</h3>
       <div className="course_name">
         <p>*코스 이름</p>
-        <input type="text" id="courseName" name="courseName" />
+        <input
+          onChange={onChange}
+          type="text"
+          id="courseName"
+          name="courseName"
+        />
       </div>
       <div className="course_route">
         <p>루트 편집</p>
@@ -51,15 +116,25 @@ function CourseCreactionForm() {
       </div>
       <div className="course_explain">
         <p>코스 설명</p>
-        <input type="text" id="courseExplain" name="courseExplain" />
+        <input
+          onChange={onChange}
+          type="text"
+          id="courseExplain"
+          name="courseExplain"
+        />
       </div>
       <div className="fixed_number">
         <p>함께한 인원</p>
-        <input type="text" id="fixedNumber" name="fixedNumber" />
+        <input
+          onChange={onChange}
+          type="text"
+          id="fixedNumber"
+          name="fixedNumber"
+        />
       </div>
       <div className="budget">
         <p>예산</p>
-        <input type="text" id="budget" name="budget" />
+        <input onChange={onChange} type="text" id="budget" name="budget" />
       </div>
       <div className="transportation_type">
         <p>교통수단</p>
@@ -78,7 +153,14 @@ function CourseCreactionForm() {
         <p>테마 태그</p>
         <input type="button" id="themeTag" name="themeTag" />
       </div>
-      <button type="submit">이대로 코스 생성하기</button>
+      <button type="submit" onClick={sendCourse}>
+        이대로 코스 생성하기
+      </button>
+      <CourseCreationModal
+        sendFinalCourseInfo={sendFinalCourseInfo}
+        handleClose={handleClose}
+        open={open}
+      />
     </div>
   );
 }
