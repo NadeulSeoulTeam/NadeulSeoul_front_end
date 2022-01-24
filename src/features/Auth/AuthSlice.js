@@ -33,6 +33,7 @@ export const postGoogleCode = createAsyncThunk(
 // 기본 state
 export const initialState = {
   naverToken: '',
+  isNaverCode: false,
   naverCode: '',
   postNaverCodeLoading: false, // naver 인가 코드 post 시도중
   postNaverCodeDone: false,
@@ -51,6 +52,9 @@ const authSlice = createSlice({
     },
     addNaverCode(state, action) {
       state.naverCode = action.payload;
+    },
+    onChangeNaverCode(state, action) {
+      state.isNaverCode = action.payload;
     },
   },
   extraReducers: {
@@ -97,6 +101,7 @@ const authSlice = createSlice({
   //   });
   // },
 });
-export const { addNaverToken, addNaverCode } = authSlice.actions;
+export const { addNaverToken, addNaverCode, onChangeNaverCode } =
+  authSlice.actions;
 
 export default authSlice.reducer;

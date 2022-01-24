@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import FollowButton from '../Follow/FollowButton';
 
 function ProfileCard() {
   return (
@@ -24,8 +25,9 @@ function ProfileCard() {
           </IconButton>
         }
         title="닉네임"
-        subheader="  96 : 팔로워 79 :팔로잉"
+        subheader="  96 : 팔로워 79 : 팔로잉"
       />
+      <FollowButton />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           한 줄 소개

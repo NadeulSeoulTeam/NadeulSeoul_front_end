@@ -9,11 +9,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { addNaverToken } from '../AuthSlice';
 // eslint-disable-next-line import/no-duplicates
 import { addNaverCode } from '../AuthSlice';
+// eslint-disable-next-line import/no-duplicates
+import { onChangeNaverCode } from '../AuthSlice';
 
 function NaverLoginCallback() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { naverCode } = useSelector((state) => state.auth);
+  const { naverCode, isNaverCode } = useSelector((state) => state.auth);
 
   const getStateToken = useCallback(() => {
     try {
@@ -31,6 +33,7 @@ function NaverLoginCallback() {
     try {
       const code = new URL(window.location.href).searchParams.get('code');
       dispatch(addNaverCode(code));
+      dispatch(onChangeNaverCode(true));
       return code;
     } catch (e) {
       return <Link to="/error" />;
@@ -38,23 +41,27 @@ function NaverLoginCallback() {
   });
 
   useEffect(() => {
-    if (!naverCode) {
-      window.close();
+    const checkURL = new URL(window.location.href).searchParams.get('code');
+    if (checkURL !== null) {
+      console.log('if문시작');
+      getAccessCode();
+      console.log('끝');
+      // window.close();
+    } else {
+      window.location.href =
+        'https://nid.naver.com/oauth2.0/authorize?client_id=m7ElqUoPxOdxQ1WacsCU&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&state=AAAAOoObjtSBmB9vtukF3w0BC7BYZ4vId2kOSCBSDcxmov_DtjY3u8ATb9I3L-pdJisk9KulUsWrgCOmu2LKDH-i6U0';
     }
-    // window.location.href =
-    //   'https://nid.naver.com/oauth2.0/authorize?client_id=m7ElqUoPxOdxQ1WacsCU&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&state=AAAAOoObjtSBmB9vtukF3w0BC7BYZ4vId2kOSCBSDcxmov_DtjY3u8ATb9I3L-pdJisk9KulUsWrgCOmu2LKDH-i6U0';
-    getAccessCode();
   }, []);
 
   return (
     <div>
       <Link to="/">Main</Link>
-      <div>토큰 : {getStateToken} </div>
+      <div>토큰 : {getStateToken()} </div>
       <a href="https://nid.naver.com/oauth2.0/authorize?client_id=m7ElqUoPxOdxQ1WacsCU&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&state=AAAAOoObjtSBmB9vtukF3w0BC7BYZ4vId2kOSCBSDcxmov_DtjY3u8ATb9I3L-pdJisk9KulUsWrgCOmu2LKDH-i6U0">
         이동:
       </a>
-      {naverCode}
-      <div />
+      코드 유무 : {isNaverCode ? '코드 있음' : '코드 없음'}
+      코드 값 : {naverCode}
     </div>
   );
 }
