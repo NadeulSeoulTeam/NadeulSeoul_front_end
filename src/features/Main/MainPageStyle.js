@@ -16,11 +16,10 @@ export const GreenBtn = styled(Button)`
   font-family: 'Suit';
   font-weight: bold;
   background-color: #68c78e;
+  margin: 20px;
   padding: 12px 20px;
   border-radius: 50px;
   color: white;
   cursor: pointer;
   border: none;
 `;
-
-// export default { Wrapper, MainTitle, GreenBtn };
