@@ -8,9 +8,11 @@ import NaverLogin from '../features/Auth/Naver/NaverLogin';
 import GoogleLogin from '../features/Auth/Google/GoogleLogin';
 import NaverLoginCallback from '../features/Auth/Naver/NaverLoginCallback';
 import GoogleLoginCallback from '../features/Auth/Google/GoogleLoginCallback';
+import MyPage from '../features/mypage/MyPage';
 
 // Common
 import Error404 from '../common/error/Error404';
+// import BasicTabs from '../features/mypage/BasicTabs';
 
 function App() {
   return (
@@ -19,10 +21,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/:id" element={<Detail />} />
         <Route path="/login" element={<NaverLogin />} />
+        <Route path="/mypage" element={<MyPage />} />
         {/* login 파일 통일 필요 */}
         <Route path="/googlelogin" element={<GoogleLogin />} />
-        <Route path="/callback" element={<NaverLoginCallback />} />
-        <Route path="/callback/?code" element={<NaverLoginCallback />} />
+        <Route path="/callback/" element={<NaverLoginCallback />} />
         <Route path="/auth/google/callback" element={<GoogleLoginCallback />} />
         <Route path="*" element={<Error404 />} />
       </Routes>

@@ -15,6 +15,7 @@ function Home() {
 
   function onSubmit(e) {
     e.preventDefault();
+    console.log(toDos);
     dispatch(add(text));
     setText('');
   }
