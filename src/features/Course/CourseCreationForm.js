@@ -14,6 +14,9 @@ import './Course.css';
 
 import CourseCreationModal from './CourseCreationModal';
 
+// JSON
+import tags from './tags';
+
 function CourseCreactionForm() {
   const carts = useSelector(getCourse);
   const navigate = useNavigate();
@@ -33,6 +36,7 @@ function CourseCreactionForm() {
 
   useEffect(() => {
     console.log(courseInfo);
+    console.log('json', tags);
   }, [courseInfo]);
 
   const sendCourse = () => {
@@ -98,6 +102,30 @@ function CourseCreactionForm() {
     ));
   };
 
+  const mapToComponentTransportationTags = (data) => {
+    return data.transportation.map((transportation) => (
+      <input
+        type="button"
+        id={Object.keys(transportation)}
+        name={Object.keys(transportation)}
+        key={Object.keys(transportation)}
+        value={Object.values(transportation)}
+      />
+    ));
+  };
+
+  const mapToComponentLocalTags = (data) => {
+    return data.local.map((local) => (
+      <input
+        type="button"
+        id={Object.keys(local)}
+        name={Object.keys(local)}
+        key={Object.keys(local)}
+        value={Object.values(local)}
+      />
+    ));
+  };
+
   return (
     <div>
       <h3>나만의 코스 만들기</h3>
@@ -138,16 +166,11 @@ function CourseCreactionForm() {
       </div>
       <div className="transportation_type">
         <p>교통수단</p>
-        <input type="button" id="byWalk" name="byWalk" value="도보" />
-        <input type="button" id="byBus" name="byBus" value="버스" />
-        <input type="button" id="byMetro" name="byMetro" value="지하철" />
-        <input type="button" id="byCar" name="byCar" value="자동차" />
-        <input type="button" id="byTaxi" name="byTaxi" value="택시" />
-        <input type="button" id="byBicycle" name="byBicycle" value="자전거" />
+        {mapToComponentTransportationTags(tags)}
       </div>
       <div className="region_tag">
         <p>지역 태그</p>
-        <input type="button" id="regionTag" name="regionTag" />
+        {mapToComponentLocalTags(tags)}
       </div>
       <div className="theme_tag">
         <p>테마 태그</p>

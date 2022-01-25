@@ -1,0 +1,43 @@
+const tags = {
+  transportation: [
+    { walk: '도보' },
+    { bus: '버스' },
+    { subway: '지하철' },
+    { car: '자동차' },
+    { taxi: '택시' },
+    { bicycle: '자전거' },
+  ],
+  local: [
+    { Jongno: '종로' },
+    { Jung: '중구' },
+    { Yongsan: '용산' },
+    { Seongdong: '성동' },
+    { Gwangjin: '광진' },
+    { Dongdaemun: '문' },
+    { Jungnang: '중랑' },
+    { Seongbuk: '성북' },
+    { Gangbuk: '강북' },
+    { Dobong: '도봉' },
+    { Nowon: '노원' },
+    { Eunpyeong: '은평' },
+    { Seodaemun: '서대문' },
+    { Mapo: '마포' },
+    { Yangcheon: '양천' },
+    { Gangseo: '강서' },
+    { Guro: '구로' },
+    { Geumcheon: '금천' },
+    { Yeongdeungpo: '영등포' },
+    { Dongjak: '동작' },
+    { Gwanak: '관악' },
+    { Seocho: '서초' },
+    { Gangnam: '강남' },
+    { Songpa: '송파' },
+    { Gangdong: '강동' },
+  ],
+  theme: [
+    {
+      test: 'test',
+    },
+  ],
+};
+export default tags;
