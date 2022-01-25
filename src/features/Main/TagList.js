@@ -31,7 +31,7 @@ function RegionTagList() {
     '중랑구',
   ];
   const regionTags = regions.map((region) => (
-    <p sx={{ display: 'inline-block' }}>{region}</p>
+    <span sx={{ p: 2 }}>{region}</span>
   ));
   return <div>{regionTags}</div>;
 }
@@ -49,11 +49,14 @@ function TagList() {
         sx={{
           backgroundColor: '#ffffff',
           width: '70vw',
+          textAlign: 'left',
         }}
       >
-        <p>지역 태그</p>
-        <RegionTagList />
-        <p>테마 태그</p>
+        <div>
+          <p>지역 태그</p>
+          <RegionTagList />
+          <p>테마 태그</p>
+        </div>
       </Paper>
     </Container>
   );
