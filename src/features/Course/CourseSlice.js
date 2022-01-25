@@ -38,14 +38,14 @@ const course = createSlice({
       // state.searchData.pagination = action.payload.pagination;
     },
     addMarkers: (state, action) => {
-      state.course.markers.push(action.payload);
+      state.markers.push(action.payload);
     },
     removeMarkers: (state) => {
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < state.Markers.length; i++) {
-        state.Markers[i].setMap(null);
+        state.course.markers[i].setMap(null);
       }
-      state.Markers = [];
+      state.course.markers = [];
     },
   },
 });

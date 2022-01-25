@@ -2,10 +2,17 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const todoSlice = createSlice({
   name: 'toDoReducer',
-  initialState: [],
+  initialState: {
+    test: [
+      {
+        text: '',
+        id: '',
+      },
+    ],
+  },
   reducers: {
     add: (state, action) => {
-      state.push({ text: action.payload, id: Date.now() });
+      state.test.push([{ text: action.payload, id: Date.now() }]);
     },
     remove: (state, action) =>
       state.filter((toDo) => toDo.id !== action.payload),

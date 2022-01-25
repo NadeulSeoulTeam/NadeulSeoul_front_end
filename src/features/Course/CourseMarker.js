@@ -1,6 +1,5 @@
 /* eslint-disable no-plusplus */
 // import React from "react";
-import { removeMarkers } from './CourseSlice';
 // import { getCourse, keywordInput, searchDataInput } from './CourseSlice';
 
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
@@ -24,14 +23,29 @@ export function addMarker(kakao, map, position, idx) {
     position, // 마커의 위치
     image: markerImage,
   });
-  marker.setMap(map); // 지도 위에 마커를 표출합니다
-  // markers.push(marker); // 배열에 생성된 마커를 추가합니다
+
+  // marker.setMap(map); // 지도 위에 마커를 표출합니다
   return marker;
 }
-
+export function setMarker(map, markers) {
+  console.log('markers');
+  console.log(markers);
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+}
 // 지도 위에 표시되고 있는 마커를 모두 제거합니다
-export function removeMarker() {
-  removeMarkers();
+export function removeMarker(markers) {
+  console.log('Remove markers');
+  console.log(markers);
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < markers.length; i++) {
+    markers[i].setMap(null);
+  }
+  // eslint-disable-next-line no-param-reassign
+  markers = [];
+  return markers;
 }
 
 // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다

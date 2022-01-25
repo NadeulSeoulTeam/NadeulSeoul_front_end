@@ -15,6 +15,7 @@ function Home() {
 
   function onSubmit(e) {
     e.preventDefault();
+    console.log(text);
     dispatch(add(text));
     setText('');
   }
