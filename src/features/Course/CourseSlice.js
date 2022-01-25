@@ -47,6 +47,11 @@ const course = createSlice({
       }
       state.course.markers = [];
     },
+    moveToList: (state, action) => {
+      console.log(action.payload.lng);
+      state.Lat = action.payload.lat;
+      state.Lng = action.payload.lng;
+    },
   },
 });
 
@@ -56,6 +61,7 @@ export const {
   searchDataInput,
   addMarkers,
   removeMarkers,
+  moveToList,
 } = course.actions;
 
 export default course.reducer;

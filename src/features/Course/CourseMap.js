@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   selectLang,
   selectLat,
   selectLevel,
   getSearchData,
+  moveToList,
 } from './CourseSlice';
 
 import './Course.css';
@@ -20,8 +21,10 @@ function CourseMap() {
   const searchData = useSelector(getSearchData);
   // eslint-disable-next-line no-unused-vars
   const [map, setMap] = useState();
+  const dispatch = useDispatch();
   useEffect(() => {
     // 카카오 맵 랜더링
+    console.log(lat);
     const container = document.getElementById('map');
     const options = {
       center: new kakao.maps.LatLng(lat, lng),
@@ -32,6 +35,7 @@ function CourseMap() {
   }, []);
   // 마커 추가 effect
   useEffect(() => {
+    // const bounds = new kakao.maps.LatLngBounds(); // bounds 설정
     // 마커 초기화
     removeMarker(tempMarkers);
     setTempMarkers(tempMarkers.splice(0, tempMarkers.length));
@@ -42,9 +46,15 @@ function CourseMap() {
         searchData.data[i].y,
         searchData.data[i].x
       );
-      console.log(searchData, 'searchData');
       tempMarkers.push(addMarker(kakao, map, placePosition, i)); // 배열에 생성된 마커를 추가합니다
+      if (i === 0) {
+        map.panTo(placePosition);
+        dispatch(
+          moveToList({ lat: searchData.data[i].y, lng: searchData.data[i].x })
+        );
+      }
     }
+    // map.setBounds(bounds);
     setTempMarkers(tempMarkers);
     setMarker(map, tempMarkers);
   }, [searchData]);
