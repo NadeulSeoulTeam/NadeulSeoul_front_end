@@ -38,6 +38,8 @@ export const initialState = {
   postNaverCodeLoading: false, // naver 인가 코드 post 시도중
   postNaverCodeDone: false,
   postNaverCodeError: false,
+  googleCode: '',
+  isGoogleCode: false,
   postGoogleCodeLoading: false, // google 인가 코드 post 시도중
   postGoogleCodeDone: false,
   postGoogleCodeError: false,
@@ -55,6 +57,12 @@ const authSlice = createSlice({
     },
     onChangeNaverCode(state, action) {
       state.isNaverCode = action.payload;
+    },
+    addGoogleCode(state, action) {
+      state.googleCode = action.payload;
+    },
+    onChangeGoogleCode(state, action) {
+      state.isGoogleCode = action.payload;
     },
   },
   extraReducers: {
@@ -101,7 +109,12 @@ const authSlice = createSlice({
   //   });
   // },
 });
-export const { addNaverToken, addNaverCode, onChangeNaverCode } =
-  authSlice.actions;
+export const {
+  addNaverToken,
+  addNaverCode,
+  onChangeNaverCode,
+  addGoogleCode,
+  onChangeGoogleCode,
+} = authSlice.actions;
 
 export default authSlice.reducer;

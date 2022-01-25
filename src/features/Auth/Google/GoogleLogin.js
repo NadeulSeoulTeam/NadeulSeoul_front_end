@@ -4,7 +4,9 @@ function GoogleLogin() {
   const googleLoginBtn = useRef(null);
   // 추후 redux 활용 예정
   // eslint-disable-next-line no-unused-vars
-  const [token, setToken] = useState('');
+  const [idToken, setIdToken] = useState('');
+  // const [accessToken, setAccessToken] = useState('');
+  // const [refreshToken, setRefreshToken] = useState('');
 
   const googleSDK = () => {
     window.googleSDKLoaded = () => {
@@ -14,7 +16,8 @@ function GoogleLogin() {
         const auth2 = window.gapi.auth2.getAuthInstance({
           client_id:
             '271697905044-7ojeih7vic8u14ltq92nthv35ljn1frv.apps.googleusercontent.com', // 나중에 숨길 거
-          scope: 'profile email',
+          // scope: 'profile email',
+          scope: 'email',
         });
         // 버튼 클릭
         // authorization만 필요할 경우 profile 받을 필요 없음
@@ -26,12 +29,12 @@ function GoogleLogin() {
             const profile = googleUser.getBasicProfile();
             console.log(profile);
             // if back이 id_token과 access 토큰을 요구할 경우
-            console.log(`Token || ${googleUser.getAuthResponse().id_token}`);
-            setToken(googleUser.getAuthResponse().id_token);
-            console.log(`ID: ${profile.getId()}`);
-            console.log(`Name: ${profile.getName()}`);
-            console.log(`Image URL: ${profile.getImageUrl()}`);
-            console.log(`Email: ${profile.getEmail()}`);
+            // console.log(`Token || ${googleUser.getAuthResponse().id_token}`);
+            setIdToken(googleUser.getAuthResponse().id_token);
+            // console.log(`ID: ${profile.getId()}`);
+            // console.log(`Name: ${profile.getName()}`);
+            // console.log(`Image URL: ${profile.getImageUrl()}`);
+            // console.log(`Email: ${profile.getEmail()}`);
           },
           (error) => {
             alert(JSON.stringify(error, undefined, 2));

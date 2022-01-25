@@ -3,14 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
 // actions
-// eslint-disable-next-line import/no-duplicates
-// import { postNaverCode } from '../AuthSlice';
-// eslint-disable-next-line import/no-duplicates
-import { addNaverToken } from '../AuthSlice';
-// eslint-disable-next-line import/no-duplicates
-import { addNaverCode } from '../AuthSlice';
-// eslint-disable-next-line import/no-duplicates
-import { onChangeNaverCode } from '../AuthSlice';
+import { addNaverToken, addNaverCode, onChangeNaverCode } from '../AuthSlice';
 
 function NaverLoginCallback() {
   const location = useLocation();
@@ -48,6 +41,7 @@ function NaverLoginCallback() {
       console.log('끝');
       // window.close();
     } else {
+      // 상태토큰은 사람마다 다르므로 변경 및 변수화 필요
       window.location.href =
         'https://nid.naver.com/oauth2.0/authorize?client_id=m7ElqUoPxOdxQ1WacsCU&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&state=AAAAOoObjtSBmB9vtukF3w0BC7BYZ4vId2kOSCBSDcxmov_DtjY3u8ATb9I3L-pdJisk9KulUsWrgCOmu2LKDH-i6U0';
     }

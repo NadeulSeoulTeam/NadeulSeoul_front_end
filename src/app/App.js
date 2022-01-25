@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from '../features/test_todo/Home';
 import Detail from '../features/test_todo/Detail';
 import NaverLogin from '../features/Auth/Naver/NaverLogin';
-import GoogleLogin from '../features/Auth/Google/GoogleLogin';
+import GoogleLogin2 from '../features/Auth/Google/GoogleLogin2';
 import NaverLoginCallback from '../features/Auth/Naver/NaverLoginCallback';
 import GoogleLoginCallback from '../features/Auth/Google/GoogleLoginCallback';
 import MyPage from '../features/mypage/MyPage';
@@ -23,7 +23,7 @@ function App() {
         <Route path="/login" element={<NaverLogin />} />
         <Route path="/mypage" element={<MyPage />} />
         {/* login 파일 통일 필요 */}
-        <Route path="/googlelogin" element={<GoogleLogin />} />
+        <Route path="/googlelogin" element={<GoogleLogin2 />} />
         <Route path="/callback/" element={<NaverLoginCallback />} />
         <Route path="/auth/google/callback" element={<GoogleLoginCallback />} />
         <Route path="*" element={<Error404 />} />
