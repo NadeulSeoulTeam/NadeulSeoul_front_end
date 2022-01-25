@@ -15,6 +15,7 @@ import './Course.css';
 import { addMarker, setMarker, removeMarker } from './CourseMarker';
 
 function CourseMap() {
+  // 뒤로 가기에 대한 처리
   const [tempMarkers, setTempMarkers] = useState([]);
   const { kakao } = window;
   const lat = useSelector(selectLat);
