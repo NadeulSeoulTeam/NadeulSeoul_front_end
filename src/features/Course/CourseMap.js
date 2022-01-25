@@ -5,7 +5,9 @@ import {
   selectLat,
   selectLevel,
   getSearchData,
-  moveToList,
+  // moveToList,
+  getClicked,
+  setClicked,
 } from './CourseSlice';
 
 import './Course.css';
@@ -19,6 +21,7 @@ function CourseMap() {
   const lng = useSelector(selectLang);
   const level = useSelector(selectLevel);
   const searchData = useSelector(getSearchData);
+  const clicked = useSelector(getClicked);
   // eslint-disable-next-line no-unused-vars
   const [map, setMap] = useState();
   const dispatch = useDispatch();
@@ -37,6 +40,8 @@ function CourseMap() {
   useEffect(() => {
     // const bounds = new kakao.maps.LatLngBounds(); // bounds 설정
     // 마커 초기화
+    dispatch(setClicked(false));
+    console.log(clicked, 'clicked?');
     removeMarker(tempMarkers);
     setTempMarkers(tempMarkers.splice(0, tempMarkers.length));
     // 마커 추가
@@ -49,15 +54,28 @@ function CourseMap() {
       tempMarkers.push(addMarker(kakao, map, placePosition, i)); // 배열에 생성된 마커를 추가합니다
       if (i === 0) {
         map.panTo(placePosition);
-        dispatch(
-          moveToList({ lat: searchData.data[i].y, lng: searchData.data[i].x })
-        );
+        // dispatch(
+        //   moveToList({ lat: searchData.data[i].y, lng: searchData.data[i].x })
+        // );
       }
     }
     // map.setBounds(bounds);
     setTempMarkers(tempMarkers);
     setMarker(map, tempMarkers);
   }, [searchData]);
+  useEffect(
+    () => {
+      console.log('lat, lang changed');
+      console.log(clicked);
+      if (clicked) {
+        const placePosition = new kakao.maps.LatLng(lat, lng);
+        map.panTo(placePosition);
+      }
+    },
+    [lat],
+    [lng]
+  );
+
   return (
     <div
       className="map"

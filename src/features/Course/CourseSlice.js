@@ -16,6 +16,7 @@ const course = createSlice({
       pagination: {},
     },
     markers: [],
+    clicked: false,
   },
   reducers: {
     // add: (state, action) => {
@@ -43,25 +44,30 @@ const course = createSlice({
     removeMarkers: (state) => {
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < state.Markers.length; i++) {
-        state.course.markers[i].setMap(null);
+        state.markers[i].setMap(null);
       }
-      state.course.markers = [];
+      state.markers = [];
     },
     moveToList: (state, action) => {
-      console.log(action.payload.lng);
       state.Lat = action.payload.lat;
       state.Lng = action.payload.lng;
+      console.log(state.Lat, state.Lng, 'langlat set');
+    },
+    setClicked: (state, action) => {
+      state.clicked = action.payload;
     },
   },
 });
 
 export const {
+  setKakaoMap,
   addCourse,
   keywordInput,
   searchDataInput,
   addMarkers,
   removeMarkers,
   moveToList,
+  setClicked,
 } = course.actions;
 
 export default course.reducer;
@@ -72,3 +78,4 @@ export const getCourse = (state) => state.course.course;
 export const getKeyword = (state) => state.course.keywordInput;
 export const getSearchData = (state) => state.course.searchData;
 export const getMarkers = (state) => state.course.markers;
+export const getClicked = (state) => state.course.clicked;

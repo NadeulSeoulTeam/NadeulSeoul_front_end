@@ -3,7 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 // css
 import './Course.css';
 
-import { addCourse, getSearchData, moveToList } from './CourseSlice';
+import {
+  addCourse,
+  getSearchData,
+  moveToList,
+  setClicked,
+} from './CourseSlice';
 import CourseListItem from './CourseListItem';
 
 function CourseList() {
@@ -25,6 +30,7 @@ function CourseList() {
         console.log('singleClick', search.y, search.x);
         clickTimer = null;
         const latlng = { lat: search.y, lng: search.x };
+        dispatch(setClicked(true));
         dispatch(moveToList(latlng));
       }, 250);
     }
