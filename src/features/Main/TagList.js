@@ -1,40 +1,17 @@
 import React from 'react';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 
-function RegionTagList() {
-  const regions = [
-    '강남구',
-    '강동구',
-    '강북구',
-    '강서구',
-    '관악구',
-    '광진구',
-    '구로구',
-    '금천구',
-    '노원구',
-    '도봉구',
-    '동대문구',
-    '동작구',
-    '마포구',
-    '서대문구',
-    '서초구',
-    '성동구',
-    '성북구',
-    '송파구',
-    '양천구',
-    '영등포구',
-    '용산구',
-    '은평구',
-    '종로구',
-    '중구',
-    '중랑구',
-  ];
-  const regionTags = regions.map((region) => (
-    <span sx={{ p: 2 }}>{region}</span>
-  ));
-  return <div>{regionTags}</div>;
-}
+// function RegionTagList() {
+//   const regions = ['지역1', '지역2', '지역3'];
+//   const regionTags = regions.map((region) => (
+//     <Box component="div" sx={{ display: 'inline', pr: 1 }}>
+//       {region}
+//     </Box>
+//   ));
+//   return <Box>{regionTags}</Box>;
+// }
 
 function TagList() {
   // const [selectedRegion, setSelectedRegion] = useState([]);
@@ -42,6 +19,15 @@ function TagList() {
   // const handleSelect = (e) => {
   //   setSelectedRegion.push(e.target.value);
   // };
+
+  const RegionTagList = () => {
+    const regions = ['지역1', '지역2', '지역3'];
+    return regions.map((region) => (
+      <Box component="div" sx={{ display: 'inline', pr: 1 }}>
+        {region}
+      </Box>
+    ));
+  };
 
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -54,7 +40,7 @@ function TagList() {
       >
         <div>
           <p>지역 태그</p>
-          <RegionTagList />
+          {RegionTagList}
           <p>테마 태그</p>
         </div>
       </Paper>

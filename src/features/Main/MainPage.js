@@ -3,19 +3,25 @@ import { StylesProvider } from '@material-ui/core/styles';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import SearchBar from '../../common/SearchBar/SearchBar';
-import { Wrapper, MainTitle, GreenBtn } from './MainPageStyle';
 import TagList from './TagList';
+import CurationList from './CurationList';
+import {
+  TopWrapper,
+  BottomWrapper,
+  MainTitle,
+  GreenBtn,
+  SubTitle,
+} from './MainPageStyle';
 
 function MainPage() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(!open);
-    console.log(open);
   };
 
   return (
     <StylesProvider injectFirst>
-      <Wrapper>
+      <TopWrapper>
         <MainTitle>나들서울</MainTitle>
         <GreenBtn>현재 위치 기준으로 보기</GreenBtn>
         <SearchBar />
@@ -40,7 +46,13 @@ function MainPage() {
           태그 더보기▼
         </button>
         {open ? <TagList /> : null}
-      </Wrapper>
+      </TopWrapper>
+      <BottomWrapper>
+        <SubTitle>지금 HOT한 코스</SubTitle>
+        <CurationList />
+        <SubTitle>열정적인 나들러</SubTitle>
+        <SubTitle>나들러들이 많이 찜한 장소</SubTitle>
+      </BottomWrapper>
     </StylesProvider>
   );
 }

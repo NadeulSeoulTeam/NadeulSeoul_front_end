@@ -1,8 +1,16 @@
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 
-export const Wrapper = styled.div`
+export const TopWrapper = styled.div`
+  margin: 0 50px;
+  background-color: #e5e5e5;
   text-align: center;
+`;
+
+export const BottomWrapper = styled.div`
+  margin: 50px;
+  background-color: #e5e5e5;
+  text-align: start;
 `;
 
 export const MainTitle = styled.h1`
@@ -22,4 +30,11 @@ export const GreenBtn = styled(Button)`
   color: white;
   cursor: pointer;
   border: none;
+`;
+
+export const SubTitle = styled.p`
+  font-size: 18px;
+  font-weight: bold;
+  color: #222222;
+  margin: 0;
 `;
