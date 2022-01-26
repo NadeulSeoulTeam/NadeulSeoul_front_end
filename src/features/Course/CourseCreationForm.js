@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-// material UI
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+// react-beautiful-dnd
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import { getCourse } from './CourseSlice';
+import { getCourse, updateCourse } from './CourseSlice';
 
 // css
 import './Course.css';
 
 import CourseCreationModal from './CourseCreationModal';
+import CourseCreationFormCartListItem from './CourseCreationFormCartListItem';
 
 // JSON
 import tags from './tags';
@@ -20,7 +19,7 @@ import tags from './tags';
 function CourseCreactionForm() {
   const carts = useSelector(getCourse);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   // info
   const [courseInfo, setCourseInfo] = useState({
     courseName: '',
@@ -86,19 +85,18 @@ function CourseCreactionForm() {
   const mapToComponent = () => {
     console.log('start maptocomponent');
     console.log(carts);
-    return carts.map((search) => (
-      <Card className="creation_cart" sx={{ minWidth: 275 }}>
-        <CardContent>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            <Typography className="placeName" variant="body4">
-              {search.place_name}
-            </Typography>
-            <Typography className="addressName" variant="body2">
-              {search.address_name}
-            </Typography>
-          </Typography>
-        </CardContent>
-      </Card>
+    return carts.map((search, i) => (
+      <Draggable key={search.id} draggableId={search.id} index={i}>
+        {(provided) => (
+          <li
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+          >
+            <CourseCreationFormCartListItem cart={search} />
+          </li>
+        )}
+      </Draggable>
     ));
   };
 
@@ -126,6 +124,17 @@ function CourseCreactionForm() {
     ));
   };
 
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+    console.log(result);
+    // 얕은 복사
+    const items = Array.from(carts);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    console.log('update course');
+    dispatch(updateCourse(items));
+  };
+
   return (
     <div>
       <h3>나만의 코스 만들기</h3>
@@ -140,7 +149,20 @@ function CourseCreactionForm() {
       </div>
       <div className="course_route">
         <p>루트 편집</p>
-        {mapToComponent()}
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="cart">
+            {(provided) => (
+              <ul
+                className="characters"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {mapToComponent()}
+                {provided.placeholder}
+              </ul>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
       <div className="course_explain">
         <p>코스 설명</p>
