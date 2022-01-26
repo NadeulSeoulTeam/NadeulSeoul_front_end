@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // MUI
@@ -8,27 +8,29 @@ import Button from '@mui/material/Button';
 function StatusUser() {
   const { userInfo } = useSelector((state) => state);
   const navigate = useNavigate();
+  const params = useParams();
+  const mypage = userInfo[params.nickname];
 
   return (
     <>
       <Button
         variant="text"
         onClick={() => {
-          navigate('/followingslist');
+          navigate(`/mypage/${mypage.nickname}/followingslist`);
         }}
       >
         팔로잉
       </Button>
-      {userInfo.Followings}
+      {mypage.Followings}
       <Button
         variant="text"
         onClick={() => {
-          navigate('/followerslist');
+          navigate(`/mypage/${mypage.nickname}/followerslist`);
         }}
       >
         팔로워
       </Button>
-      {userInfo.Followers}
+      {mypage.Followers}
     </>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 // mui
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -14,9 +15,11 @@ import StatusUser from '../Follow/StatusUser';
 
 function ProfileCard() {
   const { userInfo } = useSelector((state) => state);
+  const params = useParams();
+  const mypage = userInfo[params.nickname];
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 300 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -28,7 +31,7 @@ function ProfileCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title={userInfo.nickname}
+        title={mypage.nickname}
         subheader={<StatusUser />}
       />
       <FollowButton content="팔로우" />

@@ -1,21 +1,39 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// dummy data for header
+// dummy data for header 비동기 통신 2번 하는 것을 가정
 export const User = {
-  nickname: '주지화안',
-  id: 1,
-  Followings: 2,
-  Followers: 3,
+  meanstrike: {
+    nickname: 'meanstrike',
+    id: 1,
+    Followings: 2,
+    Followers: 3,
+  },
+  taw1019: {
+    nickname: 'taw1019',
+    id: 2,
+    Followings: 5,
+    Followers: 6,
+  },
 };
 
 export const FollowList = {
-  FollowingsList: [{ nickname: '한지유운' }, { nickname: '김응주우' }],
-  FollowersList: [
-    { nickname: '이아영엉' },
-    { nickname: '이지유운' },
-    { nickname: '남은성엉' },
-  ],
+  meanstrike: {
+    FollowingsList: [{ nickname: 'han' }, { nickname: 'kim' }],
+    FollowersList: [
+      { nickname: 'lee' },
+      { nickname: 'yoo' },
+      { nickname: 'nam' },
+    ],
+  },
+  taw1019: {
+    FollowingsList: [{ nickname: 'han' }, { nickname: 'kim' }],
+    FollowersList: [
+      { nickname: 'heyhey!' },
+      { nickname: 'yoo' },
+      { nickname: 'nam' },
+    ],
+  },
 };
 
 export const nadleCoures = {};

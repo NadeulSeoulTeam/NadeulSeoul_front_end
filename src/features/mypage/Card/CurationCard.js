@@ -12,7 +12,7 @@ import { CardActionArea } from '@mui/material';
 function CurationCard() {
   return (
     <Card sx={{ maxWidth: 300 }}>
-      <CardActionArea sx={{ display: 'flex' }}>
+      <CardActionArea>
         <CardMedia
           component="img"
           height="140"
@@ -21,7 +21,7 @@ function CurationCard() {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Lizard
+            코스
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Lizards are a widespread group of squamate reptiles, with over 6,000

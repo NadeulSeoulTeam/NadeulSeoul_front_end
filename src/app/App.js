@@ -13,9 +13,17 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<Home />} />
-        <Route Route path="/mypage" element={<MyPage />} />
-        <Route Route path="/followerslist" element={<FollowersList />} />
-        <Route Route path="/followingslist" element={<FollowingsList />} />
+        <Route Route path="/mypage/:nickname" element={<MyPage />} />
+        <Route
+          Route
+          path="/mypage/:nickname/followerslist"
+          element={<FollowersList />}
+        />
+        <Route
+          Route
+          path="/mypage/:nickname/followingslist"
+          element={<FollowingsList />}
+        />
         <Route Route path="/:id" element={<Detail />} />
       </Routes>
     </BrowserRouter>

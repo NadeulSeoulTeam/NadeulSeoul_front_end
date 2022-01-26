@@ -37,9 +37,20 @@ function BasicTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {[1, 2, 3, 4].map(() => (
-          <CurationCard />
-        ))}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            p: 1,
+            m: 1,
+            bgcolor: 'background.paper',
+            borderRadius: 1,
+          }}
+        >
+          {[1, 2, 3, 4].map(() => (
+            <CurationCard />
+          ))}
+        </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
         찜한 나들 코스
