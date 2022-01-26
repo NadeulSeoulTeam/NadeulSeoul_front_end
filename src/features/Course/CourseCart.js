@@ -11,11 +11,14 @@ import Typography from '@mui/material/Typography';
 // css
 import './Course.css';
 
+import CourseCartItem from './CourseCartItem';
+
 import { getCourse } from './CourseSlice';
 
 function CourseCart() {
   // 현재 카트에 리스트가 저장되어있는 배열
   const carts = useSelector(getCourse);
+
   // Navigation
   const navigate = useNavigate();
   useEffect(() => {
@@ -24,12 +27,12 @@ function CourseCart() {
 
   // course 나열 함수
   // eslint 는 key값으로 array의 인덱스를 사용하지 말라한다.... ????
+  // id로 구분하기
   const mapToComponent = (data) => {
     console.log(data);
     return data.map((cart) => (
       <div>
-        <Typography variant="body2">{cart.place_name}</Typography>
-        <Typography variant="body2">{cart.address_name}</Typography>
+        <CourseCartItem cart={cart} />
       </div>
     ));
   };

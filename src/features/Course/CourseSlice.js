@@ -24,8 +24,20 @@ const course = createSlice({
     // },
     addCourse: (state, action) => {
       console.log('addCourse');
-      console.log(action.payload.name);
+      console.log(action.payload);
       state.course.push(action.payload);
+    },
+    deleteCourse: (state, action) => {
+      console.log('deleteCourse');
+      console.log(action.payload, 'action');
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < state.course.length; i++) {
+        console.log(state.course[i].id, 'course');
+        if (state.course[i].id === action.payload.id) {
+          state.course.splice(i, 1);
+          break;
+        }
+      }
     },
     keywordInput: (state, action) => {
       console.log('keywordInput Start');
@@ -68,6 +80,7 @@ export const {
   removeMarkers,
   moveToList,
   setClicked,
+  deleteCourse,
 } = course.actions;
 
 export default course.reducer;
