@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import _remove from 'lodash/remove';
 
 // dummy data for header 비동기 통신 2번 하는 것을 가정
 export const User = {
@@ -19,19 +20,21 @@ export const User = {
 
 export const FollowList = {
   meanstrike: {
-    FollowingsList: [{ nickname: 'han' }, { nickname: 'kim' }],
-    FollowersList: [
-      { nickname: 'lee' },
-      { nickname: 'yoo' },
-      { nickname: 'nam' },
+    FollowingsList: [
+      { nickname: 'han', id: '2' },
+      { nickname: 'kim', id: '3' },
+      { nickname: 'nam', id: '5' },
     ],
   },
   taw1019: {
-    FollowingsList: [{ nickname: 'han' }, { nickname: 'kim' }],
+    FollowingsList: [
+      { nickname: 'han', id: '2' },
+      { nickname: 'kim', id: '3' },
+    ],
     FollowersList: [
-      { nickname: 'heyhey!' },
-      { nickname: 'yoo' },
-      { nickname: 'nam' },
+      { nickname: 'heyhey!', id: '6' },
+      { nickname: 'yoo', id: '4' },
+      { nickname: 'nam', id: '5' },
     ],
   },
 };
@@ -40,6 +43,7 @@ export const nadleCoures = {};
 
 // 내 나들코스, 찜한 나들 코스, 찜한 장소 더미 데이터 만들기
 
+// 유저정보 조회
 export const loadUser = createAsyncThunk(
   'mypage/loaduser',
   async (data, { rejectWithValue }) => {
@@ -52,6 +56,7 @@ export const loadUser = createAsyncThunk(
   }
 );
 
+// 팔로워 목록 조회
 export const loadFollowers = createAsyncThunk(
   'mypage/loadFollowers',
   async (data, { rejectWithValue }) => {
@@ -64,6 +69,7 @@ export const loadFollowers = createAsyncThunk(
   }
 );
 
+// 팔로잉 목록 조회
 export const loadFollowings = createAsyncThunk(
   'mypage/loadFollowings',
   async (data, { rejectWithValue }) => {
@@ -72,6 +78,32 @@ export const loadFollowings = createAsyncThunk(
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
+    }
+  }
+);
+
+// 팔로잉 요청
+export const follow = createAsyncThunk(
+  'mypage/follow',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/');
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// 언팔로우 요청
+export const unfollow = createAsyncThunk(
+  'mypage/unfollow',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete('백앤드 주소');
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -90,6 +122,9 @@ export const initialState = {
   loadFollowersLoading: false, // 팔로워 목록 조회 시도
   loadFollowersDone: false,
   loadFollowersError: null,
+  followLoading: false, // 팔로우(팔로우/언팔) 시도
+  followDone: false,
+  followError: null,
 };
 
 const mypageSlice = createSlice({
@@ -97,6 +132,7 @@ const mypageSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    // 유저 정보 조회
     [loadUser.pending]: (state) => {
       state.loadUserLoading = true;
       state.loadUserDone = false;
@@ -111,11 +147,14 @@ const mypageSlice = createSlice({
       state.loadUserLoading = false;
       state.loadUserError = action.payload;
     },
+
+    // 팔로워 유저 정보 조회
     [loadFollowers.pending]: (state) => {
       state.loadFollowersLoading = true;
       state.loadFollowersDone = false;
       state.loadFollowersError = null;
     },
+
     [loadFollowers.fulfilled]: (state, action) => {
       state.loadFollowersLoading = false;
       state.FollowInfo.FollowersList = action.data;
@@ -125,6 +164,7 @@ const mypageSlice = createSlice({
       state.loadFollowersLoading = true;
       state.loadFollowersError = action.payload;
     },
+    // 팔로잉 유저 정보 조회
     [loadFollowings.pending]: (state) => {
       state.loadFollowingsLoading = true;
       state.loadFollowingsDone = false;
@@ -139,7 +179,42 @@ const mypageSlice = createSlice({
       state.loadFollowingsLoading = true;
       state.loadFollowingsError = action.payload;
     },
+    // 팔로우 request
+    [follow.pending]: (state) => {
+      state.followLoading = true;
+      state.followDone = false;
+      state.followError = null;
+    },
+    [follow.fulfilled]: (state, action) => {
+      state.followLoading = false;
+      state.followDone = true;
+      state.FollowInfo.FollowingsList.push({
+        nickname: action.payload.nickname,
+        id: action.payload.id,
+      });
+    },
+    [follow.rejected]: (state, action) => {
+      state.followLoading = false;
+      state.followError = action.payload;
+    },
+    // 언팔로우 request
+    [follow.pending]: (state) => {
+      state.followLoading = true;
+      state.followDone = false;
+      state.followError = null;
+    },
+    [follow.fulfilled]: (state, action) => {
+      state.followLoading = false;
+      state.followDone = true;
+      _remove(state.FollowInfo.FollowinsList, {
+        nickname: action.payload.nickname,
+        id: action.payload.id,
+      });
+    },
+    [follow.rejected]: (state, action) => {
+      state.followLoading = false;
+      state.followError = action.payload;
+    },
   },
 });
-
 export default mypageSlice.reducer;
