@@ -27,9 +27,10 @@ function CourseCreactionForm() {
     fixedNumber: '',
     budget: '',
   });
+  // 지역 태그 선택 boolean
   // eslint-disable-next-line no-unused-vars
   const [localClicked, setLocalClicked] = useState();
-
+  const [transportationClicked, setTransportationClicked] = useState();
   // modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -60,9 +61,35 @@ function CourseCreactionForm() {
     makeLocalTag(localTags);
   };
 
+  const makeTransportationTag = (e) => {
+    console.log(e.target.id, '찾자');
+    if (transportationClicked[e.target.id])
+      transportationClicked[e.target.id] = false;
+    else transportationClicked[e.target.id] = true;
+    setTransportationClicked(transportationClicked);
+    console.log(transportationClicked);
+  };
+
+  const makeTransportationTagBoolean = () => {
+    const transportationTags = {};
+    // eslint-disable-next-line no-return-assign
+    tags.transportation.map((transportation) =>
+      Object.assign(transportationTags, {
+        [Object.keys(transportation)]: false,
+      })
+    );
+    console.log(transportationTags);
+    setTransportationClicked(transportationTags);
+  };
+
   useEffect(() => {
     makeLocalTagBoolean();
+    makeTransportationTagBoolean();
   }, [carts]);
+
+  useEffect(() => {
+    console.log(courseInfo, 'courseInfo');
+  }, [courseInfo]);
 
   const sendCourse = () => {
     handleOpen();
@@ -81,27 +108,39 @@ function CourseCreactionForm() {
       case 'courseName':
         courseInfo.courseName = e.target.value;
         setCourseInfo(courseInfo);
+        console.log(courseInfo, 'courseInfo');
         break;
 
       case 'courseExplain':
         courseInfo.courseExplain = e.target.value;
         setCourseInfo(courseInfo);
+        console.log(courseInfo, 'courseInfo');
         break;
 
       case 'fixedNumber':
         courseInfo.fixedNumber = e.target.value;
         setCourseInfo(courseInfo);
+        console.log(courseInfo, 'courseInfo');
         break;
 
       case 'budget':
         courseInfo.budget = e.target.value;
         setCourseInfo(courseInfo);
+        console.log(courseInfo, 'courseInfo');
         break;
 
       default:
         return console.log('no match');
     }
   };
+
+  // 숫자만 필요한 곳의 정규식 표현
+  const onInput = (e) => {
+    e.target.value = e.target.value
+      .replace(/[^0-9.]/g, '')
+      .replace(/(\..*)\./g, '$1');
+  };
+
   const mapToComponent = () => {
     return carts.map((search, i) => (
       <Draggable key={search.id} draggableId={search.id} index={i}>
@@ -122,6 +161,7 @@ function CourseCreactionForm() {
     return data.transportation.map((transportation) => (
       <input
         type="button"
+        onClick={makeTransportationTag}
         id={Object.keys(transportation)}
         name={Object.keys(transportation)}
         key={Object.keys(transportation)}
@@ -195,6 +235,7 @@ function CourseCreactionForm() {
         <p>함께한 인원</p>
         <input
           onChange={onChange}
+          onInput={onInput}
           type="text"
           id="fixedNumber"
           name="fixedNumber"
@@ -202,7 +243,13 @@ function CourseCreactionForm() {
       </div>
       <div className="budget">
         <p>예산</p>
-        <input onChange={onChange} type="text" id="budget" name="budget" />
+        <input
+          onChange={onChange}
+          onInput={onInput}
+          type="text"
+          id="budget"
+          name="budget"
+        />
       </div>
       <div className="transportation_type">
         <p>교통수단</p>
