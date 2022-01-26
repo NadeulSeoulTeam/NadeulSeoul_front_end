@@ -27,25 +27,48 @@ function CourseCreactionForm() {
     fixedNumber: '',
     budget: '',
   });
+  // eslint-disable-next-line no-unused-vars
+  const [localClicked, setLocalClicked] = useState();
 
   // modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const makeLocalTag = (localClick) => {
+    for (let i = 0; i < carts.length; i += 1) {
+      const courseInfoLocalTag = carts[i].address_name.split(' ');
+      console.log(localClick);
+      // eslint-disable-next-line no-prototype-builtins
+      if (localClick.hasOwnProperty(courseInfoLocalTag[1])) {
+        console.log('found', courseInfoLocalTag[1]);
+        const guName = courseInfoLocalTag[1];
+        localClick[guName] = true;
+      }
+    }
+    console.log(localClick);
+    setLocalClicked(localClick);
+  };
+
+  const makeLocalTagBoolean = () => {
+    const localTags = {};
+    // eslint-disable-next-line no-return-assign
+    tags.local.map((gu) =>
+      Object.assign(localTags, { [Object.values(gu)]: false })
+    );
+    console.log(localTags);
+    makeLocalTag(localTags);
+  };
+
   useEffect(() => {
-    console.log(courseInfo);
-    console.log('json', tags);
-  }, [courseInfo]);
+    makeLocalTagBoolean();
+  }, [carts]);
 
   const sendCourse = () => {
-    console.log('sendCourse');
     handleOpen();
-    console.log(open);
   };
   // course 정보 backend 송신 함수
   const sendFinalCourseInfo = () => {
-    console.log('sendFinalCourseInfo');
     // navigaion
     navigate(`/`);
   };
@@ -53,9 +76,6 @@ function CourseCreactionForm() {
   // input 값 저장하기
   // eslint-disable-next-line consistent-return
   const onChange = (e) => {
-    console.log('on change');
-    console.log(courseInfo);
-
     // eslint-disable-next-line default-case
     switch (e.target.id) {
       case 'courseName':
@@ -83,8 +103,6 @@ function CourseCreactionForm() {
     }
   };
   const mapToComponent = () => {
-    console.log('start maptocomponent');
-    console.log(carts);
     return carts.map((search, i) => (
       <Draggable key={search.id} draggableId={search.id} index={i}>
         {(provided) => (
@@ -126,12 +144,10 @@ function CourseCreactionForm() {
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
-    console.log(result);
     // 얕은 복사
     const items = Array.from(carts);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    console.log('update course');
     dispatch(updateCourse(items));
   };
 
