@@ -9,10 +9,10 @@ function FollowersList() {
   const followersList = FollowInfo[params.nickname].FollowersList;
   return (
     <>
-      <h1>내 팔로워 리스트</h1>
+      <h1>{params.nickname}님의 팔로워 리스트</h1>
       <h2>닉네임</h2>
       <p>
-        {followersList.map((v) => (
+        {followersList?.map((v) => (
           <li key={v.nickname}> {v.nickname}</li>
         ))}
       </p>

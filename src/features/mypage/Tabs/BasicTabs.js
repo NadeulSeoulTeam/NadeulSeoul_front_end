@@ -47,8 +47,8 @@ function BasicTabs() {
             borderRadius: 1,
           }}
         >
-          {[1, 2, 3, 4].map(() => (
-            <CurationCard />
+          {[1, 2, 3, 4].map((i) => (
+            <CurationCard key={i} />
           ))}
         </Box>
       </TabPanel>

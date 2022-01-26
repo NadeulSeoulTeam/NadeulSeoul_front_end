@@ -24,6 +24,12 @@ export const FollowList = {
       { nickname: 'han', id: '2' },
       { nickname: 'kim', id: '3' },
       { nickname: 'nam', id: '5' },
+      { nickname: 'taw1019', id: '7' },
+    ],
+    FollowersList: [
+      { nickname: 'heyhey', id: '6' },
+      { nickname: 'yoo', id: '4' },
+      { nickname: 'nam', id: '5' },
     ],
   },
   taw1019: {
@@ -32,7 +38,7 @@ export const FollowList = {
       { nickname: 'kim', id: '3' },
     ],
     FollowersList: [
-      { nickname: 'heyhey!', id: '6' },
+      { nickname: 'heyhey', id: '6' },
       { nickname: 'yoo', id: '4' },
       { nickname: 'nam', id: '5' },
     ],
