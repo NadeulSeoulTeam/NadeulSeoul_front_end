@@ -131,14 +131,16 @@ function CourseCreactionForm() {
   };
 
   const mapToComponentLocalTags = (data) => {
-    return data.local.map((local) => (
-      <input
-        type="button"
-        id={Object.keys(local)}
-        name={Object.keys(local)}
-        key={Object.keys(local)}
-        value={Object.values(local)}
-      />
+    const showTags = [];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in data) {
+      if (data[key] === true) {
+        showTags.push(key);
+      }
+    }
+    console.log(showTags);
+    return showTags.map((local) => (
+      <input type="button" id={local} name={local} key={local} value={local} />
     ));
   };
 
@@ -208,7 +210,7 @@ function CourseCreactionForm() {
       </div>
       <div className="region_tag">
         <p>지역 태그</p>
-        {mapToComponentLocalTags(tags)}
+        {mapToComponentLocalTags(localClicked)}
       </div>
       <div className="theme_tag">
         <p>테마 태그</p>
