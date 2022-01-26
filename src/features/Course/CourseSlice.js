@@ -39,6 +39,10 @@ const course = createSlice({
         }
       }
     },
+    updateCourse: (state, action) => {
+      console.log('updateCourse');
+      state.course = action.payload;
+    },
     keywordInput: (state, action) => {
       console.log('keywordInput Start');
       console.log(action.payload);
@@ -74,13 +78,14 @@ const course = createSlice({
 export const {
   setKakaoMap,
   addCourse,
+  deleteCourse,
+  updateCourse,
   keywordInput,
   searchDataInput,
   addMarkers,
   removeMarkers,
   moveToList,
   setClicked,
-  deleteCourse,
 } = course.actions;
 
 export default course.reducer;

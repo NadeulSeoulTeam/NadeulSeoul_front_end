@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // material UI
@@ -11,14 +11,17 @@ import Typography from '@mui/material/Typography';
 // css
 import './Course.css';
 
+// react-beautiful-dnd
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
 import CourseCartItem from './CourseCartItem';
 
-import { getCourse } from './CourseSlice';
+import { getCourse, updateCourse } from './CourseSlice';
 
 function CourseCart() {
   // 현재 카트에 리스트가 저장되어있는 배열
   const carts = useSelector(getCourse);
-
+  const dispatch = useDispatch();
   // Navigation
   const navigate = useNavigate();
   useEffect(() => {
@@ -30,11 +33,30 @@ function CourseCart() {
   // id로 구분하기
   const mapToComponent = (data) => {
     console.log(data);
-    return data.map((cart) => (
-      <div>
-        <CourseCartItem cart={cart} />
-      </div>
+    return data.map((cart, i) => (
+      <Draggable key={cart.id} draggableId={cart.id} index={i}>
+        {(provided) => (
+          <li
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+          >
+            <CourseCartItem cart={cart} />
+          </li>
+        )}
+      </Draggable>
     ));
+  };
+
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+    console.log(result);
+    // 얕은 복사
+    const items = Array.from(carts);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    console.log('update course');
+    dispatch(updateCourse(items));
   };
 
   return (
@@ -44,7 +66,20 @@ function CourseCart() {
           내 코스에 추가할 장소
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {mapToComponent(carts)}
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="cart">
+              {(provided) => (
+                <ul
+                  className="characters"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {mapToComponent(carts)}
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
         </Typography>
       </CardContent>
       <CardActions>
