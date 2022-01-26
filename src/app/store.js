@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import toDoReducer from '../features/test_todo/test_todoSlice';
+import MyPageReducer from '../features/mypage/mypageSlice';
 
-const rootReducer = toDoReducer;
+const rootReducer = MyPageReducer;
 
 const store = configureStore({ reducer: rootReducer });
 // The store now has redux-thunk added and the Redux DevTools Extension is turned on
