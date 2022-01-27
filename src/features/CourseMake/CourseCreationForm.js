@@ -85,6 +85,7 @@ function CourseCreactionForm() {
   useEffect(() => {
     makeLocalTagBoolean();
     makeTransportationTagBoolean();
+    console.log(carts);
   }, [carts]);
 
   useEffect(() => {
