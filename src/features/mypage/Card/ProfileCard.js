@@ -33,14 +33,15 @@ function ProfileCard() {
     }
   });
 
+  // 이모지도 유저마다 다르게 해서 받아와야겠네!
   return (
     <>
       <h1>{mypage.nickname}님의 mypage</h1>
       <Card sx={{ maxWidth: 300 }}>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              사진
+            <Avatar sx={{ bgcolor: red[500] }} aria-label="sheep">
+              🐑
             </Avatar>
           }
           action={

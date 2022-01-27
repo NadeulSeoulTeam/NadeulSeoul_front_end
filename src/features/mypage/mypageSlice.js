@@ -3,18 +3,19 @@ import axios from 'axios';
 import _remove from 'lodash/remove';
 
 // dummy data for header 비동기 통신 2번 하는 것을 가정
+// 이모지
 export const User = {
   meanstrike: {
     nickname: 'meanstrike',
     id: 1,
-    Followings: 2,
+    Followings: 4,
     Followers: 3,
   },
   taw1019: {
     nickname: 'taw1019',
     id: 2,
-    Followings: 5,
-    Followers: 6,
+    Followings: 2,
+    Followers: 3,
   },
 };
 
