@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from '../features/test_todo/Home';
-import Detail from '../features/test_todo/Detail';
+// import Detail from '../features/test_todo/Detail';
 
 // components
 import MyPage from '../features/mypage/MyPage';
@@ -13,18 +13,18 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<Home />} />
-        <Route Route path="/mypage/:nickname" element={<MyPage />} />
+        <Route Route path="/mypage/:id" element={<MyPage />} />
         <Route
           Route
-          path="/mypage/:nickname/followerslist"
+          path="/mypage/:id/followerslist"
           element={<FollowersList />}
         />
         <Route
           Route
-          path="/mypage/:nickname/followingslist"
+          path="/mypage/:id/followingslist"
           element={<FollowingsList />}
         />
-        <Route Route path="/:id" element={<Detail />} />
+        {/* <Route Route path="/:id" element={<Detail />} /> */}
       </Routes>
     </BrowserRouter>
   );

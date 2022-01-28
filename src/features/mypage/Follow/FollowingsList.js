@@ -5,10 +5,11 @@ import { useSelector } from 'react-redux';
 function FollowingsList() {
   const { FollowInfo } = useSelector((state) => state);
   const params = useParams();
-  const followingsList = FollowInfo[params.nickname].FollowingsList;
+  const followingsList = FollowInfo[params.id - 1].FollowingsList;
+  const nickName = FollowInfo[params.id - 1].nickname;
   return (
     <>
-      <h1>{params.nickname}님의 팔로잉 리스트</h1>
+      <h1>{nickName}님의 팔로잉 리스트</h1>
       <h2>닉네임</h2>
       <p>
         {followingsList?.map((v) => (

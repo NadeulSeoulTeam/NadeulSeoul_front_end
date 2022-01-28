@@ -1,4 +1,5 @@
 import React from 'react';
+// import { useSelector } from 'react-redux';
 
 // mui
 import Card from '@mui/material/Card';
@@ -10,6 +11,7 @@ import { CardActionArea } from '@mui/material';
 // assets
 
 function CurationCard() {
+  // const { userInfo } = useSelector((state) => state);
   return (
     // 여기서 상세 curaetion으로 onClick 매서드 사용해소 navgative로 이동
     <Card sx={{ maxWidth: 300 }}>

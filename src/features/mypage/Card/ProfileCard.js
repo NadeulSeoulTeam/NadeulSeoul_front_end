@@ -15,33 +15,35 @@ import StatusUser from '../Follow/StatusUser';
 
 function ProfileCard() {
   const { userInfo } = useSelector((state) => state);
-  const [isMe, setIsMe] = useState(true);
+  const [isMe, setIsMe] = useState(false);
   const params = useParams();
-  const mypage = userInfo[params.nickname];
-  const me = userInfo.meanstrike.nickname;
+  const mypage = userInfo[params.id - 1]; // 현재 페이지가 누구의 것인지
+  const me = userInfo[0].id; // 로그인한 사람의 id 현재 로그인 가정(meanstrike)
+  console.log(params.id);
   console.log(me);
-  console.log(mypage.nickname);
+  console.log(mypage);
 
   // 1. 내 마이페이지에 들어오면 버튼이 안보이게
   // => 일단 지금은 meastrike로 로그인 했다고 가정하고 만들기
-  // => me load하고, mypage에 있는 nickname/id가 같으면 내 페이지인거고 아니면 다른 사람 페이지 clear
+  // => me load하고, mypage에 있는 id가 같으면 내 페이지인거고 아니면 다른 사람 페이지
   useEffect(() => {
-    if (me === mypage.nickname) {
-      setIsMe(false);
-    } else {
+    if (me === mypage.id) {
       setIsMe(true);
+    } else {
+      setIsMe(false);
     }
-  });
+  }, []);
 
-  // 이모지도 유저마다 다르게 해서 받아와야겠네!
+  // 연산을 밖에서 해봐라,,! {}안에서 하지 말고!
+  // 알아볼기
   return (
     <>
       <h1>{mypage.nickname}님의 mypage</h1>
       <Card sx={{ maxWidth: 300 }}>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="sheep">
-              🐑
+            <Avatar sx={{ bgcolor: red[200] }} aria-label="emoji">
+              {mypage.emoji}
             </Avatar>
           }
           action={
@@ -52,7 +54,7 @@ function ProfileCard() {
           title={mypage.nickname}
           subheader={<StatusUser />}
         />
-        {isMe ? <FollowButton /> : null}
+        {isMe ? null : <FollowButton />}
       </Card>
     </>
   );

@@ -9,14 +9,14 @@ function StatusUser() {
   const { userInfo } = useSelector((state) => state);
   const navigate = useNavigate();
   const params = useParams();
-  const mypage = userInfo[params.nickname];
+  const mypage = userInfo[params.id - 1];
 
   return (
     <>
       <Button
         variant="text"
         onClick={() => {
-          navigate(`/mypage/${mypage.nickname}/followingslist`);
+          navigate(`/mypage/${mypage.id}/followingslist`);
         }}
       >
         팔로잉
@@ -25,7 +25,7 @@ function StatusUser() {
       <Button
         variant="text"
         onClick={() => {
-          navigate(`/mypage/${mypage.nickname}/followerslist`);
+          navigate(`/mypage/${mypage.id}/followerslist`);
         }}
       >
         팔로워

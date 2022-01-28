@@ -2,25 +2,92 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import _remove from 'lodash/remove';
 
-// dummy data for header 비동기 통신 2번 하는 것을 가정
-// 이모지
-export const User = {
-  meanstrike: {
-    nickname: 'meanstrike',
+// dummy data for header part
+// 이모지 필요
+// 내 나들코스, 찜한 나들 코스, 찜한 장소 더미 데이터 만들기
+
+export const User = [
+  {
     id: 1,
+    nickname: 'meanstrike',
+    emoji: '🐳',
     Followings: 4,
     Followers: 3,
+    myNadlecourse: [
+      { myNadlecourseId: 5, imgUrl: 'https://picsum.photos/200/300?random=5' },
+      { myNadlecourseId: 6, imgUrl: 'https://picsum.photos/200/300?random=6' },
+      { myNadlecourseId: 7, imgUrl: 'https://picsum.photos/200/300?random=7' },
+      { myNadlecourseId: 8, imgUrl: 'https://picsum.photos/200/300?random=8' },
+    ],
+    likePlace: [
+      { likePlaceId: 1, imgUrl: 'https://picsum.photos/200/300?random=9' },
+      { likePlaceId: 2, imgUrl: 'https://picsum.photos/200/300?random=10' },
+      { likePlaceId: 3, imgUrl: 'https://picsum.photos/200/300?random=11' },
+      { likePlaceId: 4, imgUrl: 'https://picsum.photos/200/300?random=12' },
+    ],
+    likeNadlecourse: [
+      {
+        likeNadlecourseId: 1,
+        imgUrl: 'https://picsum.photos/200/300?random=1',
+      },
+      {
+        likeNadlecourseId: 2,
+        imgUrl: 'https://picsum.photos/200/300?random=2',
+      },
+      {
+        likeNadlecourseId: 3,
+        imgUrl: 'https://picsum.photos/200/300?random=3',
+      },
+      {
+        likeNadlecourseId: 4,
+        imgUrl: 'https://picsum.photos/200/300?random=4',
+      },
+    ],
   },
-  taw1019: {
-    nickname: 'taw1019',
+  {
     id: 2,
+    nickname: 'taw1019',
+    emoji: '🍎',
     Followings: 2,
     Followers: 3,
+    myNadlecourse: [
+      { myNadlecourseId: 5, imgUrl: 'https://picsum.photos/200/300?random=5' },
+      { myNadlecourseId: 6, imgUrl: 'https://picsum.photos/200/300?random=6' },
+      { myNadlecourseId: 7, imgUrl: 'https://picsum.photos/200/300?random=7' },
+      { myNadlecourseId: 8, imgUrl: 'https://picsum.photos/200/300?random=8' },
+    ],
+    likePlace: [
+      { likePlaceId: 1, imgUrl: 'https://picsum.photos/200/300?random=9' },
+      { likePlaceId: 2, imgUrl: 'https://picsum.photos/200/300?random=10' },
+      { likePlaceId: 3, imgUrl: 'https://picsum.photos/200/300?random=11' },
+      { likePlaceId: 4, imgUrl: 'https://picsum.photos/200/300?random=12' },
+    ],
+    likeNadlecourse: [
+      {
+        likeNadlecourseId: 1,
+        imgUrl: 'https://picsum.photos/200/300?random=1',
+      },
+      {
+        likeNadlecourseId: 2,
+        imgUrl: 'https://picsum.photos/200/300?random=2',
+      },
+      {
+        likeNadlecourseId: 3,
+        imgUrl: 'https://picsum.photos/200/300?random=3',
+      },
+      {
+        likeNadlecourseId: 4,
+        imgUrl: 'https://picsum.photos/200/300?random=4',
+      },
+    ],
   },
-};
+];
 
-export const FollowList = {
-  meanstrike: {
+export const FollowList = [
+  {
+    id: 1,
+    nickname: 'meanstrike',
+    emoji: '🐳',
     FollowingsList: [
       { nickname: 'han', id: '2' },
       { nickname: 'kim', id: '3' },
@@ -33,7 +100,10 @@ export const FollowList = {
       { nickname: 'nam', id: '5' },
     ],
   },
-  taw1019: {
+  {
+    id: 2,
+    nickname: 'taw1019',
+    emoji: '🍎',
     FollowingsList: [
       { nickname: 'han', id: '2' },
       { nickname: 'kim', id: '3' },
@@ -44,11 +114,9 @@ export const FollowList = {
       { nickname: 'nam', id: '5' },
     ],
   },
-};
+];
 
 export const nadleCoures = {};
-
-// 내 나들코스, 찜한 나들 코스, 찜한 장소 더미 데이터 만들기
 
 // 유저정보 조회
 export const loadUser = createAsyncThunk(
@@ -196,7 +264,6 @@ const mypageSlice = createSlice({
       state.followLoading = false;
       state.followDone = true;
       state.FollowInfo.FollowingsList.push({
-        nickname: action.payload.nickname,
         id: action.payload.id,
       });
     },
@@ -214,7 +281,6 @@ const mypageSlice = createSlice({
       state.followLoading = false;
       state.followDone = true;
       _remove(state.FollowInfo.FollowinsList, {
-        nickname: action.payload.nickname,
         id: action.payload.id,
       });
     },
