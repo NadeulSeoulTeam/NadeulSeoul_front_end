@@ -1,4 +1,6 @@
+// import React, { useState, useDispatch, useEffect } from 'react';
 import React, { useEffect } from 'react';
+// import { Link } from 'react-router-dom';
 
 // material ui
 import Box from '@mui/material/Box';
@@ -7,18 +9,21 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 function CurationListItem({ curation }) {
+  // const selectedCourse = (id) => {
+  //   dispatch();
+  // };
+
   useEffect(() => {
     console.log(curation);
   }, []);
 
   return (
-    <Card>
+    <Card sx={{ backgroundColor: 'transparent' }}>
       <Box
         sx={{
           width: '15vw',
           height: '15vw',
           backgroundColor: '#c4c4c4',
-          textAlign: 'center',
           position: 'relative',
         }}
       >
