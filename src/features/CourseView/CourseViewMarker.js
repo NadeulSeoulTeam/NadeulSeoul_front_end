@@ -29,7 +29,7 @@ export function addMarker(kakao, map, position, idx) {
 }
 export function setMarker(map, markers) {
   console.log('markers');
-  console.log(markers);
+  console.log(markers, map);
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < markers.length; i++) {
     markers[i].setMap(map);
@@ -46,6 +46,10 @@ export function removeMarker(markers) {
   // eslint-disable-next-line no-param-reassign
   markers = [];
   return markers;
+}
+export function setBounds(map, bounds) {
+  map.setBounds(bounds);
+  map.setLevel(map.getLevel() + 1);
 }
 
 // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
@@ -79,7 +83,22 @@ export function displayPagination(pagination) {
   }
   paginationEl.appendChild(fragment);
 }
+export function setPolyline(map, placePosition, kakao) {
+  const linePath = [];
+  // polyline 그리기 위한 위치 path
+  for (let i = 1; i < placePosition.length; i += 1) {
+    linePath.push([placePosition[i - 1], placePosition[i]]);
+  }
+  const polyline = new kakao.maps.Polyline({
+    path: linePath, // 선을 구성하는 좌표배열 입니다
+    strokeWeight: 5, // 선의 두께 입니다
+    strokeColor: '#FFAE00', // 선의 색깔입니다
+    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+    strokeStyle: 'solid', // 선의 스타일입니다
+  });
 
+  polyline.setMap(map);
+}
 // export function displayPlaces(places) {
 //   var listEl = document.getElementById('placesList'),
 //     menuEl = document.getElementById('menu_wrap'),
