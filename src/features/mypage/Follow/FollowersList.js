@@ -26,9 +26,14 @@ function FollowersList() {
   // user별 팔로잉 팔로우 리스트를 불러오면 된다.
   const { FollowInfo } = useSelector((state) => state);
   const params = useParams();
-  const followersList = FollowInfo[params.id - 1].FollowersList;
-  const nickName = FollowInfo[params.id - 1].nickname;
-
+  const FollowList = FollowInfo.filter((v) => {
+    console.log(typeof v.id);
+    return v.id === parseInt(params.id, 10);
+  });
+  const nickName = FollowList[0].nickname;
+  const followersList = FollowList[0].FollowersList;
+  console.log(typeof params.id);
+  console.log(FollowList[0].FollowersList);
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid container spacing={2}>
@@ -45,7 +50,7 @@ function FollowersList() {
                   secondaryAction={
                     <IconButton edge="end" aria-label="Follow">
                       {/* props로 어떤 사람을 팔로우 언팔로우 하는지 넘기기 */}
-                      <FollowButton />
+                      <FollowButton UserId={v.id} />
                     </IconButton>
                   }
                 >

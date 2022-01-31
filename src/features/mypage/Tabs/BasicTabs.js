@@ -21,9 +21,12 @@ function a11yProps(index) {
 function BasicTabs() {
   const { userInfo } = useSelector((state) => state);
   const params = useParams();
-  const myNadlecourseInfo = userInfo[params.id - 1].myNadlecourse;
-  const likePlaceInfo = userInfo[params.id - 1].likePlace;
-  const likeNadlecourseInfo = userInfo[params.id - 1].likeNadlecourse;
+  const mypage = userInfo.filter((v) => {
+    return v.id === parseInt(params.id, 10);
+  })[0];
+  const myNadlecourseInfo = mypage.myNadlecourse;
+  const likePlaceInfo = mypage.likePlace;
+  const likeNadlecourseInfo = mypage.likeNadlecourse;
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {

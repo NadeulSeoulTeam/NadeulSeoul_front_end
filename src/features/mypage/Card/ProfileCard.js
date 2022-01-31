@@ -18,11 +18,13 @@ function ProfileCard() {
   const { userInfo } = useSelector((state) => state);
   const [isMe, setIsMe] = useState(false);
   const params = useParams();
-  const mypage = userInfo[params.id - 1]; // 현재 페이지가 누구의 것인지
+  const mypage = userInfo.filter((v) => {
+    return v.id === parseInt(params.id, 10);
+  })[0];
   const me = userInfo[0].id; // 로그인한 사람의 id 현재 로그인 가정(meanstrike)
   // console.log(params.id);
   // console.log(me);
-  // console.log(mypage);
+  console.log(mypage);
 
   // 1. 내 마이페이지에 들어오면 버튼이 안보이게
   // => 일단 지금은 meastrike로 로그인 했다고 가정하고 만들기

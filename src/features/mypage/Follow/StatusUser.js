@@ -9,8 +9,9 @@ function StatusUser() {
   const { userInfo } = useSelector((state) => state);
   const navigate = useNavigate();
   const params = useParams();
-  const mypage = userInfo[params.id - 1];
-
+  const mypage = userInfo.filter((v) => {
+    return v.id === parseInt(params.id, 10);
+  })[0];
   return (
     <>
       <Button
