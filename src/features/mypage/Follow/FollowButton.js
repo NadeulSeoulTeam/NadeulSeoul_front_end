@@ -38,12 +38,14 @@ function FollowButton() {
           id: params.id,
         })
       );
+      setfollowButtonStatus('언팔로우');
     } else {
       dispatch(
         follow({
           id: params.id,
         })
       );
+      setfollowButtonStatus('팔로우');
     }
   }, [follwButtonStatus]);
 
