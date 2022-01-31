@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+
+// mui
 import { StylesProvider } from '@material-ui/core/styles';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import SearchBar from '../../common/SearchBar/SearchBar';
+
+// components
 import TagList from './TagList';
+import UserList from './UserList';
 import CurationList from './CurationList';
+import SearchBar from '../../common/SearchBar/SearchBar';
 import {
   TopWrapper,
   BottomWrapper,
@@ -51,6 +56,7 @@ function MainPage() {
         <SubTitle>지금 HOT한 코스</SubTitle>
         <CurationList />
         <SubTitle>열정적인 나들러</SubTitle>
+        <UserList />
         <SubTitle>나들러들이 많이 찜한 장소</SubTitle>
       </BottomWrapper>
     </StylesProvider>

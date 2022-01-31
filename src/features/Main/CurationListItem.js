@@ -1,5 +1,5 @@
-// import React, { useState, useDispatch, useEffect } from 'react';
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 // import { Link } from 'react-router-dom';
 
 // material ui
@@ -8,17 +8,25 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
+// action
+import { select } from './MainSlice';
+
 function CurationListItem({ curation }) {
-  // const selectedCourse = (id) => {
-  //   dispatch();
-  // };
+  const dispatch = useDispatch();
+
+  const selectCourse = (selectedCourse) => {
+    dispatch(select(selectedCourse));
+  };
 
   useEffect(() => {
-    console.log(curation);
+    // console.log(curation);
   }, []);
 
   return (
-    <Card sx={{ backgroundColor: 'transparent' }}>
+    <Card
+      sx={{ backgroundColor: 'transparent' }}
+      onClick={() => selectCourse(curation)}
+    >
       <Box
         sx={{
           width: '15vw',
