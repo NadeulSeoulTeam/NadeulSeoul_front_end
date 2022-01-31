@@ -45,7 +45,7 @@ export const User = [
     ],
   },
   {
-    id: 2,
+    id: 7,
     nickname: 'taw1019',
     emoji: '🍎',
     Followings: 2,
@@ -101,7 +101,7 @@ export const FollowList = [
     ],
   },
   {
-    id: 2,
+    id: 7,
     nickname: 'taw1019',
     emoji: '🍎',
     FollowingsList: [
@@ -111,7 +111,7 @@ export const FollowList = [
     FollowersList: [
       { nickname: 'heyhey', id: '6', emoji: '🦅' },
       { nickname: 'yoo', id: '4', emoji: '🦆' },
-      { nickname: 'nam', id: '5', emoji: '🐭' },
+      { nickname: 'meanstrike', id: '1', emoji: '🐳' },
     ],
   },
 ];

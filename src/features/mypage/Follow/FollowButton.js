@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -18,37 +18,59 @@ function FollowButton({ UserId }) {
   const dispatch = useDispatch();
   const { FollowInfo, followLoading } = useSelector((state) => state);
   const myFollowingList = FollowInfo[0].FollowingsList; // 팔로잉 목록 출력, 현재 meanstrike계정에 로그인 했다고 가정
-  const [follwButtonStatus, setfollowButtonStatus] = useState('');
+  const myId = FollowInfo[0].id; // meanstrike가 로그인 했다고 가정
+  const isFollowing = myFollowingList?.find((v) => v.id === String(UserId));
 
-  useEffect(() => {
-    const isFollowing = myFollowingList.find((v) => v.id === UserId);
-    if (isFollowing) {
-      setfollowButtonStatus('언팔로우');
-    } else {
-      setfollowButtonStatus('팔로우');
-    }
-  }, []);
+  // version1
+  // useEffect(() => {
+  //   if (isFollowing) {
+  //     setfollowButtonStatus('언팔로우');
+  //   } else {
+  //     setfollowButtonStatus('팔로우');
+  //   }
+  // }, []);
+
+  // const onClickButton = useCallback(() => {
+  //   if (follwButtonStatus === '팔로우') {
+  //     dispatch(
+  //       unfollow({
+  //         id: UserId,
+  //       })
+  //     );
+  //     setfollowButtonStatus('언팔로우');
+  //   } else {
+  //     dispatch(
+  //       follow({
+  //         id: UserId,
+  //       })
+  //     );
+  //     setfollowButtonStatus('팔로우');
+  //   }
+  // }, [follwButtonStatus]);
+
+  // version2
 
   const onClickButton = useCallback(() => {
-    if (follwButtonStatus === '팔로우') {
+    if (isFollowing) {
       dispatch(
         unfollow({
           id: UserId,
         })
       );
-      setfollowButtonStatus('언팔로우');
     } else {
       dispatch(
         follow({
           id: UserId,
         })
       );
-      setfollowButtonStatus('팔로우');
     }
-  }, [follwButtonStatus]);
+  }, [isFollowing]);
 
-  // console.log(params.nickname);
-  // console.log(myFollowingList);
+  // 나 자신한테는 팔로우 언팔로우 버튼 뜨지 않음
+  if (UserId === myId) {
+    return null;
+  }
+
   return (
     <Stack spacing={2} direction="row">
       <Button
@@ -56,7 +78,7 @@ function FollowButton({ UserId }) {
         onClick={onClickButton}
         loading={followLoading}
       >
-        {follwButtonStatus}
+        {isFollowing ? 'unfollow' : 'follow'}
       </Button>
     </Stack>
   );

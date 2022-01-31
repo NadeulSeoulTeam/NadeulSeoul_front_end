@@ -22,6 +22,8 @@ function BasicTabs() {
   const { userInfo } = useSelector((state) => state);
   const params = useParams();
   const myNadlecourseInfo = userInfo[params.id - 1].myNadlecourse;
+  const likePlaceInfo = userInfo[params.id - 1].likePlace;
+  const likeNadlecourseInfo = userInfo[params.id - 1].likeNadlecourse;
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -60,10 +62,38 @@ function BasicTabs() {
         </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        찜한 나들 코스
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            p: 1,
+            m: 1,
+            bgcolor: 'background.paper',
+            borderRadius: 1,
+          }}
+        >
+          {likeNadlecourseInfo.map((v, i) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <CurationCard key={i + v.likeNadlecourseId} imgUrl={v.imgUrl} />
+          ))}
+        </Box>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        찜한 장소
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            p: 1,
+            m: 1,
+            bgcolor: 'background.paper',
+            borderRadius: 1,
+          }}
+        >
+          {likePlaceInfo.map((v, i) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <CurationCard key={i + v.likePlaceId} imgUrl={v.imgUrl} />
+          ))}
+        </Box>
       </TabPanel>
       <TabPanel value={value} index={3}>
         문의 게시판
