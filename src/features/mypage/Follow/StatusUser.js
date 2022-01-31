@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 
 function StatusUser() {
-  const { userInfo } = useSelector((state) => state);
+  const { userInfo } = useSelector((state) => state.mypage);
   const navigate = useNavigate();
   const params = useParams();
   const mypage = userInfo.filter((v) => {

@@ -24,7 +24,7 @@ const Demo = styled('div')(({ theme }) => ({
 }));
 
 function FollowingsList() {
-  const { FollowInfo } = useSelector((state) => state);
+  const { FollowInfo } = useSelector((state) => state.mypage);
   const params = useParams();
   const FollowList = FollowInfo.filter((v) => {
     console.log(typeof v.id);

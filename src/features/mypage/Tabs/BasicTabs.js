@@ -19,7 +19,7 @@ function a11yProps(index) {
 }
 
 function BasicTabs() {
-  const { userInfo } = useSelector((state) => state);
+  const { userInfo } = useSelector((state) => state.mypage);
   const params = useParams();
   const mypage = userInfo.filter((v) => {
     return v.id === parseInt(params.id, 10);

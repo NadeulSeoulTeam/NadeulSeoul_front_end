@@ -15,7 +15,7 @@ import FollowButton from '../Follow/FollowButton';
 import StatusUser from '../Follow/StatusUser';
 
 function ProfileCard() {
-  const { userInfo } = useSelector((state) => state);
+  const { userInfo } = useSelector((state) => state.mypage);
   const [isMe, setIsMe] = useState(false);
   const params = useParams();
   const mypage = userInfo.filter((v) => {

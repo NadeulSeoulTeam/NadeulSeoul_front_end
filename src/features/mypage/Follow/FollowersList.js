@@ -24,7 +24,7 @@ const Demo = styled('div')(({ theme }) => ({
 
 function FollowersList() {
   // user별 팔로잉 팔로우 리스트를 불러오면 된다.
-  const { FollowInfo } = useSelector((state) => state);
+  const { FollowInfo } = useSelector((state) => state.mypage);
   const params = useParams();
   const FollowList = FollowInfo.filter((v) => {
     console.log(typeof v.id);
