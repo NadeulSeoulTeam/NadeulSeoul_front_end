@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
 // mui
 import Tabs from '@mui/material/Tabs';
@@ -17,6 +19,9 @@ function a11yProps(index) {
 }
 
 function BasicTabs() {
+  const { userInfo } = useSelector((state) => state);
+  const params = useParams();
+  const myNadlecourseInfo = userInfo[params.id - 1].myNadlecourse;
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -34,6 +39,7 @@ function BasicTabs() {
           <Tab label="내 나들코스" {...a11yProps(0)} />
           <Tab label="찜한 나들 코스" {...a11yProps(1)} />
           <Tab label="찜한 장소" {...a11yProps(2)} />
+          <Tab label="문의게시판" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -47,8 +53,9 @@ function BasicTabs() {
             borderRadius: 1,
           }}
         >
-          {[1, 2, 3, 4].map((i) => (
-            <CurationCard key={i} />
+          {myNadlecourseInfo.map((v, i) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <CurationCard key={i + v.myNadlecourseId} imgUrl={v.imgUrl} />
           ))}
         </Box>
       </TabPanel>
@@ -57,6 +64,9 @@ function BasicTabs() {
       </TabPanel>
       <TabPanel value={value} index={2}>
         찜한 장소
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        문의 게시판
       </TabPanel>
     </Box>
   );

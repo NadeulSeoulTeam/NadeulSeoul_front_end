@@ -8,6 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Typography from '@mui/material/Typography';
 
 // components
 import FollowButton from '../Follow/FollowButton';
@@ -19,9 +20,9 @@ function ProfileCard() {
   const params = useParams();
   const mypage = userInfo[params.id - 1]; // 현재 페이지가 누구의 것인지
   const me = userInfo[0].id; // 로그인한 사람의 id 현재 로그인 가정(meanstrike)
-  console.log(params.id);
-  console.log(me);
-  console.log(mypage);
+  // console.log(params.id);
+  // console.log(me);
+  // console.log(mypage);
 
   // 1. 내 마이페이지에 들어오면 버튼이 안보이게
   // => 일단 지금은 meastrike로 로그인 했다고 가정하고 만들기
@@ -38,7 +39,9 @@ function ProfileCard() {
   // 알아볼기
   return (
     <>
-      <h1>{mypage.nickname}님의 mypage</h1>
+      <Typography sx={{ mt: 4, mb: 2 }} variant="h4" component="div">
+        {mypage.nickname}님의 팔로워 리스트
+      </Typography>
       <Card sx={{ maxWidth: 300 }}>
         <CardHeader
           avatar={
@@ -54,7 +57,7 @@ function ProfileCard() {
           title={mypage.nickname}
           subheader={<StatusUser />}
         />
-        {isMe ? null : <FollowButton />}
+        {isMe ? null : <FollowButton UserId={mypage.id} />}
       </Card>
     </>
   );

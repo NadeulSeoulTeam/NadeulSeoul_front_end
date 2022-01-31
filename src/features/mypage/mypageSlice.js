@@ -89,15 +89,15 @@ export const FollowList = [
     nickname: 'meanstrike',
     emoji: '🐳',
     FollowingsList: [
-      { nickname: 'han', id: '2' },
-      { nickname: 'kim', id: '3' },
-      { nickname: 'nam', id: '5' },
-      { nickname: 'taw1019', id: '7' },
+      { nickname: 'han', id: '2', emoji: '🐶' },
+      { nickname: 'kim', id: '3', emoji: '🐱' },
+      { nickname: 'nam', id: '5', emoji: '🐭' },
+      { nickname: 'taw1019', id: '7', emoji: '🍎' },
     ],
     FollowersList: [
-      { nickname: 'heyhey', id: '6' },
-      { nickname: 'yoo', id: '4' },
-      { nickname: 'nam', id: '5' },
+      { nickname: 'heyhey', id: '6', emoji: '🦅' },
+      { nickname: 'yoo', id: '4', emoji: '🦆' },
+      { nickname: 'nam', id: '5', emoji: '🐭' },
     ],
   },
   {
@@ -105,13 +105,13 @@ export const FollowList = [
     nickname: 'taw1019',
     emoji: '🍎',
     FollowingsList: [
-      { nickname: 'han', id: '2' },
-      { nickname: 'kim', id: '3' },
+      { nickname: 'han', id: '2', emoji: '🐶' },
+      { nickname: 'kim', id: '3', emoji: '🐱' },
     ],
     FollowersList: [
-      { nickname: 'heyhey', id: '6' },
-      { nickname: 'yoo', id: '4' },
-      { nickname: 'nam', id: '5' },
+      { nickname: 'heyhey', id: '6', emoji: '🦅' },
+      { nickname: 'yoo', id: '4', emoji: '🦆' },
+      { nickname: 'nam', id: '5', emoji: '🐭' },
     ],
   },
 ];

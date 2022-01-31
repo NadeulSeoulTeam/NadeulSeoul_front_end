@@ -1,5 +1,5 @@
 import React from 'react';
-// import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // mui
 import Card from '@mui/material/Card';
@@ -10,8 +10,8 @@ import { CardActionArea } from '@mui/material';
 
 // assets
 
-function CurationCard() {
-  // const { userInfo } = useSelector((state) => state);
+function CurationCard({ imgUrl }) {
+  console.log(imgUrl);
   return (
     // 여기서 상세 curaetion으로 onClick 매서드 사용해소 navgative로 이동
     <Card sx={{ maxWidth: 300 }}>
@@ -19,7 +19,7 @@ function CurationCard() {
         <CardMedia
           component="img"
           height="140"
-          image="/assets/test_woori.jpg"
+          image={imgUrl}
           alt="test_woori"
         />
         <CardContent>
@@ -35,5 +35,9 @@ function CurationCard() {
     </Card>
   );
 }
+
+CurationCard.propTypes = {
+  imgUrl: PropTypes.string.isRequired,
+};
 
 export default CurationCard;
