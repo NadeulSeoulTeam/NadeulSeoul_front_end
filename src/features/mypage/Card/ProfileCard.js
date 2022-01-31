@@ -37,8 +37,6 @@ function ProfileCard() {
     }
   }, []);
 
-  // 연산을 밖에서 해봐라,,! {}안에서 하지 말고!
-  // 알아볼기
   return (
     <>
       <Typography sx={{ mt: 4, mb: 2 }} variant="h4" component="div">

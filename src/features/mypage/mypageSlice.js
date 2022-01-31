@@ -18,6 +18,7 @@ export const User = [
       { myNadlecourseId: 6, imgUrl: 'https://picsum.photos/200/300?random=6' },
       { myNadlecourseId: 7, imgUrl: 'https://picsum.photos/200/300?random=7' },
       { myNadlecourseId: 8, imgUrl: 'https://picsum.photos/200/300?random=8' },
+      { myNadlecourseId: 9, imgUrl: 'https://picsum.photos/200/300?random=9' },
     ],
     likePlace: [
       { likePlaceId: 1, imgUrl: 'https://picsum.photos/200/300?random=9' },

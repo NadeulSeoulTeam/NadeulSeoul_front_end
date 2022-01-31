@@ -49,7 +49,6 @@ function FollowersList() {
                   key={v + i}
                   secondaryAction={
                     <IconButton edge="end" aria-label="Follow">
-                      {/* props로 어떤 사람을 팔로우 언팔로우 하는지 넘기기 */}
                       <FollowButton UserId={v.id} />
                     </IconButton>
                   }

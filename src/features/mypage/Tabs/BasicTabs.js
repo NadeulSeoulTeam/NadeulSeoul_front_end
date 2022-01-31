@@ -51,7 +51,8 @@ function BasicTabs() {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'flex-start',
             p: 1,
             m: 1,
             bgcolor: 'background.paper',
@@ -68,7 +69,8 @@ function BasicTabs() {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'flex-start',
             p: 1,
             m: 1,
             bgcolor: 'background.paper',
@@ -76,8 +78,11 @@ function BasicTabs() {
           }}
         >
           {likeNadlecourseInfo.map((v, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <CurationCard key={i + v.likeNadlecourseId} imgUrl={v.imgUrl} />
+            <CurationCard
+              // eslint-disable-next-line react/no-array-index-key
+              key={i + v.likeNadlecourseId}
+              imgUrl={v.imgUrl}
+            />
           ))}
         </Box>
       </TabPanel>
@@ -85,7 +90,8 @@ function BasicTabs() {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'flex-start',
             p: 1,
             m: 1,
             bgcolor: 'background.paper',
