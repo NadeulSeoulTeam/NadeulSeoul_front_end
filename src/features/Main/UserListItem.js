@@ -2,11 +2,8 @@ import React, { useEffect } from 'react';
 // import { useDispatch } from 'react-redux';
 // import { Link } from 'react-router-dom';
 
-// material ui
-import Card from '@mui/material/Card';
-import Avatar from '@mui/material/Avatar';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+// custom style
+import { Wrapper, UserEmoji, UserName } from './UserListItemStyle';
 
 // action
 // import { select } from './MainSlice';
@@ -23,17 +20,13 @@ function UserListItem({ user }) {
   }, []);
 
   return (
-    <Card
-      sx={{ backgroundColor: 'transparent' }}
+    <Wrapper
+      elevation={0}
       // onClick={() => selectCourse(curation)}
     >
-      <Avatar>{user.emoji}</Avatar>
-      <CardContent sx={{ px: 0, py: 1 }}>
-        <Typography variant="h5" component="div" sx={{ fontSize: '1em' }}>
-          {user.nickname}
-        </Typography>
-      </CardContent>
-    </Card>
+      <UserEmoji>{user.emoji}</UserEmoji>
+      <UserName>{user.nickname}</UserName>
+    </Wrapper>
   );
 }
 

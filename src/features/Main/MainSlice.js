@@ -10,6 +10,7 @@ const main = createSlice({
       { id: 4, title: '큐레이션 제목', likes: 9 },
       { id: 5, title: '큐레이션 제목', likes: 9 },
       { id: 6, title: '큐레이션 제목', likes: 29 },
+      // { id: 7, title: '큐레이션 제목', likes: 234 },
     ],
     users: [
       { id: 1, nickname: '나들러1', emoji: '🎈' },

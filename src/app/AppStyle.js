@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-  width: 100vw;
-  min-height: 100vh;
+  min-width: 100%;
   margin: 0;
   background-color: #e5e5e5;
   font-family: 'Suit';

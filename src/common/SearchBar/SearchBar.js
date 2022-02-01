@@ -6,13 +6,8 @@ import { Wrapper, SearchBase, SearchInput, SearchBtn } from './SearchBarStyle';
 function SearchBar() {
   return (
     <StylesProvider injectFirst>
-      <Wrapper
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <SearchBase elevation={2}>
+      <Wrapper container direction="row" justifyContent="center">
+        <SearchBase elevation={1}>
           <SearchInput placeholder="어디로 떠날까요?" />
           <SearchBtn />
         </SearchBase>

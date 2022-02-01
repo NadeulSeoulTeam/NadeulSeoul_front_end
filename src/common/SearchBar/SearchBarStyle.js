@@ -10,25 +10,31 @@ export const Wrapper = styled(Grid)`
 `;
 
 export const SearchBase = styled(Paper)`
-  padding: 2px 4px;
-  display: flex;
-  align-items: center;
-  border-radius: 20px;
-  width: 400px;
+  && {
+    padding: 2px 4px;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    width: 400px;
+  }
 `;
 
 export const SearchInput = styled(InputBase)`
-  font-family: 'Suit';
-  font-size: 24px;
-  margin: 0.5rem 0 0.5rem 1rem;
-  flex: 1;
+  && {
+    font-family: 'Suit';
+    font-size: 0.9rem;
+    margin: 0.5rem 0 0.5rem 1rem;
+    flex: 1;
+  }
 `;
 
 export const SearchBtn = styled(SearchIcon)`
-  background-color: #68c78e;
-  margin: 0 10px;
-  padding: 6px;
-  border-radius: 20px;
-  color: white;
-  cursor: pointer;
+  && {
+    background-color: #68c78e;
+    margin: 0 8px;
+    padding: 5px;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+  }
 `;
