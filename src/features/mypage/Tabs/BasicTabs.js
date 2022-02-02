@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
@@ -10,6 +10,7 @@ import TabPanel from './TabPanel';
 
 // component
 import CurationCard from '../Card/CurationCard';
+import BoardList from '../Board/BoardList';
 
 function a11yProps(index) {
   return {
@@ -33,6 +34,21 @@ function BasicTabs() {
     setValue(newValue);
   };
 
+  const [isMyprofile, setIsMyprofile] = useState(true);
+  const boardHandler = () => {
+    const me = userInfo[0].id; // 현재 meanstrike 로그인 했다고 가정
+    const Userid = parseInt(params.id, 10);
+    if (me === Userid) {
+      setIsMyprofile(true);
+    } else {
+      setIsMyprofile(false);
+    }
+  };
+  useEffect(() => {
+    boardHandler();
+  }, []);
+  console.log(isMyprofile);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -44,7 +60,7 @@ function BasicTabs() {
           <Tab label="내 나들코스" {...a11yProps(0)} />
           <Tab label="찜한 나들 코스" {...a11yProps(1)} />
           <Tab label="찜한 장소" {...a11yProps(2)} />
-          <Tab label="문의게시판" {...a11yProps(3)} />
+          {isMyprofile && <Tab label="문의게시판" {...a11yProps(3)} />}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -104,8 +120,9 @@ function BasicTabs() {
           ))}
         </Box>
       </TabPanel>
+
       <TabPanel value={value} index={3}>
-        문의 게시판
+        <BoardList />
       </TabPanel>
     </Box>
   );
