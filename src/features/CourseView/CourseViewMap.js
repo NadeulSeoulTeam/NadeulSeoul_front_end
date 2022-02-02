@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Slide from '@mui/material/Slide';
 
+import styled from 'styled-components';
 import {
   selectLang,
   selectLat,
@@ -17,7 +18,7 @@ import {
   // getClicked,
   setClicked,
 } from './CourseViewSlice';
-
+// styled-component
 import './CourseView.css';
 
 import {
@@ -30,6 +31,18 @@ import {
 import CourseViewCart from './CourseViewCart';
 // dummy data
 import testdata from './testdata';
+
+const Map = styled.div`
+  opacity: ${(props) => (props.clicked === undefined ? 1 : 0.7)};
+`;
+
+const Cart = styled.div`
+  position: absolute;
+  display: inline-block;
+  z-index: 2;
+  top: 190px;
+  left: 78%;
+`;
 
 function CourseViewMap() {
   // 뒤로 가기에 대한 처리
@@ -79,39 +92,41 @@ function CourseViewMap() {
           mountOnEnter
           unmountOnExit
         >
-          <Card className="store_cart" sx={{ minWidth: 275 }}>
-            <CardContent>
-              <Typography
-                sx={{ fontSize: 12 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                {info.place_name}
-              </Typography>
-              <Typography
-                sx={{ fontSize: 8 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                {info.address_name}
-              </Typography>
-              <Typography
-                sx={{ fontSize: 8 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                {info.category_name}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button
-                size="small"
-                onClick={() => setClickMarkerInfo(undefined)}
-              >
-                돌아가기
-              </Button>
-            </CardActions>
-          </Card>
+          <Cart>
+            <Card className="store_cart" sx={{ minWidth: 275 }}>
+              <CardContent>
+                <Typography
+                  sx={{ fontSize: 12 }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  {info.place_name}
+                </Typography>
+                <Typography
+                  sx={{ fontSize: 8 }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  {info.address_name}
+                </Typography>
+                <Typography
+                  sx={{ fontSize: 8 }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  {info.category_name}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button
+                  size="small"
+                  onClick={() => setClickMarkerInfo(undefined)}
+                >
+                  돌아가기
+                </Button>
+              </CardActions>
+            </Card>
+          </Cart>
         </Slide>
       </div>
     );
@@ -170,7 +185,8 @@ function CourseViewMap() {
 
   return (
     <div>
-      <div
+      <Map
+        clicked={clickedMarkerInfo}
         className="map"
         id="map"
         style={{
