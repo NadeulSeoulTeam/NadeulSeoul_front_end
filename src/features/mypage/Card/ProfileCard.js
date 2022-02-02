@@ -40,7 +40,7 @@ function ProfileCard() {
   return (
     <>
       <Typography sx={{ mt: 4, mb: 2 }} variant="h4" component="div">
-        {mypage.nickname}님의 팔로워 리스트
+        {mypage.nickname}님의 mypage
       </Typography>
       <Card sx={{ maxWidth: 300 }}>
         <CardHeader

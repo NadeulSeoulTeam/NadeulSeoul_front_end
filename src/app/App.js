@@ -7,6 +7,7 @@ import Home from '../features/test_todo/Home';
 import MyPage from '../features/mypage/MyPage';
 import FollowersList from '../features/mypage/Follow/FollowersList';
 import FollowingsList from '../features/mypage/Follow/FollowingsList';
+import BoardListItem from '../features/mypage/Board/BoardListItem';
 
 function App() {
   return (
@@ -24,7 +25,11 @@ function App() {
           path="/mypage/:id/followingslist"
           element={<FollowingsList />}
         />
-        {/* <Route Route path="/:id" element={<Detail />} /> */}
+        <Route
+          Route
+          path="mypage/:id/BoardList/:PostId"
+          element={<BoardListItem />}
+        />
       </Routes>
     </BrowserRouter>
   );

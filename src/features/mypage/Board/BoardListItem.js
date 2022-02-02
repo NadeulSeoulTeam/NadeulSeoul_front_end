@@ -1,7 +1,13 @@
 import React from 'react';
+import ProfileCard from '../Card/ProfileCard';
 
 function BoardListItem() {
-  return <>BoardListItem</>;
+  return (
+    <>
+      <ProfileCard />
+      BoardListItem
+    </>
+  );
 }
 
 export default BoardListItem;
