@@ -12,6 +12,7 @@ import GoogleLoginCallback from '../features/Auth/Google/GoogleLoginCallback';
 // Common
 import Error404 from '../common/error/Error404';
 import Course from '../features/CourseMake/Course';
+import CourseCreationForm from '../features/CourseMake/CourseCreationForm';
 import CourseView from '../features/CourseView/CourseView';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/auth/google/callback" element={<GoogleLoginCallback />} />
         <Route path="/Course" element={<Course />} />
         <Route path="/CourseView" element={<CourseView />} />
+        <Route path="/CourseCreationForm" element={<CourseCreationForm />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </BrowserRouter>
