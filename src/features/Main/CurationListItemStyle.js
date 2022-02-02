@@ -6,6 +6,7 @@ export const Wrapper = styled(Card)`
     background-color: transparent;
     margin: 0 20px 0 0;
     cursor: pointer;
+    flex-shrink: 0;
   }
 `;
 
