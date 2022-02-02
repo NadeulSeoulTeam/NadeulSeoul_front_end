@@ -321,7 +321,6 @@ export const initialState = {
   userInfo: User, // 내 정보
   FollowInfo: FollowList, // 팔로잉, 팔로워 정보
   mainPosts: [], // 문의게시판 목록
-  singlePost: null, // 문의게시판 상세 정보
   loadUserLoading: false, // mypage haeder 정보 조회 시도
   loadUserDone: false,
   loadUserError: null,
@@ -491,7 +490,7 @@ const mypageSlice = createSlice({
       state.addPostLoading = false;
       state.addPostError = action.error.message;
     },
-    // 문의 게시판 글 수정 request
+    // 문의 게시판 글 삭제 request
     [removePost.pending]: (state) => {
       state.removeAnswerLoading = true;
       state.removeAnswerDone = false;
@@ -506,6 +505,75 @@ const mypageSlice = createSlice({
     [removePost.rejected]: (state, action) => {
       state.removeAnswerLoading = false;
       state.removeAnswerError = action.error.message;
+    },
+    // 문의 게시판 글 수정 request
+    [updatePost.pending]: (state) => {
+      state.updatePostLoading = true;
+      state.updatePostDone = false;
+      state.updatePostError = null;
+    },
+    [updatePost.fulfilled]: (state, action) => {
+      const post = _find(state.mainPosts, { id: action.payload.PostId });
+      state.updatePostLoading = false;
+      state.updatePostDone = true;
+      // {content : content} 이런식으로 dispatch 보낼 예정
+      post.question_content = action.payload.content;
+    },
+    [updatePost.rejected]: (state, action) => {
+      state.updatePostLoading = true;
+      state.updatePostError = action.error.message;
+    },
+
+    // 문의 게시판 답변 글 작성 request
+    [addAnswer.pending]: (state) => {
+      state.addAnswerLoading = true;
+      state.addAnswerDone = false;
+      state.addAnswerError = null;
+    },
+    [addAnswer.fulfilled]: (state, action) => {
+      const post = _find(state.mainPosts, { id: action.payload.PostId });
+      state.addAnswerLoading = false;
+      state.addAnswerDone = true;
+      // 답변은 하나만 달리므로!
+      post.answer = action.payload;
+    },
+    [addAnswer.rejected]: (state, action) => {
+      state.addAnswerLoading = false;
+      state.addAnswerError = action.error.message;
+    },
+
+    // 문의 게시판 답변 글 삭제 request
+    [removeAnswer.pending]: (state) => {
+      state.removeAnswerLoading = true;
+      state.removeAnswerDone = false;
+      state.removeAnswerError = null;
+    },
+    [removeAnswer.fulfilled]: (state, action) => {
+      const post = _find(state.mainPosts, { id: action.payload.PostId });
+      state.removeAnswerLoading = false;
+      state.removeAnswerDone = true;
+      _remove(post.answer, { id: action.payload.AnswerId });
+    },
+    [removeAnswer.rejected]: (state, action) => {
+      state.removeAnswerLoading = false;
+      state.removeAnswerError = action.error.message;
+    },
+    // 문의 게시판 답변 글 수정 request, 답변이 하나면 글 작성 로직이랑 같아짐
+    [updateAnswer.pending]: (state) => {
+      state.updateAnswerLoading = true;
+      state.updateAnswerDone = false;
+      state.updateAnswerError = null;
+    },
+    [updateAnswer.fulfilled]: (state, action) => {
+      const post = _find(state.mainPosts, { id: action.payload.PostId });
+      state.updateAnswerLoading = false;
+      state.updateAnswerDone = true;
+      // {answer : answer }이 방식으로 dispatch 보낼 예정
+      post.answer = action.payload.answer;
+    },
+    [updateAnswer.rejected]: (state, action) => {
+      state.updateAnswerLoading = false;
+      state.updateAnswerError = action.error.message;
     },
   },
 });
