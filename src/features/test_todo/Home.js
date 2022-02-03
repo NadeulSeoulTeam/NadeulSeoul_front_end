@@ -15,7 +15,11 @@ function Home() {
 
   function onSubmit(e) {
     e.preventDefault();
+<<<<<<< HEAD
     console.log(toDos);
+=======
+    console.log(text);
+>>>>>>> dd219033470a465a43ad423b3143233ebc84baba
     dispatch(add(text));
     setText('');
   }

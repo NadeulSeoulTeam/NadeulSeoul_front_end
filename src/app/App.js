@@ -12,7 +12,12 @@ import MyPage from '../features/mypage/MyPage';
 
 // Common
 import Error404 from '../common/error/Error404';
+<<<<<<< HEAD
 // import BasicTabs from '../features/mypage/BasicTabs';
+=======
+import Course from '../features/CourseMake/Course';
+import CourseView from '../features/CourseView/CourseView';
+>>>>>>> dd219033470a465a43ad423b3143233ebc84baba
 
 function App() {
   return (
@@ -26,6 +31,8 @@ function App() {
         <Route path="/googlelogin" element={<GoogleLogin />} />
         <Route path="/auth/naver/callback/" element={<NaverLoginCallback />} />
         <Route path="/auth/google/callback" element={<GoogleLoginCallback />} />
+        <Route path="/Course" element={<Course />} />
+        <Route path="/CourseView" element={<CourseView />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </BrowserRouter>
