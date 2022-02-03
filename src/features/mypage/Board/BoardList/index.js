@@ -1,5 +1,7 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import moment from 'moment';
 
 // mui
 import Paper from '@mui/material/Paper';
@@ -14,53 +16,30 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
+// title, id, date(작성 시간) 3개만 프로필에 표시하면 된다.
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+  { id: 'id', label: 'No', minWidth: 100 },
+  { id: 'title', label: 'Tile', minWidth: 170 },
   {
-    id: 'population',
-    label: 'Population',
+    id: 'date',
+    label: 'Date',
     minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
+    align: 'left',
   },
 ];
 
-function createData(name, code, population, size, PostId) {
-  const density = population / size;
-  return { name, code, population, size, density, PostId };
+function createData(id, title, date, PostId) {
+  return { id, title, date, PostId };
 }
+// 들어오는 날짜 데이터를 처리
+const nowTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
 const rows = [
-  createData('India', 'IN', 1324171354, 3287263, 1),
-  createData('China', 'CN', 1403500365, 9596961, 2),
-  createData('Italy', 'IT', 60483973, 301340, 3),
-  createData('United States', 'US', 327167434, 9833520, 4),
-  createData('Canada', 'CA', 37602103, 9984670, 5),
-  createData('Australia', 'AU', 25475400, 7692024, 6),
-  createData('Germany', 'DE', 83019200, 357578, 7),
-  createData('Ireland', 'IE', 4857000, 70273, 8),
-  createData('Mexico', 'MX', 126577691, 1972550, 9),
-  createData('Japan', 'JP', 126317000, 377973, 10),
-  createData('France', 'FR', 67022000, 640679, 11),
-  createData('United Kingdom', 'GB', 67545757, 242495, 12),
-  createData('Russia', 'RU', 146793744, 17098246, 13),
-  createData('Nigeria', 'NG', 200962417, 923768, 14),
-  createData('Brazil', 'BR', 210147125, 8515767, 15),
+  createData('1', '안녕하세요 - 1', nowTime, 1),
+  createData('2', '안녕하세요 - 2', nowTime, 2),
+  createData('3', '안녕하세요 - 3', nowTime, 3),
+  createData('4', '안녕하세요 - 4', nowTime, 4),
+  createData('5', '안녕하세요 - 5', nowTime, 5),
 ];
 
 function BoardList() {
@@ -88,6 +67,11 @@ function BoardList() {
     []
   );
 
+  const onClickCreateInqury = useCallback(() => {
+    console.log('문의작성');
+    navigate(`/mypage/${userId}/inqury`);
+  }, []);
+
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <Box
@@ -101,7 +85,9 @@ function BoardList() {
         }}
       >
         <Stack spacing={2} direction="row">
-          <Button variant="contained">문의 작성</Button>
+          <Button onClick={onClickCreateInqury} variant="contained">
+            문의 작성
+          </Button>
         </Stack>
       </Box>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -124,7 +110,7 @@ function BoardList() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (

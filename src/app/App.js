@@ -8,6 +8,7 @@ import MyPage from '../features/mypage/MyPage';
 import FollowersList from '../features/mypage/Follow/FollowersList';
 import FollowingsList from '../features/mypage/Follow/FollowingsList';
 import BoardListItem from '../features/mypage/Board/BoardListItem';
+import BoardForm from '../features/mypage/Board/BoardForm';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           path="mypage/:id/BoardList/:PostId"
           element={<BoardListItem />}
         />
+        <Route Route path="mypage/:id/inqury" element={<BoardForm />} />
       </Routes>
     </BrowserRouter>
   );

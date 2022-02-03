@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import ToDo from './ToDo';
-import { add } from './todoSlice';
+import ToDo from '../ToDo';
+import { add } from '../todoSlice';
 
 function Home() {
   // 여기서 props받아서 이제 이 안에서 데이터를 쓸 수 있는 것!
@@ -12,7 +12,7 @@ function Home() {
   function onChange(e) {
     setText(e.target.value);
   }
-  // 643644630324
+
   function onSubmit(e) {
     e.preventDefault();
     dispatch(add(text));

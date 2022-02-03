@@ -6,16 +6,16 @@ import { useParams } from 'react-router';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import TabPanel from './TabPanel';
+import TabPanel from '../TabPanel';
 
 // component
-import CurationCard from '../Card/CurationCard';
-import BoardList from '../Board/BoardList';
+import CurationCard from '../../Card/CurationCard';
+import BoardList from '../../Board/BoardList';
 
-function a11yProps(index) {
+function a11yProps(idx) {
   return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    id: `simple-tab-${idx}`,
+    'aria-controls': `simple-tabpanel-${idx}`,
   };
 }
 

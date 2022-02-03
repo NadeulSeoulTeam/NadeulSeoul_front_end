@@ -11,8 +11,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Typography from '@mui/material/Typography';
 
 // components
-import FollowButton from '../Follow/FollowButton';
-import StatusUser from '../Follow/StatusUser';
+import FollowButton from '../../Follow/FollowButton';
+import StatusUser from '../../Follow/StatusUser';
 
 function ProfileCard() {
   const { userInfo } = useSelector((state) => state.mypage);

@@ -27,7 +27,7 @@ function CurationCard({ imgUrl }) {
           <Typography gutterBottom variant="h5" component="div">
             코스
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" component="div">
             test
           </Typography>
         </CardContent>
