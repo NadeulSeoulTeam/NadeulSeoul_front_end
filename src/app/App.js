@@ -21,7 +21,7 @@ function App() {
         <Route path="/naverlogin" element={<NaverLogin />} />
         <Route path="/mypage" element={<MyPage />} />
         {/* login 파일 통일 필요 */}
-        <Route path="/googlelogin" element={<GoogleLogin />} />
+        <Route path="/member/signin" element={<GoogleLogin />} />
         <Route path="/auth/naver/callback/" element={<NaverLoginCallback />} />
         <Route path="/auth/google/callback" element={<GoogleLoginCallback />} />
         <Route path="/Course" element={<Course />} />
