@@ -13,7 +13,7 @@ import GoogleLoginCallback from '../features/Auth/Google/GoogleLoginCallback';
 import Error404 from '../common/error/Error404';
 import Course from '../features/CourseMake/Course';
 import CourseCreationForm from '../features/CourseMake/CourseCreationForm';
-import CourseView from '../features/CourseView/CourseView';
+import CourseView from '../features/CourseView';
 
 function App() {
   return (

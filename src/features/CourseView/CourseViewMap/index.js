@@ -17,9 +17,8 @@ import {
   // moveToList,
   // getClicked,
   setClicked,
-} from './CourseViewSlice';
+} from '../CourseViewSlice';
 // styled-component
-import './CourseView.css';
 
 import {
   addMarker,
@@ -28,9 +27,9 @@ import {
   setPolyline,
 } from './CourseViewMarker';
 
-import CourseViewCart from './CourseViewCart';
+import CourseViewCart from '../CourseViewCart';
 // dummy data
-import testdata from './testdata';
+import testdata from '../testdata';
 
 const Map = styled.div`
   opacity: ${(props) => (props.clicked === undefined ? 1 : 0.7)};
@@ -193,9 +192,9 @@ function CourseViewMap() {
           width: '100%',
           height: '700px',
         }}
-      />
-
-      {clickRender(clickedMarkerInfo)}
+      >
+        {clickRender(clickedMarkerInfo)}
+      </Map>
     </div>
   );
 }
