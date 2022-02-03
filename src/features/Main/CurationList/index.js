@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import CurationGrid from './CurationListStyle';
+import CurationGrid from './styles';
 // import Grid from '@mui/material/Grid';
 
-import CurationListItem from './CurationListItem';
+import CurationListItem from '../CurationListItem';
 
 function CurationList() {
   const scrollRef = useRef(null);

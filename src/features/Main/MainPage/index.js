@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { StylesProvider } from '@material-ui/core/styles';
 
 // components
-import TagList from './TagList';
-import UserList from './UserList';
-import CurationList from './CurationList';
-import SearchBar from '../../common/SearchBar/SearchBar';
+import TagList from '../TagList';
+import UserList from '../UserList';
+import CurationList from '../CurationList';
+import SearchBar from '../../../common/SearchBar';
 
 // custom style
 import {
@@ -17,7 +17,7 @@ import {
   SubTitle,
   SampleTags,
   TagOpener,
-} from './MainPageStyle';
+} from './styles';
 
 function MainPage() {
   const [open, setOpen] = useState(false);

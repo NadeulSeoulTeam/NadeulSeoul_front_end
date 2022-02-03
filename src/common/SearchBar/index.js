@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { StylesProvider } from '@material-ui/core/styles';
-import { Wrapper, SearchBase, SearchInput, SearchBtn } from './SearchBarStyle';
+import { Wrapper, SearchBase, SearchInput, SearchBtn } from './styles';
 
 function SearchBar() {
   return (

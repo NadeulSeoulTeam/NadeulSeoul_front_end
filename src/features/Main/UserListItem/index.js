@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 
 // custom style
-import { Wrapper, UserEmoji, UserName } from './UserListItemStyle';
+import { Wrapper, UserEmoji, UserName } from './styles';
 
 // action
 // import { select } from './MainSlice';

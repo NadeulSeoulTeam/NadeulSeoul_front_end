@@ -3,15 +3,10 @@ import { useDispatch } from 'react-redux';
 // import { Link } from 'react-router-dom';
 
 // custom style
-import {
-  Wrapper,
-  CurationImage,
-  LikeChip,
-  CurationTitle,
-} from './CurationListItemStyle';
+import { Wrapper, CurationImage, LikeChip, CurationTitle } from './styles';
 
 // action
-import { select } from './MainSlice';
+import { select } from '../MainSlice';
 
 function CurationListItem({ curation }) {
   const dispatch = useDispatch();

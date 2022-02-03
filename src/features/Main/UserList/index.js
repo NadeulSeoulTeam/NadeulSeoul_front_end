@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import Grid from '@mui/material/Grid';
 
-import UserListItem from './UserListItem';
+import UserListItem from '../UserListItem';
 
 function UserList() {
   const userList = useSelector((state) => state.mainReducer.users);
