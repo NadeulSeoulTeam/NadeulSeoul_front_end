@@ -7,6 +7,7 @@ import Container from './AppStyle';
 
 // features
 import SignIn from '../features/Auth/SignIn';
+import UserForm from '../features/Auth/UserForm';
 import NaverLogin from '../features/Auth/Naver/NaverLogin';
 // import GoogleLogin from '../features/Auth/Google/GoogleLogin';
 import NaverLoginCallback from '../features/Auth/Naver/NaverLoginCallback';
@@ -29,6 +30,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           {/* login 파일 통일 필요 */}
           <Route path="/member/signin" element={<SignIn />} />
+          <Route path="/member/signup" element={<UserForm />} />
           <Route
             path="/auth/naver/callback/"
             element={<NaverLoginCallback />}

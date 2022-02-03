@@ -6,6 +6,7 @@ const Container = styled.div`
   margin: 0;
   background-color: #e5e5e5;
   font-family: 'Suit';
+  color: #222222;
 `;
 
 export default Container;
