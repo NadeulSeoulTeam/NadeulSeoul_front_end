@@ -2,7 +2,7 @@ import React from 'react';
 import CourseCart from './CourseCart';
 import CourseMap from './CourseMap';
 import CourseSearch from './CourseSearch';
-import CourseList from './CourseList';
+import CourseList from './CourseList/CourseList';
 
 function Course() {
   return (
