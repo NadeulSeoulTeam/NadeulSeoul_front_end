@@ -18,7 +18,7 @@ import Stack from '@mui/material/Stack';
 import ProfileCard from '../../Card/ProfileCard';
 
 // actions
-import { addPost } from '../../mypageSlice';
+import { addPost } from '../../MyPageSlice';
 
 function BoardForm() {
   const [title, setTitle] = useState();

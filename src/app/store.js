@@ -1,12 +1,16 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import MyPageReducer from '../features/mypage/mypageSlice';
-import TodoReducer from '../features/test_todo/todoSlice';
+import AuthReducer from '../features/Auth/AuthSlice';
+import MyPageReducer from '../features/MyPage/MyPageSlice';
+import CourseReducer from '../features/CourseMake/CourseSlice';
+import CourseViewReducer from '../features/CourseView/CourseViewSlice';
 
 const rootReducer = combineReducers({
+  auth: AuthReducer,
   mypage: MyPageReducer,
-  todo: TodoReducer,
+  course: CourseReducer,
+  courseView: CourseViewReducer,
 });
+
 const store = configureStore({ reducer: rootReducer });
-// The store now has redux-thunk added and the Redux DevTools Extension is turned on
 
 export default store;

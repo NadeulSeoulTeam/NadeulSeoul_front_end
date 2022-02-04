@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
 // actions
-import { follow, unfollow } from '../../mypageSlice';
+import { follow, unfollow } from '../../MyPageSlice';
 
 function FollowButton({ UserId }) {
   // 구현 해야 하는 것

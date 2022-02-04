@@ -18,7 +18,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 // actions
-import { loadBoardList } from '../../mypageSlice';
+import { loadBoardList } from '../../MyPageSlice';
 
 // title, id, date(작성 시간) 3개만 프로필에 표시하면 된다.
 const columns = [
