@@ -5,16 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 // react-beautiful-dnd
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import { getCourse, updateCourse } from './CourseSlice';
+import { getCourse, updateCourse } from '../CourseSlice';
 
 // css
-import './Course.css';
+import '../Course.css';
 
 import CourseCreationModal from './CourseCreationModal';
 import CourseCreationFormCartListItem from './CourseCreationFormCartListItem';
 
 // JSON
-import tags from './tags';
+import tags from '../tags';
 
 function CourseCreactionForm() {
   const carts = useSelector(getCourse);

@@ -8,11 +8,15 @@ import {
   // moveToList,
   getClicked,
   setClicked,
-} from './CourseSlice';
+} from '../CourseSlice';
 
-import './Course.css';
+import '../Course.css';
 
-import { addMarker, setMarker, removeMarker } from './CourseMarker';
+import {
+  addMarker,
+  setMarker,
+  removeMarker,
+} from './CourseMarker/CourseMarker';
 
 function CourseMap() {
   // 뒤로 가기에 대한 처리

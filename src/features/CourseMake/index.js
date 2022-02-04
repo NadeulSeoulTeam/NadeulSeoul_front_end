@@ -1,10 +1,10 @@
 import React from 'react';
 import CourseCart from './CourseCart';
 import CourseMap from './CourseMap';
-import CourseSearch from './CourseSearch';
-import CourseList from './CourseList/CourseList';
+import CourseSearch from './CourseSearch/CourseSearch';
+import CourseList from './CourseList';
 
-function Course() {
+function CourseMake() {
   return (
     <div>
       <CourseMap />
@@ -15,4 +15,4 @@ function Course() {
   );
 }
 
-export default Course;
+export default CourseMake;

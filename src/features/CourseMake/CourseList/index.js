@@ -13,8 +13,8 @@ import {
   moveToList,
   setClicked,
 } from '../CourseSlice';
-import CourseListItem from '../CourseListItem';
-import { ArrowBack, ArrowForward } from './styles';
+import CourseListItem from './CourseListItem';
+import { ArrowBack, ArrowForward, List } from './styles';
 
 function CourseList() {
   const [scrollClick, setScrollClick] = useState(false);
@@ -75,9 +75,7 @@ function CourseList() {
   return (
     <div>
       {searchData.length !== 0 && <ArrowBack onClick={() => scroll(-1175)} />}
-      <div className="list" ref={scrollRef}>
-        {mapToComponent(searchData)}
-      </div>
+      <List ref={scrollRef}>{mapToComponent(searchData)}</List>
       {searchData.length !== 0 && <ArrowForward onClick={() => scroll(1175)} />}
     </div>
   );

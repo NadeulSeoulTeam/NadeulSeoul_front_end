@@ -17,7 +17,7 @@ import MyPage from '../features/MyPage/MyPage';
 // Common
 import Error404 from '../common/error/Error404';
 // import BasicTabs from '../features/mypage/BasicTabs';
-import Course from '../features/CourseMake/Course';
+import CourseMake from '../features/CourseMake/index';
 import CourseCreationForm from '../features/CourseMake/CourseCreationForm';
 import CourseView from '../features/CourseView';
 import FollowersList from '../features/MyPage/Follow/FollowersList';
@@ -57,7 +57,7 @@ function App() {
             element={<NaverLoginCallback />}
           />
           {/* <Route path="/auth/google/callback" element={<GoogleLoginCallback />} /> */}
-          <Route path="/Course" element={<Course />} />
+          <Route path="/CourseMake" element={<CourseMake />} />
           <Route path="/CourseView" element={<CourseView />} />
           <Route path="/CourseCreationForm" element={<CourseCreationForm />} />
           <Route path="*" element={<Error404 />} />
