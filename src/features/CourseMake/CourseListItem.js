@@ -14,7 +14,7 @@ function CourseListItem({ addToCart, search }) {
   }, []);
 
   return (
-    <div>
+    <div className="item">
       <Card sx={{ minWidth: 275 }} onClick={() => addToCart(search)}>
         <CardContent>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">

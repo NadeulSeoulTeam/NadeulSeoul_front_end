@@ -31,9 +31,7 @@ import CourseViewCart from '../CourseViewCart';
 // dummy data
 import testdata from '../testdata';
 
-const Map = styled.div`
-  opacity: ${(props) => (props.clicked === undefined ? 1 : 0.7)};
-`;
+import { Map } from './styles';
 
 const Cart = styled.div`
   position: absolute;
@@ -190,11 +188,10 @@ function CourseViewMap() {
         id="map"
         style={{
           width: '100%',
-          height: '700px',
+          height: '730px',
         }}
-      >
-        {clickRender(clickedMarkerInfo)}
-      </Map>
+      />
+      {clickRender(clickedMarkerInfo)}
     </div>
   );
 }

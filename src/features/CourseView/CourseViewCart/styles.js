@@ -14,7 +14,7 @@ export const CourseCart = styled.div`
     '  .     .      .        .    '
     '  .     .      .        .    '
     'userComment userComment userComment userComment';
-  grid-auto-rows: minmax(30px, auto);
+  grid-auto-rows: minmax(0px, auto);
 `;
 
 export const UserComment = styled.div`
