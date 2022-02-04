@@ -8,6 +8,10 @@ import _find from 'lodash/find';
 // 이모지 필요
 // 내 나들코스, 찜한 나들 코스, 찜한 장소 더미 데이터 만들기
 
+// 문의 게시판 createData
+function createData(id, title, date) {
+  return { id, title, date };
+}
 export const User = [
   {
     id: 1,
@@ -249,7 +253,7 @@ export const addPost = createAsyncThunk(
 // 문의 게시판 게시글 수정
 
 export const updatePost = createAsyncThunk(
-  'mypage/addPost',
+  'mypage/updatePost',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.put('백엔드 주소', data);
@@ -454,7 +458,14 @@ const mypageSlice = createSlice({
     [loadBoardList.fulfilled]: (state, action) => {
       state.loadPostsLoading = false;
       state.loadPostsDone = true;
-      state.mainPosts = _concat(state.mainPosts, action.payload);
+      state.mainPosts = _concat(
+        state.mainPosts,
+        createData(
+          action.payload.question_seq,
+          action.payload.question_title,
+          action.payload.question_date
+        )
+      );
     },
     [loadBoardList.rejected]: (state, action) => {
       state.loadPostsLoading = false;

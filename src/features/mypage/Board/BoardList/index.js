@@ -1,7 +1,8 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
 
 // mui
 import Paper from '@mui/material/Paper';
@@ -16,10 +17,13 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
+// actions
+import { loadBoardList } from '../../mypageSlice';
+
 // title, id, date(작성 시간) 3개만 프로필에 표시하면 된다.
 const columns = [
   { id: 'id', label: 'No', minWidth: 100 },
-  { id: 'title', label: 'Tile', minWidth: 170 },
+  { id: 'title', label: 'Title', minWidth: 170 },
   {
     id: 'date',
     label: 'Date',
@@ -28,23 +32,29 @@ const columns = [
   },
 ];
 
-function createData(id, title, date, PostId) {
-  return { id, title, date, PostId };
+// 서버 연결시 삭제 필요
+function createData(id, title, date) {
+  return { id, title, date };
 }
 // 들어오는 날짜 데이터를 처리
 const nowTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
+// 서버 연결하면 삭제 필요
 const rows = [
-  createData('1', '안녕하세요 - 1', nowTime, 1),
-  createData('2', '안녕하세요 - 2', nowTime, 2),
-  createData('3', '안녕하세요 - 3', nowTime, 3),
-  createData('4', '안녕하세요 - 4', nowTime, 4),
-  createData('5', '안녕하세요 - 5', nowTime, 5),
+  createData('1', '안녕하세요 - 1', nowTime),
+  createData('2', '안녕하세요 - 2', nowTime),
+  createData('3', '안녕하세요 - 3', nowTime),
+  createData('4', '안녕하세요 - 4', nowTime),
+  createData('5', '안녕하세요 - 5', nowTime),
 ];
 
 function BoardList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const dispatch = useDispatch();
+  const myId = useParams().id;
+  // 서버 연결시 rows 대신에 mainPosts에 연결하면 됨
+  // const { mainPosts } = useSelector((state) => state.mypage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -70,6 +80,14 @@ function BoardList() {
   const onClickCreateInqury = useCallback(() => {
     console.log('문의작성');
     navigate(`/mypage/${userId}/inqury`);
+  }, []);
+
+  useEffect(() => {
+    dispatch(
+      loadBoardList({
+        member_id: myId,
+      })
+    );
   }, []);
 
   return (
@@ -115,7 +133,7 @@ function BoardList() {
                       const value = row[column.id];
                       return (
                         <TableCell
-                          onClick={onClick(row.PostId)}
+                          onClick={onClick(row.id)}
                           key={column.id}
                           align={column.align}
                         >
