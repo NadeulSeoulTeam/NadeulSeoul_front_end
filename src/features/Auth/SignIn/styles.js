@@ -9,7 +9,7 @@ export const Container = styled.div`
 export const MainTitle = styled.h1`
   font-family: 'Hahmlet';
   font-size: 48px;
-  color: #68c78e;
+  color: #0de073;
   padding: 25vh 0 10vh 0;
   margin: 0;
 `;
