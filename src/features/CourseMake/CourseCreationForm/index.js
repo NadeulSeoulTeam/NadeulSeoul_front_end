@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,13 +9,36 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { getCourse, updateCourse } from '../CourseSlice';
 
 // css
-import '../Course.css';
 
-import CourseCreationModal from './CourseCreationModal';
-import CourseCreationFormCartListItem from './CourseCreationFormCartListItem';
+import CourseCreationModal from './CourseCreationModal/CourseCreationModal';
+import CourseCreationFormCartListItem from './CourseCreationFormCartListItem/CourseCreationFormCartListItem';
 
 // JSON
 import tags from '../tags';
+
+// css
+import {
+  CourseForm,
+  CourseHeader,
+  CourseName,
+  CourseNameContent,
+  RouteList,
+  RouteEdit,
+  CourseDes,
+  CourseDesContent,
+  FixdedMember,
+  FixedMemberContent,
+  Budget,
+  BudgetInput,
+  Transportation,
+  TransportationTag,
+  Local,
+  LocalTag,
+  Theme,
+  ThemeTag,
+  CourseCreateButton,
+  ButtonToggle,
+} from './styles';
 
 function CourseCreactionForm() {
   const carts = useSelector(getCourse);
@@ -30,7 +54,7 @@ function CourseCreactionForm() {
   // 지역 태그 선택 boolean
   // eslint-disable-next-line no-unused-vars
   const [localClicked, setLocalClicked] = useState();
-  const [transportationClicked, setTransportationClicked] = useState();
+  const [transportationClicked, setTransportationClicked] = useState({});
   // modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -62,7 +86,6 @@ function CourseCreactionForm() {
   };
 
   const makeTransportationTag = (e) => {
-    console.log(e.target.id, '찾자');
     if (transportationClicked[e.target.id])
       transportationClicked[e.target.id] = false;
     else transportationClicked[e.target.id] = true;
@@ -74,12 +97,11 @@ function CourseCreactionForm() {
     const transportationTags = {};
     // eslint-disable-next-line no-return-assign
     tags.transportation.map((transportation) =>
-      Object.assign(transportationTags, {
+      Object.assign(transportationClicked, {
         [Object.keys(transportation)]: false,
       })
     );
-    console.log(transportationTags);
-    setTransportationClicked(transportationTags);
+    setTransportationClicked(transportationClicked);
   };
 
   useEffect(() => {
@@ -91,6 +113,10 @@ function CourseCreactionForm() {
   useEffect(() => {
     console.log(courseInfo, 'courseInfo');
   }, [courseInfo]);
+
+  useEffect(() => {
+    console.log(transportationClicked, 'transportationClicked');
+  }, [transportationClicked]);
 
   const sendCourse = () => {
     handleOpen();
@@ -160,7 +186,8 @@ function CourseCreactionForm() {
 
   const mapToComponentTransportationTags = (data) => {
     return data.transportation.map((transportation) => (
-      <input
+      <ButtonToggle
+        active
         type="button"
         onClick={makeTransportationTag}
         id={Object.keys(transportation)}
@@ -195,84 +222,74 @@ function CourseCreactionForm() {
   };
 
   return (
-    <div>
-      <h3>나만의 코스 만들기</h3>
-      <div className="course_name">
-        <p>*코스 이름</p>
-        <input
-          onChange={onChange}
-          type="text"
-          id="courseName"
-          name="courseName"
-        />
-      </div>
-      <div className="course_route">
-        <p>루트 편집</p>
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="cart">
-            {(provided) => (
-              <ul
-                className="characters"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {mapToComponent()}
-                {provided.placeholder}
-              </ul>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
-      <div className="course_explain">
-        <p>코스 설명</p>
-        <input
-          onChange={onChange}
-          type="text"
-          id="courseExplain"
-          name="courseExplain"
-        />
-      </div>
-      <div className="fixed_number">
-        <p>함께한 인원</p>
-        <input
-          onChange={onChange}
-          onInput={onInput}
-          type="text"
-          id="fixedNumber"
-          name="fixedNumber"
-        />
-      </div>
-      <div className="budget">
-        <p>예산</p>
-        <input
-          onChange={onChange}
-          onInput={onInput}
-          type="text"
-          id="budget"
-          name="budget"
-        />
-      </div>
-      <div className="transportation_type">
-        <p>교통수단</p>
+    <CourseForm>
+      <CourseHeader>나만의 코스 만들기</CourseHeader>
+
+      <CourseName>
+        <span style={{ color: '#68c78e' }}>*</span>코스 이름
+      </CourseName>
+      <CourseNameContent
+        onChange={onChange}
+        type="text"
+        id="courseName"
+        name="courseName"
+      />
+      <RouteEdit>루트 편집</RouteEdit>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="cart">
+          {(provided) => (
+            <RouteList
+              className="characters"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {mapToComponent()}
+              {provided.placeholder}
+            </RouteList>
+          )}
+        </Droppable>
+      </DragDropContext>
+      <CourseDes>코스 설명</CourseDes>
+      <CourseDesContent
+        onChange={onChange}
+        type="text"
+        id="courseExplain"
+        name="courseExplain"
+      />
+      <FixdedMember>함께한 인원</FixdedMember>
+      <FixedMemberContent
+        onChange={onChange}
+        onInput={onInput}
+        type="text"
+        id="fixedNumber"
+        name="fixedNumber"
+      />
+      <Budget>예산</Budget>
+      <BudgetInput
+        onChange={onChange}
+        onInput={onInput}
+        type="text"
+        id="budget"
+        name="budget"
+      />
+      <Transportation>교통수단</Transportation>
+      <TransportationTag>
         {mapToComponentTransportationTags(tags)}
-      </div>
-      <div className="region_tag">
-        <p>지역 태그</p>
-        {mapToComponentLocalTags(localClicked)}
-      </div>
-      <div className="theme_tag">
-        <p>테마 태그</p>
-        <input type="button" id="themeTag" name="themeTag" />
-      </div>
-      <button type="submit" onClick={sendCourse}>
+      </TransportationTag>
+      <Local>지역 태그</Local>
+      <LocalTag>{mapToComponentLocalTags(localClicked)}</LocalTag>
+
+      <Theme>테마 태그</Theme>
+      <ThemeTag type="button" id="themeTag" name="themeTag" />
+      <CourseCreateButton type="submit" onClick={sendCourse}>
         이대로 코스 생성하기
-      </button>
+      </CourseCreateButton>
       <CourseCreationModal
         sendFinalCourseInfo={sendFinalCourseInfo}
         handleClose={handleClose}
         open={open}
       />
-    </div>
+    </CourseForm>
   );
 }
 
