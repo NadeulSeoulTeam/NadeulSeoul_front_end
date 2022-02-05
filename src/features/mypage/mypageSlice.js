@@ -4,6 +4,10 @@ import _concat from 'lodash/concat';
 import _remove from 'lodash/remove';
 import _find from 'lodash/find';
 
+// dummy data for 인피니티 스크롤
+
+import shortId from 'shortid';
+
 // dummy data for header part
 // 이모지 필요
 // 내 나들코스, 찜한 나들 코스, 찜한 장소 더미 데이터 만들기
@@ -12,6 +16,16 @@ import _find from 'lodash/find';
 function createData(id, title, date) {
   return { id, title, date };
 }
+const randomNum = Math.random() * 5;
+const randomNumFloor = Math.floor(randomNum);
+export const generateDummyCard = (number) =>
+  Array(number)
+    .fill()
+    .map(() => ({
+      myNadlecourseId: shortId.generate(),
+      imgUrl: `https://picsum.photos/200/300?random=${randomNumFloor}`,
+    }));
+
 export const User = [
   {
     id: 1,
@@ -25,6 +39,34 @@ export const User = [
       { myNadlecourseId: 7, imgUrl: 'https://picsum.photos/200/300?random=7' },
       { myNadlecourseId: 8, imgUrl: 'https://picsum.photos/200/300?random=8' },
       { myNadlecourseId: 9, imgUrl: 'https://picsum.photos/200/300?random=9' },
+      {
+        myNadlecourseId: 10,
+        imgUrl: 'https://picsum.photos/200/300?random=10',
+      },
+      {
+        myNadlecourseId: 11,
+        imgUrl: 'https://picsum.photos/200/300?random=11',
+      },
+      {
+        myNadlecourseId: 12,
+        imgUrl: 'https://picsum.photos/200/300?random=12',
+      },
+      {
+        myNadlecourseId: 13,
+        imgUrl: 'https://picsum.photos/200/300?random=13',
+      },
+      {
+        myNadlecourseId: 14,
+        imgUrl: 'https://picsum.photos/200/300?random=14',
+      },
+      {
+        myNadlecourseId: 15,
+        imgUrl: 'https://picsum.photos/200/300?random=15',
+      },
+      {
+        myNadlecourseId: 16,
+        imgUrl: 'https://picsum.photos/200/300?random=16',
+      },
     ],
     likePlace: [
       { likePlaceId: 1, imgUrl: 'https://picsum.photos/200/300?random=9' },
@@ -123,25 +165,31 @@ export const FollowList = [
   },
 ];
 
-// 문의 게시판 목록
-
-export const BoardList = {
-  question_seq: '1',
-  question_title: '안녕하세요. 관리자님 나들서울 잘 쓰고 있습니다.',
-  question_date: Date.now(),
-};
-
 // 문의 게시판 상세내용
 
 export const BoardListItem = {
   question_seq: '1',
   member_seq: '1',
   question_title: '안녕하세요. 관리자님 나들서울 잘 쓰고 있습니다.',
-  question_content: '늘 잘 사용하고 있습니다. ',
+  question_content: '늘 잘 사용하고 있습니다. 너무 행복합니다 ',
   question_date: Date.now(),
   answer: '네 감사합니다 사용자님',
   answer_date: '2022, 0202',
 };
+
+// 인피니티 스크롤 test
+
+export const loadPostsInfinity = createAsyncThunk(
+  'mypage/loadPostsInfinity',
+  async (data, { rejectWithValue }) => {
+    try {
+      // const response = await axios.get("백엔드 주소");
+      return generateDummyCard(8);
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
 
 // 유저정보 조회
 export const loadUser = createAsyncThunk(
@@ -200,7 +248,7 @@ export const unfollow = createAsyncThunk(
   'mypage/unfollow',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete('백앤드 주소');
+      const response = await axios.delete('백엔드주소', data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -311,7 +359,7 @@ export const removeAnswer = createAsyncThunk(
   'mypage/removeAnswer',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete('백엔드 주소', data);
+      const response = await axios.delete(`백엔드 주소/${data.PostId}`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -320,11 +368,19 @@ export const removeAnswer = createAsyncThunk(
 );
 
 // 기본 state
-
+// 서버 연결하면 기존의 dummydate 연결 풀어야 함
 export const initialState = {
   userInfo: User, // 내 정보
+  InfinityPosts: [], // test infinity scroll
+  loadInfinityPostsLoading: false,
+  loadInfinityPostsDone: false,
+  loadInfinityPostsError: null,
+  hasMorePosts: true,
   FollowInfo: FollowList, // 팔로잉, 팔로워 정보
+  inqueryBack: 0, // 문의게시판 돌아가기 flag
   mainPosts: [], // 문의게시판 목록
+  singlePost: BoardListItem, // 문의 게시판 상세 정보
+  PostId: null, // 문의게시판 삭제 postId
   loadUserLoading: false, // mypage haeder 정보 조회 시도
   loadUserDone: false,
   loadUserError: null,
@@ -363,11 +419,33 @@ export const initialState = {
   removeAnswerError: null,
 };
 
-const mypageSlice = createSlice({
+const MyPageSlice = createSlice({
   name: 'mypage',
   initialState,
-  reducers: {},
+  reducers: {
+    gobackToInquery(state, action) {
+      state.inqueryBack = action.payload;
+    },
+    postIdToListItem(state, action) {
+      state.PostId = action.payload;
+    },
+  },
   extraReducers: {
+    [loadPostsInfinity.pending]: (state) => {
+      state.loadInfinityPostsLoading = true;
+      state.loadInfinityPostsDone = false;
+      state.loadInfinityPostsError = null;
+    },
+    [loadPostsInfinity.fulfilled]: (state, action) => {
+      state.loadInfinityPostsLoading = false;
+      state.loadInfinityPostsDone = true;
+      state.InfinityPosts = _concat(state.InfinityPosts, action.payload);
+      state.hasMorePosts = action.payload.length === 8;
+    },
+    [loadPostsInfinity.rejected]: (state, action) => {
+      state.loadInfinityPostsLoading = false;
+      state.loadInfinityPostsError = action.error.message;
+    },
     // 유저 정보 조회
     [loadUser.pending]: (state) => {
       state.loadUserLoading = true;
@@ -472,17 +550,17 @@ const mypageSlice = createSlice({
       state.loadPostsError = action.error.message;
     },
     // 문의 게시판 상세 정보 request
-    [loadBoardList.pending]: (state) => {
+    [loadBoardListItem.pending]: (state) => {
       state.loadPostsLoading = true;
       state.loadPostsDone = false;
       state.loadPostsError = null;
     },
-    [loadBoardList.fulfilled]: (state, action) => {
+    [loadBoardListItem.fulfilled]: (state, action) => {
       state.loadPostsLoading = false;
       state.loadPostsDone = true;
       state.singlePost = action.payload;
     },
-    [loadBoardList.rejected]: (state, action) => {
+    [loadBoardListItem.rejected]: (state, action) => {
       state.loadPostsLoading = false;
       state.loadPostsError = action.error.message;
     },
@@ -588,4 +666,5 @@ const mypageSlice = createSlice({
     },
   },
 });
-export default mypageSlice.reducer;
+export const { gobackToInquery, postIdToListItem } = MyPageSlice.actions;
+export default MyPageSlice.reducer;

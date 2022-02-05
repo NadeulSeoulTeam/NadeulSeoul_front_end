@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
@@ -18,12 +17,11 @@ import Stack from '@mui/material/Stack';
 import ProfileCard from '../../Card/ProfileCard';
 
 // actions
-import { addPost } from '../../MyPageSlice';
+import { addPost, gobackToInquery } from '../../MyPageSlice';
 
 function BoardForm() {
   const [title, setTitle] = useState();
   const [context, setContext] = useState();
-  const nowTime = moment().format('YYYY-MM-DD HH:mm:ss');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const myId = useParams().id;
@@ -45,6 +43,7 @@ function BoardForm() {
   );
 
   const onClickGoback = useCallback(() => {
+    dispatch(gobackToInquery(3));
     navigate(-1);
   }, []);
 
@@ -57,7 +56,6 @@ function BoardForm() {
       return alert('내용을 입력해주세요');
     }
     console.log(myId, typeof myId);
-    console.log(nowTime, typeof nowTime);
     console.log(context, typeof context);
     console.log(title, typeof title);
     dispatch(
@@ -65,14 +63,12 @@ function BoardForm() {
         member_seq: myId,
         question_title: title,
         question_content: context,
-        question_date: nowTime,
       })
       // 직렬화 여부
       // JSON.stringify({
       //   member_seq: myId,
       //   question_title: title,
       //   question_content: context,
-      //   question_date: nowTime,
       // })
     );
   });

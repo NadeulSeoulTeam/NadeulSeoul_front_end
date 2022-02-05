@@ -12,7 +12,7 @@ import NaverLogin from '../features/Auth/Naver/NaverLogin';
 // import GoogleLogin from '../features/Auth/Google/GoogleLogin';
 import NaverLoginCallback from '../features/Auth/Naver/NaverLoginCallback';
 // import GoogleLoginCallback from '../features/Auth/Google/GoogleLoginCallback';
-import MyPage from '../features/MyPage/MyPage';
+import MyPage from '../features/MyPage';
 
 // Common
 import Error404 from '../common/error/Error404';
