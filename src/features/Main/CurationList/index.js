@@ -50,7 +50,7 @@ function CurationList() {
   const onThrottleDragMove = throttle(onDragMove, 100);
 
   // 받아온 코스 list
-  const courseList = useSelector((state) => state.mainReducer.courses);
+  const courseList = useSelector((state) => state.main.courses);
 
   const mapToComponent = (data) => {
     console.log('CurationList');

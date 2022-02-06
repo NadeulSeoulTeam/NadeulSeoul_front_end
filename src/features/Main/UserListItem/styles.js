@@ -20,7 +20,7 @@ export const UserEmoji = styled(Avatar)`
 `;
 
 export const UserName = styled.p`
-  color: #68c78e;
+  color: #0de073;
   font-size: 1rem;
   margin: 10px 0;
 `;

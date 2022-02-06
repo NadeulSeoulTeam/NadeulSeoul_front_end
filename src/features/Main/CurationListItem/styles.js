@@ -20,7 +20,7 @@ export const CurationImage = styled.div`
 export const LikeChip = styled.div`
   font-size: 0.7rem;
   color: white;
-  background-color: #68c78e;
+  background-color: #0de073;
   border-radius: 20px;
   display: block;
   position: absolute;

@@ -1,0 +1,40 @@
+.map{
+    position: relative;
+    z-index: 1;
+}
+.cart{
+    position: absolute;
+    display: inline-block;
+    z-index: 2;
+    top: 100px;
+    left: 80%;
+}
+.search{
+    position: absolute;
+    z-index: 2;
+    top: 20px;
+    left: 35%;
+}
+.list{
+    width: 78%;
+    display: flex;
+    position: absolute;
+    z-index: 2;
+    top: 570px;
+    left: 10%;
+    overflow-x: auto;
+}
+.item{
+    margin: 10px;
+    
+}
+.arrow_forward{
+    z-index: 2;
+}
+.arrow_back{
+    z-index: 2;
+}
+.creation_cart{
+    display: inline-block;
+    grid-template-columns: repeat(5, 1fr);
+}

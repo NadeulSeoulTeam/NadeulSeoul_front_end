@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StylesProvider } from '@material-ui/core/styles';
+// import { StylesProvider } from '@material-ui/core/styles';
 
 // components
 import TagList from '../TagList';
@@ -26,7 +26,7 @@ function MainPage() {
   };
 
   return (
-    <StylesProvider injectFirst>
+    <div>
       <TopWrapper>
         <MainTitle>나들서울</MainTitle>
         <GreenBtn>현재 위치 기준으로 보기</GreenBtn>
@@ -47,7 +47,7 @@ function MainPage() {
         <UserList />
         <SubTitle>나들러들이 많이 찜한 장소</SubTitle>
       </BottomWrapper>
-    </StylesProvider>
+    </div>
   );
 }
 

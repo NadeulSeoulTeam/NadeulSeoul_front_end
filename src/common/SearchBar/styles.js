@@ -30,7 +30,7 @@ export const SearchInput = styled(InputBase)`
 
 export const SearchBtn = styled(SearchIcon)`
   && {
-    background-color: #68c78e;
+    background-color: #0de073;
     margin: 0 8px;
     padding: 5px;
     border-radius: 20px;

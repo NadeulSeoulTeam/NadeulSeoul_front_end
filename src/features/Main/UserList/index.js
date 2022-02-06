@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import UserListItem from '../UserListItem';
 
 function UserList() {
-  const userList = useSelector((state) => state.mainReducer.users);
+  const userList = useSelector((state) => state.main.users);
 
   const mapToComponent = (data) => {
     console.log('UserList');

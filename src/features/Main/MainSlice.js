@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const main = createSlice({
+const mainSlice = createSlice({
   name: 'mainReducer',
   initialState: {
     courses: [
@@ -34,9 +34,9 @@ const main = createSlice({
   },
 });
 
-export const { select } = main.actions;
+export const { select } = mainSlice.actions;
 
-export default main.reducer;
+export default mainSlice.reducer;
 
 // export const getCourses = (state) => state.main.courses;
 // export const getSelectedCourse = (state) => state.main.selectedCourse;

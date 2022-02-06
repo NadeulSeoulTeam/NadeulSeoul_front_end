@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 // mui
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
 export const TopWrapper = styled.div`
   padding: 100px 50px 0 50px;
@@ -15,27 +15,28 @@ export const MidWrapper = styled.div`
 
 export const BottomWrapper = styled.div`
   padding: 10px 50px 50px 50px;
-  background-color: #e5e5e5;
   text-align: start;
 `;
 
 export const MainTitle = styled.h1`
   font-family: 'Hahmlet';
   font-size: 48px;
-  color: #68c78e;
+  color: #0de073;
   margin: 0;
 `;
 
 export const GreenBtn = styled(Button)`
-  font-family: 'Suit';
-  font-weight: bold;
-  background-color: #68c78e;
-  margin: 20px;
-  padding: 8px 20px;
-  border-radius: 50px;
-  color: white;
-  cursor: pointer;
-  border: none;
+  && {
+    font-family: 'Suit';
+    font-weight: bold;
+    background-color: #0de073;
+    margin: 20px;
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    border: none;
+  }
 `;
 
 export const SubTitle = styled.p`
@@ -46,15 +47,17 @@ export const SubTitle = styled.p`
 `;
 
 export const SampleTags = styled(Button)`
-  font-family: 'Suit';
-  font-weight: bold;
-  background-color: transparent;
-  color: #68c78e;
-  border: solid 2px;
-  border-radius: 50px;
-  border-color: #68c78e;
-  padding: 2px 8px;
-  margin: 0 2px;
+  && {
+    font-family: 'Suit';
+    font-weight: bold;
+    background-color: transparent;
+    color: #0de073;
+    border: solid 2px;
+    border-radius: 50px;
+    border-color: #0de073;
+    padding: 2px 8px;
+    margin: 0 2px;
+  }
 `;
 
 export const TagOpener = styled.p`
