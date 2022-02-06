@@ -50,6 +50,9 @@ export const TextInput = styled(TextField)`
     &.Mui-focused > fieldset {
       border-color: #0de073;
     }
+    &.Mui-disabled > fieldset {
+      border-color: #0de073;
+    }
 `;
 
 // export const EmojiInput = styled(InputEmoji)`
