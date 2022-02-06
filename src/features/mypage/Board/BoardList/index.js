@@ -18,7 +18,11 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 // actions
-import { loadBoardList, postIdToListItem } from '../../MyPageSlice';
+import {
+  loadBoardList,
+  postIdToListItem,
+  UserIdToListIten,
+} from '../../MyPageSlice';
 
 // title, id, date(작성 시간) 3개만 프로필에 표시하면 된다.
 const columns = [
@@ -75,11 +79,14 @@ function BoardList() {
   const userId = params.id;
 
   // props로 안하고 dispatch로 postId보내자
+  // props로 안하고 dispatch로 UserId보내자
+
   const onClick = useCallback(
     (id) => () => {
       console.log('here');
       console.log(id);
       dispatch(postIdToListItem(id));
+      dispatch(UserIdToListIten(myId));
       navigate(`/mypage/${userId}/BoardList/${id}`);
     },
     []

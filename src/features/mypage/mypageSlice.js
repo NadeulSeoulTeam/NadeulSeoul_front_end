@@ -173,7 +173,7 @@ export const BoardListItem = {
   question_title: '안녕하세요. 관리자님 나들서울 잘 쓰고 있습니다.',
   question_content: '늘 잘 사용하고 있습니다. 너무 행복합니다 ',
   question_date: Date.now(),
-  answer: '네 감사합니다 사용자님',
+  answer: '앞으로도 잘 써주세영',
   answer_date: '2022, 0202',
 };
 
@@ -380,7 +380,8 @@ export const initialState = {
   inqueryBack: 0, // 문의게시판 돌아가기 flag
   mainPosts: [], // 문의게시판 목록
   singlePost: BoardListItem, // 문의 게시판 상세 정보
-  PostId: null, // 문의게시판 삭제 postId
+  PostId: null, // 문의게시판 postId
+  UserId: null, // 문의게시판 UserId
   loadUserLoading: false, // mypage haeder 정보 조회 시도
   loadUserDone: false,
   loadUserError: null,
@@ -428,6 +429,9 @@ const MyPageSlice = createSlice({
     },
     postIdToListItem(state, action) {
       state.PostId = action.payload;
+    },
+    UserIdToListIten(state, action) {
+      state.UserId = action.payload;
     },
   },
   extraReducers: {
@@ -666,5 +670,6 @@ const MyPageSlice = createSlice({
     },
   },
 });
-export const { gobackToInquery, postIdToListItem } = MyPageSlice.actions;
+export const { gobackToInquery, postIdToListItem, UserIdToListIten } =
+  MyPageSlice.actions;
 export default MyPageSlice.reducer;

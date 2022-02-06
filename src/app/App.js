@@ -31,8 +31,10 @@ function App() {
       <BrowserRouter>
         <GlobalFonts />
         <Routes>
+          {/* auth */}
           <Route path="/naverlogin" element={<NaverLogin />} />
           <Route Route path="/mypage/:id" element={<MyPage />} />
+          {/* mypage */}
           <Route
             Route
             path="/mypage/:id/followerslist"

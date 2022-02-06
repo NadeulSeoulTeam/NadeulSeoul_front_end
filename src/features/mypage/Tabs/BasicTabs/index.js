@@ -38,7 +38,7 @@ function BasicTabs() {
   const mypage = userInfo.filter((v) => {
     return v.id === parseInt(params.id, 10);
   })[0];
-  const myNadlecourseInfo = mypage.myNadlecourse;
+  // const myNadlecourseInfo = mypage.myNadlecourse;
   const likePlaceInfo = mypage.likePlace;
   const likeNadlecourseInfo = mypage.likeNadlecourse;
   const [value, setValue] = useState(inqueryBack);
@@ -49,7 +49,6 @@ function BasicTabs() {
     setValue(newValue);
   };
 
-  console.log(myNadlecourseInfo);
   const [isMyprofile, setIsMyprofile] = useState(true);
 
   const boardHandler = () => {
