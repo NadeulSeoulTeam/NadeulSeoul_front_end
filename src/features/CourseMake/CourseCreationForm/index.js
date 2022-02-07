@@ -92,7 +92,7 @@ function CourseCreactionForm() {
     }
   };
 
-  const testAxiosImage = async () => {
+  const testAxiosImage = () => {
     const formData = new FormData();
     for (let i = 0; i < images.length; i += 1) {
       formData.append('img', images[i]);
@@ -103,7 +103,7 @@ function CourseCreactionForm() {
     }
     // 파일 형식이 images[i] 객체로 담을 지 혹은 그 안의 file 객체를 담아줘야 하는지
     // 후자의 경우 images[i].file 로 formData에 append
-    // const response = await apiClient.post('/img/user_img', formData);
+    // const response = axios.post('/img/user_img', formData);
   };
 
   const makeLocalTag = (localClick) => {
