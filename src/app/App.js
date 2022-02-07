@@ -13,6 +13,7 @@ import NaverLogin from '../features/Auth/Naver/NaverLogin';
 import NaverLoginCallback from '../features/Auth/Naver/NaverLoginCallback';
 // import GoogleLoginCallback from '../features/Auth/Google/GoogleLoginCallback';
 import MyPage from '../features/MyPage/MyPage';
+import MainPage from '../features/Main/MainPage';
 
 // Common
 import Error404 from '../common/error/Error404';
@@ -31,6 +32,7 @@ function App() {
       <BrowserRouter>
         <GlobalFonts />
         <Routes>
+          <Route Route path="/main" element={<MainPage />} />
           <Route path="/naverlogin" element={<NaverLogin />} />
           <Route Route path="/mypage/:id" element={<MyPage />} />
           <Route
