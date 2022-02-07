@@ -12,18 +12,19 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { element } from 'prop-types';
 import ImageUploading from 'react-images-uploading';
 import { Axios } from 'axios';
+import ClearIcon from '@mui/icons-material/Clear';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import Pagination from 'react-js-pagination';
 import { getCourse, updateCourse } from '../CourseSlice';
 
 // css
 
 import CourseCreationModal from './CourseCreationModal/CourseCreationModal';
 import CourseCreationFormCartListItem from './CourseCreationFormCartListItem/CourseCreationFormCartListItem';
-
 // JSON
 import tags from '../tags';
 
 // Image
-
 // css
 import {
   CourseForm,
@@ -48,6 +49,8 @@ import {
   ButtonToggle,
   ImageUpload,
   ImageUploadContent,
+  ImageUploadPictureDiv,
+  ImageFunc,
 } from './styles';
 
 function CourseCreactionForm() {
@@ -94,7 +97,10 @@ function CourseCreactionForm() {
     for (let i = 0; i < images.length; i += 1) {
       formData.append('img', images[i]);
     }
-    console.log(formData);
+    // eslint-disable-next-line no-restricted-syntax
+    for (const value of formData.values()) {
+      console.log(value);
+    }
     // 파일 형식이 images[i] 객체로 담을 지 혹은 그 안의 file 객체를 담아줘야 하는지
     // 후자의 경우 images[i].file 로 formData에 append
     // const response = await apiClient.post('/img/user_img', formData);
@@ -358,14 +364,20 @@ function CourseCreactionForm() {
             dragProps,
           }) => (
             // write your building UI
-            <div>
+            <ImageUploadPictureDiv>
               {imageList.map((image, index) => (
                 <div key={index} className="image-item">
-                  <img src={image.data_url} alt="" width="100" />
-                  <div className="image-item__btn-wrapper">
-                    <button onClick={() => onImageUpdate(index)}>수정</button>
-                    <button onClick={() => onImageRemove(index)}>삭제</button>
-                  </div>
+                  <img src={image.data_url} alt="" width="300" />
+                  <ImageFunc>
+                    <BorderColorIcon
+                      color="primary"
+                      onClick={() => onImageUpdate(index)}
+                    />
+                    <ClearIcon
+                      color="primary"
+                      onClick={() => onImageRemove(index)}
+                    />
+                  </ImageFunc>
                 </div>
               ))}
               <button
@@ -374,13 +386,13 @@ function CourseCreactionForm() {
                 {...dragProps}
               >
                 사진추가
-              </button>{' '}
+              </button>
               <button onClick={onImageRemoveAll}>Remove all images</button>
-              <button onClick={testAxiosImage}>이미지 업로딩 테스트</button>
-            </div>
+            </ImageUploadPictureDiv>
           )}
         </ImageUploading>
       </ImageUploadContent>
+      <button onClick={testAxiosImage}>이미지 업로딩 테스트</button>
       <CourseCreateButton type="submit" onClick={sendCourse}>
         이대로 코스 생성하기
       </CourseCreateButton>

@@ -221,6 +221,12 @@ export const ImageUploadContent = styled.div`
     padding: 20px;
   }
 `;
+export const ImageUploadPictureDiv = styled.div`
+  display: flex;
+`;
+export const ImageFunc = styled.div`
+  float: right;
+`;
 export const CourseCreateButton = styled.div`
   grid-area: courseCreateButton;
   margin: 30px;
