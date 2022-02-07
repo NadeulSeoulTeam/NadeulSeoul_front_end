@@ -11,7 +11,6 @@ import TabPanel from '../TabPanel';
 
 // component
 import CurationCard from '../../Card/CurationCard';
-import BoardList from '../../Board/BoardList';
 
 // actions
 import { gobackToInquery, loadPostsInfinity } from '../../MyPageSlice';
@@ -49,20 +48,20 @@ function BasicTabs() {
     setValue(newValue);
   };
 
-  const [isMyprofile, setIsMyprofile] = useState(true);
+  // const [isMyprofile, setIsMyprofile] = useState(true);
 
-  const boardHandler = () => {
-    const me = userInfo[0].id; // 현재 meanstrike 로그인 했다고 가정
-    const Userid = parseInt(params.id, 10);
-    if (me === Userid) {
-      setIsMyprofile(true);
-    } else {
-      setIsMyprofile(false);
-    }
-  };
+  // const boardHandler = () => {
+  //   const me = userInfo[0].id; // 현재 meanstrike 로그인 했다고 가정
+  //   const Userid = parseInt(params.id, 10);
+  //   if (me === Userid) {
+  //     setIsMyprofile(true);
+  //   } else {
+  //     setIsMyprofile(false);
+  //   }
+  // };
 
   useEffect(() => {
-    boardHandler();
+    // boardHandler();
     dispatch(loadPostsInfinity());
     dispatch(gobackToInquery(0));
   }, []);
@@ -100,7 +99,6 @@ function BasicTabs() {
           <Tab label="내 나들코스" {...a11yProps(3)} />
           <Tab label="찜한 나들 코스" {...a11yProps(1)} />
           <Tab label="찜한 장소" {...a11yProps(2)} />
-          {isMyprofile && <Tab label="문의 게시판" {...a11yProps(0)} />}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -159,10 +157,6 @@ function BasicTabs() {
             <CurationCard key={i + v.likePlaceId} imgUrl={v.imgUrl} />
           ))}
         </Box>
-      </TabPanel>
-
-      <TabPanel value={value} index={3}>
-        <BoardList />
       </TabPanel>
     </Box>
   );

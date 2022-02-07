@@ -186,7 +186,7 @@ export const loadPostsInfinity = createAsyncThunk(
       // const response = await axios.get("백엔드 주소");
       return generateDummyCard(8);
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue(err.resonse.data);
     }
   }
 );
@@ -199,7 +199,7 @@ export const loadUser = createAsyncThunk(
       const response = await axios.get('벡엔드 주소');
       return response.data;
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue(err.resonse.data);
     }
   }
 );
@@ -212,7 +212,7 @@ export const loadFollowers = createAsyncThunk(
       const response = await axios.get('백엔드 주소');
       return response.data;
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue(err.resonse.data);
     }
   }
 );
@@ -225,7 +225,7 @@ export const loadFollowings = createAsyncThunk(
       const response = await axios.get('백엔드 주소');
       return response.data;
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue(err.resonse.data);
     }
   }
 );
@@ -382,7 +382,7 @@ export const initialState = {
   singlePost: BoardListItem, // 문의 게시판 상세 정보
   PostId: null, // 문의게시판 postId
   UserId: null, // 문의게시판 UserId
-  loadUserLoading: false, // mypage haeder 정보 조회 시도
+  loadUserLoading: false, // mypage 유저 정보 조회 시도
   loadUserDone: false,
   loadUserError: null,
   loadFollowingsLoading: false, // 팔로잉 목록 조회 시도
@@ -430,7 +430,7 @@ const MyPageSlice = createSlice({
     postIdToListItem(state, action) {
       state.PostId = action.payload;
     },
-    UserIdToListIten(state, action) {
+    UserIdToListItem(state, action) {
       state.UserId = action.payload;
     },
   },
@@ -670,6 +670,6 @@ const MyPageSlice = createSlice({
     },
   },
 });
-export const { gobackToInquery, postIdToListItem, UserIdToListIten } =
+export const { gobackToInquery, postIdToListItem, UserIdToListItem } =
   MyPageSlice.actions;
 export default MyPageSlice.reducer;

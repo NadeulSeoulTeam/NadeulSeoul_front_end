@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // mui
 import Paper from '@mui/material/Paper';
@@ -18,11 +18,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 // actions
-import {
-  loadBoardList,
-  postIdToListItem,
-  UserIdToListIten,
-} from '../../MyPageSlice';
+import { loadBoardList, postIdToListItem } from '../../MyPageSlice';
 
 // title, id, date(작성 시간) 3개만 프로필에 표시하면 된다.
 const columns = [
@@ -61,9 +57,9 @@ function BoardList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const dispatch = useDispatch();
-  const myId = useParams().id;
   // 서버 연결시 rows 대신에 mainPosts에 연결하면 됨
   // const { mainPosts } = useSelector((state) => state.mypage);
+  const { userInfo } = useSelector((state) => state.mypage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -79,15 +75,13 @@ function BoardList() {
   const userId = params.id;
 
   // props로 안하고 dispatch로 postId보내자
-  // props로 안하고 dispatch로 UserId보내자
 
   const onClick = useCallback(
     (id) => () => {
       console.log('here');
       console.log(id);
       dispatch(postIdToListItem(id));
-      dispatch(UserIdToListIten(myId));
-      navigate(`/mypage/${userId}/BoardList/${id}`);
+      navigate(`/questions/${id}`);
     },
     []
   );
@@ -100,13 +94,14 @@ function BoardList() {
   useEffect(() => {
     dispatch(
       loadBoardList({
-        member_id: myId,
+        member_id: userInfo.id,
       })
     );
   }, []);
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <h1>문의 게시판</h1>
       <Box
         sx={{
           display: 'flex',

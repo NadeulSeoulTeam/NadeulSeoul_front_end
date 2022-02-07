@@ -24,6 +24,7 @@ import FollowersList from '../features/MyPage/Follow/FollowersList';
 import FollowingsList from '../features/MyPage/Follow/FollowingsList';
 import BoardListItem from '../features/MyPage/Board/BoardListItem';
 import BoardForm from '../features/MyPage/Board/BoardForm';
+import BoardList from '../features/MyPage/Board/BoardList';
 
 function App() {
   return (
@@ -45,12 +46,20 @@ function App() {
             path="/mypage/:id/followee"
             element={<FollowingsList />}
           />
+          <Route Route path="/questions" element={<BoardList />} />
           <Route
+            Route
+            path="/questions/:QuestionId"
+            element={<BoardListItem />}
+          />
+          {/* 수정 필요(문의게시판 밖으로) */}
+          {/* <Route
             Route
             path="mypage/:id/BoardList/:PostId"
             element={<BoardListItem />}
-          />
+          /> */}
           <Route Route path="mypage/:id/inqury" element={<BoardForm />} />
+
           {/* login 파일 통일 필요 */}
           <Route path="/member/signin" element={<SignIn />} />
           <Route path="/member/signup" element={<UserForm />} />

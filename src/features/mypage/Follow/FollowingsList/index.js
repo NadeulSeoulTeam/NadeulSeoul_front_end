@@ -1,14 +1,15 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-// mui list
+import { toast } from 'react-toastify';
+
+// mui
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-// import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
@@ -18,8 +19,10 @@ import Button from '@mui/material/Button';
 // component
 import FollowButton from '../FollowButton';
 
-// mui
+// actions
+import { loadFollowings } from '../../MyPageSlice';
 
+// mui
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
@@ -27,6 +30,7 @@ const Demo = styled('div')(({ theme }) => ({
 function FollowingsList() {
   const { FollowInfo } = useSelector((state) => state.mypage);
   const params = useParams();
+  const dispatch = useDispatch();
   const FollowList = FollowInfo.filter((v) => {
     // console.log(typeof v.id);
     return v.id === parseInt(params.id, 10);
@@ -34,6 +38,17 @@ function FollowingsList() {
   const nickName = FollowList[0].nickname;
   const followingsList = FollowList[0].FollowingsList;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(loadFollowings(params.id))
+      .unwrap()
+      .then(() => {
+        toast.success('불러오기에 성공');
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }, []);
 
   const onClickGotoMypage = useCallback(
     (id) => () => {

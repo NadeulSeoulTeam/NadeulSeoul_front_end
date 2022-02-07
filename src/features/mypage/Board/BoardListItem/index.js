@@ -16,8 +16,6 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 
-import ProfileCard from '../../Card/ProfileCard';
-
 // actions
 
 import {
@@ -139,7 +137,6 @@ function BoardListItem() {
   }, [PostId]);
   return (
     <>
-      <ProfileCard />
       <h2>문의 게시글</h2>
       <h3>제목 : {singlePost.question_title} </h3>
 

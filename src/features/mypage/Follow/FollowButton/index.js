@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 // mui
 import Stack from '@mui/material/Stack';
@@ -53,15 +54,29 @@ function FollowButton({ UserId }) {
     if (isFollowing) {
       dispatch(
         unfollow({
-          id: UserId,
+          member_seq: UserId,
         })
-      );
+      )
+        .unwrap()
+        .then(() => {
+          toast.success('언팔로우 성공');
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
     } else {
       dispatch(
         follow({
-          id: UserId,
+          member_seq: UserId,
         })
-      );
+      )
+        .unwrap()
+        .then(() => {
+          toast.success('팔로우 성공');
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
     }
   }, [isFollowing]);
 
