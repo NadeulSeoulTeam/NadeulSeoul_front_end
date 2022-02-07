@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import Picker from 'emoji-picker-react';
+import { signup } from '../AuthSlice';
+// import 'emoji-mart/css/emoji-mart.css';
+// import { Picker } from 'emoji-mart';
 
 import {
   Container,
@@ -11,10 +14,11 @@ import {
   TextInput,
   GreenBtn,
   VerticalDiv,
-  // EmojiPicker,
+  EmojiPicker,
 } from './styles';
 
 function UserForm() {
+  const dispatch = useDispatch();
   const [nickname, setNickname] = useState('');
   const [emoji, setEmoji] = useState('');
 
@@ -23,10 +27,21 @@ function UserForm() {
     console.log(nickname);
   };
 
-  const onEmojiClick = (event, emojiObject) => {
-    console.log(emojiObject);
-    setEmoji(emojiObject.emoji);
+  const onEmojiClick = (event) => {
+    console.log(event);
+    setEmoji(event.native);
   };
+
+  // 여기 아직 안 끝남!!! 중복확인은?
+  const data = {
+    nickname,
+    emoji,
+  };
+  const onInputSuccess =
+    (() => {
+      dispatch(signup(data));
+    },
+    [data]);
 
   return (
     <Container>
@@ -53,14 +68,19 @@ function UserForm() {
           variant="outlined"
           disabled
           value={emoji}
-          placeholder="이모지를 골라주세요."
+          placeholder="아래에서 이모지를 골라주세요."
         />
       </VerticalDiv>
-      <Picker
-        onEmojiClick={onEmojiClick}
-        pickerStyle={{ minwidth: '30vw', margin: '0 auto' }}
-      />
-      <GreenBtn>이대로 계정 생성하기</GreenBtn>
+      <div>
+        <EmojiPicker
+          onSelect={onEmojiClick}
+          color="#0de073"
+          title={false}
+          emoji="green_apple"
+          style={{ fontFamily: 'Suit' }}
+        />
+      </div>
+      <GreenBtn onClick={onInputSuccess}>이대로 계정 생성하기</GreenBtn>
     </Container>
   );
 }

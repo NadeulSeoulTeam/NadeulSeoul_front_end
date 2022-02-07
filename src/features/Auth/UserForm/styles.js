@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-// import Picker from 'emoji-picker-react';
+
+import 'emoji-mart/css/emoji-mart.css';
+import { Picker } from 'emoji-mart';
 
 export const Container = styled.div`
   text-align: center;
@@ -86,8 +88,9 @@ export const VerticalDiv = styled.div`
 //   flex-direction: column;
 // `;
 
-// export const EmojiPicker = styled(Picker)`
-//   .emoji-picker-react > div {
-//     font-family: 'Suit';
-//   }
-// `;
+// 왜인지 적용 안 되고 있음...
+export const EmojiPicker = styled(Picker)`
+  .emoji-mart-search input {
+    font-family: 'Suit';
+  }
+`;

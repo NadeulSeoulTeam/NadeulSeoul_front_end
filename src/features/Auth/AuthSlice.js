@@ -43,7 +43,38 @@ export const initialState = {
   postGoogleCodeLoading: false, // google 인가 코드 post 시도중
   postGoogleCodeDone: false,
   postGoogleCodeError: false,
+  // 회원가입 정보
+  nickname: '',
+  emoji: '',
 };
+
+export const signup = createAsyncThunk(
+  'member/signup',
+  async (userInfo, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/member/signup', userInfo);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const signin = createAsyncThunk(
+  'member/signin',
+  async (userInfo, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/member/signin', userInfo, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: 'authReducer',

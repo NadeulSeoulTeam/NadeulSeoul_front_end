@@ -23,7 +23,7 @@ function SignIn() {
   return (
     <Container>
       <MainTitle>나들서울</MainTitle>
-      <GoogleButton href="#" target="_blank" onClick={popupOpen}>
+      <GoogleButton href="#" onClick={popupOpen}>
         <GoogleIcon />
         <ButtonText>구글 계정으로 회원가입</ButtonText>
       </GoogleButton>
