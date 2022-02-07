@@ -42,8 +42,7 @@ function NaverLoginCallback() {
       // window.close();
     } else {
       // 상태토큰은 사람마다 다르므로 변경 및 변수화 필요
-      window.location.href =
-        'https://nid.naver.com/oauth2.0/authorize?client_id=m7ElqUoPxOdxQ1WacsCU&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&state=AAAAOoObjtSBmB9vtukF3w0BC7BYZ4vId2kOSCBSDcxmov_DtjY3u8ATb9I3L-pdJisk9KulUsWrgCOmu2LKDH-i6U0';
+      window.location.href = `https://nid.naver.com/oauth2.0/authorize?client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&state=AAAAOoObjtSBmB9vtukF3w0BC7BYZ4vId2kOSCBSDcxmov_DtjY3u8ATb9I3L-pdJisk9KulUsWrgCOmu2LKDH-i6U0`;
     }
   }, []);
 
@@ -51,7 +50,7 @@ function NaverLoginCallback() {
     <div>
       <Link to="/">Main</Link>
       <div>토큰 : {getStateToken()} </div>
-      <a href="https://nid.naver.com/oauth2.0/authorize?client_id=m7ElqUoPxOdxQ1WacsCU&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&state=AAAAOoObjtSBmB9vtukF3w0BC7BYZ4vId2kOSCBSDcxmov_DtjY3u8ATb9I3L-pdJisk9KulUsWrgCOmu2LKDH-i6U0">
+      <a href="https://nid.naver.com/oauth2.0/authorize?client_id=%REACT_APP_NAVER_CLIENT_ID%&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&state=AAAAOoObjtSBmB9vtukF3w0BC7BYZ4vId2kOSCBSDcxmov_DtjY3u8ATb9I3L-pdJisk9KulUsWrgCOmu2LKDH-i6U0">
         이동:
       </a>
       코드 유무 : {isNaverCode ? '코드 있음' : '코드 없음'}
