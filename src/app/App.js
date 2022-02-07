@@ -37,12 +37,12 @@ function App() {
           {/* mypage */}
           <Route
             Route
-            path="/mypage/:id/followerslist"
+            path="/mypage/:id/follower"
             element={<FollowersList />}
           />
           <Route
             Route
-            path="/mypage/:id/followingslist"
+            path="/mypage/:id/followee"
             element={<FollowingsList />}
           />
           <Route

@@ -2,17 +2,17 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 
-// mui list
+// mui
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 // component
 import FollowButton from '../FollowButton';
@@ -56,7 +56,7 @@ function FollowersList() {
                   <ListItemAvatar>
                     <Avatar>{v.emoji}</Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary={`${v.nickname}`} />
+                  <Button>{v.nickname}</Button>
                 </ListItem>
               ))}
             </List>

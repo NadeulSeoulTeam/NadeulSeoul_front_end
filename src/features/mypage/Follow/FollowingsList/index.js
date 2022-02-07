@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
-
+import { useNavigate } from 'react-router-dom';
 // mui list
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
+// import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 // component
 import FollowButton from '../FollowButton';
@@ -27,11 +28,20 @@ function FollowingsList() {
   const { FollowInfo } = useSelector((state) => state.mypage);
   const params = useParams();
   const FollowList = FollowInfo.filter((v) => {
-    console.log(typeof v.id);
+    // console.log(typeof v.id);
     return v.id === parseInt(params.id, 10);
   });
   const nickName = FollowList[0].nickname;
   const followingsList = FollowList[0].FollowingsList;
+  const navigate = useNavigate();
+
+  const onClickGotoMypage = useCallback(
+    (id) => () => {
+      console.log('go to mypage"');
+      navigate(`/mypage/${id}`);
+    },
+    []
+  );
 
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
@@ -48,14 +58,16 @@ function FollowingsList() {
                   key={v + i}
                   secondaryAction={
                     <IconButton edge="end" aria-label="Follow">
-                      <FollowButton UserId={v.id} />
+                      <FollowButton UserId={parseInt(v.id, 10)} />
                     </IconButton>
                   }
                 >
                   <ListItemAvatar>
                     <Avatar>{v.emoji}</Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary={`${v.nickname}`} />
+                  <Button onClick={onClickGotoMypage(v.id)}>
+                    {v.nickname}
+                  </Button>
                 </ListItem>
               ))}
             </List>

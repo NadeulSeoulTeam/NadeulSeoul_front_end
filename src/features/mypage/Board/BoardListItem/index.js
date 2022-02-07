@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable consistent-return */
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -219,7 +221,118 @@ function BoardListItem() {
       <h2>관리자 답변</h2>
       {/* 1. 이미 답변이 존재하면 수정, 삭제  / paper  */}
       {/* 2. 답변이 없다면 답변 작성하기만 / textarea */}
+
       {singlePost.answer ? (
+        editModeAnswer ? (
+          <>
+            <Box
+              component="form"
+              sx={{
+                '& .MuiTextField-root': { m: 1, width: '70%' },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <div>
+                <TextField
+                  id="standard-multiline-static"
+                  label="내용"
+                  fullWidth
+                  multiline
+                  rows={8}
+                  size="medium"
+                  value={answer}
+                  onChange={onChangeAnswerContext}
+                />
+              </div>
+            </Box>
+            <Stack direction="row" spacing={2}>
+              <Button
+                onClick={onClickAnswerUpdate}
+                variant="contained"
+                startIcon={<BorderColorIcon />}
+              >
+                Send
+              </Button>
+              <Button
+                onClick={onClickAnswerDelete}
+                variant="contained"
+                startIcon={<DeleteIcon />}
+              >
+                Delete
+              </Button>
+            </Stack>
+          </>
+        ) : (
+          <>
+            <Box
+              sx={{
+                display: 'flex',
+                '& > :not(style)': {
+                  m: 1,
+                  width: '70%',
+                  height: 230,
+                },
+              }}
+            >
+              <Paper variant="outlined" square>
+                {singlePost.answer}
+              </Paper>
+            </Box>
+            <Stack direction="row" spacing={2}>
+              <Button
+                onClick={onToggleChangeAnswer}
+                variant="contained"
+                startIcon={<BorderColorIcon />}
+              >
+                Update
+              </Button>
+              <Button
+                onClick={onClickAnswerDelete}
+                variant="contained"
+                startIcon={<DeleteIcon />}
+              >
+                Delete
+              </Button>
+            </Stack>
+          </>
+        )
+      ) : (
+        <>
+          <Box
+            sx={{
+              display: 'flex',
+              '& > :not(style)': {
+                m: 1,
+                width: '70%',
+                height: 230,
+              },
+            }}
+          >
+            <Paper variant="outlined" square>
+              {singlePost.answer}
+            </Paper>
+          </Box>
+          <Stack direction="row" spacing={2}>
+            <Button
+              onClick={onClickAnswerUpdate}
+              variant="contained"
+              startIcon={<BorderColorIcon />}
+            >
+              Send
+            </Button>
+            <Button
+              onClick={onClickAnswerDelete}
+              variant="contained"
+              startIcon={<DeleteIcon />}
+            >
+              Delete
+            </Button>
+          </Stack>
+        </>
+      )}
+
+      {/* {singlePost.answer ? (
         (!editModeAnswer && (
           <>
             <Box
@@ -319,7 +432,7 @@ function BoardListItem() {
             Send
           </Button>
         </>
-      )}
+      )} */}
     </>
   );
 }
