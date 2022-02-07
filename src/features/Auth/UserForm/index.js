@@ -1,4 +1,3 @@
-// import React from 'react';
 import React, { useState } from 'react';
 
 import Picker from 'emoji-picker-react';
@@ -12,11 +11,17 @@ import {
   TextInput,
   GreenBtn,
   VerticalDiv,
-  // EmojiInput,
+  // EmojiPicker,
 } from './styles';
 
 function UserForm() {
+  const [nickname, setNickname] = useState('');
   const [emoji, setEmoji] = useState('');
+
+  const onNicknameChange = (event) => {
+    setNickname(event.currentTarget.value);
+    console.log(nickname);
+  };
 
   const onEmojiClick = (event, emojiObject) => {
     console.log(emojiObject);
@@ -38,15 +43,23 @@ function UserForm() {
         </div>
       </VerticalDiv>
       <VerticalDiv>
-        <TextInput variant="outlined" placeholder="닉네임을 입력해주세요." />
+        <TextInput
+          variant="outlined"
+          value={nickname}
+          onChange={onNicknameChange}
+          placeholder="닉네임을 입력해주세요."
+        />
         <TextInput
           variant="outlined"
           disabled
           value={emoji}
           placeholder="이모지를 골라주세요."
         />
-        <Picker onEmojiClick={onEmojiClick} />
       </VerticalDiv>
+      <Picker
+        onEmojiClick={onEmojiClick}
+        pickerStyle={{ minwidth: '30vw', margin: '0 auto' }}
+      />
       <GreenBtn>이대로 계정 생성하기</GreenBtn>
     </Container>
   );

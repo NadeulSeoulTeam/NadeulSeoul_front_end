@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-// import InputEmoji from 'react-input-emoji';
+// import Picker from 'emoji-picker-react';
 
 export const Container = styled.div`
   text-align: center;
@@ -84,4 +84,10 @@ export const VerticalDiv = styled.div`
 // export const TextBoxDiv = styled.div`
 //   display: inline-flex;
 //   flex-direction: column;
+// `;
+
+// export const EmojiPicker = styled(Picker)`
+//   .emoji-picker-react > div {
+//     font-family: 'Suit';
+//   }
 // `;
