@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-return-assign */
@@ -5,18 +6,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
 // react-beautiful-dnd
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import { element } from 'prop-types';
 import ImageUploading from 'react-images-uploading';
 import { Axios } from 'axios';
-import ClearIcon from '@mui/icons-material/Clear';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import Pagination from 'react-js-pagination';
-import { getCourse, updateCourse } from '../CourseSlice';
 
+import { getCourse, updateCourse } from '../CourseSlice';
 // css
 
 import CourseCreationModal from './CourseCreationModal/CourseCreationModal';
@@ -51,6 +48,13 @@ import {
   ImageUploadContent,
   ImageUploadPictureDiv,
   ImageFunc,
+  ImageAddButton,
+  ImageAllDeleteButton,
+  PictureLeftButton,
+  PictureRightButton,
+  ClearPicture,
+  CorrectPicture,
+  PictureNumbering,
 } from './styles';
 
 function CourseCreactionForm() {
@@ -79,7 +83,7 @@ function CourseCreactionForm() {
 
   // image
   const [images, setImages] = useState([]);
-  const maxNumber = 4;
+  const maxNumber = 15;
 
   const onImageChange = (imageList, addUpdateIndex) => {
     // data for submit
@@ -88,14 +92,75 @@ function CourseCreactionForm() {
   };
   const onError = (errors, files) => {
     if (errors.maxNumber) {
-      alert('이미지는 4개까지만 첨부할 수 있습니다');
+      alert('이미지는 15개까지만 첨부할 수 있습니다');
     }
   };
-
+  const [pageNum, setPageNum] = useState(0);
+  useEffect(() => {}, [pageNum]);
+  const imageUploadFunc = (imageList, onImageUpdate, onImageRemove) => {
+    console.log(imageList);
+    console.log(pageNum);
+    const image = imageList[pageNum];
+    const index = pageNum;
+    if (imageList.length === 0) {
+      console.log(imageList);
+      return;
+    }
+    const movePicRight = () => {
+      if (pageNum === imageList.length - 1) {
+        setPageNum(0);
+        console.log(index);
+      } else {
+        setPageNum(pageNum + 1);
+        console.log(index);
+      }
+    };
+    const movePicLeft = () => {
+      if (pageNum === 0) {
+        setPageNum(imageList.length - 1);
+        console.log(index);
+      } else {
+        setPageNum(pageNum - 1);
+        console.log(index);
+      }
+    };
+    return (
+      <ImageFunc>
+        <img src={image.data_url} alt="" width="300" />
+        <PictureLeftButton
+          sx={{ color: '#68c78e' }}
+          fontSize="large"
+          onClick={movePicLeft}
+        />
+        <PictureNumbering>
+          사진 : {pageNum + 1}/{imageList.length}
+        </PictureNumbering>
+        <CorrectPicture
+          sx={{ fontSize: 20, color: '#68c78e' }}
+          onClick={() => onImageUpdate(index)}
+        />
+        <ClearPicture
+          sx={{ fontSize: 20, color: '#68c78e' }}
+          onClick={() => {
+            onImageRemove(index);
+            if (pageNum === 0) {
+              return;
+            }
+            setPageNum(pageNum - 1);
+          }}
+        />
+        <PictureRightButton
+          sx={{ color: '#68c78e' }}
+          fontSize="large"
+          onClick={movePicRight}
+        />
+      </ImageFunc>
+    );
+  };
   const testAxiosImage = () => {
     const formData = new FormData();
     for (let i = 0; i < images.length; i += 1) {
-      formData.append('img', images[i]);
+      formData.append('img', images[i].file);
     }
     // eslint-disable-next-line no-restricted-syntax
     for (const value of formData.values()) {
@@ -245,10 +310,6 @@ function CourseCreactionForm() {
         key={Object.keys(transportation)}
         // eslint-disable-next-line no-shadow
         ref={(element) => {
-          console.log(element);
-          console.log(
-            handleTransportationTag.current[Object.keys(transportation)]
-          );
           handleTransportationTag.current[Object.keys(transportation)] =
             element;
         }}
@@ -365,29 +426,19 @@ function CourseCreactionForm() {
           }) => (
             // write your building UI
             <ImageUploadPictureDiv>
-              {imageList.map((image, index) => (
-                <div key={index} className="image-item">
-                  <img src={image.data_url} alt="" width="300" />
-                  <ImageFunc>
-                    <BorderColorIcon
-                      color="primary"
-                      onClick={() => onImageUpdate(index)}
-                    />
-                    <ClearIcon
-                      color="primary"
-                      onClick={() => onImageRemove(index)}
-                    />
-                  </ImageFunc>
-                </div>
-              ))}
-              <button
+              {imageUploadFunc(imageList, onImageUpdate, onImageRemove)}
+              <ImageAddButton
+                color="success"
+                sx={{ fontSize: 20, color: '#68c78e' }}
                 style={isDragging ? { color: 'red' } : undefined}
                 onClick={onImageUpload}
                 {...dragProps}
-              >
-                사진추가
-              </button>
-              <button onClick={onImageRemoveAll}>Remove all images</button>
+              />
+              <ImageAllDeleteButton
+                color="success"
+                sx={{ fontSize: 20, color: '#68c78e' }}
+                onClick={onImageRemoveAll}
+              />
             </ImageUploadPictureDiv>
           )}
         </ImageUploading>

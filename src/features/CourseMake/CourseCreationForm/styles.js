@@ -1,5 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ClearIcon from '@mui/icons-material/Clear';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 export const CourseForm = styled.div`
   display: grid;
@@ -210,8 +216,8 @@ export const ImageUploadContent = styled.div`
   margin: 30px;
   margin-bottom: 0px;
 
-  width: 800px;
-  height: 200px;
+  width: 306px;
+  height: 175px;
   background: #ffffff;
   border: 3px solid #68c78e;
   box-sizing: border-box;
@@ -222,14 +228,51 @@ export const ImageUploadContent = styled.div`
   }
 `;
 export const ImageUploadPictureDiv = styled.div`
-  display: flex;
+  position: relative;
+  width: 300px;
+  height: 230px;
 `;
-export const ImageFunc = styled.div`
-  float: right;
+export const ImageFunc = styled.div``;
+export const ImageAddButton = styled(AddBoxIcon)`
+  position: absolute;
+  bottom: 32px;
+  right: 30px;
+`;
+export const ImageAllDeleteButton = styled(DeleteForeverIcon)`
+  position: absolute;
+  bottom: 32px;
+  right: 55px;
+`;
+export const PictureNumbering = styled.div`
+  position: absolute;
+  left: 70px;
+  bottom: 32px;
+  font-weight: bold;
+  color: #68c78e;
+`;
+export const PictureLeftButton = styled(ArrowLeftIcon)`
+  position: absolute;
+  bottom: 25px;
+  left: 0px;
+`;
+export const PictureRightButton = styled(ArrowRightIcon)`
+  position: absolute;
+  bottom: 25px;
+  right: 0px;
+`;
+export const ClearPicture = styled(ClearIcon)`
+  position: absolute;
+  bottom: 32px;
+  right: 77px;
+`;
+export const CorrectPicture = styled(BorderColorIcon)`
+  position: absolute;
+  bottom: 32px;
+  right: 100px;
 `;
 export const CourseCreateButton = styled.div`
   grid-area: courseCreateButton;
-  margin: 30px;
+  margin: 90px;
   margin-bottom: 20px;
   width: 300px;
   height: 60px;
