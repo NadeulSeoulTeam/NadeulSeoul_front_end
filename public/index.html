@@ -12,13 +12,13 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!-- .env 파일 관리 필요 -->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5b3b636a7466296ef76c18ed5df69569&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%REACT_APP_KAKAO_KEY%&libraries=services"></script>
 
     <title>나들서울</title>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
     <!-- 구글 로그인 관련 -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="271697905044-7ojeih7vic8u14ltq92nthv35ljn1frv.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="%REACT_APP_GOOGLE_CLIENT_ID%.apps.googleusercontent.com">
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

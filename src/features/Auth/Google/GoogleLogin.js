@@ -6,7 +6,7 @@ import React from 'react';
 
 // const queryStr = qs.stringify({
 //   client_id:
-//     '271697905044-7ojeih7vic8u14ltq92nthv35ljn1frv.apps.googleusercontent.com', // hide
+//     process.env.REACT_APP_GOOGLE_CLIENT_ID + '.apps.googleusercontent.com', // hide
 //   redirect_uri: 'http://localhost:3000/auth/google/callback',
 //   response_type: 'code',
 //   access_type: 'offline',
