@@ -1,11 +1,17 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/button-has-type */
+/* eslint-disable no-return-assign */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // react-beautiful-dnd
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
+import { element } from 'prop-types';
+import ImageUploading from 'react-images-uploading';
+import { Axios } from 'axios';
 import { getCourse, updateCourse } from '../CourseSlice';
 
 // css
@@ -15,6 +21,8 @@ import CourseCreationFormCartListItem from './CourseCreationFormCartListItem/Cou
 
 // JSON
 import tags from '../tags';
+
+// Image
 
 // css
 import {
@@ -38,6 +46,8 @@ import {
   ThemeTag,
   CourseCreateButton,
   ButtonToggle,
+  ImageUpload,
+  ImageUploadContent,
 } from './styles';
 
 function CourseCreactionForm() {
@@ -59,6 +69,36 @@ function CourseCreactionForm() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  // tag
+  // transportation
+  const handleTransportationTag = useRef({});
+
+  // image
+  const [images, setImages] = useState([]);
+  const maxNumber = 4;
+
+  const onImageChange = (imageList, addUpdateIndex) => {
+    // data for submit
+    console.log(imageList, addUpdateIndex);
+    setImages(imageList);
+  };
+  const onError = (errors, files) => {
+    if (errors.maxNumber) {
+      alert('이미지는 4개까지만 첨부할 수 있습니다');
+    }
+  };
+
+  const testAxiosImage = async () => {
+    const formData = new FormData();
+    for (let i = 0; i < images.length; i += 1) {
+      formData.append('img', images[i]);
+    }
+    console.log(formData);
+    // 파일 형식이 images[i] 객체로 담을 지 혹은 그 안의 file 객체를 담아줘야 하는지
+    // 후자의 경우 images[i].file 로 formData에 append
+    // const response = await apiClient.post('/img/user_img', formData);
+  };
 
   const makeLocalTag = (localClick) => {
     for (let i = 0; i < carts.length; i += 1) {
@@ -90,7 +130,9 @@ function CourseCreactionForm() {
       transportationClicked[e.target.id] = false;
     else transportationClicked[e.target.id] = true;
     setTransportationClicked(transportationClicked);
-    console.log(transportationClicked);
+    // handleTransportationTag.current[e.target.id].removeClass('active');
+    console.log(transportationClicked[e.target.id]);
+    console.log(handleTransportationTag.current[e.target.id]);
   };
 
   const makeTransportationTagBoolean = () => {
@@ -185,6 +227,8 @@ function CourseCreactionForm() {
   };
 
   const mapToComponentTransportationTags = (data) => {
+    console.log(data.transportation);
+    console.log(transportationClicked.walk);
     return data.transportation.map((transportation) => (
       <ButtonToggle
         active
@@ -193,8 +237,18 @@ function CourseCreactionForm() {
         id={Object.keys(transportation)}
         name={Object.keys(transportation)}
         key={Object.keys(transportation)}
-        value={Object.values(transportation)}
-      />
+        // eslint-disable-next-line no-shadow
+        ref={(element) => {
+          console.log(element);
+          console.log(
+            handleTransportationTag.current[Object.keys(transportation)]
+          );
+          handleTransportationTag.current[Object.keys(transportation)] =
+            element;
+        }}
+      >
+        {Object.values(transportation)}
+      </ButtonToggle>
     ));
   };
 
@@ -203,7 +257,7 @@ function CourseCreactionForm() {
     // eslint-disable-next-line no-restricted-syntax
     for (const key in data) {
       if (data[key] === true) {
-        showTags.push(key);
+        showTags.concat(key);
       }
     }
     console.log(showTags);
@@ -233,6 +287,7 @@ function CourseCreactionForm() {
         type="text"
         id="courseName"
         name="courseName"
+        placeholder="코스의 이름을 입력해주세요."
       />
       <RouteEdit>루트 편집</RouteEdit>
       <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -252,9 +307,9 @@ function CourseCreactionForm() {
       <CourseDes>코스 설명</CourseDes>
       <CourseDesContent
         onChange={onChange}
-        type="text"
         id="courseExplain"
         name="courseExplain"
+        placeholder="다른 나들러들이 코스에 대해 알 수 있게 설명을 적어주세요. "
       />
       <FixdedMember>함께한 인원</FixdedMember>
       <FixedMemberContent
@@ -263,6 +318,7 @@ function CourseCreactionForm() {
         type="text"
         id="fixedNumber"
         name="fixedNumber"
+        placeholder="숫자로 적어주세요."
       />
       <Budget>예산</Budget>
       <BudgetInput
@@ -271,6 +327,7 @@ function CourseCreactionForm() {
         type="text"
         id="budget"
         name="budget"
+        placeholder="1인당 얼마 정도를 쓰셨나요? 정확하지 않아도 괜찮아요."
       />
       <Transportation>교통수단</Transportation>
       <TransportationTag>
@@ -281,6 +338,49 @@ function CourseCreactionForm() {
 
       <Theme>테마 태그</Theme>
       <ThemeTag type="button" id="themeTag" name="themeTag" />
+      <ImageUpload>이미지 업로드</ImageUpload>
+      <ImageUploadContent>
+        <ImageUploading
+          multiple
+          value={images}
+          onChange={onImageChange}
+          maxNumber={maxNumber}
+          dataURLKey="data_url"
+          onError={onError}
+        >
+          {({
+            imageList,
+            onImageUpload,
+            onImageRemoveAll,
+            onImageUpdate,
+            onImageRemove,
+            isDragging,
+            dragProps,
+          }) => (
+            // write your building UI
+            <div>
+              {imageList.map((image, index) => (
+                <div key={index} className="image-item">
+                  <img src={image.data_url} alt="" width="100" />
+                  <div className="image-item__btn-wrapper">
+                    <button onClick={() => onImageUpdate(index)}>수정</button>
+                    <button onClick={() => onImageRemove(index)}>삭제</button>
+                  </div>
+                </div>
+              ))}
+              <button
+                style={isDragging ? { color: 'red' } : undefined}
+                onClick={onImageUpload}
+                {...dragProps}
+              >
+                사진추가
+              </button>{' '}
+              <button onClick={onImageRemoveAll}>Remove all images</button>
+              <button onClick={testAxiosImage}>이미지 업로딩 테스트</button>
+            </div>
+          )}
+        </ImageUploading>
+      </ImageUploadContent>
       <CourseCreateButton type="submit" onClick={sendCourse}>
         이대로 코스 생성하기
       </CourseCreateButton>
