@@ -58,7 +58,7 @@ function App() {
             path="mypage/:id/BoardList/:PostId"
             element={<BoardListItem />}
           /> */}
-          <Route Route path="mypage/:id/inqury" element={<BoardForm />} />
+          <Route Route path="/questions/new" element={<BoardForm />} />
 
           {/* login 파일 통일 필요 */}
           <Route path="/member/signin" element={<SignIn />} />

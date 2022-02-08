@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import _concat from 'lodash/concat';
 import _remove from 'lodash/remove';
 import _find from 'lodash/find';
@@ -7,6 +6,7 @@ import _find from 'lodash/find';
 // dummy data for 인피니티 스크롤
 
 import shortId from 'shortid';
+import axios from '../../common/api/httpCommunication';
 
 // dummy data for header part
 // 이모지 필요
@@ -196,7 +196,7 @@ export const loadUser = createAsyncThunk(
   'mypage/loaduser',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get('벡엔드 주소');
+      const response = await axios.get(`/myage/${data}`);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.resonse.data);
@@ -209,7 +209,7 @@ export const loadFollowers = createAsyncThunk(
   'mypage/loadFollowers',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get('백엔드 주소');
+      const response = await axios.get(`mypage/${data}/follower`);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.resonse.data);
@@ -222,7 +222,7 @@ export const loadFollowings = createAsyncThunk(
   'mypage/loadFollowings',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get('백엔드 주소');
+      const response = await axios.get(`mypage/${data}/followee`);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.resonse.data);
@@ -235,7 +235,7 @@ export const follow = createAsyncThunk(
   'mypage/follow',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/');
+      const response = await axios.post(`mypage/${data}/follow`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -248,7 +248,7 @@ export const unfollow = createAsyncThunk(
   'mypage/unfollow',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete('백엔드주소', data);
+      const response = await axios.delete(`mypage/${data}/unfollow`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -262,7 +262,7 @@ export const loadBoardList = createAsyncThunk(
   'mypage/loadBoardList',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get('백엔드 주소');
+      const response = await axios.get(`/inqurys/${data}/questions`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -276,7 +276,9 @@ export const loadBoardListItem = createAsyncThunk(
   'mypage/loadBoardListItem',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get('백엔드 주소');
+      const response = await axios.get(
+        `/inqurys/${data.UserId}/questions/${data.PostId}`
+      );
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -290,7 +292,7 @@ export const addPost = createAsyncThunk(
   'mypage/addPost',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('백엔드 주소', data);
+      const response = await axios.post('/inqurys/questions', data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -304,7 +306,7 @@ export const updatePost = createAsyncThunk(
   'mypage/updatePost',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.put('백엔드 주소', data);
+      const response = await axios.put('/inqurys/questions', data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -317,7 +319,7 @@ export const removePost = createAsyncThunk(
   'mypage/removePost',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete('백엔드 주소', data);
+      const response = await axios.delete(`/inqurys/questions/${data}`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -331,7 +333,7 @@ export const addAnswer = createAsyncThunk(
   'mypage/addAnswer',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('백엔드 주소', data);
+      const response = await axios.post('/inqurys/answers', data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -345,7 +347,7 @@ export const updateAnswer = createAsyncThunk(
   'mypage/updateAnswer',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.put('백엔드 주소', data);
+      const response = await axios.put('/inqurys/answers', data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -359,7 +361,7 @@ export const removeAnswer = createAsyncThunk(
   'mypage/removeAnswer',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`백엔드 주소/${data.PostId}`);
+      const response = await axios.delete(`/inqurys/answers/${data.PostId}`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);

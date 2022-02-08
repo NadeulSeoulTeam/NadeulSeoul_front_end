@@ -3,6 +3,7 @@ import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
 
 // mui
 
@@ -14,7 +15,6 @@ import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 
 // component
-import ProfileCard from '../../Card/ProfileCard';
 
 // actions
 import { addPost, gobackToInquery } from '../../MyPageSlice';
@@ -58,24 +58,24 @@ function BoardForm() {
     console.log(myId, typeof myId);
     console.log(context, typeof context);
     console.log(title, typeof title);
-    dispatch(
-      addPost({
-        member_seq: myId,
-        question_title: title,
-        question_content: context,
+    const data = {
+      member_seq: myId,
+      question_title: title,
+      question_content: context,
+      answer: '',
+    };
+    dispatch(addPost(data))
+      .unwrap()
+      .then(() => {
+        toast.success('문의 게시글 작성 성공');
       })
-      // 직렬화 여부
-      // JSON.stringify({
-      //   member_seq: myId,
-      //   question_title: title,
-      //   question_content: context,
-      // })
-    );
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   });
 
   return (
     <>
-      <ProfileCard />
       <h2>문의 게시글 작성</h2>
       <Box
         sx={{

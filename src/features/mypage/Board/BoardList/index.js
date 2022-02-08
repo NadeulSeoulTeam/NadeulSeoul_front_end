@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useCallback, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -71,8 +71,8 @@ function BoardList() {
   };
 
   const navigate = useNavigate();
-  const params = useParams();
-  const userId = params.id;
+  // const params = useParams();
+  // const userId = params.id;
 
   // props로 안하고 dispatch로 postId보내자
 
@@ -88,16 +88,12 @@ function BoardList() {
 
   const onClickCreateInqury = useCallback(() => {
     console.log('문의작성');
-    navigate(`/mypage/${userId}/inqury`);
+    navigate(`/questions/new`);
   }, []);
 
   useEffect(() => {
-    dispatch(
-      loadBoardList({
-        member_id: userInfo.id,
-      })
-    );
-  }, []);
+    dispatch(loadBoardList(userInfo.id));
+  }, [userInfo.id]);
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>

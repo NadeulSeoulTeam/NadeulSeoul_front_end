@@ -52,11 +52,7 @@ function FollowButton({ UserId }) {
 
   const onClickButton = useCallback(() => {
     if (isFollowing) {
-      dispatch(
-        unfollow({
-          member_seq: UserId,
-        })
-      )
+      dispatch(unfollow(UserId))
         .unwrap()
         .then(() => {
           toast.success('언팔로우 성공');
@@ -65,11 +61,7 @@ function FollowButton({ UserId }) {
           console.log(err.response.data);
         });
     } else {
-      dispatch(
-        follow({
-          member_seq: UserId,
-        })
-      )
+      dispatch(follow(UserId))
         .unwrap()
         .then(() => {
           toast.success('팔로우 성공');

@@ -34,6 +34,7 @@ function BoardListItem() {
   const { PostId, UserId, singlePost } = useSelector((state) => state.mypage);
   const [editMode, setEditMode] = useState(false);
   const [editModeAnswer, seteditModeAnswer] = useState(false);
+  const [title, setTitle] = useState(singlePost.question_title);
   const [context, setContext] = useState(singlePost.question_content);
   const [answer, setAnswer] = useState(singlePost.answer);
 
@@ -68,23 +69,21 @@ function BoardListItem() {
     dispatch(gobackToInquery(3));
     navigate(-1);
     console.log(context, typeof context);
-    dispatch(
-      updatePost({
-        question_seq: PostId,
-        member_seq: UserId,
-        // 제목도 수정 추가해야 함
-        question_content: context,
-        answer: singlePost.answer,
+    const data = {
+      question_seq: PostId,
+      member_seq: UserId,
+      question_title: title,
+      question_content: context,
+      answer: singlePost.answer,
+    };
+    dispatch(updatePost(data))
+      .unwrap()
+      .then(() => {
+        console.log('게시글 수정 성공');
       })
-    );
-    // 직렬화 여부
-    // JSON.stringify({
-    //   member_seq: myId,
-    //   question_title: title,
-    //   question_content: context,
-    //   question_date: nowTime,
-    // })
-    // );
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   });
 
   const onChangeContext = useCallback(
@@ -93,6 +92,13 @@ function BoardListItem() {
       setContext(e.target.value);
     },
     [context]
+  );
+  const onChangeTitle = useCallback(
+    (e) => {
+      // console.log(e.target.value);
+      setTitle(e.target.value);
+    },
+    [title]
   );
 
   const onChangeAnswerContext = useCallback(
@@ -104,12 +110,15 @@ function BoardListItem() {
 
   const onClickAnswerSend = useCallback(() => {
     console.log('답변 작성 서버 전송');
-    dispatch(
-      addAnswer({
-        question_seq: PostId,
-        answer,
+    const data = { question_seq: PostId, answer };
+    dispatch(addAnswer(data))
+      .unwrap()
+      .then(() => {
+        console.log('답변작성 성공');
       })
-    );
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   }, []);
 
   const onClickAnswerUpdate = useCallback(() => {
@@ -117,12 +126,8 @@ function BoardListItem() {
     if (!answer || !answer.trim()) {
       return alert('내용을 입력해주세요');
     }
-    dispatch(
-      updateAnswer({
-        question_seq: PostId,
-        answer,
-      })
-    );
+    const data = { question_seq: PostId, answer };
+    dispatch(updateAnswer(data));
   });
 
   const onClickAnswerDelete = useCallback(() => {
@@ -133,53 +138,78 @@ function BoardListItem() {
   // useEffect로 이 페이지 오자마자 Read요청 =>해당 정보를 disptach로 요청
   // 지금 {siglePost.~} 쓰이는 것들 처리하면 됨
   useEffect(() => {
-    dispatch(loadBoardListItem(PostId));
-  }, [PostId]);
+    const data = {
+      PostId,
+      UserId,
+    };
+    dispatch(loadBoardListItem(data));
+  }, []);
   return (
     <>
       <h2>문의 게시글</h2>
-      <h3>제목 : {singlePost.question_title} </h3>
 
       {/* 1. 수정을 눌렀을 때만 textarea가 나타나야 함 -> 그 때 게시글 수정이 이루어짐 */}
       {/* 2. 그리고 수정을 누른후에는 수정버튼 send가 되어야 하고 그걸 누르면 다시 게시글 작성 request  */}
       {/* 3. 수정이 완료되면 다시 문의게시판으로 이동   */}
       {editMode ? (
-        <Box
-          component="form"
-          sx={{
-            '& .MuiTextField-root': { m: 1, width: '70%' },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <div>
+        <>
+          <h3>제목 : {singlePost.question_title} </h3>
+          <Box
+            component="form"
+            sx={{
+              '& > :not(style)': { m: 1, width: '35%' },
+            }}
+            noValidate
+            autoComplete="off"
+          >
             <TextField
-              id="standard-multiline-static"
-              label="내용"
-              fullWidth
-              multiline
-              rows={8}
-              size="medium"
-              value={context}
-              onChange={onChangeContext}
+              id="outlined-basic"
+              label="제목"
+              variant="outlined"
+              value={title}
+              onChange={onChangeTitle}
             />
-          </div>
-        </Box>
+          </Box>
+          <Box
+            component="form"
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '70%' },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <div>
+              <TextField
+                id="standard-multiline-static"
+                label="내용"
+                fullWidth
+                multiline
+                rows={8}
+                size="medium"
+                value={context}
+                onChange={onChangeContext}
+              />
+            </div>
+          </Box>
+        </>
       ) : (
-        <Box
-          sx={{
-            display: 'flex',
-            '& > :not(style)': {
-              m: 1,
-              width: '70%',
-              height: 230,
-            },
-          }}
-        >
-          <Paper variant="outlined" square>
-            {singlePost.question_content}
-          </Paper>
-        </Box>
+        <>
+          <h3>제목 : {singlePost.question_title} </h3>
+          <Box
+            sx={{
+              display: 'flex',
+              '& > :not(style)': {
+                m: 1,
+                width: '70%',
+                height: 230,
+              },
+            }}
+          >
+            <Paper variant="outlined" square>
+              {singlePost.question_content}
+            </Paper>
+          </Box>
+        </>
       )}
 
       <Stack direction="row" spacing={2}>
@@ -297,110 +327,6 @@ function BoardListItem() {
       ) : (
         <>
           <Box
-            sx={{
-              display: 'flex',
-              '& > :not(style)': {
-                m: 1,
-                width: '70%',
-                height: 230,
-              },
-            }}
-          >
-            <Paper variant="outlined" square>
-              {singlePost.answer}
-            </Paper>
-          </Box>
-          <Stack direction="row" spacing={2}>
-            <Button
-              onClick={onClickAnswerUpdate}
-              variant="contained"
-              startIcon={<BorderColorIcon />}
-            >
-              Send
-            </Button>
-            <Button
-              onClick={onClickAnswerDelete}
-              variant="contained"
-              startIcon={<DeleteIcon />}
-            >
-              Delete
-            </Button>
-          </Stack>
-        </>
-      )}
-
-      {/* {singlePost.answer ? (
-        (!editModeAnswer && (
-          <>
-            <Box
-              sx={{
-                display: 'flex',
-                '& > :not(style)': {
-                  m: 1,
-                  width: '70%',
-                  height: 230,
-                },
-              }}
-            >
-              <Paper variant="outlined" square>
-                {singlePost.answer}
-              </Paper>
-            </Box>
-            <Stack direction="row" spacing={2}>
-              <Button
-                onClick={onToggleChangeAnswer}
-                variant="contained"
-                startIcon={<BorderColorIcon />}
-              >
-                Update
-              </Button>
-              <Button
-                onClick={onClickAnswerDelete}
-                variant="contained"
-                startIcon={<DeleteIcon />}
-              >
-                Delete
-              </Button>
-            </Stack>
-          </>
-        ),
-        editModeAnswer && (
-          <>
-            <Box
-              sx={{
-                display: 'flex',
-                '& > :not(style)': {
-                  m: 1,
-                  width: '70%',
-                  height: 230,
-                },
-              }}
-            >
-              <Paper variant="outlined" square>
-                {singlePost.answer}
-              </Paper>
-            </Box>
-            <Stack direction="row" spacing={2}>
-              <Button
-                onClick={onClickAnswerUpdate}
-                variant="contained"
-                startIcon={<BorderColorIcon />}
-              >
-                Send
-              </Button>
-              <Button
-                onClick={onClickAnswerDelete}
-                variant="contained"
-                startIcon={<DeleteIcon />}
-              >
-                Delete
-              </Button>
-            </Stack>
-          </>
-        ))
-      ) : (
-        <>
-          <Box
             component="form"
             sx={{
               '& .MuiTextField-root': { m: 1, width: '70%' },
@@ -421,15 +347,24 @@ function BoardListItem() {
               />
             </div>
           </Box>
-          <Button
-            onClick={onClickAnswerSend}
-            variant="contained"
-            startIcon={<SendIcon />}
-          >
-            Send
-          </Button>
+          <Stack direction="row" spacing={2}>
+            <Button
+              onClick={onClickAnswerSend}
+              variant="contained"
+              startIcon={<BorderColorIcon />}
+            >
+              Send
+            </Button>
+            <Button
+              onClick={onClickAnswerDelete}
+              variant="contained"
+              startIcon={<DeleteIcon />}
+            >
+              Delete
+            </Button>
+          </Stack>
         </>
-      )} */}
+      )}
     </>
   );
 }
