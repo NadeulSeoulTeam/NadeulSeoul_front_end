@@ -36,6 +36,13 @@ export const InputLabelGreen = styled.p`
 `;
 
 export const TextInput = styled(TextField)`
+  &&.MuiFormControl-root{
+    p {
+      font-family: 'Suit';
+      color: #0de073;
+      padding: 0 14px;
+    }
+  }
   .MuiOutlinedInput-root {
     color: #222222;
     width: 35vw;
@@ -55,13 +62,10 @@ export const TextInput = styled(TextField)`
     &.Mui-disabled > fieldset {
       border-color: #0de073;
     }
+    &.Mui-error > fieldset {
+      border-color: #0de073;
+    }
 `;
-
-// export const EmojiInput = styled(InputEmoji)`
-//   .react-input-emoji--input {
-//     margin: 20px;
-//   }
-// `;
 
 export const GreenBtn = styled(Button)`
   && {
@@ -75,6 +79,9 @@ export const GreenBtn = styled(Button)`
     color: white;
     cursor: pointer;
     border: none;
+    &.Mui-disabled {
+      background-color: #fafafa;
+    }
   }
 `;
 
@@ -82,11 +89,6 @@ export const VerticalDiv = styled.div`
   display: inline-flex;
   flex-direction: column;
 `;
-
-// export const TextBoxDiv = styled.div`
-//   display: inline-flex;
-//   flex-direction: column;
-// `;
 
 // 왜인지 적용 안 되고 있음...
 export const EmojiPicker = styled(Picker)`

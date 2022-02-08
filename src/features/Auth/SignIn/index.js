@@ -25,11 +25,11 @@ function SignIn() {
       <MainTitle>나들서울</MainTitle>
       <GoogleButton href="#" onClick={popupOpen}>
         <GoogleIcon />
-        <ButtonText>구글 계정으로 회원가입</ButtonText>
+        <ButtonText>구글 계정으로 이용하기</ButtonText>
       </GoogleButton>
       <NaverButton>
         <NaverIcon />
-        <ButtonText>네이버 계정으로 회원가입</ButtonText>
+        <ButtonText>네이버 계정으로 이용하기</ButtonText>
       </NaverButton>
     </Container>
   );
