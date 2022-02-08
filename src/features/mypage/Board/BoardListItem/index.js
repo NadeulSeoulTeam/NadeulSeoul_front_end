@@ -140,7 +140,6 @@ function BoardListItem() {
   useEffect(() => {
     const data = {
       PostId,
-      UserId,
     };
     dispatch(loadBoardListItem(data));
   }, []);

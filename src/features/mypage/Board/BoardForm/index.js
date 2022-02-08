@@ -1,8 +1,7 @@
 /* eslint-disable consistent-return */
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 // mui
@@ -20,11 +19,12 @@ import Stack from '@mui/material/Stack';
 import { addPost, gobackToInquery } from '../../MyPageSlice';
 
 function BoardForm() {
+  const { userInfo } = useSelector((state) => state.mypage);
   const [title, setTitle] = useState();
   const [context, setContext] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const myId = useParams().id;
+  const myId = userInfo[0].id;
 
   const onChagneTitle = useCallback(
     (e) => {
@@ -62,8 +62,9 @@ function BoardForm() {
       member_seq: myId,
       question_title: title,
       question_content: context,
-      answer: '',
+      answer: 'asdf',
     };
+    console.log(data);
     dispatch(addPost(data))
       .unwrap()
       .then(() => {

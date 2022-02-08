@@ -6,7 +6,7 @@ import _find from 'lodash/find';
 // dummy data for 인피니티 스크롤
 
 import shortId from 'shortid';
-import axios from '../../common/api/httpCommunication';
+import axios from 'axios';
 
 // dummy data for header part
 // 이모지 필요
@@ -196,7 +196,7 @@ export const loadUser = createAsyncThunk(
   'mypage/loaduser',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/myage/${data}`);
+      const response = await axios.get(`/mypage/${data}`);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.resonse.data);
@@ -262,7 +262,8 @@ export const loadBoardList = createAsyncThunk(
   'mypage/loadBoardList',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/inqurys/${data}/questions`);
+      const response = await axios.get(`/inqurys/questions/list/${data}`);
+      console.log(data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -276,9 +277,7 @@ export const loadBoardListItem = createAsyncThunk(
   'mypage/loadBoardListItem',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `/inqurys/${data.UserId}/questions/${data.PostId}`
-      );
+      const response = await axios.get(`/inqurys/questions/${data.PostId}`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -291,8 +290,12 @@ export const loadBoardListItem = createAsyncThunk(
 export const addPost = createAsyncThunk(
   'mypage/addPost',
   async (data, { rejectWithValue }) => {
+    console.log(data);
     try {
-      const response = await axios.post('/inqurys/questions', data);
+      const response = await axios.post(
+        'http://localhost:8080/api/v1/inqurys/questions',
+        data
+      );
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -306,7 +309,10 @@ export const updatePost = createAsyncThunk(
   'mypage/updatePost',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.put('/inqurys/questions', data);
+      const response = await axios.put(
+        `/inqurys/questions/${data.question_seq}`,
+        data
+      );
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -381,7 +387,7 @@ export const initialState = {
   FollowInfo: FollowList, // 팔로잉, 팔로워 정보
   inqueryBack: 0, // 문의게시판 돌아가기 flag
   mainPosts: [], // 문의게시판 목록
-  singlePost: BoardListItem, // 문의 게시판 상세 정보
+  singlePost: null, // 문의 게시판 상세 정보
   PostId: null, // 문의게시판 postId
   UserId: null, // 문의게시판 UserId
   loadUserLoading: false, // mypage 유저 정보 조회 시도

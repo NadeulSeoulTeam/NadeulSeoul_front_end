@@ -17,7 +17,7 @@ function MyPage() {
 
   // 서버에 유저정보 요청
   useEffect(() => {
-    dispatch(loadUser(userInfo.id))
+    dispatch(loadUser(userInfo[0].id))
       .unwrap()
       .then(() => {
         toast.success('불러오기에 성공');
