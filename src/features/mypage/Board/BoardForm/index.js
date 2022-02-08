@@ -2,7 +2,6 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 
 // mui
 
@@ -59,20 +58,21 @@ function BoardForm() {
     console.log(context, typeof context);
     console.log(title, typeof title);
     const data = {
-      member_seq: myId,
-      question_title: title,
-      question_content: context,
-      answer: 'asdf',
+      memberSeq: myId,
+      questionTitle: title,
+      question: context,
+      answer: '',
     };
     console.log(data);
     dispatch(addPost(data))
       .unwrap()
-      .then(() => {
-        toast.success('문의 게시글 작성 성공');
+      .then((response) => {
+        console.log(response);
       })
       .catch((err) => {
         console.log(err.response.data);
       });
+    navigate(-1);
   });
 
   return (

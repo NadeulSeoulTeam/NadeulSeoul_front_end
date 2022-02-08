@@ -15,6 +15,7 @@ function MyPage() {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.mypage);
 
+  console.log(userInfo.data);
   // 서버에 유저정보 요청
   useEffect(() => {
     dispatch(loadUser(userInfo[0].id))
@@ -25,7 +26,7 @@ function MyPage() {
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, [userInfo]);
+  }, []);
 
   // userId to BoradListItem
   useEffect(() => {

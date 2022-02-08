@@ -34,9 +34,11 @@ function BoardListItem() {
   const { PostId, UserId, singlePost } = useSelector((state) => state.mypage);
   const [editMode, setEditMode] = useState(false);
   const [editModeAnswer, seteditModeAnswer] = useState(false);
-  const [title, setTitle] = useState(singlePost.question_title);
-  const [context, setContext] = useState(singlePost.question_content);
-  const [answer, setAnswer] = useState(singlePost.answer);
+  const [title, setTitle] = useState(singlePost?.questionTitle);
+  const [context, setContext] = useState(singlePost?.question);
+  const [answer, setAnswer] = useState(singlePost?.answer);
+
+  console.log(singlePost);
 
   const onToggleChangeContent = useCallback(() => {
     setEditMode((prev) => !prev);
@@ -70,16 +72,17 @@ function BoardListItem() {
     navigate(-1);
     console.log(context, typeof context);
     const data = {
-      question_seq: PostId,
-      member_seq: UserId,
-      question_title: title,
-      question_content: context,
+      questionSeq: PostId,
+      memberSeq: UserId,
+      questionTitle: title,
+      question: context,
       answer: singlePost.answer,
     };
+    console.log(data);
     dispatch(updatePost(data))
       .unwrap()
-      .then(() => {
-        console.log('게시글 수정 성공');
+      .then((response) => {
+        console.log(response);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -103,18 +106,19 @@ function BoardListItem() {
 
   const onChangeAnswerContext = useCallback(
     (e) => {
+      console.log(e.target.value);
       setAnswer(e.target.value);
     },
     [answer]
   );
 
   const onClickAnswerSend = useCallback(() => {
-    console.log('답변 작성 서버 전송');
-    const data = { question_seq: PostId, answer };
+    console.log(answer);
+    const data = { questionSeq: PostId, answer };
     dispatch(addAnswer(data))
       .unwrap()
-      .then(() => {
-        console.log('답변작성 성공');
+      .then((response) => {
+        console.log(response);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -126,23 +130,32 @@ function BoardListItem() {
     if (!answer || !answer.trim()) {
       return alert('내용을 입력해주세요');
     }
-    const data = { question_seq: PostId, answer };
+    const data = { questionSeq: PostId, answer };
     dispatch(updateAnswer(data));
   });
 
   const onClickAnswerDelete = useCallback(() => {
     console.log('답변 삭제 서버 전송');
-    dispatch(removeAnswer(PostId));
+    dispatch(removeAnswer(PostId))
+      .unwrap()
+      .then(() => {
+        const data = {
+          PostId,
+        };
+        dispatch(loadBoardListItem(data));
+      });
   }, []);
 
   // useEffect로 이 페이지 오자마자 Read요청 =>해당 정보를 disptach로 요청
   // 지금 {siglePost.~} 쓰이는 것들 처리하면 됨
+
   useEffect(() => {
     const data = {
       PostId,
     };
     dispatch(loadBoardListItem(data));
   }, []);
+
   return (
     <>
       <h2>문의 게시글</h2>
@@ -152,7 +165,6 @@ function BoardListItem() {
       {/* 3. 수정이 완료되면 다시 문의게시판으로 이동   */}
       {editMode ? (
         <>
-          <h3>제목 : {singlePost.question_title} </h3>
           <Box
             component="form"
             sx={{
@@ -168,6 +180,7 @@ function BoardListItem() {
               value={title}
               onChange={onChangeTitle}
             />
+            {title}
           </Box>
           <Box
             component="form"
@@ -193,7 +206,7 @@ function BoardListItem() {
         </>
       ) : (
         <>
-          <h3>제목 : {singlePost.question_title} </h3>
+          <h3>제목 : {singlePost?.questionTitle} </h3>
           <Box
             sx={{
               display: 'flex',
@@ -205,7 +218,7 @@ function BoardListItem() {
             }}
           >
             <Paper variant="outlined" square>
-              {singlePost.question_content}
+              {singlePost?.question}
             </Paper>
           </Box>
         </>
@@ -248,7 +261,7 @@ function BoardListItem() {
       {/* 1. 이미 답변이 존재하면 수정, 삭제  / paper  */}
       {/* 2. 답변이 없다면 답변 작성하기만 / textarea */}
 
-      {singlePost.answer ? (
+      {singlePost?.answer ? (
         editModeAnswer ? (
           <>
             <Box

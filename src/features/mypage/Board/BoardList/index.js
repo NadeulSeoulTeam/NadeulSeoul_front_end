@@ -22,10 +22,10 @@ import { loadBoardList, postIdToListItem } from '../../MyPageSlice';
 
 // title, id, date(작성 시간) 3개만 프로필에 표시하면 된다.
 const columns = [
-  { id: 'id', label: 'No', minWidth: 100 },
-  { id: 'title', label: 'Title', minWidth: 170 },
+  { id: 'questionSeq', label: 'No', minWidth: 100 },
+  { id: 'questionTitle', label: 'Title', minWidth: 170 },
   {
-    id: 'date',
+    id: 'questionDate',
     label: 'Date',
     minWidth: 170,
     align: 'left',
@@ -60,6 +60,7 @@ function BoardList() {
   // 서버 연결시 rows 대신에 mainPosts에 연결하면 됨
   const { userInfo, mainPosts } = useSelector((state) => state.mypage);
 
+  console.log(mainPosts);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -134,12 +135,17 @@ function BoardList() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.questionSeq}
+                  >
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
                         <TableCell
-                          onClick={onClick(row.id)}
+                          onClick={onClick(row.questionSeq)}
                           key={column.id}
                           align={column.align}
                         >
