@@ -17,7 +17,7 @@ function StatusUser() {
       <Button
         variant="text"
         onClick={() => {
-          navigate(`/mypage/${mypage.id}/followingslist`);
+          navigate(`/mypage/${mypage.id}/followee`);
         }}
       >
         팔로잉
@@ -26,7 +26,7 @@ function StatusUser() {
       <Button
         variant="text"
         onClick={() => {
-          navigate(`/mypage/${mypage.id}/followerslist`);
+          navigate(`/mypage/${mypage.id}/follower`);
         }}
       >
         팔로워

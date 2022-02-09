@@ -68,23 +68,7 @@ export const silentRefresh = createAsyncThunk(
 const authSlice = createSlice({
   name: 'authReducer',
   initialState,
-  reducers: {
-    // addNaverToken(state, action) {
-    //   state.naverToken = action.payload;
-    // },
-    // addNaverCode(state, action) {
-    //   state.naverCode = action.payload;
-    // },
-    // onChangeNaverCode(state, action) {
-    //   state.isNaverCode = action.payload;
-    // },
-    // addGoogleCode(state, action) {
-    //   state.googleCode = action.payload;
-    // },
-    // onChangeGoogleCode(state, action) {
-    //   state.isGoogleCode = action.payload;
-    // },
-  },
+  reducers: {},
   extraReducers: {
     // [postNaverCode.pending]: (state) => {
     //   state.postNaverCodeLoading = true;
