@@ -12,10 +12,6 @@ export default createGlobalStyle`
     font-weight: 400;
     font-style: normal;
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> aaf0b7233601112c57deb5b8bbb76427d793a6ae
     @font-face {
         font-family: "Hahmlet";
         src: local("Hahmlet"), local("Hahmlet"),
