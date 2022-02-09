@@ -1,7 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
+// import { useParams } from 'react-router';
 
 // mui
 import Tabs from '@mui/material/Tabs';
@@ -26,20 +26,20 @@ function a11yProps(index) {
 
 function BasicTabs() {
   const {
-    userInfo,
+    // userInfo,
     inqueryBack,
     InfinityPosts,
     hasMorePosts,
     loadInfinityPostsLoading,
   } = useSelector((state) => state.mypage);
-  const params = useParams();
+  // const params = useParams();
   const dispatch = useDispatch();
-  const mypage = userInfo.filter((v) => {
-    return v.id === parseInt(params.id, 10);
-  })[0];
+  // const mypage = userInfo.filter((v) => {
+  //   return v.id === parseInt(params.id, 10);
+  // })[0];
   // const myNadlecourseInfo = mypage.myNadlecourse;
-  const likePlaceInfo = mypage.likePlace;
-  const likeNadlecourseInfo = mypage.likeNadlecourse;
+  // const likePlaceInfo = mypage.likePlace;
+  // const likeNadlecourseInfo = mypage.likeNadlecourse;
   const [value, setValue] = useState(inqueryBack);
 
   const handleChange = (event, newValue) => {
@@ -119,7 +119,7 @@ function BasicTabs() {
           ))}
         </Box>
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      {/* <TabPanel value={value} index={1}>
         <Box
           sx={{
             display: 'flex',
@@ -157,7 +157,7 @@ function BasicTabs() {
             <CurationCard key={i + v.likePlaceId} imgUrl={v.imgUrl} />
           ))}
         </Box>
-      </TabPanel>
+      </TabPanel> */}
     </Box>
   );
 }

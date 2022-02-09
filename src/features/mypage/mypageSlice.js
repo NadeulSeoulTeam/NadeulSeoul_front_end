@@ -285,6 +285,7 @@ export const removeAnswer = createAsyncThunk(
 // 서버 연결하면 기존의 dummydate 연결 풀어야 함
 export const initialState = {
   userInfo: User, // 내 정보
+  user: null,
   InfinityPosts: [], // test infinity scroll
   loadInfinityPostsLoading: false,
   loadInfinityPostsDone: false,
@@ -373,7 +374,7 @@ const MyPageSlice = createSlice({
     [loadUser.fulfilled]: (state, action) => {
       state.loadUserLoading = false;
       state.loadUserDone = true;
-      state.userInfo = action.payload; // 서버에서 온 user 정보가 담긴다.
+      state.user = action.payload; // 서버에서 온 user 정보가 담긴다.
     },
     [loadUser.rejected]: (state, action) => {
       state.loadUserLoading = false;
