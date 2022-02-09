@@ -1,27 +1,29 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-// check
-import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
 
 // components
 import BasicTabs from './Tabs/BasicTabs';
 import ProfileCard from './Card/ProfileCard';
 
 // actions
-import { loadUser, UserIdToListItem } from './MyPageSlice';
+import {
+  loadUser,
+  UserIdToListItem,
+  loadFollowers,
+  loadFollowings,
+} from './MyPageSlice';
 
 function MyPage() {
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.mypage);
-
-  console.log(userInfo.data);
+  const params = useParams();
+  const { userInfo, user } = useSelector((state) => state.mypage);
   // 서버에 유저정보 요청
   useEffect(() => {
-    dispatch(loadUser(userInfo[0].id))
+    dispatch(loadUser(params.id))
       .unwrap()
-      .then(() => {
-        toast.success('불러오기에 성공');
+      .then((response) => {
+        console.log(response);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -32,9 +34,35 @@ function MyPage() {
   useEffect(() => {
     dispatch(UserIdToListItem(userInfo.id));
   });
+
+  // 로그인한 사람의 팔로잉 팔로우 정보 가져오기
+  useEffect(() => {
+    dispatch(loadFollowers(1))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+    dispatch(loadFollowings(1))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }, []);
   return (
     <>
-      <ProfileCard />
+      <ProfileCard
+        userId={user?.memberSeq}
+        emoji={user?.emoji}
+        nickName={user?.nickName}
+        followeeCount={user?.followeeCount}
+        followerCount={user?.followerCount}
+      />
       <BasicTabs />
     </>
   );

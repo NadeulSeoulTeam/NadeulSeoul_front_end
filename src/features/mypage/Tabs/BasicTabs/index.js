@@ -13,7 +13,7 @@ import TabPanel from '../TabPanel';
 import CurationCard from '../../Card/CurationCard';
 
 // actions
-import { gobackToInquery, loadPostsInfinity } from '../../MyPageSlice';
+import { loadPostsInfinity } from '../../MyPageSlice';
 
 //
 // mui basic tabs
@@ -27,7 +27,6 @@ function a11yProps(index) {
 function BasicTabs() {
   const {
     // userInfo,
-    inqueryBack,
     InfinityPosts,
     hasMorePosts,
     loadInfinityPostsLoading,
@@ -40,7 +39,7 @@ function BasicTabs() {
   // const myNadlecourseInfo = mypage.myNadlecourse;
   // const likePlaceInfo = mypage.likePlace;
   // const likeNadlecourseInfo = mypage.likeNadlecourse;
-  const [value, setValue] = useState(inqueryBack);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     console.log(event);
@@ -63,7 +62,6 @@ function BasicTabs() {
   useEffect(() => {
     // boardHandler();
     dispatch(loadPostsInfinity());
-    dispatch(gobackToInquery(0));
   }, []);
 
   useEffect(() => {

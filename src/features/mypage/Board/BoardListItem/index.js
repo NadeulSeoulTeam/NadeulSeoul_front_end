@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable consistent-return */
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,7 +19,6 @@ import TextField from '@mui/material/TextField';
 // actions
 
 import {
-  gobackToInquery,
   removePost,
   updatePost,
   addAnswer,
@@ -38,39 +37,46 @@ function BoardListItem() {
   const [context, setContext] = useState(singlePost?.question);
   const [answer, setAnswer] = useState(singlePost?.answer);
 
-  console.log(singlePost);
+  useEffect(async () => {
+    const data = {
+      questionSeq: PostId,
+    };
+    dispatch(loadBoardListItem(data));
+  }, [PostId]);
 
-  const onToggleChangeContent = useCallback(() => {
+  const onToggleChangeContent = () => {
     setEditMode((prev) => !prev);
-  });
+  };
 
-  const onToggleChangeAnswer = useCallback(() => {
+  const onToggleChangeAnswer = () => {
     seteditModeAnswer((prev) => !prev);
-  });
+  };
 
-  const onClickGoback = useCallback(() => {
-    dispatch(gobackToInquery(3));
+  const onClickGoback = () => {
     navigate(-1);
-  }, []);
+  };
 
-  const onClickDelete = useCallback(() => {
+  const onClickDelete = () => {
     console.log('delete');
     // 삭제 요청
-    dispatch(removePost(PostId));
+    dispatch(removePost(PostId))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
     console.log(PostId);
     // 문의 게시판으로 redirect
-    dispatch(gobackToInquery(3));
     navigate(-1);
-  }, []);
+  };
 
-  const onClickUpdate = useCallback(() => {
+  const onClickUpdate = () => {
     if (!context || !context.trim()) {
       return alert('내용을 입력해주세요');
     }
-    console.log('수정 reqeust');
-    dispatch(gobackToInquery(3));
     navigate(-1);
-    console.log(context, typeof context);
     const data = {
       questionSeq: PostId,
       memberSeq: UserId,
@@ -78,7 +84,6 @@ function BoardListItem() {
       question: context,
       answer: singlePost.answer,
     };
-    console.log(data);
     dispatch(updatePost(data))
       .unwrap()
       .then((response) => {
@@ -87,74 +92,67 @@ function BoardListItem() {
       .catch((err) => {
         console.log(err.response.data);
       });
-  });
+  };
 
-  const onChangeContext = useCallback(
-    (e) => {
-      // console.log(e.target.value);
-      setContext(e.target.value);
-    },
-    [context]
-  );
-  const onChangeTitle = useCallback(
-    (e) => {
-      // console.log(e.target.value);
-      setTitle(e.target.value);
-    },
-    [title]
-  );
+  const onChangeContext = (e) => {
+    // console.log(e.target.value);
+    setContext(e.target.value);
+  };
+  const onChangeTitle = (e) => {
+    // console.log(e.target.value);
+    setTitle(e.target.value);
+  };
 
-  const onChangeAnswerContext = useCallback(
-    (e) => {
-      console.log(e.target.value);
-      setAnswer(e.target.value);
-    },
-    [answer]
-  );
+  const onChangeAnswerContext = (e) => {
+    setAnswer(e.target.value);
+  };
 
-  const onClickAnswerSend = useCallback(() => {
-    console.log(answer);
+  const onClickAnswerSend = () => {
     const data = { questionSeq: PostId, answer };
+    console.log(data);
     dispatch(addAnswer(data))
       .unwrap()
       .then((response) => {
         console.log(response);
+        console.log(data);
+        dispatch(loadBoardListItem(data));
       })
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, []);
+  };
 
-  const onClickAnswerUpdate = useCallback(() => {
-    console.log('답변 수정 서버 전송');
+  const onClickAnswerUpdate = async () => {
     if (!answer || !answer.trim()) {
       return alert('내용을 입력해주세요');
     }
     const data = { questionSeq: PostId, answer };
-    dispatch(updateAnswer(data));
-  });
+    dispatch(updateAnswer(data))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+        console.log(data);
+        dispatch(loadBoardListItem(data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-  const onClickAnswerDelete = useCallback(() => {
-    console.log('답변 삭제 서버 전송');
+  const onClickAnswerDelete = () => {
     dispatch(removeAnswer(PostId))
       .unwrap()
       .then(() => {
         const data = {
-          PostId,
+          questionSeq: PostId,
         };
         dispatch(loadBoardListItem(data));
+      })
+      .catch((error) => {
+        console.log(error);
       });
-  }, []);
-
-  // useEffect로 이 페이지 오자마자 Read요청 =>해당 정보를 disptach로 요청
-  // 지금 {siglePost.~} 쓰이는 것들 처리하면 됨
-
-  useEffect(() => {
-    const data = {
-      PostId,
-    };
-    dispatch(loadBoardListItem(data));
-  }, []);
+    setAnswer('');
+  };
 
   return (
     <>
@@ -180,7 +178,6 @@ function BoardListItem() {
               value={title}
               onChange={onChangeTitle}
             />
-            {title}
           </Box>
           <Box
             component="form"

@@ -15,7 +15,7 @@ import Stack from '@mui/material/Stack';
 // component
 
 // actions
-import { addPost, gobackToInquery } from '../../MyPageSlice';
+import { addPost } from '../../MyPageSlice';
 
 function BoardForm() {
   const { userInfo } = useSelector((state) => state.mypage);
@@ -25,24 +25,17 @@ function BoardForm() {
   const dispatch = useDispatch();
   const myId = userInfo[0].id;
 
-  const onChagneTitle = useCallback(
-    (e) => {
-      // console.log(e.target.value);
-      setTitle(e.target.value);
-    },
-    [title]
-  );
+  const onChagneTitle = useCallback((e) => {
+    // console.log(e.target.value);
+    setTitle(e.target.value);
+  }, []);
 
-  const onChangeContext = useCallback(
-    (e) => {
-      // console.log(e.target.value);
-      setContext(e.target.value);
-    },
-    [context]
-  );
+  const onChangeContext = useCallback((e) => {
+    // console.log(e.target.value);
+    setContext(e.target.value);
+  }, []);
 
   const onClickGoback = useCallback(() => {
-    dispatch(gobackToInquery(3));
     navigate(-1);
   }, []);
 
@@ -90,6 +83,7 @@ function BoardForm() {
           value={title}
           label="제목"
           id="fullWidth"
+          autoFocus
         />
       </Box>
 

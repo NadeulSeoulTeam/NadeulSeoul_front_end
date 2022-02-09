@@ -32,27 +32,6 @@ const columns = [
   },
 ];
 
-// // 서버 연결시 삭제 필요
-// function createData(id, title, date) {
-//   return { id, title, date };
-// }
-// 들어오는 날짜 데이터를 처리
-// const nowTime = moment().format('YYYY-MM-DD HH:mm:ss');
-
-// 서버 연결시 삭제 필요
-// const rows = [
-//   createData('1', '안녕하세요 - 1', nowTime),
-//   createData('2', '안녕하세요 - 2', nowTime),
-//   createData('3', '안녕하세요 - 3', nowTime),
-//   createData('4', '안녕하세요 - 4', nowTime),
-//   createData('5', '안녕하세요 - 5', nowTime),
-//   createData('6', '안녕하세요 - 6', nowTime),
-//   createData('7', '안녕하세요 - 7', nowTime),
-//   createData('8', '안녕하세요 - 8', nowTime),
-//   createData('9', '안녕하세요 - 9', nowTime),
-//   createData('10', '안녕하세요 - 10', nowTime),
-// ];
-
 function BoardList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -71,15 +50,11 @@ function BoardList() {
   };
 
   const navigate = useNavigate();
-  // const params = useParams();
-  // const userId = params.id;
 
   // props로 안하고 dispatch로 postId보내자
 
   const onClick = useCallback(
     (id) => () => {
-      console.log('here');
-      console.log(id);
       dispatch(postIdToListItem(id));
       navigate(`/questions/${id}`);
     },
@@ -87,14 +62,13 @@ function BoardList() {
   );
 
   const onClickCreateInqury = useCallback(() => {
-    console.log('문의작성');
     navigate(`/questions/new`);
   }, []);
 
   useEffect(() => {
     dispatch(loadBoardList(userInfo[0].id));
     console.log(userInfo[0].id);
-  }, [userInfo.id]);
+  }, []);
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>

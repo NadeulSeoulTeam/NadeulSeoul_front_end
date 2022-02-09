@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import _concat from 'lodash/concat';
-import _remove from 'lodash/remove';
+// import _remove from 'lodash/remove';
 import _find from 'lodash/find';
 
 // dummy data for 인피니티 스크롤
@@ -33,7 +33,7 @@ export const User = [
     Followers: 3,
   },
   {
-    id: 7,
+    id: 2,
     nickname: 'taw1019',
     emoji: '🍎',
     Followings: 2,
@@ -59,7 +59,7 @@ export const FollowList = [
     ],
   },
   {
-    id: 7,
+    id: 2,
     nickname: 'taw1019',
     emoji: '🍎',
     FollowingsList: [
@@ -118,7 +118,7 @@ export const loadFollowers = createAsyncThunk(
   'mypage/loadFollowers',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`mypage/${data}/follower`);
+      const response = await axios.get(`/mypage/${data}/follower`);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.resonse.data);
@@ -143,6 +143,7 @@ export const loadFollowings = createAsyncThunk(
 export const follow = createAsyncThunk(
   'mypage/follow',
   async (data, { rejectWithValue }) => {
+    console.log(data);
     try {
       const response = await axios.post(`mypage/${data}/follow`);
       return response;
@@ -185,7 +186,9 @@ export const loadBoardListItem = createAsyncThunk(
   'mypage/loadBoardListItem',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/inqurys/questions/${data.PostId}`);
+      const response = await axios.get(
+        `/inqurys/questions/${data.questionSeq}`
+      );
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -258,8 +261,12 @@ export const addAnswer = createAsyncThunk(
 export const updateAnswer = createAsyncThunk(
   'mypage/updateAnswer',
   async (data, { rejectWithValue }) => {
+    console.log(data);
     try {
-      const response = await axios.put('/inqurys/answers', data);
+      const response = await axios.put(
+        `/inqurys/answers/${data.questionSeq}`,
+        data
+      );
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -284,15 +291,16 @@ export const removeAnswer = createAsyncThunk(
 // 기본 state
 // 서버 연결하면 기존의 dummydate 연결 풀어야 함
 export const initialState = {
-  userInfo: User, // 내 정보
+  userInfo: User, // 내 정보 test
   user: null,
   InfinityPosts: [], // test infinity scroll
   loadInfinityPostsLoading: false,
   loadInfinityPostsDone: false,
   loadInfinityPostsError: null,
   hasMorePosts: true,
-  FollowInfo: FollowList, // 팔로잉, 팔로워 정보
-  inqueryBack: 0, // 문의게시판 돌아가기 flag
+  FollowInfo: FollowList, // 팔로잉, 팔로워 정보 test
+  followeeUsers: null,
+  followerUsers: null,
   mainPosts: [], // 문의게시판 목록
   singlePost: null, // 문의 게시판 상세 정보
   PostId: null, // 문의게시판 postId
@@ -339,9 +347,6 @@ const MyPageSlice = createSlice({
   name: 'mypage',
   initialState,
   reducers: {
-    gobackToInquery(state, action) {
-      state.inqueryBack = action.payload;
-    },
     postIdToListItem(state, action) {
       state.PostId = action.payload;
     },
@@ -374,7 +379,7 @@ const MyPageSlice = createSlice({
     [loadUser.fulfilled]: (state, action) => {
       state.loadUserLoading = false;
       state.loadUserDone = true;
-      state.user = action.payload; // 서버에서 온 user 정보가 담긴다.
+      state.user = action.payload.data; // 서버에서 온 user 정보가 담긴다.
     },
     [loadUser.rejected]: (state, action) => {
       state.loadUserLoading = false;
@@ -390,7 +395,7 @@ const MyPageSlice = createSlice({
 
     [loadFollowers.fulfilled]: (state, action) => {
       state.loadFollowersLoading = false;
-      state.FollowInfo.FollowersList = action.data;
+      state.followerUsers = action.payload.data.followDtoList;
       state.loadFollowersDone = true;
     },
     [loadFollowers.rejected]: (state, action) => {
@@ -405,7 +410,7 @@ const MyPageSlice = createSlice({
     },
     [loadFollowings.fulfilled]: (state, action) => {
       state.loadFollowingsLoading = false;
-      state.FollowInfo.FollowersList = action.data;
+      state.followeeUsers = action.payload.data.followDtoList;
       state.loadFollowingsDone = true;
     },
     [loadFollowings.rejected]: (state, action) => {
@@ -418,12 +423,12 @@ const MyPageSlice = createSlice({
       state.followDone = false;
       state.followError = null;
     },
-    [follow.fulfilled]: (state, action) => {
+    [follow.fulfilled]: (state) => {
       state.followLoading = false;
       state.followDone = true;
-      state.FollowInfo.FollowingsList.push({
-        id: action.payload.id,
-      });
+      // state.FollowInfo.FollowingsList.push({
+      //   id: action.payload.id,
+      // });
     },
     [follow.rejected]: (state, action) => {
       state.followLoading = false;
@@ -435,12 +440,12 @@ const MyPageSlice = createSlice({
       state.followDone = false;
       state.followError = null;
     },
-    [follow.fulfilled]: (state, action) => {
+    [follow.fulfilled]: (state) => {
       state.followLoading = false;
       state.followDone = true;
-      _remove(state.FollowInfo.FollowinsList, {
-        id: action.payload.id,
-      });
+      // _remove(state.FollowInfo.FollowinsList, {
+      //   id: action.payload.id,
+      // });
     },
     [follow.rejected]: (state, action) => {
       state.followLoading = false;
@@ -507,8 +512,7 @@ const MyPageSlice = createSlice({
       state.removeAnswerDone = false;
       state.removeAnswerError = null;
     },
-    [removePost.fulfilled]: (state, action) => {
-      console.log(typeof action.payload, action.payload);
+    [removePost.fulfilled]: (state) => {
       state.removeAnswerLoading = false;
       state.removeAnswerDone = true;
     },
@@ -544,7 +548,7 @@ const MyPageSlice = createSlice({
       state.addAnswerError = null;
     },
     [addAnswer.fulfilled]: (state) => {
-      // const post = _find(state.mainPosts, { id: action.payload.PostId });
+      // const post = _find(state.mainPosts, { id: action.payload.questionSeq });
       state.addAnswerLoading = false;
       state.addAnswerDone = true;
       // 답변은 하나만 달리므로!
@@ -561,11 +565,11 @@ const MyPageSlice = createSlice({
       state.removeAnswerDone = false;
       state.removeAnswerError = null;
     },
-    [removeAnswer.fulfilled]: (state, action) => {
-      const post = _find(state.mainPosts, { id: action.payload.PostId });
+    [removeAnswer.fulfilled]: (state) => {
+      // const post = _find(state.mainPosts, { id: action.payload.PostId });
       state.removeAnswerLoading = false;
       state.removeAnswerDone = true;
-      _remove(post.answer, { id: action.payload.AnswerId });
+      // _remove(post.answer, { id: action.payload.AnswerId });
     },
     [removeAnswer.rejected]: (state, action) => {
       state.removeAnswerLoading = false;
@@ -590,6 +594,5 @@ const MyPageSlice = createSlice({
     },
   },
 });
-export const { gobackToInquery, postIdToListItem, UserIdToListItem } =
-  MyPageSlice.actions;
+export const { postIdToListItem, UserIdToListItem } = MyPageSlice.actions;
 export default MyPageSlice.reducer;
