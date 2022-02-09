@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-// check
-import { toast } from 'react-toastify';
-
 // components
 import BasicTabs from './Tabs/BasicTabs';
 import ProfileCard from './Card/ProfileCard';
@@ -20,8 +17,8 @@ function MyPage() {
   useEffect(() => {
     dispatch(loadUser(userInfo[0].id))
       .unwrap()
-      .then(() => {
-        toast.success('불러오기에 성공');
+      .then((response) => {
+        console.log(response);
       })
       .catch((err) => {
         console.log(err.response.data);

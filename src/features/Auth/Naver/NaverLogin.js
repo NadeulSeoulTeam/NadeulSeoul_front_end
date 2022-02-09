@@ -4,7 +4,7 @@ function NaverLogin() {
   const initializeNaverLogin = () => {
     const { naver } = window;
     const naverLogin = new naver.LoginWithNaverId({
-      clientId: 'm7ElqUoPxOdxQ1WacsCU',
+      clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
       callbackUrl: 'http://localhost:3000/callback',
       isPopup: false,
       loginButton: {
