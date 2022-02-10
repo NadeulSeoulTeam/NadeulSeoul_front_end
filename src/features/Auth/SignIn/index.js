@@ -12,18 +12,19 @@ import {
 } from './styles';
 
 function SignIn() {
-  const popupOpen = () => {
-    window.open(
-      'http://localhost:8080/oauth2/authorization/google',
-      'Google Login',
-      'width=400px, height=600px, scrollbars=yes'
-    );
-  };
+  // const popupOpen = () => {
+  //   window.open(
+  //     'http://localhost:8080/oauth2/authorization/google',
+  //     'Google Login',
+  //     'width=400px, height=600px, scrollbars=yes'
+  //   );
+  // };
 
   return (
     <Container>
       <MainTitle>나들서울</MainTitle>
-      <GoogleButton href="#" onClick={popupOpen}>
+      {/* <GoogleButton href="#" onClick={popupOpen}> */}
+      <GoogleButton href="http://localhost:8080/oauth2/authorization/google">
         <GoogleIcon />
         <ButtonText>구글 계정으로 이용하기</ButtonText>
       </GoogleButton>

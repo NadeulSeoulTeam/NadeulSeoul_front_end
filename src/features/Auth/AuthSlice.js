@@ -1,15 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
+// axios.defaults.baseURL = 'http://localhost:8080';
 axios.defaults.withCredentials = true;
+const cookies = new Cookies();
 
 // 기본 state
 export const initialState = {
+  email: '',
+  token: '',
   nickname: '',
   emoji: '',
-  signupError: '',
-  isSignedin: '',
-  signinError: '',
+  // accessToken: '',
+  // refreshToken: '',
+  signupLoading: false,
+  signupDone: false,
+  signupError: null,
+  loginLoading: false,
+  loginDone: false,
+  loginError: null,
 };
 
 export const signup = createAsyncThunk(
@@ -39,8 +49,22 @@ export const silentRefresh = createAsyncThunk(
   }
 );
 
+// 로그인 완료(메인페이지로 넘어감)되면 cookie에서 token 가져와야됨
+// 아래 코드 useEffect로 메인페이지에 추가
+// const refreshToken = cookies.get('refresh_token');
+
+// export const setRefreshTokenToCookie = (refreshToken) => {
+//   cookies.set('refresh_token', refreshToken, { sameSite: 'strict' });
+// };
+
+export const logout = () => {
+  console.log('logout');
+  window.localStorage.setItem('logout', Date.now());
+  cookies.remove('refresh_token');
+};
+
 // index.js 에서 해줘야 할지도
-// export const onLoginSuccess = createAsyncThunk(
+// export const onLogin = createAsyncThunk(
 //   'member/signin',
 //   async (data, { rejectWithValue }) => {
 //     try {
@@ -68,27 +92,27 @@ export const silentRefresh = createAsyncThunk(
 const authSlice = createSlice({
   name: 'authReducer',
   initialState,
-  reducers: {},
+  reducers: {
+    // gobackToInquery(state, action) {
+    //   state.inqueryBack = action.payload;
+    // },
+    saveRefreshToken(state, action) {
+      state.refreshToken = action.payload;
+    },
+  },
   extraReducers: {
-    // [postNaverCode.pending]: (state) => {
-    //   state.postNaverCodeLoading = true;
-    //   state.postNaverCodeDone = false;
-    //   state.postNaverCodeError = false;
-    // },
-    // [postNaverCode.fulfilled]: (state) => {
-    //   state.postNaverCodeLoading = false;
-    //   state.postNaverCodeDone = true;
-    // },
-    // [postNaverCode.rejected]: (state, action) => {
-    //   state.postNaverCodeLoading = false;
-    //   state.postNaverCodeError = action.payload;
-    // },
+    [signup.pending]: (state, action) => {
+      console.log(action.payload);
+      state.signupLoading = true;
+    },
+    [signup.fulfilled]: (state, action) => {
+      console.log(action.payload);
+      state.signupLoading = false;
+      state.signupDone = true;
+    },
     [signup.rejected]: (state, action) => {
       state.signupError = action.payload;
     },
-    // [signup.fulfilled]: (state, action) => {
-    // },
-    // },
   },
 });
 // export const {} = authSlice.actions;
