@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 
 import StoreGrid from './styles';
 
-import UserListItem from '../UserListItem';
+import StoreListItem from '../StoreListItem';
 
-function UserList() {
+function StoreList() {
   // const dispatch = useDispatch();
   const scrollRef = useRef(null);
   const [isDrag, setIsDrag] = useState(false);
@@ -15,7 +15,7 @@ function UserList() {
   //   dispatch(fetchStores());
   // }, []);
 
-  const userList = useSelector((state) => state.main.users);
+  const storeList = useSelector((state) => state.main.stores);
 
   const throttle = (func, ms) => {
     let throttled = false;
@@ -56,22 +56,22 @@ function UserList() {
   const onThrottleDragMove = throttle(onDragMove, 100);
 
   const mapToComponent = (data) => {
-    console.log('UserList');
+    console.log('StoreList');
     console.log(data);
-    return data.map((user) => <UserListItem user={user} />);
+    return data.map((store) => <StoreListItem store={store} />);
   };
 
   return (
-    // <Grid container>{mapToComponent(userList)}</Grid>;
+    // <Grid container>{mapToComponent(storeList)}</Grid>;
     <StoreGrid
       ref={scrollRef}
       onMouseDown={onDragStart}
       onMouseMove={isDrag ? onThrottleDragMove : null}
       onMouseUp={onDragEnd}
     >
-      {mapToComponent(userList)}
+      {mapToComponent(storeList)}
     </StoreGrid>
   );
 }
 
-export default UserList;
+export default StoreList;

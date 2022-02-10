@@ -8,6 +8,7 @@ export const Wrapper = styled(Card)`
     margin: 0 20px 0 0;
     text-align: center;
     cursor: pointer;
+    width: 10vw;
   }
 `;
 
@@ -16,11 +17,13 @@ export const UserEmoji = styled(Avatar)`
     width: 10vw;
     height: 10vw;
     font-size: 4vw;
+    background-color: #d1f0df;
   }
 `;
 
 export const UserName = styled.p`
   color: #0de073;
-  font-size: 1rem;
+  font-weight: bold;
+  font-size: 0.9rem;
   margin: 10px 0;
 `;

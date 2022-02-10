@@ -7,6 +7,7 @@ export const Wrapper = styled(Card)`
     margin: 0 20px 0 0;
     cursor: pointer;
     flex-shrink: 0;
+    width: 12vw;
   }
 `;
 
@@ -36,6 +37,6 @@ export const LikeChip = styled.div`
 `;
 
 export const CurationTitle = styled.p`
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin: 10px 0;
 `;
