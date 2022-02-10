@@ -60,6 +60,7 @@ function BoardListItemAnswer({ answer, PostId }) {
       .then((response) => {
         console.log(response);
         console.log(data);
+        onToggleChangeAnswer();
         dispatch(loadBoardListItem(data));
       })
       .catch((error) => {
@@ -115,7 +116,6 @@ function BoardListItemAnswer({ answer, PostId }) {
               <Button
                 onClick={onClickAnswerUpdate}
                 variant="contained"
-                type="submit"
                 startIcon={<SendIcon />}
               >
                 Send

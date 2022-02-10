@@ -1,3 +1,6 @@
+// 여기는 일단 놔두자, 뭔가 오류가 있는거 같기도,,
+// 같은 걸로 2개다 해서 하나는 안되는거 일지도,,,
+
 import React, { useEffect, useCallback } from 'react';
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
@@ -28,7 +31,9 @@ const Demo = styled('div')(({ theme }) => ({
 
 function FollowersList() {
   // user별 팔로잉 팔로우 리스트를 불러오면 된다.
-  const { followerUsers } = useSelector((state) => state.mypage);
+  const { followerUsers, followinfoToList } = useSelector(
+    (state) => state.mypage
+  );
   const params = useParams();
   const dispatch = useDispatch();
   // const FollowList = FollowInfo.filter((v) => {
@@ -41,6 +46,7 @@ function FollowersList() {
 
   // console.log(params.id);
   // console.log(FollowList[0].FollowersList);
+  console.log(followinfoToList);
 
   useEffect(() => {
     dispatch(loadFollowers(params.id))

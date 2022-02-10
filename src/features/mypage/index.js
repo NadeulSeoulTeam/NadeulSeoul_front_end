@@ -12,6 +12,7 @@ import {
   UserIdToListItem,
   loadFollowers,
   loadFollowings,
+  followinfoToList,
 } from './MyPageSlice';
 
 function MyPage() {
@@ -41,6 +42,7 @@ function MyPage() {
       .unwrap()
       .then((response) => {
         console.log(response);
+        dispatch(followinfoToList(response.data));
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -49,6 +51,7 @@ function MyPage() {
       .unwrap()
       .then((response) => {
         console.log(response);
+        dispatch(followinfoToList(response.data));
       })
       .catch((err) => {
         console.log(err.response.data);

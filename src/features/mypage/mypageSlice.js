@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import _concat from 'lodash/concat';
 // import _remove from 'lodash/remove';
-import _find from 'lodash/find';
+// import _find from 'lodash/find';
 
 // dummy data for 인피니티 스크롤
 
@@ -263,10 +263,7 @@ export const updateAnswer = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log(data);
     try {
-      const response = await axios.put(
-        `/inqurys/answers/${data.questionSeq}`,
-        data
-      );
+      const response = await axios.put(`/inqurys/answers`, data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -293,6 +290,7 @@ export const removeAnswer = createAsyncThunk(
 export const initialState = {
   userInfo: User, // 내 정보 test
   user: null,
+  followinfoToList: null,
   InfinityPosts: [], // test infinity scroll
   loadInfinityPostsLoading: false,
   loadInfinityPostsDone: false,
@@ -352,6 +350,10 @@ const MyPageSlice = createSlice({
     },
     UserIdToListItem(state, action) {
       state.UserId = action.payload;
+    },
+    followinfoToList(state, action) {
+      console.log(action);
+      state.followinfoToList = action.payload.followDtoList;
     },
   },
   extraReducers: {
@@ -581,12 +583,12 @@ const MyPageSlice = createSlice({
       state.updateAnswerDone = false;
       state.updateAnswerError = null;
     },
-    [updateAnswer.fulfilled]: (state, action) => {
-      const post = _find(state.mainPosts, { id: action.payload.PostId });
+    [updateAnswer.fulfilled]: (state) => {
+      // const post = _find(state.mainPosts, { id: action.payload.PostId });
       state.updateAnswerLoading = false;
       state.updateAnswerDone = true;
       // {answer : answer }이 방식으로 dispatch 보낼 예정
-      post.answer = action.payload.answer;
+      // post.answer = action.payload.answer;
     },
     [updateAnswer.rejected]: (state, action) => {
       state.updateAnswerLoading = false;
@@ -594,5 +596,6 @@ const MyPageSlice = createSlice({
     },
   },
 });
-export const { postIdToListItem, UserIdToListItem } = MyPageSlice.actions;
+export const { postIdToListItem, UserIdToListItem, followinfoToList } =
+  MyPageSlice.actions;
 export default MyPageSlice.reducer;
