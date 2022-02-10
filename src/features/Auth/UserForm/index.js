@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 
 import { signup } from '../AuthSlice';
 // import 'emoji-mart/css/emoji-mart.css';
@@ -18,18 +18,23 @@ import {
   EmojiPicker,
 } from './styles';
 
+// const getParams = (name) => {
+//   const keyword = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+//   const regex = new RegExp(`[\\?&]${keyword}=([^&#]*)`);
+//   const results = regex.exec(location.search);
+//   return results === null
+//     ? ''
+//     : decodeURIComponent(results[1].replace(/\+/g, ' '));
+// };
+
 function UserForm() {
   const dispatch = useDispatch();
-  const cookies = new Cookies();
-
-  useEffect(() => {
-    const token = cookies.get('token');
-    alert(token);
-  });
+  // const cookies = new Cookies();
 
   // states
   const [nickname, setNickname] = useState('');
   const [emoji, setEmoji] = useState('');
+  const [id, setId] = useState('');
   const [nicknameErr, setNicknameErr] = useState({
     validationStatus: '',
     errorMsg: '',
@@ -37,6 +42,12 @@ function UserForm() {
   const [emojiErr, setEmojiErr] = useState({
     validationStatus: '',
     errorMsg: '',
+  });
+
+  useEffect(() => {
+    const params = new URLSearchParams(document.location.search);
+    const Id = params.get('id');
+    setId(Id);
   });
 
   const onNicknameChange = (e) => {
@@ -88,6 +99,7 @@ function UserForm() {
   const data = {
     nickname,
     emoji,
+    id,
   };
 
   const onInputSuccess = useCallback(() => {

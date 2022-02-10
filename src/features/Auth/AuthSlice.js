@@ -26,8 +26,8 @@ export const signup = createAsyncThunk(
   'member/signup',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/member/signup', data);
-      return response.data;
+      const response = await axios.post('api/v1/member/signup', data);
+      return response.data.data;
     } catch (error) {
       console.log(error);
       return rejectWithValue(error.response.data);
@@ -40,7 +40,7 @@ export const silentRefresh = createAsyncThunk(
   'member/refresh',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/member/refresh', data);
+      const response = await axios.post('api/v1/member/refresh', data);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -104,14 +104,19 @@ const authSlice = createSlice({
     [signup.pending]: (state, action) => {
       console.log(action.payload);
       state.signupLoading = true;
+      state.signupDone = false;
+      state.signupError = null;
     },
     [signup.fulfilled]: (state, action) => {
       console.log(action.payload);
       state.signupLoading = false;
       state.signupDone = true;
+      state.signupError = null;
     },
     [signup.rejected]: (state, action) => {
-      state.signupError = action.payload;
+      state.signupLoading = false;
+      state.signupDone = false;
+      state.signupError = action.payload.message;
     },
   },
 });
