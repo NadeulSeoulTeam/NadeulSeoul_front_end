@@ -3,6 +3,7 @@
 /* eslint-disable consistent-return */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 // actions
 
@@ -17,19 +18,26 @@ function BoardListItem() {
   const { PostId, singlePost } = useSelector((state) => state.mypage);
   const [lodingFinsh, setLoadingFinish] = useState(false);
 
+  const [id, setId] = useState();
+  const navigateState = useLocation().state;
+  const savedPostid = navigateState?.postId;
+
+  // window.localStorage.setItem('data', savedPostid);
+  window.localStorage.setItem('data', PostId);
+
   // 정리해서 남겨두기
   // jsx가 리로딩 되기전에, 값을 최신화 업데이트 하고싶을떄,,  componentWillUnmount
   // 게시글, 답변 로딩 -> update를 누른다 -> component did unmount 실행 -> update jsx 실행
-
   useEffect(() => {
-    window.localStorage.setItem('data', PostId);
-    const localStoragePostId = window.localStorage.getItem('data');
-    console.log(localStoragePostId);
     const data = {
-      questionSeq: localStoragePostId,
+      questionSeq: PostId,
     };
     return dispatch(loadBoardListItem(data)).then(() => {
       setLoadingFinish(true);
+      // const saved = window.localStorage.getItem('data');
+      // if (saved !== null) {
+      //   setId(saved);
+      // }
     });
   }, [PostId]);
 

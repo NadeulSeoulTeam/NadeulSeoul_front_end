@@ -39,6 +39,7 @@ function BoardList() {
   const dispatch = useDispatch();
   // 서버 연결시 rows 대신에 mainPosts에 연결하면 됨
   const { userInfo, mainPosts } = useSelector((state) => state.mypage);
+  const navigate = useNavigate();
 
   console.log(mainPosts);
   const handleChangePage = (event, newPage) => {
@@ -50,14 +51,13 @@ function BoardList() {
     setPage(0);
   };
 
-  const navigate = useNavigate();
-
   // props로 안하고 dispatch로 postId보내자
 
   const onClick = useCallback(
     (id) => () => {
+      console.log(id);
       dispatch(postIdToListItem(id));
-      navigate(`/questions/${id}`);
+      navigate(`/questions/${id}`, { state: { postId: id } });
     },
     []
   );
