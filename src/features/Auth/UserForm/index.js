@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import Cookies from 'universal-cookie';
 
 import { signup } from '../AuthSlice';
 // import 'emoji-mart/css/emoji-mart.css';
@@ -19,6 +20,12 @@ import {
 
 function UserForm() {
   const dispatch = useDispatch();
+  const cookies = new Cookies();
+
+  useEffect(() => {
+    const token = cookies.get('token');
+    alert(token);
+  });
 
   // states
   const [nickname, setNickname] = useState('');
