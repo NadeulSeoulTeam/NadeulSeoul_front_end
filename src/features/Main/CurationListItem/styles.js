@@ -10,11 +10,17 @@ export const Wrapper = styled(Card)`
   }
 `;
 
-export const CurationImage = styled.div`
+export const ImageDiv = styled.div`
   width: 12vw;
   height: 12vw;
-  background-color: #c4c4c4;
+  background-color: transparent;
   position: relative;
+`;
+
+export const CurationImage = styled.img`
+  width: 12vw;
+  height: 12vw;
+  object-fit: cover;
 `;
 
 export const LikeChip = styled.div`

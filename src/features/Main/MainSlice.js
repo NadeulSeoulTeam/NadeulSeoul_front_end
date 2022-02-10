@@ -3,13 +3,13 @@ import axios from 'axios';
 
 export const initialState = {
   courses: [
-    // { id: 1, title: '큐레이션 제목', likes: 39 },
-    // { id: 2, title: '큐레이션 제목', likes: 339 },
-    // { id: 3, title: '큐레이션 제목', likes: 29 },
-    // { id: 4, title: '큐레이션 제목', likes: 9 },
-    // { id: 5, title: '큐레이션 제목', likes: 9 },
-    // { id: 6, title: '큐레이션 제목', likes: 29 },
-    // { id: 7, title: '큐레이션 제목', likes: 234 },
+    { curation_seq: 1, title: '큐레이션 제목', likes: 39 },
+    { curation_seq: 2, title: '큐레이션 제목', likes: 339 },
+    { curation_seq: 3, title: '큐레이션 제목', likes: 29 },
+    { curation_seq: 4, title: '큐레이션 제목', likes: 9 },
+    { curation_seq: 5, title: '큐레이션 제목', likes: 9 },
+    { curation_seq: 6, title: '큐레이션 제목', likes: 29 },
+    { curation_seq: 7, title: '큐레이션 제목', likes: 234 },
   ],
   users: [
     { id: 1, nickname: '나들러1', emoji: '🎈' },
@@ -27,8 +27,8 @@ export const initialState = {
 
 export const fetchCourses = createAsyncThunk('main/fetchCourses', async () => {
   try {
-    const response = await axios.get('/curations/statics/courses');
-    return response.data;
+    const response = await axios.get('/api/v1/curations/statics/courses');
+    return response.data.data;
   } catch (error) {
     return error.response.data;
   }
@@ -61,7 +61,7 @@ const mainSlice = createSlice({
     [fetchCourses.rejected]: (state, action) => {
       state.fetchCoursesLoading = true;
       state.fetchCoursesDone = false;
-      state.fetchCoursesError = action.payload;
+      state.fetchCoursesError = action.payload.data.message;
     },
   },
 });
