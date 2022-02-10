@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 
 // axios.defaults.baseURL = 'http://localhost:8080';
 axios.defaults.withCredentials = true;
-const cookies = new Cookies();
+// const cookies = new Cookies();
 
 // 기본 state
 export const initialState = {
@@ -57,11 +57,11 @@ export const silentRefresh = createAsyncThunk(
 //   cookies.set('refresh_token', refreshToken, { sameSite: 'strict' });
 // };
 
-export const logout = () => {
-  console.log('logout');
-  window.localStorage.setItem('logout', Date.now());
-  cookies.remove('refresh_token');
-};
+// export const logout = () => {
+//   console.log('logout');
+//   window.localStorage.setItem('logout', Date.now());
+//   cookies.remove('refresh_token');
+// };
 
 // index.js 에서 해줘야 할지도
 // export const onLogin = createAsyncThunk(
