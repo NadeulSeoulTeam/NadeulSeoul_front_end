@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 
 // mui
@@ -19,6 +18,8 @@ import Box from '@mui/material/Box';
 
 // actions
 import { loadBoardList, postIdToListItem } from '../../MyPageSlice';
+
+// components
 
 // title, id, date(작성 시간) 3개만 프로필에 표시하면 된다.
 const columns = [
