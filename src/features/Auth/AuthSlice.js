@@ -24,6 +24,7 @@ export const signup = createAsyncThunk(
   'member/signup',
   async (data, { rejectWithValue }) => {
     try {
+      console.log(getToken());
       // const cookies = new Cookies();
       // cookies.set('token', '지윤', { path: '/' });
       // console.log(cookies.get('token'));
@@ -121,7 +122,7 @@ const authSlice = createSlice({
     [signup.rejected]: (state, action) => {
       state.signupLoading = false;
       state.signupDone = false;
-      state.signupError = action.payload.message;
+      state.signupError = action.payload.data.message;
     },
   },
 });

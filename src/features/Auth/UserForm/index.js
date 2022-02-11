@@ -91,6 +91,7 @@ function UserForm() {
   };
 
   const onInputSuccess = useCallback(() => {
+    console.log(data);
     dispatch(signup(data));
   }, [data]);
 
