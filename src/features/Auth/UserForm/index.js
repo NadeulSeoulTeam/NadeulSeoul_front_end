@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { signup } from '../AuthSlice';
 // import 'emoji-mart/css/emoji-mart.css';
@@ -19,7 +20,7 @@ import {
 
 function UserForm() {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   // states
   const [nickname, setNickname] = useState('');
   const [emoji, setEmoji] = useState('');
@@ -91,7 +92,10 @@ function UserForm() {
   };
 
   const onInputSuccess = useCallback(() => {
-    dispatch(signup(data));
+    console.log(data);
+    dispatch(signup(data)).then(() => {
+      navigate('/');
+    });
   }, [data]);
 
   return (
