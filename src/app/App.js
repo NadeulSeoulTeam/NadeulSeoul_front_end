@@ -7,6 +7,7 @@ import Container from './AppStyle';
 
 // features
 import SignIn from '../features/Auth/SignIn';
+import Redirect from '../features/Auth/Redirect';
 import UserForm from '../features/Auth/UserForm';
 import MyPage from '../features/MyPage';
 import MainPage from '../features/Main/MainPage';
@@ -31,6 +32,7 @@ function App() {
           <Route Route path="/" element={<MainPage />} />
           {/* auth */}
           <Route path="/member/signin" element={<SignIn />} />
+          <Route path="/oauth/redirect" element={<Redirect />} />
           <Route path="/member/signup" element={<UserForm />} />
           {/* mypage */}
           <Route Route path="/mypage/:id" element={<MyPage />} />
