@@ -48,73 +48,9 @@ export const initialState = {
 const authSlice = createSlice({
   name: 'authReducer',
   initialState,
-  reducers: {
-    addNaverToken(state, action) {
-      state.naverToken = action.payload;
-    },
-    addNaverCode(state, action) {
-      state.naverCode = action.payload;
-    },
-    onChangeNaverCode(state, action) {
-      state.isNaverCode = action.payload;
-    },
-    addGoogleCode(state, action) {
-      state.googleCode = action.payload;
-    },
-    onChangeGoogleCode(state, action) {
-      state.isGoogleCode = action.payload;
-    },
-  },
-  extraReducers: {
-    [postNaverCode.pending]: (state) => {
-      state.postNaverCodeLoading = true;
-      state.postNaverCodeDone = false;
-      state.postNaverCodeError = false;
-    },
-    [postNaverCode.fulfilled]: (state) => {
-      state.postNaverCodeLoading = false;
-      state.postNaverCodeDone = true;
-    },
-    [postNaverCode.rejected]: (state, action) => {
-      state.postNaverCodeLoading = false;
-      state.postNaverCodeError = action.payload;
-    },
-    [postGoogleCode.pending]: (state) => {
-      state.postGoogleCodeLoading = true;
-      state.postGoogleCodeDone = false;
-      state.postGoogleCodeError = false;
-    },
-    [postGoogleCode.fulfilled]: (state) => {
-      state.postGoogleCodeLoading = false;
-      state.postGoogleCodeDone = true;
-    },
-    [postGoogleCode.rejected]: (state, action) => {
-      state.postGoogleCodeLoading = false;
-      state.postGoogleCodeError = action.payload;
-    },
-  },
-  // extraReducers: (builder) => {
-  //   builder.addCase(postNaverCode.pending, (state) => {
-  //     state.postNaverCodeLoading = true;
-  //     state.postNaverCodeDone = false;
-  //     state.postNaverCodeError = false;
-  //   });
-  //   builder.addCase(postNaverCode.fulfilled, (state) => {
-  //     state.postNaverCodeLoading = false;
-  //     state.postNaverCodeDone = true;
-  //   });
-  //   builder.addCase(postNaverCode.rejected, (state, action) => {
-  //     state.postNaverCodeLoading = false;
-  //     state.postNaverCodeError = action.payload;
-  //   });
-  // },
+  reducers: {},
+  extraReducers: {},
 });
-export const {
-  addNaverToken,
-  addNaverCode,
-  onChangeNaverCode,
-  addGoogleCode,
-  onChangeGoogleCode,
-} = authSlice.actions;
+// export const {} = authSlice.actions;
 
 export default authSlice.reducer;
