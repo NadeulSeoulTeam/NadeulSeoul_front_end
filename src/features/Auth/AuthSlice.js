@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from '../../common/api/httpCommunication';
+import { getToken } from '../../common/api/JWT-Token';
 // import Cookies from 'universal-cookie';
 
-// axios.defaults.baseURL = 'http://localhost:8080';
+axios.defaults.headers.common.Authorization = getToken();
 axios.defaults.withCredentials = true;
 // const cookies = new Cookies();
 
@@ -12,8 +13,6 @@ export const initialState = {
   token: '',
   nickname: '',
   emoji: '',
-  // accessToken: '',
-  // refreshToken: '',
   signupLoading: false,
   signupDone: false,
   signupError: null,
@@ -26,7 +25,7 @@ export const signup = createAsyncThunk(
   'member/signup',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('api/v1/member/signup', data);
+      const response = await axios.post('/member/signup', data);
       return response.data.data;
     } catch (error) {
       console.log(error);
@@ -40,7 +39,7 @@ export const silentRefresh = createAsyncThunk(
   'member/refresh',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('api/v1/member/refresh', data);
+      const response = await axios.post('/member/refresh', data);
       return response.data;
     } catch (error) {
       console.log(error);

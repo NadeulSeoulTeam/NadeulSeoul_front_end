@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { saveToken } from '../../../common/api/JWT-Token';
 
 function Redirect() {
   const navigate = useNavigate();
@@ -8,9 +9,8 @@ function Redirect() {
     const params = new URLSearchParams(document.location.search);
     const token = params.get('token');
     const flag = params.get('flag');
-    console.log(token);
-    console.log(flag);
-    if (flag === true) {
+    saveToken(token);
+    if (flag === 'true') {
       navigate('/member/signup');
     } else {
       navigate('/');
