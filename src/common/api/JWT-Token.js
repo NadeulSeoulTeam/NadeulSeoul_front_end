@@ -6,7 +6,7 @@ const cookies = new Cookies();
 
 // save
 export const saveToken = (token) => {
-  cookies.set('token', token, {
+  return cookies.set('token', token, {
     path: '/',
     // expires: Math.floor(Date.now() / 1000) + 60 * 60,
   });
@@ -14,10 +14,10 @@ export const saveToken = (token) => {
 
 // get
 export const getToken = () => {
-  cookies.get('token');
+  return cookies.get('token');
 };
 
 // delete
 export const deleteToken = () => {
-  cookies.remove('token');
+  return cookies.remove('token');
 };

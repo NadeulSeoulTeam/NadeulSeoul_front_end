@@ -1,11 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+// import Cookies from 'universal-cookie';
 import axios from '../../common/api/httpCommunication';
 import { getToken } from '../../common/api/JWT-Token';
-// import Cookies from 'universal-cookie';
 
-axios.defaults.headers.common.Authorization = getToken();
+// axios.defaults.headers.common.Authorization = `Bearer ${getToken()}`;
 axios.defaults.withCredentials = true;
-// const cookies = new Cookies();
 
 // 기본 state
 export const initialState = {
@@ -25,7 +24,14 @@ export const signup = createAsyncThunk(
   'member/signup',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/member/signup', data);
+      // const cookies = new Cookies();
+      // cookies.set('token', '지윤', { path: '/' });
+      // console.log(cookies.get('token'));
+      const response = await axios.post('/member/signup', data, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
       return response.data.data;
     } catch (error) {
       console.log(error);
