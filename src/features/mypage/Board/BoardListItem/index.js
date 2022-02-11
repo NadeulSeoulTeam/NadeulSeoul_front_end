@@ -22,22 +22,24 @@ function BoardListItem() {
   const navigateState = useLocation().state;
   const savedPostid = navigateState?.postId;
 
-  // window.localStorage.setItem('data', savedPostid);
-  window.localStorage.setItem('data', PostId);
+  window.localStorage.setItem('data', savedPostid);
 
+  console.log(savedPostid);
+  useEffect(() => {
+    const saved = window.localStorage.getItem('data');
+    if (saved !== null) {
+      setId(saved);
+    }
+  }, [savedPostid]);
   // 정리해서 남겨두기
   // jsx가 리로딩 되기전에, 값을 최신화 업데이트 하고싶을떄,,  componentWillUnmount
   // 게시글, 답변 로딩 -> update를 누른다 -> component did unmount 실행 -> update jsx 실행
   useEffect(() => {
     const data = {
-      questionSeq: PostId,
+      questionSeq: savedPostid,
     };
     return dispatch(loadBoardListItem(data)).then(() => {
       setLoadingFinish(true);
-      // const saved = window.localStorage.getItem('data');
-      // if (saved !== null) {
-      //   setId(saved);
-      // }
     });
   }, [PostId]);
 
@@ -47,9 +49,9 @@ function BoardListItem() {
         <BoardListItemQuestion
           questionTitle={singlePost?.questionTitle}
           question={singlePost?.question}
-          PostId={PostId}
+          PostId={savedPostid}
         />
-        <BoardListItemAnswer answer={singlePost?.answer} PostId={PostId} />
+        <BoardListItemAnswer answer={singlePost?.answer} PostId={savedPostid} />
       </>
     )
   );
