@@ -126,7 +126,7 @@ const authSlice = createSlice({
     [signup.rejected]: (state, action) => {
       state.signupLoading = false;
       state.signupDone = false;
-      state.signupError = action.payload.data.message;
+      state.signupError = action.payload;
     },
   },
 });

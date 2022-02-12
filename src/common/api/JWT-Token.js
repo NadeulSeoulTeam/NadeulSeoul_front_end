@@ -21,3 +21,15 @@ export const getToken = () => {
 export const deleteToken = () => {
   return cookies.remove('token');
 };
+
+// save login success
+export const saveLoginSuccess = (LoggedIn) => {
+  return cookies.set('LoggedIn', LoggedIn, {
+    // expires: Math.floor(Date.now() / 1000) + 60 * 60,
+  });
+};
+
+// get login success
+export const getLoginSuccess = () => {
+  return cookies.get('LoggedIn');
+};
