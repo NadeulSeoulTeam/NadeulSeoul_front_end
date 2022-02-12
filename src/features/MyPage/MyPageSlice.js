@@ -13,7 +13,6 @@ import axios from '../../common/api/httpCommunication';
 // 내 나들코스, 찜한 나들 코스, 찜한 장소 더미 데이터 만들기
 
 // 문의 게시판 createData
-
 const randomNum = Math.random() * 5;
 const randomNumFloor = Math.floor(randomNum);
 export const generateDummyCard = (number) =>

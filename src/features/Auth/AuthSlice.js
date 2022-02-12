@@ -1,120 +1,135 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+// import Cookies from 'universal-cookie';
+import axios from '../../common/api/httpCommunication';
+import { getToken } from '../../common/api/JWT-Token';
 
-// data에는 인가 code가 담긴다.
-export const postNaverCode = createAsyncThunk(
-  'auth/postNaverCode',
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post('벡엔드 주소', data);
-      // saveToken => 유니버셜 쿠키 라이브러리
-      console.log(response.data);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const postGoogleCode = createAsyncThunk(
-  'auth/postGoogleCode',
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post('벡엔드 주소', data);
-      // saveToken => 유니버셜 쿠키 라이브러리
-      console.log(response.data);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
+axios.defaults.withCredentials = true;
 
 // 기본 state
 export const initialState = {
-  naverToken: '',
-  isNaverCode: false,
-  naverCode: '',
-  postNaverCodeLoading: false, // naver 인가 코드 post 시도중
-  postNaverCodeDone: false,
-  postNaverCodeError: false,
-  googleCode: '',
-  isGoogleCode: false,
-  postGoogleCodeLoading: false, // google 인가 코드 post 시도중
-  postGoogleCodeDone: false,
-  postGoogleCodeError: false,
+  email: '',
+  token: '',
+  nickname: '',
+  emoji: '',
+  flag: 'true',
+  signupLoading: false,
+  signupDone: false,
+  signupError: null,
+  loginLoading: false,
+  loginDone: false,
+  loginError: null,
 };
+
+export const signup = createAsyncThunk(
+  'member/signup',
+  async (data, { rejectWithValue }) => {
+    try {
+      console.log(getToken());
+      // const cookies = new Cookies();
+      // cookies.set('token', '지윤', { path: '/' });
+      // console.log(cookies.get('token'));
+      const response = await axios.post(
+        '/member/signup',
+        data
+        // headers: {
+        //   Authorization: `Bearer ${getToken()}`,
+        // },
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// 자동 로그인 연장 (함수명, url 바뀔 수 있음)
+export const silentRefresh = createAsyncThunk(
+  'member/refresh',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/member/refresh', data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// 로그인 완료(메인페이지로 넘어감)되면 cookie에서 token 가져와야됨
+// 아래 코드 useEffect로 메인페이지에 추가
+// const refreshToken = cookies.get('refresh_token');
+
+// export const setRefreshTokenToCookie = (refreshToken) => {
+//   cookies.set('refresh_token', refreshToken, { sameSite: 'strict' });
+// };
+
+// export const logout = () => {
+//   console.log('logout');
+//   window.localStorage.setItem('logout', Date.now());
+//   cookies.remove('refresh_token');
+// };
+
+// index.js 에서 해줘야 할지도
+// export const onLogin = createAsyncThunk(
+//   'member/signin',
+//   async (data, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.defaults.headers.common['Authorization']
+//     }
+//   }
+//   );
+
+// 이게 필요한가? security로 로그인 시키면 redirect만 main으로 하면 됨
+// export const signin = createAsyncThunk(
+//   'member/signin',
+//   async (data, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.post('/member/signin', data, {
+//         withCredentials: true,
+//       });
+//       return response.data;
+//     } catch (error) {
+//       console.log(error);
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
 
 const authSlice = createSlice({
   name: 'authReducer',
   initialState,
   reducers: {
-    addNaverToken(state, action) {
-      state.naverToken = action.payload;
+    // gobackToInquery(state, action) {
+    //   state.inqueryBack = action.payload;
+    // },
+    saveRefreshToken(state, action) {
+      state.refreshToken = action.payload;
     },
-    addNaverCode(state, action) {
-      state.naverCode = action.payload;
-    },
-    onChangeNaverCode(state, action) {
-      state.isNaverCode = action.payload;
-    },
-    addGoogleCode(state, action) {
-      state.googleCode = action.payload;
-    },
-    onChangeGoogleCode(state, action) {
-      state.isGoogleCode = action.payload;
+    saveFlag(state, action) {
+      state.flag = action.payload;
     },
   },
   extraReducers: {
-    [postNaverCode.pending]: (state) => {
-      state.postNaverCodeLoading = true;
-      state.postNaverCodeDone = false;
-      state.postNaverCodeError = false;
+    [signup.pending]: (state) => {
+      state.signupLoading = true;
+      state.signupDone = false;
+      state.signupError = null;
     },
-    [postNaverCode.fulfilled]: (state) => {
-      state.postNaverCodeLoading = false;
-      state.postNaverCodeDone = true;
+    [signup.fulfilled]: (state, action) => {
+      console.log(action.payload);
+      state.signupLoading = false;
+      state.signupDone = true;
+      state.signupError = null;
     },
-    [postNaverCode.rejected]: (state, action) => {
-      state.postNaverCodeLoading = false;
-      state.postNaverCodeError = action.payload;
-    },
-    [postGoogleCode.pending]: (state) => {
-      state.postGoogleCodeLoading = true;
-      state.postGoogleCodeDone = false;
-      state.postGoogleCodeError = false;
-    },
-    [postGoogleCode.fulfilled]: (state) => {
-      state.postGoogleCodeLoading = false;
-      state.postGoogleCodeDone = true;
-    },
-    [postGoogleCode.rejected]: (state, action) => {
-      state.postGoogleCodeLoading = false;
-      state.postGoogleCodeError = action.payload;
+    [signup.rejected]: (state, action) => {
+      state.signupLoading = false;
+      state.signupDone = false;
+      state.signupError = action.payload;
     },
   },
-  // extraReducers: (builder) => {
-  //   builder.addCase(postNaverCode.pending, (state) => {
-  //     state.postNaverCodeLoading = true;
-  //     state.postNaverCodeDone = false;
-  //     state.postNaverCodeError = false;
-  //   });
-  //   builder.addCase(postNaverCode.fulfilled, (state) => {
-  //     state.postNaverCodeLoading = false;
-  //     state.postNaverCodeDone = true;
-  //   });
-  //   builder.addCase(postNaverCode.rejected, (state, action) => {
-  //     state.postNaverCodeLoading = false;
-  //     state.postNaverCodeError = action.payload;
-  //   });
-  // },
 });
-export const {
-  addNaverToken,
-  addNaverCode,
-  onChangeNaverCode,
-  addGoogleCode,
-  onChangeGoogleCode,
-} = authSlice.actions;
+export const { saveFlag } = authSlice.actions;
 
 export default authSlice.reducer;

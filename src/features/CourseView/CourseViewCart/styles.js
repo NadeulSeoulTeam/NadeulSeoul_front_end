@@ -11,7 +11,7 @@ export const CourseCart = styled.div`
     ' sub1  content1 content1 content1'
     ' sub2  content2 content2 content2'
     ' sub3  content3 content3 content3'
-    '  .     .      .        .    '
+    ' likeButton likeButton likeButton likeButton '
     '  .     .      .        .    '
     'userComment userComment userComment userComment';
   grid-auto-rows: minmax(0px, auto);
@@ -173,4 +173,34 @@ export const Cart = styled.div`
   z-index: 2;
   top: 40px;
   left: 76%;
+`;
+
+export const LikeButton = styled.button`
+  position: relative;
+  grid-area: likeButton;
+  width: 70px;
+  padding: 10px;
+  margin: 10px;
+  left: 250px;
+  ${({ active }) => {
+    return active ? `opacity: 1` : `opacity: 0.2`;
+  }}
+`;
+
+export const Comment = styled.input`
+  position: relative;
+  top: 100px;
+  left: 50px;
+  width: 200px;
+  border: 3px solid #68c78e;
+  border-radius: 5%;
+`;
+
+export const Button = styled.div`
+  position: relative;
+  top: 78px;
+  left: 270px;
+  &:hover {
+    cursor: pointer;
+  }
 `;

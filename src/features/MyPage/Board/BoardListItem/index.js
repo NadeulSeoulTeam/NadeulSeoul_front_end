@@ -59,7 +59,6 @@ function BoardListItem() {
 }
 
 export default BoardListItem;
-
 // 답글 => 일단 댓글 처럼 구현하자
 
 // 관리자를 어떻게 구분해야 할지,, 그걸 논의 해봐야겠음

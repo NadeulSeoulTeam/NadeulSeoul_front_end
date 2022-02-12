@@ -40,7 +40,6 @@ function BoardList() {
   // 서버 연결시 rows 대신에 mainPosts에 연결하면 됨
   const { userInfo, mainPosts } = useSelector((state) => state.mypage);
   const navigate = useNavigate();
-
   console.log(mainPosts);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

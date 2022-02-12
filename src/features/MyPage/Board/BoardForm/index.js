@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // mui
-
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -24,7 +23,7 @@ function BoardForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const myId = userInfo[0].id;
-
+  
   const onChagneTitle = useCallback((e) => {
     // console.log(e.target.value);
     setTitle(e.target.value);

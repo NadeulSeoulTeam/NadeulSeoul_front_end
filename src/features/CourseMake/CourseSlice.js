@@ -1,4 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+// import _concat from 'lodash/concat';
+// import _remove from 'lodash/remove';
+import _find from 'lodash/find';
+
+export const courseInfoPost = createAsyncThunk(
+  '/CourseCreationForm',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/api/v1/curations',
+        data
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const initialState = {
+  courseInfo: {},
+  courseInfoDone: false,
+  courseInfoError: null,
+  courseInfoSending: false,
+};
 
 const course = createSlice({
   name: 'CourseReducer',
@@ -67,10 +93,29 @@ const course = createSlice({
     moveToList: (state, action) => {
       state.Lat = action.payload.lat;
       state.Lng = action.payload.lng;
-      console.log(state.Lat, state.Lng, 'langlat set');
+      console.log(state.Lat, state.Lng, 'langlat set1111');
     },
     setClicked: (state, action) => {
       state.clicked = action.payload;
+    },
+  },
+
+  extraReducers: {
+    [courseInfoPost.pending]: (state) => {
+      state.courseInfoSending = true;
+      state.courseInfoDone = false;
+      state.courseInfoError = null;
+    },
+    [courseInfoPost.fulfilled]: (state, action) => {
+      const post = _find(state.mainPosts, { id: action.payload.PostId });
+      state.courseInfoSending = false;
+      state.courseInfoDone = true;
+      // 수정
+      post.courseInfo = action.payload.CourseInfo;
+    },
+    [courseInfoPost.rejected]: (state, action) => {
+      state.courseInfoSending = true;
+      state.courseInfoError = action.error.message;
     },
   },
 });
