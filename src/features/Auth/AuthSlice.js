@@ -11,6 +11,7 @@ export const initialState = {
   token: '',
   nickname: '',
   emoji: '',
+  flag: 'true',
   signupLoading: false,
   signupDone: false,
   signupError: null,
@@ -106,6 +107,9 @@ const authSlice = createSlice({
     saveRefreshToken(state, action) {
       state.refreshToken = action.payload;
     },
+    saveFlag(state, action) {
+      state.flag = action.payload;
+    },
   },
   extraReducers: {
     [signup.pending]: (state) => {
@@ -126,6 +130,6 @@ const authSlice = createSlice({
     },
   },
 });
-// export const {} = authSlice.actions;
+export const { saveFlag } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 // style
 import GlobalFonts from '../fonts/fonts';
@@ -22,8 +23,11 @@ import FollowingsList from '../features/MyPage/Follow/FollowingsList';
 import BoardListItem from '../features/MyPage/Board/BoardListItem';
 import BoardForm from '../features/MyPage/Board/BoardForm';
 import BoardList from '../features/MyPage/Board/BoardList';
+import PrivateRoute from '../common/PrivateRoute';
 
 function App() {
+  const { flag } = useSelector((state) => state.auth);
+
   return (
     <Container>
       <BrowserRouter>
@@ -33,7 +37,9 @@ function App() {
           {/* auth */}
           <Route path="/member/signin" element={<SignIn />} />
           <Route path="/oauth/redirect" element={<Redirect />} />
-          <Route path="/member/signup" element={<UserForm />} />
+          <Route element={<PrivateRoute isLogged={flag} />}>
+            <Route path="/member/signup" element={<UserForm />} />
+          </Route>
           {/* mypage */}
           <Route Route path="/mypage/:id" element={<MyPage />} />
           <Route
