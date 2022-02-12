@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -24,17 +24,10 @@ import BoardListItem from '../features/MyPage/Board/BoardListItem';
 import BoardForm from '../features/MyPage/Board/BoardForm';
 import BoardList from '../features/MyPage/Board/BoardList';
 import PrivateRoute from '../common/PrivateRoute';
-import { saveFlag } from '../features/Auth/AuthSlice';
-import { getLoginSuccess } from '../common/api/JWT-Token';
 
 function App() {
   const { flag } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (getLoginSuccess) {
-      saveFlag('false');
-    }
-  }, []);
   console.log(typeof flag, flag);
   return (
     <Container>

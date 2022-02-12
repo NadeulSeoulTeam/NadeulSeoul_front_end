@@ -25,6 +25,7 @@ export const deleteToken = () => {
 // save login success
 export const saveLoginSuccess = (LoggedIn) => {
   return cookies.set('LoggedIn', LoggedIn, {
+    path: '/',
     // expires: Math.floor(Date.now() / 1000) + 60 * 60,
   });
 };
