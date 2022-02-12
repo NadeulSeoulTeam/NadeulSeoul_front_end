@@ -5,9 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 // material UI
 
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 // react-beautiful-dnd
@@ -32,7 +30,6 @@ function CourseCart() {
   // eslint 는 key값으로 array의 인덱스를 사용하지 말라한다.... ????
   // id로 구분하기
   const mapToComponent = (data) => {
-    console.log(data);
     return data.map((cart, index) => (
       <Draggable key={cart.id} draggableId={cart.id} index={index}>
         {(provided) => (
@@ -83,7 +80,8 @@ function CourseCart() {
 
       <CreateButton
         onClick={() => {
-          navigate(`/CourseCreationForm`);
+          if (carts.length === 0) alert('한 개 이상의 장소를 추가해주세요');
+          else navigate(`/CourseCreationForm`);
         }}
       >
         이대로 코스 생성하기

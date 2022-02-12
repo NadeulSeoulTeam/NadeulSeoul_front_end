@@ -1,27 +1,40 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // material UI
 
-import Button from '@mui/material/Button';
+import { deleteCourse, getCourse } from '../../CourseSlice';
 
-import { deleteCourse } from '../../CourseSlice';
-
-import { StoreCard, Store, StoreName, StoreDescription } from './styles';
+import {
+  StoreCard,
+  Store,
+  StoreName,
+  StoreDescription,
+  DeleteButton,
+} from './styles';
 
 function CourseCreationFormCartListItem({ cart }) {
   const dispatch = useDispatch();
+  const carts = useSelector(getCourse);
 
   const deleteCourseSelected = (selectedCart) => {
+    if (carts.length === 1) {
+      alert('장소는 1개 이상이어야 합니다.');
+      return;
+    }
+
     dispatch(deleteCourse(selectedCart));
   };
   return (
-    <StoreCard sx={{ minWidth: 275, minHeight: 100 }}>
+    <StoreCard sx={{ minWidth: 200, minHeight: 100 }}>
       <Store>
         <StoreName>{cart.place_name}</StoreName>
         <StoreDescription>{cart.address_name}</StoreDescription>
       </Store>
-      <Button onClick={() => deleteCourseSelected(cart)}>삭제</Button>
+      <DeleteButton
+        sx={{ fontSize: 20, color: '#68c78e' }}
+        onClick={() => deleteCourseSelected(cart)}
+      />
     </StoreCard>
   );
 }

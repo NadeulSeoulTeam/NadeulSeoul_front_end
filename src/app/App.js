@@ -18,13 +18,14 @@ import MainPage from '../features/Main/MainPage';
 // Common
 import Error404 from '../common/error/Error404';
 // import BasicTabs from '../features/mypage/BasicTabs';
-import CourseMake from '../features/CourseMake/index';
+import Course from '../features/CourseMake';
 import CourseCreationForm from '../features/CourseMake/CourseCreationForm';
 import CourseView from '../features/CourseView';
 import FollowersList from '../features/MyPage/Follow/FollowersList';
 import FollowingsList from '../features/MyPage/Follow/FollowingsList';
 import BoardListItem from '../features/MyPage/Board/BoardListItem';
 import BoardForm from '../features/MyPage/Board/BoardForm';
+import StoreView from '../features/StoreView';
 
 function App() {
   return (
@@ -59,9 +60,10 @@ function App() {
             element={<NaverLoginCallback />}
           />
           {/* <Route path="/auth/google/callback" element={<GoogleLoginCallback />} /> */}
-          <Route path="/CourseMake" element={<CourseMake />} />
+          <Route path="/Course" element={<Course />} />
           <Route path="/CourseView" element={<CourseView />} />
           <Route path="/CourseCreationForm" element={<CourseCreationForm />} />
+          <Route path="/StoreView" element={<StoreView />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </BrowserRouter>

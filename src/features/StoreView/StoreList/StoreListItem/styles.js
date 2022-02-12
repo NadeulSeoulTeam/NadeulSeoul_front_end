@@ -1,11 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
 import Card from '@mui/material/Card';
-import ClearIcon from '@mui/icons-material/Clear';
 
 export const StoreCard = styled(Card)`
-  position: relative;
-  width: 100px;
   margin: 10px;
 `;
 
@@ -20,7 +17,7 @@ export const Store = styled.div`
 export const StoreName = styled.div`
   grid-area: storeName;
   font-family: Roboto;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: bold;
   padding-left: 10px;
   text-align: start;
@@ -31,13 +28,7 @@ export const StoreName = styled.div`
 export const StoreDescription = styled.div`
   grid-area: storeDescription;
   font-family: Roboto;
-  font-size: 12px;
+  font-size: 15px;
   padding-left: 10px;
   text-align: start;
-`;
-
-export const DeleteButton = styled(ClearIcon)`
-  position: absolute;
-  top: 5px;
-  right: 5px;
 `;

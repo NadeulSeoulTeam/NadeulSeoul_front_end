@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable consistent-return */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/button-has-type */
@@ -9,11 +11,10 @@ import { useDispatch, useSelector } from 'react-redux';
 // react-beautiful-dnd
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import { element } from 'prop-types';
 import ImageUploading from 'react-images-uploading';
 import { Axios } from 'axios';
 
-import { getCourse, updateCourse } from '../CourseSlice';
+import { getCourse, updateCourse, courseInfoPost } from '../CourseSlice';
 // css
 
 import CourseCreationModal from './CourseCreationModal/CourseCreationModal';
@@ -55,6 +56,8 @@ import {
   ClearPicture,
   CorrectPicture,
   PictureNumbering,
+  LocalToggle,
+  ThemeToggle,
 } from './styles';
 
 function CourseCreactionForm() {
@@ -63,15 +66,26 @@ function CourseCreactionForm() {
   const dispatch = useDispatch();
   // info
   const [courseInfo, setCourseInfo] = useState({
-    courseName: '',
-    courseExplain: '',
-    fixedNumber: '',
-    budget: '',
+    title: 'axios 통신 테스트 - cors 확인 ',
+    description: null,
+    personnel: null,
+    budget: null,
+    fileList: [],
+    courseRoute: carts,
   });
   // 지역 태그 선택 boolean
   // eslint-disable-next-line no-unused-vars
-  const [localClicked, setLocalClicked] = useState();
-  const [transportationClicked, setTransportationClicked] = useState({});
+
+  // tag
+  const [transportationClicked, setTransportationClicked] = useState({
+    isClicked: Array(6).fill(false),
+  });
+  const [localClicked, setLocalClicked] = useState({
+    isClicked: Array(25).fill(false),
+  });
+  const [themeClicked, setThemeClicked] = useState({
+    isClicked: Array(12).fill(false),
+  });
   // modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -79,7 +93,6 @@ function CourseCreactionForm() {
 
   // tag
   // transportation
-  const handleTransportationTag = useRef({});
 
   // image
   const [images, setImages] = useState([]);
@@ -97,13 +110,11 @@ function CourseCreactionForm() {
   };
   const [pageNum, setPageNum] = useState(0);
   useEffect(() => {}, [pageNum]);
+
   const imageUploadFunc = (imageList, onImageUpdate, onImageRemove) => {
-    console.log(imageList);
-    console.log(pageNum);
     const image = imageList[pageNum];
     const index = pageNum;
     if (imageList.length === 0) {
-      console.log(imageList);
       return;
     }
     const movePicRight = () => {
@@ -157,69 +168,102 @@ function CourseCreactionForm() {
       </ImageFunc>
     );
   };
-  const testAxiosImage = () => {
-    const formData = new FormData();
-    for (let i = 0; i < images.length; i += 1) {
-      formData.append('img', images[i].file);
-    }
-    // eslint-disable-next-line no-restricted-syntax
-    for (const value of formData.values()) {
-      console.log(value);
-    }
-    // 파일 형식이 images[i] 객체로 담을 지 혹은 그 안의 file 객체를 담아줘야 하는지
-    // 후자의 경우 images[i].file 로 formData에 append
-    // const response = axios.post('/img/user_img', formData);
-  };
 
-  const makeLocalTag = (localClick) => {
-    for (let i = 0; i < carts.length; i += 1) {
-      const courseInfoLocalTag = carts[i].address_name.split(' ');
-      console.log(localClick);
-      // eslint-disable-next-line no-prototype-builtins
-      if (localClick.hasOwnProperty(courseInfoLocalTag[1])) {
-        console.log('found', courseInfoLocalTag[1]);
-        const guName = courseInfoLocalTag[1];
-        localClick[guName] = true;
+  const makeTransportationTag = (idx) => {
+    setTransportationClicked({
+      isClicked: transportationClicked.isClicked.map((element, index) => {
+        return index === idx ? !element : element;
+      }),
+    });
+  };
+  const makeLocalTag = () => {
+    const localIndex = [];
+    for (const cart in carts) {
+      const addressName = carts[cart].address_name;
+      const addressCheck = addressName.split(' ');
+      for (let i = 0; i < tags.local.length; i += 1) {
+        if (Object.values(tags.local[i])[0] === addressCheck[1]) {
+          localIndex.push(i);
+        }
       }
     }
-    console.log(localClick);
-    setLocalClicked(localClick);
+    setLocalClicked({
+      isClicked: localClicked.isClicked.map((element, index) => {
+        return !!localIndex.includes(index);
+      }),
+    });
   };
-
-  const makeLocalTagBoolean = () => {
-    const localTags = {};
-    // eslint-disable-next-line no-return-assign
-    tags.local.map((gu) =>
-      Object.assign(localTags, { [Object.values(gu)]: false })
-    );
-    console.log(localTags);
-    makeLocalTag(localTags);
-  };
-
-  const makeTransportationTag = (e) => {
-    if (transportationClicked[e.target.id])
-      transportationClicked[e.target.id] = false;
-    else transportationClicked[e.target.id] = true;
-    setTransportationClicked(transportationClicked);
-    // handleTransportationTag.current[e.target.id].removeClass('active');
-    console.log(transportationClicked[e.target.id]);
-    console.log(handleTransportationTag.current[e.target.id]);
-  };
-
-  const makeTransportationTagBoolean = () => {
-    const transportationTags = {};
-    // eslint-disable-next-line no-return-assign
-    tags.transportation.map((transportation) =>
-      Object.assign(transportationClicked, {
-        [Object.keys(transportation)]: false,
-      })
-    );
-    setTransportationClicked(transportationClicked);
-  };
-
   useEffect(() => {
-    makeLocalTagBoolean();
-    makeTransportationTagBoolean();
+    makeLocalTag();
+  }, []);
+  const makeThemeTag = (idx) => {
+    setThemeClicked({
+      isClicked: themeClicked.isClicked.map((element, index) => {
+        return index === idx ? !element : element;
+      }),
+    });
+  };
+  const makeTransportationTagBoolean = () => {
+    // {seq : name}
+    // for (const index in transportationClicked.isClicked) {
+    //   if (transportationClicked.isClicked[index] === true) {
+    //     // eslint-disable-next-line prefer-destructuring
+    //     transportationInfo[index] = Object.keys(tags.transportation[index])[0];
+    //   }
+    // }
+    // { seq : [num,num]}
+    const transSeq = [];
+    for (const index in transportationClicked.isClicked) {
+      if (transportationClicked.isClicked[index] === true) {
+        // eslint-disable-next-line prefer-destructuring
+        transSeq.push(index);
+      }
+    }
+    return transSeq;
+  };
+  const makeLocalTagBoolean = () => {
+    // {seq : name}
+    // for (const index in transportationClicked.isClicked) {
+    //   if (transportationClicked.isClicked[index] === true) {
+    //     // eslint-disable-next-line prefer-destructuring
+    //     transportationInfo[index] = Object.keys(tags.transportation[index])[0];
+    //   }
+    // }
+    // { seq : [num,num]}
+    const localSeq = [];
+    for (const index in localClicked.isClicked) {
+      if (localClicked.isClicked[index] === true) {
+        // eslint-disable-next-line prefer-destructuring
+        localSeq.push(index);
+      }
+    }
+    return localSeq;
+  };
+  const makeThemeTagBoolean = () => {
+    // {seq : name}
+    // for (const index in transportationClicked.isClicked) {
+    //   if (transportationClicked.isClicked[index] === true) {
+    //     // eslint-disable-next-line prefer-destructuring
+    //     transportationInfo[index] = Object.keys(tags.transportation[index])[0];
+    //   }
+    // }
+    // { seq : [num,num]}
+    const themeSeq = [];
+    for (const index in themeClicked.isClicked) {
+      if (themeClicked.isClicked[index] === true) {
+        // eslint-disable-next-line prefer-destructuring
+        themeSeq.push(index);
+      }
+    }
+    return themeSeq;
+  };
+  useEffect(() => {
+    // makeLocalTagBoolean();
+    // makeTransportationTagBoolean();
+    // makeThemeTagBoolean();
+
+    courseInfo.courseRoute = carts;
+    setCourseInfo(courseInfo);
     console.log(carts);
   }, [carts]);
 
@@ -227,12 +271,30 @@ function CourseCreactionForm() {
     console.log(courseInfo, 'courseInfo');
   }, [courseInfo]);
 
-  useEffect(() => {
-    console.log(transportationClicked, 'transportationClicked');
-  }, [transportationClicked]);
-
   const sendCourse = () => {
-    handleOpen();
+    const formData = new FormData();
+    setCourseInfo((courseInfo.transportation = makeTransportationTagBoolean()));
+    setCourseInfo((courseInfo.local = makeLocalTagBoolean()));
+    setCourseInfo((courseInfo.theme = makeThemeTagBoolean()));
+    for (let i = 0; i < images.length; i += 1) {
+      formData.append('fileList', images[i].file);
+    }
+    formData.append('personnel', courseInfo.personnel);
+    formData.append('description', courseInfo.description);
+    formData.append('budget', courseInfo.budget);
+    formData.append('title', courseInfo.title);
+    formData.append('courseRoute', courseInfo.courseRoute);
+    // tag들 추가
+    formData.append('transportation', courseInfo.transportation);
+    formData.append('local', courseInfo.local);
+    formData.append('theme', courseInfo.theme);
+
+    console.log(courseInfo);
+    // courseInfo.fileList = formData;
+    setCourseInfo(courseInfo);
+    // 전부 formdata에 넣어서 보내주기
+    dispatch(courseInfoPost(formData));
+    // handleOpen();
   };
   // course 정보 backend 송신 함수
   const sendFinalCourseInfo = () => {
@@ -245,20 +307,20 @@ function CourseCreactionForm() {
   const onChange = (e) => {
     // eslint-disable-next-line default-case
     switch (e.target.id) {
-      case 'courseName':
-        courseInfo.courseName = e.target.value;
+      case 'title':
+        courseInfo.title = e.target.value;
         setCourseInfo(courseInfo);
         console.log(courseInfo, 'courseInfo');
         break;
 
-      case 'courseExplain':
-        courseInfo.courseExplain = e.target.value;
+      case 'description':
+        courseInfo.description = e.target.value;
         setCourseInfo(courseInfo);
         console.log(courseInfo, 'courseInfo');
         break;
 
-      case 'fixedNumber':
-        courseInfo.fixedNumber = e.target.value;
+      case 'personnel':
+        courseInfo.personnel = e.target.value;
         setCourseInfo(courseInfo);
         console.log(courseInfo, 'courseInfo');
         break;
@@ -298,21 +360,14 @@ function CourseCreactionForm() {
   };
 
   const mapToComponentTransportationTags = (data) => {
-    console.log(data.transportation);
-    console.log(transportationClicked.walk);
-    return data.transportation.map((transportation) => (
+    return data.transportation.map((transportation, index) => (
       <ButtonToggle
-        active
+        active={!!transportationClicked.isClicked[index]}
         type="button"
-        onClick={makeTransportationTag}
+        onClick={() => makeTransportationTag(index)}
         id={Object.keys(transportation)}
         name={Object.keys(transportation)}
         key={Object.keys(transportation)}
-        // eslint-disable-next-line no-shadow
-        ref={(element) => {
-          handleTransportationTag.current[Object.keys(transportation)] =
-            element;
-        }}
       >
         {Object.values(transportation)}
       </ButtonToggle>
@@ -320,16 +375,31 @@ function CourseCreactionForm() {
   };
 
   const mapToComponentLocalTags = (data) => {
-    const showTags = [];
-    // eslint-disable-next-line no-restricted-syntax
-    for (const key in data) {
-      if (data[key] === true) {
-        showTags.concat(key);
-      }
-    }
-    console.log(showTags);
-    return showTags.map((local) => (
-      <input type="button" id={local} name={local} key={local} value={local} />
+    return data.local.map((local, index) => (
+      <LocalToggle
+        active={!!localClicked.isClicked[index]}
+        type="button"
+        id={Object.keys(local)}
+        name={Object.keys(local)}
+        key={Object.keys(local)}
+      >
+        {Object.values(local)}
+      </LocalToggle>
+    ));
+  };
+
+  const mapToComponentThemeTags = (data) => {
+    return data.theme.map((theme, index) => (
+      <ThemeToggle
+        active={!!themeClicked.isClicked[index]}
+        type="button"
+        onClick={() => makeThemeTag(index)}
+        id={Object.keys(theme)}
+        name={Object.keys(theme)}
+        key={Object.keys(theme)}
+      >
+        {Object.values(theme)}
+      </ThemeToggle>
     ));
   };
 
@@ -340,6 +410,8 @@ function CourseCreactionForm() {
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     dispatch(updateCourse(items));
+    courseInfo.courseRoute = items;
+    setCourseInfo(courseInfo);
   };
 
   return (
@@ -352,8 +424,8 @@ function CourseCreactionForm() {
       <CourseNameContent
         onChange={onChange}
         type="text"
-        id="courseName"
-        name="courseName"
+        id="title"
+        name="title"
         placeholder="코스의 이름을 입력해주세요."
       />
       <RouteEdit>루트 편집</RouteEdit>
@@ -374,8 +446,8 @@ function CourseCreactionForm() {
       <CourseDes>코스 설명</CourseDes>
       <CourseDesContent
         onChange={onChange}
-        id="courseExplain"
-        name="courseExplain"
+        id="description"
+        name="description"
         placeholder="다른 나들러들이 코스에 대해 알 수 있게 설명을 적어주세요. "
       />
       <FixdedMember>함께한 인원</FixdedMember>
@@ -383,8 +455,8 @@ function CourseCreactionForm() {
         onChange={onChange}
         onInput={onInput}
         type="text"
-        id="fixedNumber"
-        name="fixedNumber"
+        id="personnel"
+        name="personnel"
         placeholder="숫자로 적어주세요."
       />
       <Budget>예산</Budget>
@@ -400,11 +472,15 @@ function CourseCreactionForm() {
       <TransportationTag>
         {mapToComponentTransportationTags(tags)}
       </TransportationTag>
-      <Local>지역 태그</Local>
-      <LocalTag>{mapToComponentLocalTags(localClicked)}</LocalTag>
+      <Local>
+        <span style={{ color: '#68c78e' }}>*</span>지역 태그
+      </Local>
+      <LocalTag>{mapToComponentLocalTags(tags)}</LocalTag>
 
-      <Theme>테마 태그</Theme>
-      <ThemeTag type="button" id="themeTag" name="themeTag" />
+      <Theme>
+        <span style={{ color: '#68c78e' }}>*</span>테마 태그
+      </Theme>
+      <ThemeTag>{mapToComponentThemeTags(tags)}</ThemeTag>
       <ImageUpload>이미지 업로드</ImageUpload>
       <ImageUploadContent>
         <ImageUploading
@@ -443,7 +519,6 @@ function CourseCreactionForm() {
           )}
         </ImageUploading>
       </ImageUploadContent>
-      <button onClick={testAxiosImage}>이미지 업로딩 테스트</button>
       <CourseCreateButton type="submit" onClick={sendCourse}>
         이대로 코스 생성하기
       </CourseCreateButton>

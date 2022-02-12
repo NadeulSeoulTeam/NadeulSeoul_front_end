@@ -1,12 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-
+import { useDispatch } from 'react-redux';
 // material UI
 import Card from '@mui/material/Card';
-// import CardActions from '@mui/material/CardActions';
-// import Button from '@mui/material/Button';
-// import CardContent from '@mui/material/CardContent';
 
-// import Typography from '@mui/material/Typography';
 // css
 import {
   Nickname,
@@ -26,14 +23,21 @@ import {
   UserBox,
   UserComment,
   EachComment,
+  Comment,
+  Button,
+  LikeButton,
 } from './styles';
-// import CourseViewCartItem from './CourseViewCartItem';
 // dummy data
 import testdata from '../testdata';
+import { sendComment, clickLike, clickLikeCancel } from '../CourseViewSlice';
 
 function CourseViewCart() {
-  // eslint-disable-next-line no-unused-vars
   const [course, setCourse] = useState(testdata);
+  // 이 시점에서 getCourseInfo?
+  const [user, setUser] = useState(true);
+  const [userComment, setUserComment] = useState('');
+  const [likeClicked, setLikeClicked] = useState(false);
+  const dispatch = useDispatch();
   // 현재 카트에 리스트가 저장되어있는 배열
   useEffect(() => {
     if (course.status === '200') {
@@ -56,6 +60,28 @@ function CourseViewCart() {
       </EachComment>
     ));
   };
+  const commentWrite = (e) => {
+    console.log(e.target.value);
+    setUserComment(e.target.value);
+  };
+  const putComment = () => {
+    dispatch(sendComment(userComment));
+    // 댓글 비동기 통신 다시하기
+  };
+  const userClickLike = () => {
+    // 비동기 통신
+    if (likeClicked) {
+      // true->false
+      dispatch(clickLikeCancel());
+    } else {
+      // false->true
+      const formData = new FormData();
+      formData.append('member_seq', user.member_seq);
+      formData.append('curation_seq', course.curation_seq);
+      dispatch(clickLike(formData));
+    }
+    setLikeClicked(!likeClicked);
+  };
   return (
     <Cart>
       <Card>
@@ -69,11 +95,23 @@ function CourseViewCart() {
           <Content2>{course.data.budget}</Content2>
           <Sub3>함께 한 인원:</Sub3>
           <Content3>{course.data.fixed_people}</Content3>
-          {/* <CardActions>
-          <Button size="small">따봉</Button>
-        </CardActions> */}
-
-          <UserComment>{mapCommentToComponent()}</UserComment>
+          <LikeButton
+            active={!!likeClicked}
+            type="submit"
+            onClick={userClickLike}
+          >
+            좋아요
+          </LikeButton>
+          <UserComment>
+            {mapCommentToComponent()}
+            {user && (
+              <Comment
+                onChange={commentWrite}
+                placeholder="댓글을 남겨주세요!"
+              />
+            )}
+            {user && <Button onClick={putComment}>작성하기</Button>}
+          </UserComment>
         </CourseCart>
       </Card>
     </Cart>

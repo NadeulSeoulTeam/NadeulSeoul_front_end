@@ -74,7 +74,6 @@ export const RouteEdit = styled.div`
 
 export const RouteList = styled.ul`
   grid-area: routeList;
-  display: flex;
   list-style: none;
   margin: 30px;
   margin-bottom: 0px;
@@ -170,12 +169,9 @@ export const TransportationTag = styled.div`
   margin-bottom: 0px;
 `;
 export const ButtonToggle = styled.button`
-  opacity: 0.2;
-  ${({ active }) =>
-    active &&
-    `
-    opacity: 1; 
-  `}
+  ${({ active }) => {
+    return active ? `opacity: 1` : `opacity: 0.2`;
+  }}
 `;
 export const Local = styled.div`
   grid-area: local;
@@ -184,6 +180,11 @@ export const Local = styled.div`
   width: 300px;
   text-align: right;
   font-weight: bold;
+`;
+export const LocalToggle = styled.button`
+  ${({ active }) => {
+    return active ? `opacity: 1` : `opacity: 0.2`;
+  }}
 `;
 export const LocalTag = styled.div`
   grid-area: localTag;
@@ -202,6 +203,11 @@ export const ThemeTag = styled.div`
   grid-area: themeTag;
   margin: 30px;
   margin-bottom: 0px;
+`;
+export const ThemeToggle = styled.button`
+  ${({ active }) => {
+    return active ? `opacity: 1` : `opacity: 0.2`;
+  }}
 `;
 export const ImageUpload = styled.div`
   grid-area: imageUpload;
