@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { signup } from '../AuthSlice';
+import { saveLoginSuccess } from '../../../common/api/JWT-Token';
 // import 'emoji-mart/css/emoji-mart.css';
 // import { Picker } from 'emoji-mart';
 
@@ -19,10 +21,11 @@ import {
 
 function UserForm() {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   // states
   const [nickname, setNickname] = useState('');
   const [emoji, setEmoji] = useState('');
+  // const [id, setId] = useState('');
   const [nicknameErr, setNicknameErr] = useState({
     validationStatus: '',
     errorMsg: '',
@@ -31,6 +34,12 @@ function UserForm() {
     validationStatus: '',
     errorMsg: '',
   });
+
+  // useEffect(() => {
+  //   const params = new URLSearchParams(document.location.search);
+  //   const Id = params.get('id');
+  //   setId(Id);
+  // });
 
   const onNicknameChange = (e) => {
     console.log(e.currentTarget.value);
@@ -84,7 +93,23 @@ function UserForm() {
   };
 
   const onInputSuccess = useCallback(() => {
-    dispatch(signup(data));
+    console.log(data);
+    dispatch(signup(data))
+      .then((response) => {
+        console.log(response);
+        if (response.payload.status === 200) {
+          console.log('성공');
+          saveLoginSuccess(true);
+        } else if (response.payload.status === 500) {
+          alert('회원가입 실패했습니다.');
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      })
+      .then(() => {
+        navigate('/');
+      });
   }, [data]);
 
   return (
