@@ -1,8 +1,10 @@
+// 여기는 일단 놔두자, 뭔가 오류가 있는거 같기도,,
+// 같은 걸로 2개다 해서 하나는 안되는거 일지도,,,
+
 import React, { useEffect, useCallback } from 'react';
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 // mui
 import { styled } from '@mui/material/styles';
@@ -29,25 +31,28 @@ const Demo = styled('div')(({ theme }) => ({
 
 function FollowersList() {
   // user별 팔로잉 팔로우 리스트를 불러오면 된다.
-  const { FollowInfo } = useSelector((state) => state.mypage);
+  const { followerUsers, followinfoToList } = useSelector(
+    (state) => state.mypage
+  );
   const params = useParams();
   const dispatch = useDispatch();
-  const FollowList = FollowInfo.filter((v) => {
-    // console.log(typeof v.id);
-    return v.id === parseInt(params.id, 10);
-  });
-  const nickName = FollowList[0].nickname;
-  const followersList = FollowList[0].FollowersList;
+  // const FollowList = FollowInfo.filter((v) => {
+  //   // console.log(typeof v.id);
+  //   return v.id === parseInt(params.id, 10);
+  // });
+  const nickName = 'meanstrike';
+  // const followersList = FollowList[0].FollowersList;
   const navigate = useNavigate();
 
   // console.log(params.id);
   // console.log(FollowList[0].FollowersList);
+  console.log(followinfoToList);
 
   useEffect(() => {
     dispatch(loadFollowers(params.id))
       .unwrap()
-      .then(() => {
-        toast.success('불러오기에 성공');
+      .then((response) => {
+        console.log(response);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -70,21 +75,21 @@ function FollowersList() {
           </Typography>
           <Demo>
             <List dense={false}>
-              {followersList.map((v, i) => (
+              {followerUsers.map((v, i) => (
                 <ListItem
                   // eslint-disable-next-line react/no-array-index-key
                   key={v + i}
                   secondaryAction={
                     <IconButton edge="end" aria-label="Follow">
-                      <FollowButton UserId={parseInt(v.id, 10)} />
+                      <FollowButton UserId={parseInt(v?.memberSeq, 10)} />
                     </IconButton>
                   }
                 >
                   <ListItemAvatar>
-                    <Avatar>{v.emoji}</Avatar>
+                    <Avatar>{v?.emoji}</Avatar>
                   </ListItemAvatar>
-                  <Button onClick={onClickGotoMypage(v.id)}>
-                    {v.nickname}
+                  <Button onClick={onClickGotoMypage(v?.memberSeq)}>
+                    {v?.memberSeq}
                   </Button>
                 </ListItem>
               ))}

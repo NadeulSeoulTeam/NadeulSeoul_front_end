@@ -1,5 +1,6 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+/* eslint-disable react/button-has-type */
+import React, { useState, useCallback } from 'react';
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // style
@@ -27,12 +28,30 @@ import BoardForm from '../features/MyPage/Board/BoardForm';
 import PrivateRoute from '../common/PrivateRoute';
 import StoreView from '../features/StoreView';
 
+// Common
+import Error404 from '../common/error/Error404';
+import PrivateRoute from '../common/routes/PrivateRoute';
+
+// test
+import Profile from '../features/MyPage/Routes/Profile';
+
 function App() {
   const { flag } = useSelector((state) => state.auth);
+  const [isLogged, setIsLogged] = useState(false);
+
+  const onClickLogin = useCallback(() => {
+    setIsLogged(true);
+  }, []);
+  const onClickLogout = useCallback(() => {
+    setIsLogged(false);
+  }, []);
 
   console.log(typeof flag, flag);
   return (
     <Container>
+      <button onClick={onClickLogin}>Login</button>
+      <button onClick={onClickLogout}>LogOut</button>
+      {isLogged ? <h1>로그인 했다</h1> : <h1>로그인 안했다</h1>}
       <BrowserRouter>
         <GlobalFonts />
         <Routes>
@@ -44,7 +63,10 @@ function App() {
             <Route path="/member/signup" element={<UserForm />} />
           </Route>
           {/* mypage */}
-          <Route Route path="/mypage/:id" element={<MyPage />} />
+          <Route element={<PrivateRoute isLogged={isLogged} />}>
+            <Route path="/mypage/:id" element={<MyPage />} />
+            <Route Route path="/questions" element={<BoardList />} />
+          </Route>
           <Route
             Route
             path="/mypage/:id/follower"
@@ -68,6 +90,9 @@ function App() {
           <Route path="/StoreView" element={<StoreView />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
+        <Link to="/mypage/1" element={<MyPage />}>
+          go to profile
+        </Link>
         {/* <Nav /> */}
       </BrowserRouter>
     </Container>

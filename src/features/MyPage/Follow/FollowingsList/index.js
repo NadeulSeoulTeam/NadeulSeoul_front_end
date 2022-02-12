@@ -1,8 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
-import { useParams } from 'react-router';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 // mui
 import { styled } from '@mui/material/styles';
@@ -20,7 +18,7 @@ import Button from '@mui/material/Button';
 import FollowButton from '../FollowButton';
 
 // actions
-import { loadFollowings } from '../../MyPageSlice';
+// import { loadFollowings } from '../../MyPageSlice';
 
 // mui
 const Demo = styled('div')(({ theme }) => ({
@@ -28,27 +26,28 @@ const Demo = styled('div')(({ theme }) => ({
 }));
 
 function FollowingsList() {
-  const { FollowInfo } = useSelector((state) => state.mypage);
-  const params = useParams();
-  const dispatch = useDispatch();
-  const FollowList = FollowInfo.filter((v) => {
-    // console.log(typeof v.id);
-    return v.id === parseInt(params.id, 10);
-  });
-  const nickName = FollowList[0].nickname;
-  const followingsList = FollowList[0].FollowingsList;
+  const { followinfoToList } = useSelector((state) => state.mypage);
+  console.log(followinfoToList);
+  // const params = useParams();
+  // const dispatch = useDispatch();
+  // const FollowList = FollowInfo.filter((v) => {
+  //   // console.log(typeof v.id);
+  //   return v.id === parseInt(params.id, 10);
+  // });
+  const nickName = 'meanstrike';
+  // const followingsList = FollowList[0].FollowingsList;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(loadFollowings(params.id))
-      .unwrap()
-      .then(() => {
-        toast.success('불러오기에 성공');
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   dispatch(loadFollowings(params.id))
+  //     .unwrap()
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.response.data);
+  //     });
+  // }, []);
 
   const onClickGotoMypage = useCallback(
     (id) => () => {
@@ -67,21 +66,21 @@ function FollowingsList() {
           </Typography>
           <Demo>
             <List dense={false}>
-              {followingsList.map((v, i) => (
+              {followinfoToList?.map((v, i) => (
                 <ListItem
                   // eslint-disable-next-line react/no-array-index-key
                   key={v + i}
                   secondaryAction={
                     <IconButton edge="end" aria-label="Follow">
-                      <FollowButton UserId={parseInt(v.id, 10)} />
+                      <FollowButton userId={v?.followerSeq} />
                     </IconButton>
                   }
                 >
                   <ListItemAvatar>
-                    <Avatar>{v.emoji}</Avatar>
+                    <Avatar>{v?.emoji}</Avatar>
                   </ListItemAvatar>
-                  <Button onClick={onClickGotoMypage(v.id)}>
-                    {v.nickname}
+                  <Button onClick={onClickGotoMypage(v?.followerSeq)}>
+                    {v?.followerSeq}
                   </Button>
                 </ListItem>
               ))}
