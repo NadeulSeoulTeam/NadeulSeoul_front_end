@@ -6,15 +6,16 @@ import { useSelector } from 'react-redux';
 import GlobalFonts from '../fonts/fonts';
 import Container from './AppStyle';
 
+// Common
+import Error404 from '../common/error/Error404';
+// import Nav from '../common/Nav';
+
 // features
 import SignIn from '../features/Auth/SignIn';
 import Redirect from '../features/Auth/Redirect';
 import UserForm from '../features/Auth/UserForm';
 import MyPage from '../features/MyPage';
 import MainPage from '../features/Main/MainPage';
-
-// Common
-import Error404 from '../common/error/Error404';
 import Course from '../features/CourseMake';
 import CourseCreationForm from '../features/CourseMake/CourseCreationForm';
 import CourseView from '../features/CourseView';
@@ -67,6 +68,7 @@ function App() {
           <Route path="/StoreView" element={<StoreView />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
+        {/* <Nav /> */}
       </BrowserRouter>
     </Container>
   );

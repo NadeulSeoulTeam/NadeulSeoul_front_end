@@ -1,3 +1,5 @@
+// import React, { useRef, useState, useEffect } from 'react';
+// import { useSelector, useDispatch } from 'react-redux';
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -5,11 +7,20 @@ import CurationGrid from './styles';
 // import Grid from '@mui/material/Grid';
 
 import CurationListItem from '../CurationListItem';
+// import { fetchCourses } from '../MainSlice';
 
 function CurationList() {
+  // const dispatch = useDispatch();
   const scrollRef = useRef(null);
   const [isDrag, setIsDrag] = useState(false);
   const [startX, setStartX] = useState();
+
+  // useEffect(() => {
+  //   dispatch(fetchCourses());
+  // }, []);
+
+  // 받아온 코스 list
+  const courseList = useSelector((state) => state.main.courses);
 
   const throttle = (func, ms) => {
     let throttled = false;
@@ -49,13 +60,12 @@ function CurationList() {
 
   const onThrottleDragMove = throttle(onDragMove, 100);
 
-  // 받아온 코스 list
-  const courseList = useSelector((state) => state.main.courses);
-
   const mapToComponent = (data) => {
     console.log('CurationList');
     console.log(data);
-    return data.map((curation) => <CurationListItem curation={curation} />);
+    return data.map((curation) => (
+      <CurationListItem key={curation.curation_seq} curation={curation} />
+    ));
   };
 
   return (

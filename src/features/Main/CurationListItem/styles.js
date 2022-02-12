@@ -7,14 +7,21 @@ export const Wrapper = styled(Card)`
     margin: 0 20px 0 0;
     cursor: pointer;
     flex-shrink: 0;
+    width: 12vw;
   }
 `;
 
-export const CurationImage = styled.div`
+export const ImageDiv = styled.div`
   width: 12vw;
   height: 12vw;
-  background-color: #c4c4c4;
+  background-color: transparent;
   position: relative;
+`;
+
+export const CurationImage = styled.img`
+  width: 12vw;
+  height: 12vw;
+  object-fit: cover;
 `;
 
 export const LikeChip = styled.div`
@@ -30,6 +37,6 @@ export const LikeChip = styled.div`
 `;
 
 export const CurationTitle = styled.p`
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin: 10px 0;
 `;

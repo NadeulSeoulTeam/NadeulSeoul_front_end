@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 // components
 import TagList from '../TagList';
 import UserList from '../UserList';
+import StoreList from '../StoreList';
 import CurationList from '../CurationList';
 import SearchBar from '../../../common/SearchBar';
 
@@ -46,6 +47,7 @@ function MainPage() {
         <SubTitle>열정적인 나들러</SubTitle>
         <UserList />
         <SubTitle>나들러들이 많이 찜한 장소</SubTitle>
+        <StoreList />
       </BottomWrapper>
     </div>
   );

@@ -1,18 +1,17 @@
 /* eslint-disable consistent-return */
 import React, { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
+import { useParams } from 'react-router';
 
 // mui
-
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
-
-// component
 
 // actions
 import { addPost, gobackToInquery } from '../../MyPageSlice';
@@ -76,7 +75,7 @@ function BoardForm() {
   });
 
   return (
-    <>
+      <ProfileCard />
       <h2>문의 게시글 작성</h2>
       <Box
         sx={{

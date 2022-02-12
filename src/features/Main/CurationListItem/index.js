@@ -3,10 +3,18 @@ import { useDispatch } from 'react-redux';
 // import { Link } from 'react-router-dom';
 
 // custom style
-import { Wrapper, CurationImage, LikeChip, CurationTitle } from './styles';
+import {
+  Wrapper,
+  ImageDiv,
+  CurationImage,
+  LikeChip,
+  CurationTitle,
+} from './styles';
 
 // action
 import { select } from '../MainSlice';
+
+import sampleImg from '../nongdam.png';
 
 function CurationListItem({ curation }) {
   const dispatch = useDispatch();
@@ -21,9 +29,14 @@ function CurationListItem({ curation }) {
 
   return (
     <Wrapper elevation={0} onClick={() => selectCourse(curation)}>
-      <CurationImage>
+      <ImageDiv>
+        <CurationImage
+          // src={`http://localhost:8080/api/v1/image/${curation.thumbnail}`}
+          src={sampleImg}
+          alt="default image"
+        />
         <LikeChip>👍 {curation.likes}</LikeChip>
-      </CurationImage>
+      </ImageDiv>
       <CurationTitle>{curation.title}</CurationTitle>
     </Wrapper>
   );

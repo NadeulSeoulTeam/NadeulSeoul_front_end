@@ -11,11 +11,9 @@ import TabPanel from '../TabPanel';
 
 // component
 import CurationCard from '../../Card/CurationCard';
-
 // actions
 import { gobackToInquery, loadPostsInfinity } from '../../MyPageSlice';
 
-//
 // mui basic tabs
 function a11yProps(index) {
   return {

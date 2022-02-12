@@ -71,8 +71,6 @@ function BoardList() {
   };
 
   const navigate = useNavigate();
-  // const params = useParams();
-  // const userId = params.id;
 
   // props로 안하고 dispatch로 postId보내자
 
