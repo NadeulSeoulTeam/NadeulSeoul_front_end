@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-// mui list
+// mui
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 // component
 import FollowButton from '../FollowButton';
+
+// actions
+import { loadFollowers } from '../../MyPageSlice';
 
 // mui
 const Demo = styled('div')(({ theme }) => ({
@@ -26,14 +31,36 @@ function FollowersList() {
   // user별 팔로잉 팔로우 리스트를 불러오면 된다.
   const { FollowInfo } = useSelector((state) => state.mypage);
   const params = useParams();
+  const dispatch = useDispatch();
   const FollowList = FollowInfo.filter((v) => {
-    console.log(typeof v.id);
+    // console.log(typeof v.id);
     return v.id === parseInt(params.id, 10);
   });
   const nickName = FollowList[0].nickname;
   const followersList = FollowList[0].FollowersList;
-  console.log(typeof params.id);
-  console.log(FollowList[0].FollowersList);
+  const navigate = useNavigate();
+
+  // console.log(params.id);
+  // console.log(FollowList[0].FollowersList);
+
+  useEffect(() => {
+    dispatch(loadFollowers(params.id))
+      .unwrap()
+      .then(() => {
+        toast.success('불러오기에 성공');
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }, []);
+
+  const onClickGotoMypage = useCallback(
+    (id) => () => {
+      console.log('go to mypage"');
+      navigate(`/mypage/${id}`);
+    },
+    []
+  );
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid container spacing={2}>
@@ -49,14 +76,16 @@ function FollowersList() {
                   key={v + i}
                   secondaryAction={
                     <IconButton edge="end" aria-label="Follow">
-                      <FollowButton UserId={v.id} />
+                      <FollowButton UserId={parseInt(v.id, 10)} />
                     </IconButton>
                   }
                 >
                   <ListItemAvatar>
                     <Avatar>{v.emoji}</Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary={`${v.nickname}`} />
+                  <Button onClick={onClickGotoMypage(v.id)}>
+                    {v.nickname}
+                  </Button>
                 </ListItem>
               ))}
             </List>
