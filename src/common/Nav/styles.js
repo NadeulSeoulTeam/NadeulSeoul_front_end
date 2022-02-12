@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export const Container = styled.div`
   width: 280px;
@@ -12,14 +13,34 @@ export const Container = styled.div`
   text-align: center;
 `;
 
-export const Holder = styled.div`
+export const WhiteHolder = styled.div`
+  width: 45px;
+  height: 50px;
+  background-color: white;
+  border-radius: 0 35px 35px 0;
+  position: fixed;
+  top: 80px;
+  left: 280px;
+  cursor: pointer;
+`;
+
+export const GreenHolder = styled.div`
   width: 45px;
   height: 50px;
   background-color: #0de073;
   border-radius: 0 35px 35px 0;
   position: fixed;
   top: 80px;
-  left: 280px;
+  cursor: pointer;
+`;
+
+export const Icon = styled(MenuIcon)`
+  && {
+    font-size: 1.8rem;
+    margin-top: 50%;
+    margin-left: 50%;
+    transform: translate(-60%, -50%);
+  }
 `;
 
 export const Nickname = styled.p`
@@ -28,6 +49,7 @@ export const Nickname = styled.p`
   font-size: 1.5rem;
   color: #0de073;
   position: absolute;
+  width: 160px;
   top: 1rem;
   left: 50%;
   transform: translate(-50%, 0%);
@@ -70,5 +92,8 @@ export const GreenBtn = styled(Button)`
     left: 50%;
     bottom: 1.5rem;
     transform: translate(-50%, 0%);
+    &.Mui-disabled {
+      background-color: #fafafa;
+    }
   }
 `;
