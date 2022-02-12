@@ -15,15 +15,16 @@ import MainPage from '../features/Main/MainPage';
 
 // Common
 import Error404 from '../common/error/Error404';
-import Course from '../features/CourseMake/Course';
+import Course from '../features/CourseMake';
 import CourseCreationForm from '../features/CourseMake/CourseCreationForm';
 import CourseView from '../features/CourseView';
 import FollowersList from '../features/MyPage/Follow/FollowersList';
 import FollowingsList from '../features/MyPage/Follow/FollowingsList';
+import BoardList from '../features/MyPage/Board/BoardList';
 import BoardListItem from '../features/MyPage/Board/BoardListItem';
 import BoardForm from '../features/MyPage/Board/BoardForm';
-import BoardList from '../features/MyPage/Board/BoardList';
 import PrivateRoute from '../common/PrivateRoute';
+import StoreView from '../features/StoreView';
 
 function App() {
   const { flag } = useSelector((state) => state.auth);
@@ -63,6 +64,7 @@ function App() {
           <Route path="/Course" element={<Course />} />
           <Route path="/CourseView" element={<CourseView />} />
           <Route path="/CourseCreationForm" element={<CourseCreationForm />} />
+          <Route path="/StoreView" element={<StoreView />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </BrowserRouter>

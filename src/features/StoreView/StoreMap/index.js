@@ -8,13 +8,11 @@ import {
   // moveToList,
   getClicked,
   setClicked,
-} from './CourseSlice';
+} from '../StoreSlice';
 
-import './Course.css';
+import { addMarker, setMarker, removeMarker } from './StoreMarker/StoreMarker';
 
-import { addMarker, setMarker, removeMarker } from './CourseMarker';
-
-function CourseMap() {
+function StoreMap() {
   // 뒤로 가기에 대한 처리
   const [tempMarkers, setTempMarkers] = useState([]);
   const { kakao } = window;
@@ -23,6 +21,7 @@ function CourseMap() {
   const level = useSelector(selectLevel);
   const searchData = useSelector(getSearchData);
   const clicked = useSelector(getClicked);
+
   // eslint-disable-next-line no-unused-vars
   const [map, setMap] = useState();
   const dispatch = useDispatch();
@@ -37,6 +36,19 @@ function CourseMap() {
     const kakaoMap = new kakao.maps.Map(container, options);
     setMap(kakaoMap);
   }, []);
+
+  // 마커 클릭 이벤트
+  // const markerClickEventHandler = () => {
+  //   let clickedIndex = null;
+  //   tempMarkers.forEach((marker, index) => {
+  //     kakao.maps.event.addListener(marker, 'click', function () {
+  //       // 마커 위에 인포윈도우를 표시합니다
+  //       clickedIndex = searchData[index];
+  //       setClickMarkerInfo(clickedIndex);
+  //     });
+  //   });
+  // };
+
   // 마커 추가 effect
   useEffect(() => {
     // const bounds = new kakao.maps.LatLngBounds(); // bounds 설정
@@ -63,6 +75,7 @@ function CourseMap() {
     // map.setBounds(bounds);
     setTempMarkers(tempMarkers);
     setMarker(map, tempMarkers);
+    // markerClickEventHandler();
   }, [searchData]);
   useEffect(
     () => {
@@ -76,7 +89,6 @@ function CourseMap() {
     [lat],
     [lng]
   );
-
   return (
     <div
       className="map"
@@ -89,4 +101,4 @@ function CourseMap() {
   );
 }
 
-export default CourseMap;
+export default StoreMap;

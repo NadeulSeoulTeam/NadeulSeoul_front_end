@@ -4,12 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 // material UI
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Slide from '@mui/material/Slide';
 
-import styled from 'styled-components';
 import {
   selectLang,
   selectLat,
@@ -17,6 +14,7 @@ import {
   // moveToList,
   // getClicked,
   setClicked,
+  getCourseInfo,
 } from '../CourseViewSlice';
 // styled-component
 
@@ -31,15 +29,7 @@ import CourseViewCart from '../CourseViewCart';
 // dummy data
 import testdata from '../testdata';
 
-import { Map } from './styles';
-
-const Cart = styled.div`
-  position: absolute;
-  display: inline-block;
-  z-index: 2;
-  top: 190px;
-  left: 78%;
-`;
+import { Cart, Map, CardHeader, CardScript } from './styles';
 
 function CourseViewMap() {
   // 뒤로 가기에 대한 처리
@@ -56,6 +46,12 @@ function CourseViewMap() {
   // const clicked = useSelector(getClicked);
   // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch();
+  const courseInfo = useSelector((state) => state.courseInfo);
+
+  useEffect(() => {
+    dispatch(getCourseInfo());
+    console.log(courseInfo);
+  }, [courseInfo]);
 
   // 마커 클릭 이벤트
   const markerClickEventHandler = () => {
@@ -91,29 +87,9 @@ function CourseViewMap() {
         >
           <Cart>
             <Card className="store_cart" sx={{ minWidth: 275 }}>
-              <CardContent>
-                <Typography
-                  sx={{ fontSize: 12 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  {info.place_name}
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 8 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  {info.address_name}
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 8 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  {info.category_name}
-                </Typography>
-              </CardContent>
+              <CardHeader>{info.place_name}</CardHeader>
+              <CardScript>{info.address_name}</CardScript>
+              <CardScript>{info.category_name}</CardScript>
               <CardActions>
                 <Button
                   size="small"
