@@ -7,7 +7,7 @@ import Container from './AppStyle';
 
 // Common
 import Error404 from '../common/error/Error404';
-import Nav from '../common/Nav';
+// import Nav from '../common/Nav';
 
 // features
 import SignIn from '../features/Auth/SignIn';
@@ -54,7 +54,7 @@ function App() {
           <Route path="/CourseCreationForm" element={<CourseCreationForm />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
-        <Nav />
+        {/* <Nav /> */}
       </BrowserRouter>
     </Container>
   );
