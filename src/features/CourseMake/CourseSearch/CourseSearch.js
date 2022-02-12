@@ -7,9 +7,9 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import { getCourse, keywordInput, searchDataInput } from './CourseSlice';
+import { getCourse, keywordInput, searchDataInput } from '../CourseSlice';
 
-import './Course.css';
+import '../Course.css';
 
 function CourseSearch() {
   const dispatch = useDispatch();

@@ -6,6 +6,7 @@ import MainReducer from '../features/Main/MainSlice';
 import MyPageReducer from '../features/MyPage/MyPageSlice';
 import CourseReducer from '../features/CourseMake/CourseSlice';
 import CourseViewReducer from '../features/CourseView/CourseViewSlice';
+import StoreReducer from '../features/StoreView/StoreSlice';
 
 // const persistConfig = {
 //   key: 'root',
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   mypage: MyPageReducer,
   course: CourseReducer,
   courseView: CourseViewReducer,
+  store: StoreReducer,
 });
 
 // const persistedReducer = persistReducer(persistConfig, rootReducer);

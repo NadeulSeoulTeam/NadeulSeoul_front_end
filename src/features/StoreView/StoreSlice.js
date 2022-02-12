@@ -1,35 +1,7 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-expressions */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import _find from 'lodash/find';
-import testdata from './testdata';
-
-// Course 정보 가져오기
-export const getCourseInfo = createAsyncThunk(
-  'CourseView',
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(`curations/${data}`);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
-// 댓글 가져오기
-
-// 댓글 보내기
-export const sendComment = createAsyncThunk(
-  'CourseView',
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post('curations/comments', data);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
 
 // 스크랩(좋아요) 누르기
 export const clickLike = createAsyncThunk(
@@ -56,6 +28,7 @@ export const clickLikeCancel = createAsyncThunk(
     }
   }
 );
+
 export const initialState = {
   // map state
   Lat: 37.5642135,
@@ -63,8 +36,15 @@ export const initialState = {
   level: 3,
   // course state
   course: [],
+  searchKeyword: 'abc',
+  searchData: {
+    data: [],
+    status: '',
+    pagination: {},
+  },
   markers: [],
   clicked: false,
+  store: {},
 
   // axios
   courseInfo: {}, // 코스 정보 조회
@@ -82,52 +62,70 @@ export const initialState = {
   clickLikeCancelDone: false,
   clickLikeCancelError: null,
 };
-const course = createSlice({
-  name: 'CourseViewReducer',
+
+const store = createSlice({
+  name: 'StoreReducer',
   initialState,
   reducers: {
-    setCourse: (state, action) => {
+    // add: (state, action) => {
+    //   state.push({ text: action.payload, id: Date.now() });
+    // },
+    addCourse: (state, action) => {
+      console.log('addCourse');
+      console.log(action.payload);
+      state.course.push(action.payload);
+    },
+    deleteCourse: (state, action) => {
+      console.log('deleteCourse');
+      console.log(action.payload, 'action');
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < state.course.length; i++) {
+        console.log(state.course[i].id, 'course');
+        if (state.course[i].id === action.payload.id) {
+          state.course.splice(i, 1);
+          break;
+        }
+      }
+    },
+    updateCourse: (state, action) => {
       console.log('updateCourse');
       state.course = action.payload;
+    },
+    keywordInput: (state, action) => {
+      console.log('keywordInput Start');
+      console.log(action.payload);
+      state.searchKeyword = action.payload;
+    },
+    searchDataInputs: (state, action) => {
+      console.log('SearchDataInput Start');
+      state.searchData.data = action.payload.data;
+      state.searchData.status = action.payload.status;
+      // state.searchData.pagination = action.payload.pagination;
     },
     addMarkers: (state, action) => {
       state.markers.push(action.payload);
     },
+    removeMarkers: (state) => {
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < state.Markers.length; i++) {
+        state.markers[i].setMap(null);
+      }
+      state.markers = [];
+    },
+    moveToList: (state, action) => {
+      state.Lat = action.payload.lat;
+      state.Lng = action.payload.lng;
+      console.log(state.Lat, state.Lng, 'langlat set123123');
+    },
     setClicked: (state, action) => {
       state.clicked = action.payload;
     },
+    setStore: (state, action) => {
+      console.log(action.payload, 'asdasda');
+      state.store = action.payload;
+    },
   },
   extraReducers: {
-    // courseinfo 받기
-    [getCourseInfo.pending]: (state) => {
-      state.courseInfoLoading = true;
-      state.courseInfoDone = false;
-      state.courseInfoError = null;
-    },
-    [getCourseInfo.fulfilled]: (state, action) => {
-      state.courseInfoLoading = false;
-      // 들어오는 정보 맞춰 주기
-      state.courseInfo = action.data;
-      state.courseInfoDone = true;
-    },
-    [getCourseInfo.rejected]: (state, action) => {
-      state.courseInfoLoading = false;
-      state.courseInfoError = action.error.message;
-    },
-    // comment 보내기
-    [sendComment.pending]: (state) => {
-      state.sendCommentLoading = true;
-      state.sendCommentDone = false;
-      state.sendCommentError = null;
-    },
-    [sendComment.fulfilled]: (state, action) => {
-      state.sendCommentLoading = false;
-      state.sendCommentDone = true;
-    },
-    [sendComment.rejected]: (state, action) => {
-      state.sendCommentLoading = false;
-      state.sendCommentError = action.error.message;
-    },
     // like 보내기
     [clickLike.pending]: (state) => {
       state.clickLikeLoading = true;
@@ -159,14 +157,27 @@ const course = createSlice({
   },
 });
 
-export const { setCourse, addMarkers, setClicked } = course.actions;
+export const {
+  setKakaoMap,
+  addCourse,
+  deleteCourse,
+  updateCourse,
+  keywordInput,
+  searchDataInputs,
+  addMarkers,
+  removeMarkers,
+  moveToList,
+  setClicked,
+  setStore,
+} = store.actions;
 
-export default course.reducer;
-export const selectLat = (state) => state.course.Lat;
-export const selectLang = (state) => state.course.Lng;
-export const selectLevel = (state) => state.course.level;
-export const getCourse = (state) => state.course.course;
-export const getKeyword = (state) => state.course.keywordInput;
-export const getSearchData = (state) => state.course.searchData;
-export const getMarkers = (state) => state.course.markers;
-export const getClicked = (state) => state.course.clicked;
+export default store.reducer;
+export const selectLat = (state) => state.store.Lat;
+export const selectLang = (state) => state.store.Lng;
+export const selectLevel = (state) => state.store.level;
+export const getCourse = (state) => state.store.course;
+export const getKeyword = (state) => state.store.keywordInput;
+export const getSearchData = (state) => state.store.searchData;
+export const getMarkers = (state) => state.store.markers;
+export const getClicked = (state) => state.store.clicked;
+export const getStore = (state) => state.store.store;

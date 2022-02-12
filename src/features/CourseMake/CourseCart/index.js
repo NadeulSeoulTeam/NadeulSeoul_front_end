@@ -1,22 +1,20 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // material UI
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
+
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-// css
-import './Course.css';
 
 // react-beautiful-dnd
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import CourseCartItem from './CourseCartItem';
 
-import { getCourse, updateCourse } from './CourseSlice';
+import { getCourse, updateCourse } from '../CourseSlice';
+import { CourseCard, Header, List, CreateButton } from './styles';
 
 function CourseCart() {
   // 현재 카트에 리스트가 저장되어있는 배열
@@ -32,16 +30,15 @@ function CourseCart() {
   // eslint 는 key값으로 array의 인덱스를 사용하지 말라한다.... ????
   // id로 구분하기
   const mapToComponent = (data) => {
-    console.log(data);
-    return data.map((cart, i) => (
-      <Draggable key={cart.id} draggableId={cart.id} index={i}>
+    return data.map((cart, index) => (
+      <Draggable key={cart.id} draggableId={cart.id} index={index}>
         {(provided) => (
           <li
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <CourseCartItem cart={cart} />
+            <CourseCartItem cart={cart} index={index} />
           </li>
         )}
       </Draggable>
@@ -60,39 +57,36 @@ function CourseCart() {
   };
 
   return (
-    <Card className="cart" sx={{ minWidth: 275 }}>
+    <CourseCard sx={{ minWidth: 400 }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          내 코스에 추가할 장소
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        <Header>내 코스에 추가할 장소</Header>
+        <Typography>
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId="cart">
               {(provided) => (
-                <ul
+                <List
                   className="characters"
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
                   {mapToComponent(carts)}
                   {provided.placeholder}
-                </ul>
+                </List>
               )}
             </Droppable>
           </DragDropContext>
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button
-          size="small"
-          onClick={() => {
-            navigate(`/CourseCreationForm`);
-          }}
-        >
-          이대로 코스 생성하기
-        </Button>
-      </CardActions>
-    </Card>
+
+      <CreateButton
+        onClick={() => {
+          if (carts.length === 0) alert('한 개 이상의 장소를 추가해주세요');
+          else navigate(`/CourseCreationForm`);
+        }}
+      >
+        이대로 코스 생성하기
+      </CreateButton>
+    </CourseCard>
   );
 }
 

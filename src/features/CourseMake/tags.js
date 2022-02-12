@@ -35,9 +35,18 @@ const tags = {
     { Gangdong: '강동구' },
   ],
   theme: [
-    {
-      test: 'test',
-    },
+    { date: '데이트' },
+    { alone: '혼자' },
+    { instar: '인스타감성' },
+    { hokangs: '호캉스' },
+    { alchol: '술' },
+    { pet: '애견동반' },
+    { study: '공부' },
+    { drive: '드라이브' },
+    { active: '활동적인' },
+    { food: '식도락' },
+    { healing: '힐링' },
+    { museum: '전시회/미술관' },
   ],
 };
 export default tags;
