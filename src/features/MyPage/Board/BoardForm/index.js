@@ -1,9 +1,7 @@
 /* eslint-disable consistent-return */
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
-import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 
 // mui
 
@@ -15,18 +13,17 @@ import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 
 // component
-import ProfileCard from '../../Card/ProfileCard';
 
 // actions
-import { addPost } from '../../MyPageSlice';
+import { addPost, gobackToInquery } from '../../MyPageSlice';
 
 function BoardForm() {
+  const { userInfo } = useSelector((state) => state.mypage);
   const [title, setTitle] = useState();
   const [context, setContext] = useState();
-  const nowTime = moment().format('YYYY-MM-DD HH:mm:ss');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const myId = useParams().id;
+  const myId = userInfo[0].id;
 
   const onChagneTitle = useCallback(
     (e) => {
@@ -45,6 +42,7 @@ function BoardForm() {
   );
 
   const onClickGoback = useCallback(() => {
+    dispatch(gobackToInquery(3));
     navigate(-1);
   }, []);
 
@@ -57,29 +55,28 @@ function BoardForm() {
       return alert('내용을 입력해주세요');
     }
     console.log(myId, typeof myId);
-    console.log(nowTime, typeof nowTime);
     console.log(context, typeof context);
     console.log(title, typeof title);
-    dispatch(
-      addPost({
-        member_seq: myId,
-        question_title: title,
-        question_content: context,
-        question_date: nowTime,
+    const data = {
+      memberSeq: myId,
+      questionTitle: title,
+      question: context,
+      answer: '',
+    };
+    console.log(data);
+    dispatch(addPost(data))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
       })
-      // 직렬화 여부
-      // JSON.stringify({
-      //   member_seq: myId,
-      //   question_title: title,
-      //   question_content: context,
-      //   question_date: nowTime,
-      // })
-    );
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+    navigate(-1);
   });
 
   return (
     <>
-      <ProfileCard />
       <h2>문의 게시글 작성</h2>
       <Box
         sx={{

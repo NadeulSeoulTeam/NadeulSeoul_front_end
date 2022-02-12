@@ -1,120 +1,96 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// data에는 인가 code가 담긴다.
-export const postNaverCode = createAsyncThunk(
-  'auth/postNaverCode',
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post('벡엔드 주소', data);
-      // saveToken => 유니버셜 쿠키 라이브러리
-      console.log(response.data);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const postGoogleCode = createAsyncThunk(
-  'auth/postGoogleCode',
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post('벡엔드 주소', data);
-      // saveToken => 유니버셜 쿠키 라이브러리
-      console.log(response.data);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
+axios.defaults.withCredentials = true;
 
 // 기본 state
 export const initialState = {
-  naverToken: '',
-  isNaverCode: false,
-  naverCode: '',
-  postNaverCodeLoading: false, // naver 인가 코드 post 시도중
-  postNaverCodeDone: false,
-  postNaverCodeError: false,
-  googleCode: '',
-  isGoogleCode: false,
-  postGoogleCodeLoading: false, // google 인가 코드 post 시도중
-  postGoogleCodeDone: false,
-  postGoogleCodeError: false,
+  nickname: '',
+  emoji: '',
+  signupError: '',
+  isSignedin: '',
+  signinError: '',
 };
+
+export const signup = createAsyncThunk(
+  'member/signup',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/member/signup', data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// 자동 로그인 연장 (함수명, url 바뀔 수 있음)
+export const silentRefresh = createAsyncThunk(
+  'member/refresh',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/member/refresh', data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// index.js 에서 해줘야 할지도
+// export const onLoginSuccess = createAsyncThunk(
+//   'member/signin',
+//   async (data, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.defaults.headers.common['Authorization']
+//     }
+//   }
+//   );
+
+// 이게 필요한가? security로 로그인 시키면 redirect만 main으로 하면 됨
+// export const signin = createAsyncThunk(
+//   'member/signin',
+//   async (data, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.post('/member/signin', data, {
+//         withCredentials: true,
+//       });
+//       return response.data;
+//     } catch (error) {
+//       console.log(error);
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
 
 const authSlice = createSlice({
   name: 'authReducer',
   initialState,
-  reducers: {
-    addNaverToken(state, action) {
-      state.naverToken = action.payload;
-    },
-    addNaverCode(state, action) {
-      state.naverCode = action.payload;
-    },
-    onChangeNaverCode(state, action) {
-      state.isNaverCode = action.payload;
-    },
-    addGoogleCode(state, action) {
-      state.googleCode = action.payload;
-    },
-    onChangeGoogleCode(state, action) {
-      state.isGoogleCode = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: {
-    [postNaverCode.pending]: (state) => {
-      state.postNaverCodeLoading = true;
-      state.postNaverCodeDone = false;
-      state.postNaverCodeError = false;
+    // [postNaverCode.pending]: (state) => {
+    //   state.postNaverCodeLoading = true;
+    //   state.postNaverCodeDone = false;
+    //   state.postNaverCodeError = false;
+    // },
+    // [postNaverCode.fulfilled]: (state) => {
+    //   state.postNaverCodeLoading = false;
+    //   state.postNaverCodeDone = true;
+    // },
+    // [postNaverCode.rejected]: (state, action) => {
+    //   state.postNaverCodeLoading = false;
+    //   state.postNaverCodeError = action.payload;
+    // },
+    [signup.rejected]: (state, action) => {
+      state.signupError = action.payload;
     },
-    [postNaverCode.fulfilled]: (state) => {
-      state.postNaverCodeLoading = false;
-      state.postNaverCodeDone = true;
-    },
-    [postNaverCode.rejected]: (state, action) => {
-      state.postNaverCodeLoading = false;
-      state.postNaverCodeError = action.payload;
-    },
-    [postGoogleCode.pending]: (state) => {
-      state.postGoogleCodeLoading = true;
-      state.postGoogleCodeDone = false;
-      state.postGoogleCodeError = false;
-    },
-    [postGoogleCode.fulfilled]: (state) => {
-      state.postGoogleCodeLoading = false;
-      state.postGoogleCodeDone = true;
-    },
-    [postGoogleCode.rejected]: (state, action) => {
-      state.postGoogleCodeLoading = false;
-      state.postGoogleCodeError = action.payload;
-    },
+    // [signup.fulfilled]: (state, action) => {
+    // },
+    // },
   },
-  // extraReducers: (builder) => {
-  //   builder.addCase(postNaverCode.pending, (state) => {
-  //     state.postNaverCodeLoading = true;
-  //     state.postNaverCodeDone = false;
-  //     state.postNaverCodeError = false;
-  //   });
-  //   builder.addCase(postNaverCode.fulfilled, (state) => {
-  //     state.postNaverCodeLoading = false;
-  //     state.postNaverCodeDone = true;
-  //   });
-  //   builder.addCase(postNaverCode.rejected, (state, action) => {
-  //     state.postNaverCodeLoading = false;
-  //     state.postNaverCodeError = action.payload;
-  //   });
-  // },
 });
-export const {
-  addNaverToken,
-  addNaverCode,
-  onChangeNaverCode,
-  addGoogleCode,
-  onChangeGoogleCode,
-} = authSlice.actions;
+// export const {} = authSlice.actions;
 
 export default authSlice.reducer;

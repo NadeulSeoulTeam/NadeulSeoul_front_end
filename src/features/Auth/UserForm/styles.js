@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-// import InputEmoji from 'react-input-emoji';
+
+import 'emoji-mart/css/emoji-mart.css';
+import { Picker } from 'emoji-mart';
 
 export const Container = styled.div`
   text-align: center;
@@ -34,6 +36,13 @@ export const InputLabelGreen = styled.p`
 `;
 
 export const TextInput = styled(TextField)`
+  &&.MuiFormControl-root{
+    p {
+      font-family: 'Suit';
+      color: #0de073;
+      padding: 0 14px;
+    }
+  }
   .MuiOutlinedInput-root {
     color: #222222;
     width: 35vw;
@@ -50,13 +59,13 @@ export const TextInput = styled(TextField)`
     &.Mui-focused > fieldset {
       border-color: #0de073;
     }
+    &.Mui-disabled > fieldset {
+      border-color: #0de073;
+    }
+    &.Mui-error > fieldset {
+      border-color: #0de073;
+    }
 `;
-
-// export const EmojiInput = styled(InputEmoji)`
-//   .react-input-emoji--input {
-//     margin: 20px;
-//   }
-// `;
 
 export const GreenBtn = styled(Button)`
   && {
@@ -70,6 +79,9 @@ export const GreenBtn = styled(Button)`
     color: white;
     cursor: pointer;
     border: none;
+    &.Mui-disabled {
+      background-color: #fafafa;
+    }
   }
 `;
 
@@ -78,7 +90,9 @@ export const VerticalDiv = styled.div`
   flex-direction: column;
 `;
 
-// export const TextBoxDiv = styled.div`
-//   display: inline-flex;
-//   flex-direction: column;
-// `;
+// 왜인지 적용 안 되고 있음...
+export const EmojiPicker = styled(Picker)`
+  .emoji-mart-search input {
+    font-family: 'Suit';
+  }
+`;
