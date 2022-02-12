@@ -10,6 +10,7 @@ import Container from './AppStyle';
 // Common
 import Error404 from '../common/error/Error404';
 // import Nav from '../common/Nav';
+import PrivateRoute from '../common/routes/PrivateRoute';
 
 // features
 import SignIn from '../features/Auth/SignIn';
@@ -25,15 +26,10 @@ import FollowingsList from '../features/MyPage/Follow/FollowingsList';
 import BoardList from '../features/MyPage/Board/BoardList';
 import BoardListItem from '../features/MyPage/Board/BoardListItem';
 import BoardForm from '../features/MyPage/Board/BoardForm';
-import PrivateRoute from '../common/PrivateRoute';
 import StoreView from '../features/StoreView';
 
-// Common
-import Error404 from '../common/error/Error404';
-import PrivateRoute from '../common/routes/PrivateRoute';
-
 // test
-import Profile from '../features/MyPage/Routes/Profile';
+// import Profile from '../features/MyPage/Routes/Profile';
 
 function App() {
   const { flag } = useSelector((state) => state.auth);

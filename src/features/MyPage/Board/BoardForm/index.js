@@ -23,8 +23,8 @@ function BoardForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const myId = userInfo[0].id;
-  
-  const onChagneTitle = useCallback((e) => {
+
+  const onChangeTitle = useCallback((e) => {
     // console.log(e.target.value);
     setTitle(e.target.value);
   }, []);
@@ -77,7 +77,7 @@ function BoardForm() {
         }}
       >
         <TextField
-          onChange={onChagneTitle}
+          onChange={onChangeTitle}
           fullWidth
           value={title}
           label="제목"
