@@ -16,13 +16,17 @@
     left: 35%;
 }
 .list{
-    width: 78%;
+    width: 77%;
     display: flex;
     position: absolute;
     z-index: 2;
     top: 570px;
-    left: 10%;
+    left: 11%;
     overflow-x: auto;
+    scroll-behavior: smooth;
+}
+.list::-webkit-scrollbar{
+    display: none;
 }
 .item{
     margin: 10px;

@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+
 // mui
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 // components
 import FollowButton from '../../Follow/FollowButton';
@@ -22,9 +23,7 @@ function ProfileCard() {
     return v.id === parseInt(params.id, 10);
   })[0];
   const me = userInfo[0].id; // 로그인한 사람의 id 현재 로그인 가정(meanstrike)
-  // console.log(params.id);
-  // console.log(me);
-  // console.log(mypage);
+  const navigate = useNavigate();
 
   // 1. 내 마이페이지에 들어오면 버튼이 안보이게
   // => 일단 지금은 meastrike로 로그인 했다고 가정하고 만들기
@@ -35,6 +34,11 @@ function ProfileCard() {
     } else {
       setIsMe(false);
     }
+  }, []);
+
+  const onClickToQuestionBoard = useCallback(() => {
+    console.log('문의게시판으로 가자');
+    navigate('/questions');
   }, []);
 
   return (
@@ -49,16 +53,16 @@ function ProfileCard() {
               {mypage.emoji}
             </Avatar>
           }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
           title={mypage.nickname}
           subheader={<StatusUser />}
         />
         {isMe ? null : <FollowButton UserId={mypage.id} />}
       </Card>
+      <Stack spacing={2} direction="row-reverse">
+        <Button variant="contained" onClick={onClickToQuestionBoard}>
+          문의게시판
+        </Button>
+      </Stack>
     </>
   );
 }
