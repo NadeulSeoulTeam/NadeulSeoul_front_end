@@ -18,6 +18,7 @@ function BoardListItem() {
   const { PostId, singlePost } = useSelector((state) => state.mypage);
   const [lodingFinsh, setLoadingFinish] = useState(false);
 
+  // 정리해서 남겨두기 1 useNaviate와 localstorage를 활용해서 새로고침 이후에도 state값 유지시키기
   const [id, setId] = useState();
   const navigateState = useLocation().state;
   const savedPostid = navigateState?.postId;
@@ -31,7 +32,7 @@ function BoardListItem() {
       setId(saved);
     }
   }, [savedPostid]);
-  // 정리해서 남겨두기
+  // 정리해서 남겨두기 2
   // jsx가 리로딩 되기전에, 값을 최신화 업데이트 하고싶을떄,,  componentWillUnmount
   // 게시글, 답변 로딩 -> update를 누른다 -> component did unmount 실행 -> update jsx 실행
   useEffect(() => {
