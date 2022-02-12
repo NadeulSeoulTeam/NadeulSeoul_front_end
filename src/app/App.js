@@ -9,7 +9,7 @@ import Container from './AppStyle';
 
 // Common
 import Error404 from '../common/error/Error404';
-// import Nav from '../common/Nav';
+import Nav from '../common/Nav';
 import PrivateRoute from '../common/routes/PrivateRoute';
 
 // features
@@ -89,7 +89,7 @@ function App() {
         <Link to="/mypage/1" element={<MyPage />}>
           go to profile
         </Link>
-        {/* <Nav /> */}
+        <Nav />
       </BrowserRouter>
     </Container>
   );
