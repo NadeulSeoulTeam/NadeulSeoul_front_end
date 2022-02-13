@@ -29,7 +29,7 @@ import CourseViewCart from '../CourseViewCart';
 // dummy data
 import testdata from '../testdata';
 
-import { Cart, Map, CardHeader, CardScript } from './styles';
+import { Cart, Map, CardHeader, CardScript, StarButton } from './styles';
 
 function CourseViewMap() {
   // 뒤로 가기에 대한 처리
@@ -47,6 +47,8 @@ function CourseViewMap() {
   // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch();
   const courseInfo = useSelector((state) => state.courseInfo);
+  // star clicked
+  const [likeClicked, setLikeClicked] = useState(false);
 
   useEffect(() => {
     dispatch(getCourseInfo());
@@ -75,6 +77,23 @@ function CourseViewMap() {
         </div>
       );
     }
+
+    const userClickHeart = () => {
+      // 비동기 통신
+      if (likeClicked) {
+        // true->false
+        // dispatch(clickStarCancel());
+      } else {
+        // false->true
+        // const formData = new FormData();
+        // formData.append('member_seq', user.member_seq);
+        // formData.append('curation_seq', course.curation_seq);
+        // dispatch(clickStar(formData));
+      }
+      console.log('clicked');
+      setLikeClicked(!likeClicked);
+    };
+
     // store 정보 랜더링
     // eslint-disable-next-line consistent-return
     return (
@@ -87,6 +106,13 @@ function CourseViewMap() {
         >
           <Cart>
             <Card className="store_cart" sx={{ minWidth: 275 }}>
+              <StarButton
+                active={!!likeClicked}
+                type="submit"
+                onClick={userClickHeart}
+              >
+                💚
+              </StarButton>
               <CardHeader>{info.place_name}</CardHeader>
               <CardScript>{info.address_name}</CardScript>
               <CardScript>{info.category_name}</CardScript>

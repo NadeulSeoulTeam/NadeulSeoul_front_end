@@ -1,7 +1,7 @@
 import React from 'react';
 import CourseCart from './CourseCart';
 import CourseMap from './CourseMap';
-import CourseSearch from './CourseSearch/CourseSearch';
+import CourseSearch from './CourseSearch';
 import CourseList from './CourseList';
 
 function CourseMake() {

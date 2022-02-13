@@ -4,15 +4,18 @@
 
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 // const stateMarker = useSelector(getMarkers);
-
 export function addMarker(kakao, map, position, idx) {
-  const imageSrc =
-    'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png'; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-  const imageSize = new kakao.maps.Size(36, 37); // 마커 이미지의 크기
+  // const imageSrc =
+  //   'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png'; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+
+  const imgSrcConcat = 'marker_img/marker_'; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+  const imageSrc = imgSrcConcat.concat(`${idx + 1}.png`);
+  console.log(imageSrc);
+  const imageSize = new kakao.maps.Size(36, 36); // 마커 이미지의 크기
   const imgOptions = {
-    spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-    spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-    offset: new kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+    //   spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+    //   spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+    offset: new kakao.maps.Point(18, 18), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
   };
   const markerImage = new kakao.maps.MarkerImage(
     imageSrc,
@@ -92,7 +95,7 @@ export function setPolyline(map, placePosition, kakao) {
   const polyline = new kakao.maps.Polyline({
     path: linePath, // 선을 구성하는 좌표배열 입니다
     strokeWeight: 8, // 선의 두께 입니다
-    strokeColor: '#68C78E', // 선의 색깔입니다
+    strokeColor: '#0de073', // 선의 색깔입니다
     strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
     strokeStyle: 'solid', // 선의 스타일입니다
   });
