@@ -10,8 +10,6 @@ import {
   setClicked,
 } from '../CourseSlice';
 
-import '../Course.css';
-
 import {
   addMarker,
   setMarker,

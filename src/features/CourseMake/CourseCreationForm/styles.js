@@ -169,6 +169,10 @@ export const TransportationTag = styled.div`
   margin-bottom: 0px;
 `;
 export const ButtonToggle = styled.button`
+  background: #ffffff;
+  border: 3px solid #68c78e;
+  box-sizing: border-box;
+  border-radius: 20px;
   ${({ active }) => {
     return active ? `opacity: 1` : `opacity: 0.2`;
   }}
@@ -181,15 +185,21 @@ export const Local = styled.div`
   text-align: right;
   font-weight: bold;
 `;
-export const LocalToggle = styled.button`
-  ${({ active }) => {
-    return active ? `opacity: 1` : `opacity: 0.2`;
-  }}
-`;
 export const LocalTag = styled.div`
   grid-area: localTag;
   margin: 30px;
   margin-bottom: 0px;
+`;
+export const LocalTagDesc = styled.div`
+  opacity: 0.2;
+  font-size: 13.333px;
+`;
+export const LocalToggle = styled.button`
+  border: none;
+  background: transparent;
+  ${({ active }) => {
+    return active ? `color: #68c78e` : `opacity: 0.2`;
+  }}
 `;
 export const Theme = styled.div`
   grid-area: theme;
@@ -204,9 +214,15 @@ export const ThemeTag = styled.div`
   margin: 30px;
   margin-bottom: 0px;
 `;
+export const ThemeTagDesc = styled.div`
+  opacity: 0.2;
+  font-size: 13.333px;
+`;
 export const ThemeToggle = styled.button`
+  border: none;
+  background: transparent;
   ${({ active }) => {
-    return active ? `opacity: 1` : `opacity: 0.2`;
+    return active ? `color: #68c78e` : `opacity: 0.2 `;
   }}
 `;
 export const ImageUpload = styled.div`
