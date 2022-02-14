@@ -42,8 +42,10 @@ export const clickLikeCheck = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(`/api/v1/stores/bookmarks/${data}`);
+      console.log(response.data);
       return response.data;
     } catch (err) {
+      console.log(err.response);
       return rejectWithValue(err);
     }
   }
