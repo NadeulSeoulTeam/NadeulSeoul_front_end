@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // material UI
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
+// import Card from '@mui/material/Card';
+// import CardActions from '@mui/material/CardActions';
+// import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide';
 
 import {
@@ -31,10 +31,13 @@ import testdata from '../testdata';
 
 import {
   Cart,
+  DetailCard,
   Map,
   CardHeader,
   CardScript,
-  StarButton,
+  CloseBtn,
+  BtnExplain,
+  StarBtn,
   CourseTitle,
 } from './styles';
 
@@ -112,26 +115,26 @@ function CourseViewMap() {
           unmountOnExit
         >
           <Cart>
-            <Card className="store_cart" sx={{ minWidth: 275 }}>
-              <StarButton
+            <DetailCard className="store_cart" sx={{ minWidth: 275 }}>
+              {/* <CardActions>
+              </CardActions> */}
+              <CloseBtn onClick={() => setClickMarkerInfo(undefined)}>
+                X
+              </CloseBtn>
+              <BtnExplain>눌러서 찜하기</BtnExplain>
+              <StarBtn
                 active={!!likeClicked}
                 type="submit"
                 onClick={userClickHeart}
               >
                 💚
-              </StarButton>
-              <CardHeader>{info.place_name}</CardHeader>
-              <CardScript>{info.address_name}</CardScript>
-              <CardScript>{info.category_name}</CardScript>
-              <CardActions>
-                <Button
-                  size="small"
-                  onClick={() => setClickMarkerInfo(undefined)}
-                >
-                  돌아가기
-                </Button>
-              </CardActions>
-            </Card>
+              </StarBtn>
+              <div style={{ padding: '1.5rem 1.5rem 3rem 1.5rem' }}>
+                <CardHeader>{info.place_name}</CardHeader>
+                <CardScript>{info.address_name}</CardScript>
+                <CardScript>{info.category_name}</CardScript>
+              </div>
+            </DetailCard>
           </Cart>
         </Slide>
       </div>

@@ -32,7 +32,7 @@ export const Nickname = styled.p`
 
 export const AfterNickname = styled.p`
   display: inline;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #0de073;
   margin: 0 1.5rem 0 5px;
 `;
@@ -50,7 +50,7 @@ export const MorePic = styled.p`
   position: absolute;
   bottom: 5px;
   right: 5px;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   background-color: white;
   border-radius: 30px;
   padding: 3px 5px;
@@ -59,19 +59,23 @@ export const MorePic = styled.p`
 
 export const Description = styled.div`
   margin: 0.5rem 1.5rem 0.5rem 1.5rem;
+  font-size: 0.9rem;
 `;
 
 export const SubTitle = styled.p`
   font-weight: bold;
+  font-size: 0.9rem;
   margin: 1rem 1.5rem;
 `;
 
 export const Content = styled.p`
   margin: 1rem 1.5rem 1rem 0;
+  font-size: 0.9rem;
 `;
 
 export const Transportation = styled.p`
   display: inline;
+  font-size: 0.9rem;
   margin: 0 5px 0 0;
 `;
 
@@ -81,20 +85,24 @@ export const GreenDash = styled.hr`
   margin: 1rem 1.5rem;
 `;
 
-export const LikeButton = styled(Button)`
-  &.MuiButton-outlined {
-    width: 35px;
-    height: 35px;
-    color: #0de073;
-    background-color: white;
-    border-radius: 30px;
-    border-color: #0de073;
-    display: block;
-    margin: 0 1.5rem 0 auto;
-    &:hover {
-      border-color: #0de073;
-    }
-  }
+export const BtnExplain = styled.span`
+  right: 3rem;
+  bottom: 1rem;
+  font-size: 0.7rem;
+  color: #c4c4c4;
+`;
+
+export const LikeBtn = styled.button`
+  right: 0.5rem;
+  font-size: 1.3rem;
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
+  z-index: 3;
+  text-align: center;
+  ${({ active }) => {
+    return active ? `opacity: 1` : `opacity: 0.2`;
+  }};
 `;
 
 export const CommentArea = styled.div`
@@ -121,12 +129,12 @@ export const ProfileEmoji = styled(Avatar)`
 
 export const CommentNickname = styled.p`
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   margin: 0 0 3px 0;
 `;
 
 export const CommentContent = styled.p`
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   margin: 0;
 `;
 
@@ -135,7 +143,7 @@ export const TextInput = styled(TextField)`
     color: #222222;
     width: 163px;
     font-family: 'Suit';
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     background-color: white;
     border-radius: 15px;
     display: inline;
@@ -164,7 +172,7 @@ export const CommentBtn = styled(Button)`
   && {
     display: inline;
     font-family: 'Suit';
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: bold;
     background-color: #0de073;
     border-radius: 50px;

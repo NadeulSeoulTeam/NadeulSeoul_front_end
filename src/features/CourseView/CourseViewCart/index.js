@@ -16,7 +16,8 @@ import {
   SubTitle,
   Content,
   Transportation,
-  LikeButton,
+  BtnExplain,
+  LikeBtn,
   GreenDash,
   CommentArea,
   CommentCreationArea,
@@ -51,7 +52,6 @@ function CourseViewCart() {
 
   const mapTransportationToComponent = () => {
     return course.data.transportation.map((transportation) => (
-      // <List>{transportation}</List>
       <Transportation>{transportation}</Transportation>
     ));
   };
@@ -67,16 +67,6 @@ function CourseViewCart() {
       </div>
     ));
   };
-
-  // const mapCommentToComponent = () => {
-  //   return course.data.comments.map((comment) => (
-  //     <EachComment>
-  //       <ProfileBox>프로필</ProfileBox>
-  //       <UserBox>{comment.user_nickname}</UserBox>
-  //       <CommentBox>{comment.content}</CommentBox>
-  //     </EachComment>
-  //   ));
-  // };
 
   const commentWrite = (e) => {
     console.log(e.target.value);
@@ -124,7 +114,12 @@ function CourseViewCart() {
         <Content>{course.data.budget}원 / 1인</Content>
         <Content>{course.data.fixed_people}</Content>
       </div>
-      <LikeButton variant="outlined">👍</LikeButton>
+      <div style={{ textAlign: 'end', padding: '0 1.5rem' }}>
+        <BtnExplain>눌러서 좋아요 표시하기</BtnExplain>
+        <LikeBtn active={!!likeClicked} type="submit" onClick={userClickLike}>
+          👍
+        </LikeBtn>
+      </div>
       <GreenDash />
       <CommentArea>{mapCommentToComponent()}</CommentArea>
       <CommentCreationArea>
