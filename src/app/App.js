@@ -35,9 +35,11 @@ function App() {
   const { flag } = useSelector((state) => state.auth);
   const [isLogged, setIsLogged] = useState(false);
 
+  // eslint-disable-next-line no-unused-vars
   const onClickLogin = useCallback(() => {
     setIsLogged(true);
   }, []);
+  // eslint-disable-next-line no-unused-vars
   const onClickLogout = useCallback(() => {
     setIsLogged(false);
   }, []);
@@ -45,9 +47,9 @@ function App() {
   console.log(typeof flag, flag);
   return (
     <Container>
-      <button onClick={onClickLogin}>Login</button>
+      {/* <button onClick={onClickLogin}>Login</button>
       <button onClick={onClickLogout}>LogOut</button>
-      {isLogged ? <h1>로그인 했다</h1> : <h1>로그인 안했다</h1>}
+      {isLogged ? <h1>로그인 했다</h1> : <h1>로그인 안했다</h1>} */}
       <BrowserRouter>
         <GlobalFonts />
         <Routes>
