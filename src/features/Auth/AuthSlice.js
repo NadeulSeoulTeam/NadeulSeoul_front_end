@@ -1,9 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-// import Cookies from 'universal-cookie';
 import axios from '../../common/api/httpCommunication';
-import { getToken } from '../../common/api/JWT-Token';
+import {
+  getToken,
+  deleteToken,
+  deleteLoginSuccess,
+} from '../../common/api/JWT-Token';
 
 axios.defaults.withCredentials = true;
+
+// test User Role
 
 // 기본 state
 export const initialState = {
@@ -53,6 +58,20 @@ export const silentRefresh = createAsyncThunk(
     } catch (error) {
       console.log(error);
       return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const logout = createAsyncThunk(
+  'member/logout',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get('/users/signout');
+      deleteToken();
+      deleteLoginSuccess();
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response);
     }
   }
 );

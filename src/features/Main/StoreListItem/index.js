@@ -15,9 +15,7 @@ function StoreListItem({ store }) {
   //   dispatch(select(selectedUser));
   // };
 
-  useEffect(() => {
-    console.log(store);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Wrapper

@@ -5,13 +5,14 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 
 // components
 import FollowButton from '../../Follow/FollowButton';
 import StatusUser from '../../Follow/StatusUser';
+
+// custom style
+import { GreenBtn } from './styles';
 
 function ProfileCard({
   userId,
@@ -33,7 +34,7 @@ function ProfileCard({
     } else {
       setIsMe(false);
     }
-  }, []);
+  }, [userId]);
 
   const onClickToQuestionBoard = useCallback(() => {
     console.log('문의게시판으로 가자');
@@ -42,9 +43,6 @@ function ProfileCard({
 
   return (
     <>
-      <Typography sx={{ mt: 4, mb: 2 }} variant="h4" component="div">
-        {nickName}님의 mypage
-      </Typography>
       <Card sx={{ maxWidth: 300 }}>
         <CardHeader
           avatar={
@@ -64,9 +62,11 @@ function ProfileCard({
         {isMe ? null : <FollowButton userId={userId} />}
       </Card>
       <Stack spacing={2} direction="row-reverse">
-        <Button variant="contained" onClick={onClickToQuestionBoard}>
-          문의게시판
-        </Button>
+        {isMe ? (
+          <GreenBtn variant="contained" onClick={onClickToQuestionBoard}>
+            문의게시판
+          </GreenBtn>
+        ) : null}
       </Stack>
     </>
   );

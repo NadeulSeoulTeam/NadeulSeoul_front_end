@@ -60,11 +60,11 @@ function BoardForm() {
       .unwrap()
       .then((response) => {
         console.log(response);
+        navigate(-1);
       })
       .catch((err) => {
         console.log(err.response.data);
       });
-    navigate(-1);
   });
 
   return (

@@ -20,8 +20,6 @@ function MyPage() {
   const params = useParams();
   const { userInfo, user } = useSelector((state) => state.mypage);
   // 서버에 유저정보 요청
-
-  console.log(params.id);
   useEffect(() => {
     dispatch(loadUser(params.id))
       .unwrap()
@@ -62,7 +60,7 @@ function MyPage() {
   return (
     <>
       <ProfileCard
-        userId={user?.memberSeq}
+        userId={user?.userSeq}
         emoji={user?.emoji}
         nickName={user?.nickName}
         followeeCount={user?.followeeCount}

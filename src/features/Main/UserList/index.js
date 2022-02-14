@@ -56,8 +56,6 @@ function UserList() {
   const onThrottleDragMove = throttle(onDragMove, 100);
 
   const mapToComponent = (data) => {
-    console.log('UserList');
-    console.log(data);
     return data.map((user) => <UserListItem user={user} />);
   };
 

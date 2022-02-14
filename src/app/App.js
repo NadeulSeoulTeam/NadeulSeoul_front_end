@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -33,21 +33,21 @@ import StoreView from '../features/StoreView';
 
 function App() {
   const { flag } = useSelector((state) => state.auth);
-  const [isLogged, setIsLogged] = useState(false);
+  // const [isLogged, setIsLogged] = useState(false);
 
-  const onClickLogin = useCallback(() => {
-    setIsLogged(true);
-  }, []);
-  const onClickLogout = useCallback(() => {
-    setIsLogged(false);
-  }, []);
+  // const onClickLogin = useCallback(() => {
+  //   setIsLogged(true);
+  // }, []);
+  // const onClickLogout = useCallback(() => {
+  //   setIsLogged(false);
+  // }, []);
 
   console.log(typeof flag, flag);
   return (
     <Container>
-      <button onClick={onClickLogin}>Login</button>
+      {/* <button onClick={onClickLogin}>Login</button>
       <button onClick={onClickLogout}>LogOut</button>
-      {isLogged ? <h1>로그인 했다</h1> : <h1>로그인 안했다</h1>}
+      {isLogged ? <h1>로그인 했다</h1> : <h1>로그인 안했다</h1>} */}
       <BrowserRouter>
         <GlobalFonts />
         <Routes>
@@ -55,14 +55,12 @@ function App() {
           {/* auth */}
           <Route path="/member/signin" element={<SignIn />} />
           <Route path="/oauth/redirect" element={<Redirect />} />
-          <Route element={<PrivateRoute flag={flag} />}>
-            <Route path="/member/signup" element={<UserForm />} />
-          </Route>
+          <Route path="/member/signup" element={<UserForm />} />
+          <Route element={<PrivateRoute flag={flag} />} />
           {/* mypage */}
-          <Route element={<PrivateRoute isLogged={isLogged} />}>
-            <Route path="/mypage/:id" element={<MyPage />} />
-            <Route Route path="/questions" element={<BoardList />} />
-          </Route>
+          <Route path="/mypage/:id" element={<MyPage />} />
+          <Route Route path="/questions" element={<BoardList />} />
+          {/* <Route element={<PrivateRoute isLogged={isLogged} />} /> */}
           <Route
             Route
             path="/mypage/:id/follower"

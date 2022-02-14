@@ -42,7 +42,6 @@ function UserForm() {
   // });
 
   const onNicknameChange = (e) => {
-    console.log(e.currentTarget.value);
     const nicknameInput = e.currentTarget.value;
     if (nicknameInput === '') {
       setNicknameErr({
@@ -93,22 +92,13 @@ function UserForm() {
   };
 
   const onInputSuccess = useCallback(() => {
-    console.log(data);
     dispatch(signup(data))
-      .then((response) => {
-        console.log(response);
-        if (response.payload.status === 200) {
-          console.log('성공');
-          saveLoginSuccess(true);
-        } else if (response.payload.status === 500) {
-          alert('회원가입 실패했습니다.');
-        }
+      .then(() => {
+        saveLoginSuccess(true);
+        navigate('/');
       })
       .catch((error) => {
         console.log(error.response.data);
-      })
-      .then(() => {
-        navigate('/');
       });
   }, [data]);
 

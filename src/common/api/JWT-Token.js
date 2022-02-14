@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 // save, get, delete token method with universal-cookie
+
 // save
 export const saveToken = (token) => {
   return cookies.set('token', token, {
@@ -32,4 +33,9 @@ export const saveLoginSuccess = (LoggedIn) => {
 // get login success
 export const getLoginSuccess = () => {
   return cookies.get('LoggedIn');
+};
+
+// delete
+export const deleteLoginSuccess = () => {
+  return cookies.remove('LoggedIn');
 };

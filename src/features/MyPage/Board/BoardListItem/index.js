@@ -24,6 +24,7 @@ function BoardListItem() {
   const savedPostid = navigateState?.postId;
 
   window.localStorage.setItem('data', savedPostid);
+  const isAdmin = true;
 
   console.log(savedPostid);
   useEffect(() => {
@@ -52,7 +53,13 @@ function BoardListItem() {
           question={singlePost?.question}
           PostId={savedPostid}
         />
-        <BoardListItemAnswer answer={singlePost?.answer} PostId={savedPostid} />
+        {(singlePost?.answer || isAdmin) && (
+          <BoardListItemAnswer
+            answer={singlePost?.answer}
+            PostId={savedPostid}
+            isAdmin={isAdmin}
+          />
+        )}
       </>
     )
   );

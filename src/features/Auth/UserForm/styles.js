@@ -36,7 +36,7 @@ export const InputLabelGreen = styled.p`
 `;
 
 export const TextInput = styled(TextField)`
-  &&.MuiFormControl-root{
+  &&.MuiFormControl-root {
     p {
       font-family: 'Suit';
       color: #0de073;
@@ -65,6 +65,7 @@ export const TextInput = styled(TextField)`
     &.Mui-error > fieldset {
       border-color: #0de073;
     }
+  }
 `;
 
 export const GreenBtn = styled(Button)`

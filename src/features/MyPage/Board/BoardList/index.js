@@ -13,11 +13,13 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 // actions
 import { loadBoardList, postIdToListItem } from '../../MyPageSlice';
+
+// custom styles
+import { GreenBtn, MainTitle } from './styles';
 
 // components
 
@@ -66,13 +68,20 @@ function BoardList() {
   }, []);
 
   useEffect(() => {
-    dispatch(loadBoardList(userInfo[0].id));
+    dispatch(loadBoardList(userInfo[0].id))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     console.log(userInfo[0].id);
   }, []);
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <h1>문의 게시판</h1>
+      <MainTitle>문의 게시판</MainTitle>
       <Box
         sx={{
           display: 'flex',
@@ -84,9 +93,7 @@ function BoardList() {
         }}
       >
         <Stack spacing={2} direction="row">
-          <Button onClick={onClickCreateInqury} variant="contained">
-            문의 작성
-          </Button>
+          <GreenBtn onClick={onClickCreateInqury}>문의 작성</GreenBtn>
         </Stack>
       </Box>
       <TableContainer sx={{ maxHeight: 440 }}>

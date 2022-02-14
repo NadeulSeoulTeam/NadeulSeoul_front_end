@@ -4,13 +4,14 @@ import React from 'react';
 // mui
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
+// import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 
-// assets
+// custom style
 
-function CurationCard({ imgUrl }) {
+import { StoreName, Address, StoreInfo } from './styles';
+
+function CurationCard({ storeName, addressName, categoryName }) {
   return (
     // 여기서 상세 curaetion으로 onClick 매서드 사용해소 navgative로 이동
     <Card
@@ -22,14 +23,11 @@ function CurationCard({ imgUrl }) {
       }}
     >
       <CardActionArea>
-        <CardMedia component="img" height="140" image={imgUrl} alt="test" />
+        {/* <CardMedia component="img" height="140" image={imgUrl} alt="test" /> */}
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            코스
-          </Typography>
-          <Typography variant="body2" color="text.secondary" component="div">
-            test
-          </Typography>
+          <StoreName>{storeName}</StoreName>
+          <Address>{addressName}</Address>
+          <StoreInfo>{categoryName}</StoreInfo>
         </CardContent>
       </CardActionArea>
     </Card>

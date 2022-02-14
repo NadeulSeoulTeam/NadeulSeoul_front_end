@@ -12,6 +12,7 @@ function Redirect() {
     const params = new URLSearchParams(document.location.search);
     const token = params.get('token');
     const flag = params.get('flag');
+    console.log(flag);
     saveToken(token);
     dispatch(saveFlag(flag));
     if (flag === 'true') {
