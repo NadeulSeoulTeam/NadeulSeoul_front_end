@@ -45,7 +45,7 @@ export const initialState = {
   markers: [],
   clicked: false,
   store: {},
-
+  clickedIndex: -1,
   // axios
   courseInfo: {}, // 코스 정보 조회
   courseInfoLoading: false,
@@ -124,6 +124,10 @@ const store = createSlice({
       console.log(action.payload, 'asdasda');
       state.store = action.payload;
     },
+    setClickedIndex: (state, action) => {
+      console.log(action.payload);
+      state.clickedIndex = action.payload;
+    },
   },
   extraReducers: {
     // like 보내기
@@ -169,6 +173,7 @@ export const {
   moveToList,
   setClicked,
   setStore,
+  setClickedIndex,
 } = store.actions;
 
 export default store.reducer;
@@ -181,3 +186,4 @@ export const getSearchData = (state) => state.store.searchData;
 export const getMarkers = (state) => state.store.markers;
 export const getClicked = (state) => state.store.clicked;
 export const getStore = (state) => state.store.store;
+export const getClickedIndex = (state) => state.store.clickedIndex;
