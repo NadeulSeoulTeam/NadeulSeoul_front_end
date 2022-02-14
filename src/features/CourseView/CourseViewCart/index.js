@@ -5,18 +5,18 @@ import { useDispatch } from 'react-redux';
 // import Card from '@mui/material/Card';
 
 // css
-import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1';
 import {
   Container,
-  // CourseInfo,
   RightDiv,
   Nickname,
   AfterNickname,
-  // CourseCart,
+  Picture,
+  MorePic,
   Description,
   SubTitle,
   Content,
   Transportation,
+  LikeButton,
   GreenDash,
   CommentArea,
   CommentCreationArea,
@@ -25,23 +25,8 @@ import {
   CommentContent,
   TextInput,
   CommentBtn,
-  // Sub1,
-  // Sub2,
-  // Sub3,
-  // Content1,
-  // Content2,
-  // Content3,
-  // List,
-  // ProfileBox,
-  // CommentBox,
-  // Cart,
-  // UserBox,
-  // UserComment,
-  // EachComment,
-  // Comment,
-  // Button,
-  LikeButton,
 } from './styles';
+
 // dummy data
 import testdata from '../testdata';
 import { sendComment, clickLike, clickLikeCancel } from '../CourseViewSlice';
@@ -52,7 +37,9 @@ function CourseViewCart() {
   const [user, setUser] = useState(true);
   const [userComment, setUserComment] = useState('');
   const [likeClicked, setLikeClicked] = useState(false);
+
   const dispatch = useDispatch();
+
   // 현재 카트에 리스트가 저장되어있는 배열
   useEffect(() => {
     if (course.status === '200') {
@@ -95,10 +82,12 @@ function CourseViewCart() {
     console.log(e.target.value);
     setUserComment(e.target.value);
   };
+
   const putComment = () => {
     dispatch(sendComment(userComment));
     // 댓글 비동기 통신 다시하기
   };
+
   const userClickLike = () => {
     // 비동기 통신
     if (likeClicked) {
@@ -113,12 +102,17 @@ function CourseViewCart() {
     }
     setLikeClicked(!likeClicked);
   };
+
   return (
     <Container>
       <RightDiv>
         <Nickname>{course.data.member_nickname}</Nickname>
         <AfterNickname>의 나들코스</AfterNickname>
       </RightDiv>
+      <Picture>
+        사진자리
+        <MorePic>사진 더보기</MorePic>
+      </Picture>
       <Description>{course.data.desc}</Description>
       <div style={{ display: 'inline-block' }}>
         <SubTitle>교통편</SubTitle>
@@ -127,7 +121,7 @@ function CourseViewCart() {
       </div>
       <div style={{ display: 'inline-block' }}>
         <Content>{mapTransportationToComponent()}</Content>
-        <Content>{course.data.budget}</Content>
+        <Content>{course.data.budget}원 / 1인</Content>
         <Content>{course.data.fixed_people}</Content>
       </div>
       <LikeButton variant="outlined">👍</LikeButton>
@@ -148,33 +142,6 @@ function CourseViewCart() {
         )}
       </CommentCreationArea>
     </Container>
-    // <Container>
-    //   <CourseCart>
-    //     <Nickname>{course.data.member_nickname}</Nickname>
-    //     <AfterNickname>의 나들코스</AfterNickname>
-    //     <Description>{course.data.desc}</Description>
-    //     <Sub1>교통편</Sub1>
-    //     <Content1>{mapTransportationToComponent()}</Content1>
-    //     <Sub2>코스예산:</Sub2>
-    //     <Content2>{course.data.budget}</Content2>
-    //     <Sub3>함께 한 인원:</Sub3>
-    //     <Content3>{course.data.fixed_people}</Content3>
-    //     <LikeButton
-    //       active={!!likeClicked}
-    //       type="submit"
-    //       onClick={userClickLike}
-    //     >
-    //       👍
-    //     </LikeButton>
-    //     <UserComment>
-    //       {mapCommentToComponent()}
-    //       {user && (
-    //         <Comment onChange={commentWrite} placeholder="댓글을 남겨주세요!" />
-    //       )}
-    //       {user && <Button onClick={putComment}>작성</Button>}
-    //     </UserComment>
-    //   </CourseCart>
-    // </Container>
   );
 }
 

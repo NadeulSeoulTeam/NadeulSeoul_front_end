@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import React, { useState, useCallback } from 'react';
+import React, * as react from 'react';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -33,14 +33,14 @@ import StoreView from '../features/StoreView';
 
 function App() {
   const { flag } = useSelector((state) => state.auth);
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = react.useState(false);
 
   // eslint-disable-next-line no-unused-vars
-  const onClickLogin = useCallback(() => {
+  const onClickLogin = react.useCallback(() => {
     setIsLogged(true);
   }, []);
   // eslint-disable-next-line no-unused-vars
-  const onClickLogout = useCallback(() => {
+  const onClickLogout = react.useCallback(() => {
     setIsLogged(false);
   }, []);
 

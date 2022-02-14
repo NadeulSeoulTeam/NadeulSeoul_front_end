@@ -7,24 +7,15 @@ import TextField from '@mui/material/TextField';
 
 export const Container = styled.div`
   width: 280px;
-  height: 600px;
+  height: 100%;
   position: absolute;
   z-index: 2;
-  top: 80px;
+  top: 0px;
   background-color: white;
   border-radius: 20px 0 0 20px;
   right: 0;
+  overflow: hidden;
 `;
-
-// export const CourseInfo = styled.div`
-//   display: grid;
-//   grid-template-areas:
-//     'hd hd hd hd'
-//     'sub con con con'
-//     'sub con con con'
-//     'sub con con con'
-//     'avatar comment comment comment';
-// `;
 
 export const RightDiv = styled.div`
   margin-top: 1rem;
@@ -46,9 +37,28 @@ export const AfterNickname = styled.p`
   margin: 0 1.5rem 0 5px;
 `;
 
+export const Picture = styled.div`
+  margin: 1rem auto 0.5rem auto;
+  width: 160px;
+  height: 120px;
+  background-color: #0de073;
+  position: relative;
+  cursor: pointer;
+`;
+
+export const MorePic = styled.p`
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 0.8rem;
+  background-color: white;
+  border-radius: 30px;
+  padding: 3px 5px;
+  margin: 0;
+`;
+
 export const Description = styled.div`
-  line-height: 26px;
-  margin: 1.5rem;
+  margin: 0.5rem 1.5rem 0.5rem 1.5rem;
 `;
 
 export const SubTitle = styled.p`
@@ -88,11 +98,14 @@ export const LikeButton = styled(Button)`
 `;
 
 export const CommentArea = styled.div`
-  height: 230px;
+  height: 190px;
   margin: 0 1.5rem;
+  overflow: auto;
 `;
 
 export const CommentCreationArea = styled.div`
+  position: absolute;
+  bottom: 1rem;
   height: 50px;
   margin: 0 1.5rem;
 `;
@@ -225,107 +238,107 @@ export const EachComment = styled.div`
 //   text-align: center;
 // `;
 
-export const Sub1 = styled.div`
-  grid-area: sub1;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  margin-left: 30px;
-  margin-bottom: 30px;
-`;
+// export const Sub1 = styled.div`
+//   grid-area: sub1;
+//   font-family: Roboto;
+//   font-style: normal;
+//   font-weight: bold;
+//   font-size: 20px;
+//   margin-left: 30px;
+//   margin-bottom: 30px;
+// `;
 
-export const Content1 = styled.ul`
-  grid-area: content1;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 8px;
-  align: left;
-  padding: 0px;
-  margin: 0px;
-`;
+// export const Content1 = styled.ul`
+//   grid-area: content1;
+//   font-family: Roboto;
+//   font-style: normal;
+//   font-weight: normal;
+//   font-size: 8px;
+//   align: left;
+//   padding: 0px;
+//   margin: 0px;
+// `;
 
-export const List = styled.li`
-  position: absolute;
-  float: right;
-  margin-right: 10px;
-  position: relative;
-  right: 50px;
-  display: inline;
-  font-size: 20px;
-`;
+// export const List = styled.li`
+//   position: absolute;
+//   float: right;
+//   margin-right: 10px;
+//   position: relative;
+//   right: 50px;
+//   display: inline;
+//   font-size: 20px;
+// `;
 
-export const Sub2 = styled.span`
-  grid-area: sub2;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  margin-left: 30px;
-  margin-bottom: 30px;
-`;
+// export const Sub2 = styled.span`
+//   grid-area: sub2;
+//   font-family: Roboto;
+//   font-style: normal;
+//   font-weight: bold;
+//   font-size: 20px;
+//   margin-left: 30px;
+//   margin-bottom: 30px;
+// `;
 
-export const Content2 = styled.span`
-  grid-area: content2;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  margin-left: 10px;
-`;
+// export const Content2 = styled.span`
+//   grid-area: content2;
+//   font-family: Roboto;
+//   font-style: normal;
+//   font-weight: normal;
+//   font-size: 20px;
+//   margin-left: 10px;
+// `;
 
-export const Sub3 = styled.span`
-  grid-area: sub3;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  margin-left: 30px;
-  margin-bottom: 30px;
-`;
+// export const Sub3 = styled.span`
+//   grid-area: sub3;
+//   font-family: Roboto;
+//   font-style: normal;
+//   font-weight: bold;
+//   font-size: 20px;
+//   margin-left: 30px;
+//   margin-bottom: 30px;
+// `;
 
-export const Content3 = styled.span`
-  grid-area: content3;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  margin-left: 10px;
-`;
+// export const Content3 = styled.span`
+//   grid-area: content3;
+//   font-family: Roboto;
+//   font-style: normal;
+//   font-weight: normal;
+//   font-size: 20px;
+//   margin-left: 10px;
+// `;
 
-export const ProfileBox = styled.div`
-  grid-area: profileBox;
-  background: #e5e5e5;
-  border: 3px solid #68c78e;
-  border-radius: 50%;
-  box-sizing: border-box;
-  height: 60px;
-  width: 60px;
-  margin-left: 30px;
-`;
+// export const ProfileBox = styled.div`
+//   grid-area: profileBox;
+//   background: #e5e5e5;
+//   border: 3px solid #68c78e;
+//   border-radius: 50%;
+//   box-sizing: border-box;
+//   height: 60px;
+//   width: 60px;
+//   margin-left: 30px;
+// `;
 
-export const UserBox = styled.div`
-  grid-area: userBox;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
-  height: 25px;
-  width: 250px;
-  padding-left: 10px;
-`;
+// export const UserBox = styled.div`
+//   grid-area: userBox;
+//   font-family: Roboto;
+//   font-style: normal;
+//   font-weight: bold;
+//   font-size: 15px;
+//   height: 25px;
+//   width: 250px;
+//   padding-left: 10px;
+// `;
 
-export const CommentBox = styled.div`
-  grid-area: commentBox;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 10px;
-  height: 25px;
-  padding-left: 10px;
-  word-break: normal;
-`;
+// export const CommentBox = styled.div`
+//   grid-area: commentBox;
+//   font-family: Roboto;
+//   font-style: normal;
+//   font-weight: normal;
+//   font-size: 10px;
+//   height: 25px;
+//   padding-left: 10px;
+//   word-break: normal;
+// `;
 
 // export const LikeButton = styled.button`
 //   position: relative;

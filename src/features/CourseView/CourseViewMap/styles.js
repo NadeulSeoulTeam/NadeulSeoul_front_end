@@ -52,3 +52,16 @@ export const StarButton = styled.button`
     return active ? `opacity: 1` : `opacity: 0.2`;
   }};
 `;
+export const CourseTitle = styled.div`
+  position: absolute;
+  top: 25px;
+  left: 60px;
+  background-color: #0de073;
+  color: white;
+  font-family: 'Hahmlet';
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 8px 20px;
+  border-radius: 30px;
+  z-index: 2;
+`;
