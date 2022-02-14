@@ -11,6 +11,7 @@ export const Container = styled.div`
   position: fixed;
   top: 50px;
   text-align: center;
+  z-index: 2;
 `;
 
 export const WhiteHolder = styled.div`
@@ -22,6 +23,7 @@ export const WhiteHolder = styled.div`
   top: 80px;
   left: 280px;
   cursor: pointer;
+  z-index: 2;
 `;
 
 export const GreenHolder = styled.div`
@@ -32,6 +34,7 @@ export const GreenHolder = styled.div`
   position: fixed;
   top: 80px;
   cursor: pointer;
+  z-index: 2;
 `;
 
 export const Icon = styled(MenuIcon)`
