@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 // css
 import { StoreCard, Store, StoreName, StoreDescription } from './styles';
 
-function CourseListItem({ addToCart, search, index }) {
+function CourseListItem({ addToCart, search, index, active }) {
   useEffect(() => {
     console.log('courselistitem start');
     console.log(search);
@@ -14,12 +14,18 @@ function CourseListItem({ addToCart, search, index }) {
 
   return (
     <StoreCard
-      sx={{ minWidth: 275, minHeight: 100 }}
+      sx={{
+        minWidth: 275,
+        minHeight: 100,
+        backgroundColor: active ? '#0de073' : '',
+      }}
       onClick={() => addToCart(search, index)}
     >
       <Store>
-        <StoreName>{search.place_name}</StoreName>
-        <StoreDescription>{search.address_name}</StoreDescription>
+        <StoreName active={active}>{search.place_name}</StoreName>
+        <StoreDescription active={active}>
+          {search.address_name}
+        </StoreDescription>
       </Store>
     </StoreCard>
   );

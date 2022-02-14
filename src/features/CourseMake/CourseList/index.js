@@ -13,6 +13,7 @@ import {
   moveToList,
   setClicked,
   setClickedIndex,
+  getClickedIndex,
 } from '../CourseSlice';
 import CourseListItem from './CourseListItem';
 import { ArrowBack, ArrowForward, List } from './styles';
@@ -23,6 +24,7 @@ function CourseList() {
 
   let clickTimer;
   const tempData = useSelector(getSearchData);
+  const clickedIndex = useSelector(getClickedIndex);
   const course = useSelector(getCourse);
   const dispatch = useDispatch();
 
@@ -86,7 +88,12 @@ function CourseList() {
   const mapToComponent = (data) => {
     return data.map((search, index) => (
       <div>
-        <CourseListItem addToCart={addToCart} search={search} index={index} />
+        <CourseListItem
+          addToCart={addToCart}
+          search={search}
+          index={index}
+          active={clickedIndex === index}
+        />
       </div>
     ));
   };
