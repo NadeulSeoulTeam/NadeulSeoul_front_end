@@ -22,7 +22,7 @@ export const List = styled.div`
   display: flex;
   position: absolute;
   z-index: 2;
-  top: 570px;
+  bottom: 8%;
   left: 11%;
   overflow-x: auto;
   scroll-behavior: smooth;

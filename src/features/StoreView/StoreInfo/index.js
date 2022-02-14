@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { StoreCard, CardHeader, CardScript } from './styles';
+import { StoreCard, CloseBtn, CardHeader, CardScript } from './styles';
 import { getStore, clickLikeCancel, clickLike } from '../StoreSlice';
 import LikeButton from './LikeButton';
 
@@ -29,8 +29,9 @@ function StoreInfo() {
 
   return (
     storeData.hasOwnProperty('place_name') && (
-      <StoreCard sx={{ minWidth: 400 }}>
+      <StoreCard>
         <div id="roadview" style={{ width: '100%', height: '300px' }} />
+        {/* <CloseBtn onClick={() => } /> */}
         <CardHeader>{storeData.place_name}</CardHeader>
         <CardScript>{storeData.category_name}</CardScript>
         <CardScript>{storeData.address_name}</CardScript>

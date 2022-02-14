@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { LikeButtonStyle } from '../styles';
+import { BtnExplain, LikeButtonStyle } from '../styles';
 import { clickLikeCancel, clickLike, clickLikeCheck } from '../../StoreSlice';
 
 function LikeButton({ storeData }) {
@@ -41,9 +41,12 @@ function LikeButton({ storeData }) {
     setLikeClicked(!likeClicked);
   };
   return (
-    <LikeButtonStyle active={!!likeClicked} onClick={userClickLike}>
-      좋아요
-    </LikeButtonStyle>
+    <div>
+      <BtnExplain>눌러서 찜하기</BtnExplain>
+      <LikeButtonStyle active={!!likeClicked} onClick={userClickLike}>
+        💚
+      </LikeButtonStyle>
+    </div>
   );
 }
 export default LikeButton;

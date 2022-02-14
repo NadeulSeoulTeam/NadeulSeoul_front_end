@@ -73,9 +73,9 @@ function StoreList() {
 
   return (
     <div>
-      {searchData.length !== 0 && <ArrowBack onClick={() => scroll(-1175)} />}
+      {searchData.length !== 0 && <ArrowBack onClick={() => scroll(-500)} />}
       <List ref={scrollRef}>{mapToComponent(searchData)}</List>
-      {searchData.length !== 0 && <ArrowForward onClick={() => scroll(1175)} />}
+      {searchData.length !== 0 && <ArrowForward onClick={() => scroll(500)} />}
     </div>
   );
 }
