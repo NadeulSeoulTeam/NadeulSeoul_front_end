@@ -1,5 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -8,58 +10,48 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 
 export const CourseForm = styled.div`
-  display: grid;
-  grid-template-areas:
-    ' courseHeader courseHeader courseHeader courseHeader '
-    ' courseName courseNameContent courseNameContent courseNameContent '
-    ' routeEdit routeList routeList routeList'
-    ' courseDes courseDesContent courseDesContent courseDesContent'
-    ' fixdedMember fixedMemberContent fixedMemberContent fixedMemberContent'
-    ' budget budgetInput budgetInput budgetInput '
-    ' transportation transportationTag transportationTag transportationTag'
-    ' local localTag localTag localTag'
-    ' theme themeTag themeTag themeTag'
-    ' imageUpload imageUploadContent imageUploadContent imageUploadContent '
-    ' . . courseCreateButton courseCreateButton';
+  padding: 5rem;
 `;
-export const CourseHeader = styled.div`
-  grid-area: courseHeader;
-  font-family: Roboto;
-  font-style: normal;
+
+export const ArticleDiv = styled.div`
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+`;
+
+export const CourseHeader = styled.span`
   font-weight: bold;
-  font-size: 40px;
-  line-height: 47px;
-  color: #68c78e;
-  margin: 60px;
-  margin-bottom: 70px;
-  margin-left: 300px;
+  font-size: 1.3rem;
+  color: #0de073;
 `;
-export const CourseName = styled.div`
-  grid-area: courseName;
-  margin: 30px;
-  margin-bottom: 0px;
-  width: 300px;
-  text-align: right;
+
+export const ArticleName = styled.div`
   font-weight: bold;
+  width: 120px;
+  text-align: end;
+  padding: 0;
+  margin: 0 1rem 0 0;
 `;
 
-export const CourseNameContent = styled.input`
-  grid-area: courseNameContent;
-
-  margin: 30px;
-  margin-bottom: 0px;
-
-  width: 400px;
-  height: 40px;
-  background: #ffffff;
-  border: 3px solid #68c78e;
-  box-sizing: border-box;
-  border-radius: 20px;
-
-  ::placeholder {
-    color: C4C4C4;
-    padding: 20px;
-    font-family: Roboto;
+export const ArticleContent = styled(TextField)`
+  .MuiOutlinedInput-root {
+    color: #222222;
+    // width: 35vw;
+    font-family: 'Suit';
+    background-color: white;
+    border-radius: 15px;
+    & fieldset {
+      border-color: #0de073;
+    }
+    &:hover > fieldset {
+      border-color: #0de073;
+    }
+    &.Mui-focused > fieldset {
+      border-color: #0de073;
+    }
+    &.Mui-error > fieldset {
+      border-color: #0de073;
+    }
   }
 `;
 
@@ -87,24 +79,29 @@ export const CourseDes = styled.div`
   text-align: right;
   font-weight: bold;
 `;
-export const CourseDesContent = styled.textarea`
-  grid-area: courseDesContent;
-  margin: 30px;
-  margin-bottom: 0px;
 
-  width: 700px;
-  height: 200px;
-  background: #ffffff;
-  border: 3px solid #68c78e;
-  box-sizing: border-box;
-  border-radius: 20px;
-
-  ::placeholder {
-    color: C4C4C4;
-    padding: 20px;
-    font-family: Roboto;
+export const CourseDesContent = styled(TextField)`
+  .MuiOutlinedInput-root {
+    color: #222222;
+    width: 70vw;
+    font-family: 'Suit';
+    background-color: white;
+    border-radius: 15px;
+    & fieldset {
+      border-color: #0de073;
+    }
+    &:hover > fieldset {
+      border-color: #0de073;
+    }
+    &.Mui-focused > fieldset {
+      border-color: #0de073;
+    }
+    &.Mui-error > fieldset {
+      border-color: #0de073;
+    }
   }
 `;
+
 export const FixdedMember = styled.div`
   grid-area: fixdedMember;
   margin: 30px;
@@ -292,6 +289,25 @@ export const CorrectPicture = styled(BorderColorIcon)`
   bottom: 32px;
   right: 100px;
 `;
+
+export const GreenBtn = styled(Button)`
+  && {
+    font-family: 'Suit';
+    font-weight: bold;
+    background-color: #0de073;
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    border: none;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    &.Mui-disabled {
+      background-color: #fafafa;
+    }
+  }
+`;
+
 export const CourseCreateButton = styled.div`
   grid-area: courseCreateButton;
   margin: 90px;
