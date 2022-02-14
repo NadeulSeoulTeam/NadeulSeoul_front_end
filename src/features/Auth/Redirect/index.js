@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+// authenticated
 import { saveToken } from '../../../common/api/JWT-Token';
+
+// actions
 import { saveFlag } from '../AuthSlice';
 
 function Redirect() {
@@ -18,6 +22,7 @@ function Redirect() {
     if (flag === 'true') {
       navigate('/member/signup');
     } else {
+      // saveLoginSuccess('true');
       navigate('/');
     }
   }, []);

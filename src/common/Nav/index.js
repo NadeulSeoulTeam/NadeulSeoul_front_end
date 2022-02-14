@@ -1,5 +1,7 @@
 // import React from 'react';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 // import MenuIcon from '@mui/icons-material/Menu';
 import Slide from '@mui/material/Slide';
@@ -15,18 +17,36 @@ import {
   GreenBtn,
 } from './styles';
 
+// actions
+import { logout } from '../../features/Auth/AuthSlice';
+
+// authenticated
+import isAuthenticated from '../api/isAuthenticated';
+
 function Nav() {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // 실제로는 cookie에서 user 정보 받아오기? 일단 지금은 그냥 state로 했어욥
-  const [isLogged, setIsLogged] = useState(false);
+  // 실제로는 cookie에서 user 정보 받아오기? 일단 지금은 그냥 state로 했어욥! 넵!
+  // const [isLogged, setIsLogged] = useState(false);
 
   const onHolderClick = () => {
     setIsOpen(!isOpen);
   };
 
   const onLogoutClick = () => {
-    setIsLogged(!isLogged);
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+  const onLoinClick = () => {
+    navigate('/member/signin');
   };
 
   const openedBar = (
@@ -38,13 +58,13 @@ function Nav() {
       </Slide>
       <Slide direction="right" in={isOpen} mountOnEnter unmountOnExit>
         <Container>
-          {isLogged ? (
+          {isAuthenticated() ? (
             <Nickname>닉네임</Nickname>
           ) : (
             <Nickname>익명의 나들러</Nickname>
           )}
           <CenterDiv style={{ top: '6rem' }}>
-            {isLogged ? (
+            {isAuthenticated() ? (
               <div>
                 <Text style={{ fontWeight: 'bold' }}>98</Text>
                 <Text>팔로잉</Text>
@@ -55,23 +75,18 @@ function Nav() {
               <Text>로그인해주세요!</Text>
             )}
           </CenterDiv>
-          {isLogged ? (
+          {isAuthenticated() ? (
             <div>
-              <GreenText
-                style={{ top: '7rem' }}
-                onClick={() => onLogoutClick()}
-              >
+              <GreenText style={{ top: '7rem' }} onClick={onLogoutClick}>
                 로그아웃
               </GreenText>
+
               <GreenText style={{ top: '8rem' }}>회원정보 수정</GreenText>
               <GreenBtn>나만의 코스 만들기</GreenBtn>
             </div>
           ) : (
             <div>
-              <GreenText
-                style={{ top: '7rem' }}
-                onClick={() => onLogoutClick()}
-              >
+              <GreenText style={{ top: '7rem' }} onClick={() => onLoinClick()}>
                 로그인
               </GreenText>
               <GreenText style={{ top: '8rem' }}>회원가입</GreenText>

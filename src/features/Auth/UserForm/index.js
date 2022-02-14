@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 import { signup } from '../AuthSlice';
 import { saveLoginSuccess } from '../../../common/api/JWT-Token';
@@ -21,7 +20,6 @@ import {
 
 function UserForm() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   // states
   const [nickname, setNickname] = useState('');
   const [emoji, setEmoji] = useState('');
@@ -93,9 +91,9 @@ function UserForm() {
 
   const onInputSuccess = useCallback(() => {
     dispatch(signup(data))
-      .then(() => {
-        saveLoginSuccess(true);
-        navigate('/');
+      .then((response) => {
+        saveLoginSuccess('true');
+        console.log(response);
       })
       .catch((error) => {
         console.log(error.response.data);

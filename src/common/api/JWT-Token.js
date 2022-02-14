@@ -17,7 +17,7 @@ export const getToken = () => {
 
 // delete
 export const deleteToken = () => {
-  return cookies.remove('token');
+  return cookies.remove('token', { path: '/' });
 };
 
 // save login success
@@ -35,5 +35,5 @@ export const getLoginSuccess = () => {
 
 // delete
 export const deleteLoginSuccess = () => {
-  return cookies.remove('LoggedIn');
+  return cookies.remove('LoggedIn', { path: '/' });
 };

@@ -101,6 +101,7 @@ export const loadPostsInfinity = createAsyncThunk(
   'mypage/loadPostsInfinity',
   async (data, { rejectWithValue }) => {
     try {
+      console.log(data);
       const response = await axios.get(
         `/curations?page=${data.page}&size=${data.size}`
       );
@@ -395,10 +396,16 @@ const MyPageSlice = createSlice({
       state.loadInfinityPostsError = null;
     },
     [loadPostsInfinity.fulfilled]: (state, action) => {
+      console.log(action);
       state.loadInfinityPostsLoading = false;
       state.loadInfinityPostsDone = true;
-      state.InfinityPosts = _concat(state.InfinityPosts, action.payload);
-      state.hasMorePosts = action.payload.length === 8;
+      // state.InfinityPosts = action.payload.data.data.content;
+      state.InfinityPosts = _concat(
+        state.InfinityPosts,
+        action.payload.data.data.content
+      );
+
+      // state.hasMorePosts = action.payload.length === 8;
     },
     [loadPostsInfinity.rejected]: (state, action) => {
       state.loadInfinityPostsLoading = false;

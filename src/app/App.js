@@ -1,7 +1,8 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/button-has-type */
 import React from 'react';
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 // style
 import GlobalFonts from '../fonts/fonts';
@@ -27,82 +28,46 @@ import BoardListItem from '../features/MyPage/Board/BoardListItem';
 import BoardForm from '../features/MyPage/Board/BoardForm';
 import StoreView from '../features/StoreView';
 
-// test
 // import Profile from '../features/MyPage/Routes/Profile';
 import isAuthenticated from '../common/api/isAuthenticated';
 import PrivateRoute from '../common/routes/PrivateRoute';
+import PublicRoute from '../common/routes/PublicRoute';
 
 // actions
-import { logout } from '../features/Auth/AuthSlice';
 
 function App() {
   const { flag } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-
-  const onClickLogOut = () => {
-    dispatch(logout());
-  };
-  // const [isLogged, setIsLogged] = useState(false);
-
-  // const onClickLogin = useCallback(() => {
-  //   setIsLogged(true);
-  // }, []);
-  // const onClickLogout = useCallback(() => {
-  //   setIsLogged(false);
-  // }, []);
 
   console.log(typeof flag, flag);
   return (
     <Container>
-      {/* <button onClick={onClickLogin}>Login</button>
-      <button onClick={onClickLogout}>LogOut</button>
-      {isLogged ? <h1>로그인 했다</h1> : <h1>로그인 안했다</h1>} */}
       <BrowserRouter>
         <GlobalFonts />
         <Routes>
-          <Route Route path="/" element={<MainPage />} />
-          {/* auth */}
-          <Route path="/member/signin" element={<SignIn />} />
-          <Route path="/oauth/redirect" element={<Redirect />} />
-          <Route path="/member/signup" element={<UserForm />} />
-          <Route element={<PrivateRoute flag={flag} />} />
-          {/* mypage */}
-          <Route path="/mypage/:id" element={<MyPage />} />
-          <Route Route path="/questions" element={<BoardList />} />
-          {/* <Route element={<PrivateRoute isLogged={isLogged} />} /> */}
-          <Route
-            Route
-            path="/mypage/:id/follower"
-            element={<FollowersList />}
-          />
-          <Route
-            Route
-            path="/mypage/:id/followee"
-            element={<FollowingsList />}
-          />
-          <Route Route path="/questions" element={<BoardList />} />
-          <Route
-            Route
-            path="/questions/:QuestionId"
-            element={<BoardListItem />}
-          />
-          <Route Route path="/questions/new" element={<BoardForm />} />
-          <Route path="/Course" element={<Course />} />
-
+          {/* private */}
           <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
-            <Route path="/CourseView" element={<CourseView />} />
+            <Route Route path="/questions" element={<BoardList />} />
+            <Route path="/questions/:QuestionId" element={<BoardListItem />} />
+            <Route path="/questions/new" element={<BoardForm />} />
+            <Route path="/CourseCreationForm" element={<CourseCreationForm />}/>
           </Route>
+          {/* Only public Not Authenticated */}
+            <Route path="/member/signin" element={<SignIn />} />
+            <Route path="/member/signup" element={<UserForm />} />
+          <Route element={<PublicRoute isAuthenticated={isAuthenticated} />} />
 
-          <Route path="/CourseCreationForm" element={<CourseCreationForm />} />
+          {/* Public & private */}
+          <Route path="/CourseView" element={<CourseView />} />
+          <Route path="/mypage/:id" element={<MyPage />} />
+          <Route Route path="/" element={<MainPage />} />
+          <Route path="/oauth/redirect" element={<Redirect />} />
+          <Route element={<PrivateRoute flag={flag} />} />
+          <Route path="/mypage/:id/follower" element={<FollowersList />} />
+          <Route path="/mypage/:id/followee" element={<FollowingsList />} />
+          <Route path="/Course" element={<Course />} />
           <Route path="/StoreView" element={<StoreView />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
-        <Link to="/mypage/1" element={<MyPage />}>
-          go to profile
-        </Link>
-        <form>
-          <button onClick={onClickLogOut}>로그아웃 test</button>
-        </form>
         <Nav />
       </BrowserRouter>
     </Container>
