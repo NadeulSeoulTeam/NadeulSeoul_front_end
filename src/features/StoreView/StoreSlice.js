@@ -5,12 +5,19 @@ import axios from 'axios';
 
 // 스크랩(좋아요) 누르기
 export const clickLike = createAsyncThunk(
-  'CourseView',
+  'StoreView/like',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('curations/bookmarks/', data);
+      // console.log(storeSeq);
+      // const baseUrl = 'http://localhost:8080/';
+      const response = await axios.post(
+        `/api/v1/stores/${data.storeSeq}`,
+        data
+      ); // url: baseUrl + url
+
       return response.data;
     } catch (err) {
+      console.log(err);
       return rejectWithValue(err);
     }
   }
@@ -18,10 +25,23 @@ export const clickLike = createAsyncThunk(
 
 // 스크랩(좋아요) 취소
 export const clickLikeCancel = createAsyncThunk(
-  'CourseView',
+  'StoreView/likeCancel',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete('curations/bookmarks/');
+      const response = await axios.delete(`/api/v1/stores/bookmarks/${data}`);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+// 스크랩(좋아요) 확인
+export const clickLikeCheck = createAsyncThunk(
+  'StoreView/likeCancel',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`/api/v1/stores/bookmarks/${data}`);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -61,6 +81,9 @@ export const initialState = {
   clickLikeCancelLoading: false,
   clickLikeCancelDone: false,
   clickLikeCancelError: null,
+  clickLikeCheckLoading: false,
+  clickLikeCheckDone: false,
+  clickLikeCheckError: null,
 };
 
 const store = createSlice({
@@ -157,6 +180,19 @@ const store = createSlice({
     [clickLikeCancel.rejected]: (state, action) => {
       state.clickLikeCancelLoading = false;
       state.clickLikeCancelError = action.error.message;
+    },
+    [clickLikeCheck.pending]: (state) => {
+      state.clickLikeCheckLoading = true;
+      state.clickLikeCheckDone = false;
+      state.clickLikeCheckError = null;
+    },
+    [clickLikeCheck.fulfilled]: (state, action) => {
+      state.clickLikeCheckLoading = false;
+      state.clickLikeCheckDone = true;
+    },
+    [clickLikeCheck.rejected]: (state, action) => {
+      state.clickLikeCheckLoading = false;
+      state.clickLikeCheckError = action.error.message;
     },
   },
 });

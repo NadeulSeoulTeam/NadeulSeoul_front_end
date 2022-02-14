@@ -75,10 +75,10 @@ function CourseViewCart() {
       dispatch(clickLikeCancel());
     } else {
       // false->true
-      const formData = new FormData();
-      formData.append('member_seq', user.member_seq);
-      formData.append('curation_seq', course.curation_seq);
-      dispatch(clickLike(formData));
+      // const formData = new FormData();
+      // formData.append('member_seq', user.member_seq);
+      // formData.append('curation_seq', course.curation_seq);
+      dispatch(clickLike(user.member_seq));
     }
     setLikeClicked(!likeClicked);
   };
