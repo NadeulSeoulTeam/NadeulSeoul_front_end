@@ -6,16 +6,18 @@ import testdata from './testdata';
 
 // Course 정보 가져오기
 export const getCourseInfo = createAsyncThunk(
-  'CourseView',
+  'CourseView/CourseInfo',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`curations/${data}`);
+      const response = await axios.get(`/api/v1/curations/${data.curationSeq}`);
+      console.log(response.data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
     }
   }
 );
+
 // 댓글 가져오기
 
 // 댓글 보내기
