@@ -101,8 +101,10 @@ export const loadPostsInfinity = createAsyncThunk(
   'mypage/loadPostsInfinity',
   async (data, { rejectWithValue }) => {
     try {
-      // const response = await axios.get("백엔드 주소");
-      return generateDummyCard(8);
+      const response = await axios.get(
+        `/curations?page=${data.page}&size=${data.size}`
+      );
+      return response;
     } catch (err) {
       return rejectWithValue(err.resonse.data);
     }
@@ -115,7 +117,9 @@ export const loadPostsInfinityLikePlace = createAsyncThunk(
   'mypage/loadPostsInfinityLikePlace',
   async (data, { rejectWithValue }) => {
     try {
-      // const response = await axios.get("백엔드 주소");
+      // const response = await axios.get(
+      //   `/curations?page=${data.page}&size=${data.size}`
+      // );
       return generateDummyCardLikePlcae(8);
     } catch (err) {
       return rejectWithValue(err.resonse.data);

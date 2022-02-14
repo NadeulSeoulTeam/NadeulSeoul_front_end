@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // style
 import GlobalFonts from '../fonts/fonts';
@@ -10,7 +10,6 @@ import Container from './AppStyle';
 // Common
 import Error404 from '../common/error/Error404';
 import Nav from '../common/Nav';
-import PrivateRoute from '../common/routes/PrivateRoute';
 
 // features
 import SignIn from '../features/Auth/SignIn';
@@ -30,9 +29,19 @@ import StoreView from '../features/StoreView';
 
 // test
 // import Profile from '../features/MyPage/Routes/Profile';
+import isAuthenticated from '../common/api/isAuthenticated';
+import PrivateRoute from '../common/routes/PrivateRoute';
+
+// actions
+import { logout } from '../features/Auth/AuthSlice';
 
 function App() {
   const { flag } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const onClickLogOut = () => {
+    dispatch(logout());
+  };
   // const [isLogged, setIsLogged] = useState(false);
 
   // const onClickLogin = useCallback(() => {
@@ -79,7 +88,11 @@ function App() {
           />
           <Route Route path="/questions/new" element={<BoardForm />} />
           <Route path="/Course" element={<Course />} />
-          <Route path="/CourseView" element={<CourseView />} />
+
+          <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
+            <Route path="/CourseView" element={<CourseView />} />
+          </Route>
+
           <Route path="/CourseCreationForm" element={<CourseCreationForm />} />
           <Route path="/StoreView" element={<StoreView />} />
           <Route path="*" element={<Error404 />} />
@@ -87,6 +100,9 @@ function App() {
         <Link to="/mypage/1" element={<MyPage />}>
           go to profile
         </Link>
+        <form>
+          <button onClick={onClickLogOut}>로그아웃 test</button>
+        </form>
         <Nav />
       </BrowserRouter>
     </Container>

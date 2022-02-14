@@ -45,9 +45,11 @@ function BasicTabs() {
     setValue(newValue);
   };
 
+  const [page, setPage] = useState(0);
+
   if (value === 0 || value === 1) {
     useEffect(() => {
-      dispatch(loadPostsInfinity());
+      dispatch(loadPostsInfinity(page));
     }, [value]);
 
     useEffect(() => {
@@ -60,10 +62,15 @@ function BasicTabs() {
             window.scrollY + document.documentElement.clientHeight >
             document.documentElement.scrollHeight - 300
           ) {
+            setPage(page + 1);
+
+            const data = {
+              page,
+              size: 8,
+            };
             // const lastId =
             //   InfinityPosts[InfinityPosts.length - 1]?.myNadlecourseId;
-
-            dispatch(loadPostsInfinity());
+            dispatch(loadPostsInfinity(data));
           }
         }
       }
@@ -87,10 +94,10 @@ function BasicTabs() {
             window.scrollY + document.documentElement.clientHeight >
             document.documentElement.scrollHeight - 300
           ) {
-            // const lastId =
-            //   InfinityPosts[InfinityPosts.length - 1]?.myNadlecourseId;
+            const lastId =
+              InfinityPosts[InfinityPosts.length - 1]?.myNadlecourseId;
 
-            dispatch(loadPostsInfinityLikePlace());
+            dispatch(loadPostsInfinityLikePlace(lastId));
           }
         }
       }
