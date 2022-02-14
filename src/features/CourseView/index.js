@@ -10,17 +10,16 @@ function CourseView() {
   const [courseInfo, setCourseInfo] = useState(0);
 
   useEffect(() => {
-    const test = dispatch(
+    dispatch(
       getCourseInfo({
         curationSeq: 1,
       })
     );
-    console.log(test);
   }, []);
 
   return (
     <div>
-      <CourseViewMap />
+      <CourseViewMap curationSeq={1} />
       <CourseStoreLoad />
     </div>
   );

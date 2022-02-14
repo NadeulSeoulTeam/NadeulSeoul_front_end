@@ -14,7 +14,6 @@ import {
   // moveToList,
   // getClicked,
   setClicked,
-  getCourseInfo,
 } from '../CourseViewSlice';
 // styled-component
 
@@ -41,7 +40,7 @@ import {
   CourseTitle,
 } from './styles';
 
-function CourseViewMap() {
+function CourseViewMap({ curationSeq }) {
   // 뒤로 가기에 대한 처리
   const [tempMarkers, setTempMarkers] = useState([]);
   const [tempLatLng, setTempLatLng] = useState([]);
@@ -61,7 +60,6 @@ function CourseViewMap() {
   const [likeClicked, setLikeClicked] = useState(false);
 
   useEffect(() => {
-    dispatch(getCourseInfo());
     console.log(courseInfo);
   }, [courseInfo]);
 
@@ -83,7 +81,7 @@ function CourseViewMap() {
     if (info === undefined) {
       return (
         <div>
-          <CourseViewCart />
+          <CourseViewCart curationSeq={curationSeq} />
         </div>
       );
     }

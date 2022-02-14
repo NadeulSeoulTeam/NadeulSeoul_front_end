@@ -76,6 +76,51 @@ const testdata = {
         user_emogi: '',
         content: '이런데 왜감? 차라리 집에서 방콕할듯 쿠쿠루삥뽕',
       },
+      {
+        user_nickname: '천사유저',
+        user_emogi: '',
+        content: '너무 잘다녀왔어요!! 최고!!',
+      },
+      {
+        user_nickname: '악플러_1',
+        user_emogi: '',
+        content: '정~~~말 맛없는걸요',
+      },
+      {
+        user_nickname: '악플러_2',
+        user_emogi: '',
+        content: '이런데 왜감? 차라리 집에서 방콕할듯 쿠쿠루삥뽕',
+      },
+      {
+        user_nickname: '천사유저',
+        user_emogi: '',
+        content: '너무 잘다녀왔어요!! 최고!!',
+      },
+      {
+        user_nickname: '악플러_1',
+        user_emogi: '',
+        content: '정~~~말 맛없는걸요',
+      },
+      {
+        user_nickname: '악플러_2',
+        user_emogi: '',
+        content: '이런데 왜감? 차라리 집에서 방콕할듯 쿠쿠루삥뽕',
+      },
+      {
+        user_nickname: '천사유저',
+        user_emogi: '',
+        content: '너무 잘다녀왔어요!! 최고!!',
+      },
+      {
+        user_nickname: '악플러_1',
+        user_emogi: '',
+        content: '정~~~말 맛없는걸요',
+      },
+      {
+        user_nickname: '악플러_2',
+        user_emogi: '',
+        content: '이런데 왜감? 차라리 집에서 방콕할듯 쿠쿠루삥뽕',
+      },
     ],
     curation_images: [
       {
