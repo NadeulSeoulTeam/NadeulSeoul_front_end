@@ -100,7 +100,7 @@ function CourseViewCart() {
             type="submit"
             onClick={userClickLike}
           >
-            좋아요
+            👍
           </LikeButton>
           <UserComment>
             {mapCommentToComponent()}

@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-// material UI
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Wrapper, SearchBase, SearchInput, SearchBtn } from './styles';
 
 import { getCourse, keywordInput, searchDataInput } from '../CourseSlice';
-
-import '../Course.css';
 
 function CourseSearch() {
   const dispatch = useDispatch();
@@ -76,20 +70,14 @@ function CourseSearch() {
   };
 
   return (
-    <Paper
-      className="search"
-      component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
-    >
-      <IconButton sx={{ p: '10px' }} aria-label="menu">
-        <MenuIcon />
-      </IconButton>
-      <InputBase
-        sx={{ ml: 1, flex: 1 }}
-        placeholder="원하는 곳을 입력하세요!"
-        onKeyDown={keyPress}
-      />
-    </Paper>
+    <div>
+      <Wrapper container direction="row" justifyContent="center">
+        <SearchBase elevation={1}>
+          <SearchInput placeholder="어디로 떠날까요?" onKeyDown={keyPress} />
+          <SearchBtn />
+        </SearchBase>
+      </Wrapper>
+    </div>
   );
 }
 

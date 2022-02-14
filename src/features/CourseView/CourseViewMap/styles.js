@@ -31,3 +31,24 @@ export const CardScript = styled.div`
   font-weight: normal;
   font-size: 14px;
 `;
+export const StarButton = styled.button`
+  position: absolute;
+  grid-area: starButton;
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  margin: 10px;
+  left: 200px;
+  font-size: 30px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
+  z-index: 3;
+  text-align: center;
+  text-height: 20px;
+  padding: 5px 5px 5px 5px;
+  ${({ active }) => {
+    return active ? `opacity: 1` : `opacity: 0.2`;
+  }};
+`;

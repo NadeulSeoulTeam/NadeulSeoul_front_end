@@ -182,9 +182,14 @@ export const LikeButton = styled.button`
   padding: 10px;
   margin: 10px;
   left: 250px;
+  font-size: 30px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid #68c78e;
+  box-shadow: none;
   ${({ active }) => {
     return active ? `opacity: 1` : `opacity: 0.2`;
-  }}
+  }};
 `;
 
 export const Comment = styled.input`

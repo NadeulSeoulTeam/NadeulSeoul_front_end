@@ -8,6 +8,9 @@ export const ArrowBack = styled(ArrowBackIosIcon)`
   position: absolute;
   left: 7%;
   bottom: 15%;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const ArrowForward = styled(ArrowForwardIosIcon)`
@@ -15,6 +18,9 @@ export const ArrowForward = styled(ArrowForwardIosIcon)`
   position: absolute;
   right: 7%;
   bottom: 15%;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const List = styled.div`

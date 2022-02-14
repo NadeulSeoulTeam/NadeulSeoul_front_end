@@ -58,6 +58,8 @@ import {
   PictureNumbering,
   LocalToggle,
   ThemeToggle,
+  LocalTagDesc,
+  ThemeTagDesc,
 } from './styles';
 
 function CourseCreactionForm() {
@@ -475,12 +477,24 @@ function CourseCreactionForm() {
       <Local>
         <span style={{ color: '#68c78e' }}>*</span>지역 태그
       </Local>
-      <LocalTag>{mapToComponentLocalTags(tags)}</LocalTag>
+      <LocalTag>
+        <LocalTagDesc>
+          지역 태그는 선택하신 장소를 기반으로 자동 생성되요
+        </LocalTagDesc>{' '}
+        <br />
+        {mapToComponentLocalTags(tags)}
+      </LocalTag>
 
       <Theme>
         <span style={{ color: '#68c78e' }}>*</span>테마 태그
       </Theme>
-      <ThemeTag>{mapToComponentThemeTags(tags)}</ThemeTag>
+      <ThemeTag>
+        <ThemeTagDesc>
+          지역 태그는 선택하신 장소를 기반으로 자동 생성되요
+        </ThemeTagDesc>{' '}
+        <br />
+        {mapToComponentThemeTags(tags)}
+      </ThemeTag>
       <ImageUpload>이미지 업로드</ImageUpload>
       <ImageUploadContent>
         <ImageUploading

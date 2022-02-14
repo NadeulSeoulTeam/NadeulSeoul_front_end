@@ -3,7 +3,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import HorizontalScroll from 'react-scroll-horizontal';
 // css
-import '../Course.css';
 
 // import ScrollMenu from 'react-horizontal-scrolling-menu';
 
