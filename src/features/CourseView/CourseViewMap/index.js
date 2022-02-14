@@ -118,9 +118,7 @@ function CourseViewMap() {
             <DetailCard className="store_cart" sx={{ minWidth: 275 }}>
               {/* <CardActions>
               </CardActions> */}
-              <CloseBtn onClick={() => setClickMarkerInfo(undefined)}>
-                X
-              </CloseBtn>
+              <CloseBtn onClick={() => setClickMarkerInfo(undefined)} />
               <BtnExplain>눌러서 찜하기</BtnExplain>
               <StarBtn
                 active={!!likeClicked}
