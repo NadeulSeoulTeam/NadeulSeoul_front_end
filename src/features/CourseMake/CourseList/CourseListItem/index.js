@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 
 // material UI
@@ -5,7 +6,7 @@ import React, { useEffect } from 'react';
 // css
 import { StoreCard, Store, StoreName, StoreDescription } from './styles';
 
-function CourseListItem({ addToCart, search }) {
+function CourseListItem({ addToCart, search, index }) {
   useEffect(() => {
     console.log('courselistitem start');
     console.log(search);
@@ -14,7 +15,7 @@ function CourseListItem({ addToCart, search }) {
   return (
     <StoreCard
       sx={{ minWidth: 275, minHeight: 100 }}
-      onClick={() => addToCart(search)}
+      onClick={() => addToCart(search, index)}
     >
       <Store>
         <StoreName>{search.place_name}</StoreName>
