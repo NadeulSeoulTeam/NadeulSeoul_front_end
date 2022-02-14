@@ -29,7 +29,14 @@ import CourseViewCart from '../CourseViewCart';
 // dummy data
 import testdata from '../testdata';
 
-import { Cart, Map, CardHeader, CardScript, StarButton } from './styles';
+import {
+  Cart,
+  Map,
+  CardHeader,
+  CardScript,
+  StarButton,
+  CourseTitle,
+} from './styles';
 
 function CourseViewMap() {
   // 뒤로 가기에 대한 처리
@@ -184,6 +191,7 @@ function CourseViewMap() {
 
   return (
     <div>
+      <CourseTitle>{courseData.title}</CourseTitle>
       <Map
         clicked={clickedMarkerInfo}
         className="map"
