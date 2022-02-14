@@ -22,6 +22,7 @@ import { logout } from '../../features/Auth/AuthSlice';
 
 // authenticated
 import isAuthenticated from '../api/isAuthenticated';
+import { getUserInfo } from '../api/JWT-Token';
 
 function Nav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +32,7 @@ function Nav() {
   // 실제로는 cookie에서 user 정보 받아오기? 일단 지금은 그냥 state로 했어욥! 넵!
   // const [isLogged, setIsLogged] = useState(false);
 
+  console.log(getUserInfo());
   const onHolderClick = () => {
     setIsOpen(!isOpen);
   };
@@ -59,16 +61,20 @@ function Nav() {
       <Slide direction="right" in={isOpen} mountOnEnter unmountOnExit>
         <Container>
           {isAuthenticated() ? (
-            <Nickname>닉네임</Nickname>
+            <Nickname>{getUserInfo()?.nickname}</Nickname>
           ) : (
             <Nickname>익명의 나들러</Nickname>
           )}
           <CenterDiv style={{ top: '6rem' }}>
             {isAuthenticated() ? (
               <div>
-                <Text style={{ fontWeight: 'bold' }}>98</Text>
+                <Text style={{ fontWeight: 'bold' }}>
+                  {getUserInfo()?.followeeCount}
+                </Text>
                 <Text>팔로잉</Text>
-                <Text style={{ fontWeight: 'bold' }}>75</Text>
+                <Text style={{ fontWeight: 'bold' }}>
+                  {getUserInfo()?.followerCount}
+                </Text>
                 <Text>팔로워</Text>
               </div>
             ) : (
@@ -86,10 +92,12 @@ function Nav() {
             </div>
           ) : (
             <div>
-              <GreenText style={{ top: '7rem' }} onClick={() => onLoinClick()}>
-                로그인
+              <GreenText
+                style={{ top: '7.5rem' }}
+                onClick={() => onLoinClick()}
+              >
+                로그인 / 회원가입
               </GreenText>
-              <GreenText style={{ top: '8rem' }}>회원가입</GreenText>
               <GreenBtn disabled>나만의 코스 만들기</GreenBtn>
             </div>
           )}

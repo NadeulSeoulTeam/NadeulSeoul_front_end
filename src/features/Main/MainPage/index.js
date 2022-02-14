@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { StylesProvider } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
 
 // components
 import TagList from '../TagList';
@@ -20,11 +21,27 @@ import {
   TagOpener,
 } from './styles';
 
+// actions
+import { LoadUserInfo } from '../MainSlice';
+
 function MainPage() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(!open);
   };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(LoadUserInfo())
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
   return (
     <div>

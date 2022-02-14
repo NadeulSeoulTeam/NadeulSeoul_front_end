@@ -1,26 +1,30 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../common/api/httpCommunication';
-import { deleteToken, deleteLoginSuccess } from '../../common/api/JWT-Token';
+import {
+  deleteToken,
+  deleteLoginSuccess,
+  deleteUserInfo,
+} from '../../common/api/JWT-Token';
 
 axios.defaults.withCredentials = true;
-
-// test User Role
 
 // 기본 state
 export const initialState = {
   email: '',
-  token: '',
   nickname: '',
   emoji: '',
-  flag: 'true',
-  signupLoading: false,
+  signupLoading: false, // 회원가입 요청 시도
   signupDone: false,
   signupError: null,
-  loginLoading: false,
-  loginDone: false,
-  loginError: null,
+  logoutLoading: false, // 로그아웃 요청 시도
+  logoutDone: false,
+  logoutError: null,
+  checkNicknameLoading: false, // 닉네임 중복검사 요청 시도
+  checkNicknameDone: false,
+  checkNicknameError: null,
 };
 
+// 회원가입
 export const signup = createAsyncThunk(
   'member/signup',
   async (data, { rejectWithValue }) => {
@@ -35,19 +39,20 @@ export const signup = createAsyncThunk(
 );
 
 // 자동 로그인 연장 (함수명, url 바뀔 수 있음)
-export const silentRefresh = createAsyncThunk(
-  'member/refresh',
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await axios.post('/users/refresh', data);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
+// export const silentRefresh = createAsyncThunk(
+//   'member/refresh',
+//   async (data, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.post('/users/refresh', data);
+//       return response.data;
+//     } catch (error) {
+//       console.log(error);
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
 
+// 로그아웃
 export const logout = createAsyncThunk(
   'member/logout',
   async (data, { rejectWithValue }) => {
@@ -57,6 +62,7 @@ export const logout = createAsyncThunk(
       console.log('로그아웃 시도');
       deleteToken();
       deleteLoginSuccess();
+      deleteUserInfo();
       return response;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -64,68 +70,32 @@ export const logout = createAsyncThunk(
   }
 );
 
-// 로그인 완료(메인페이지로 넘어감)되면 cookie에서 token 가져와야됨
-// 아래 코드 useEffect로 메인페이지에 추가
-// const refreshToken = cookies.get('refresh_token');
+// 닉네임 중복 검사
 
-// export const setRefreshTokenToCookie = (refreshToken) => {
-//   cookies.set('refresh_token', refreshToken, { sameSite: 'strict' });
-// };
-
-// export const logout = () => {
-//   console.log('logout');
-//   window.localStorage.setItem('logout', Date.now());
-//   cookies.remove('refresh_token');
-// };
-
-// index.js 에서 해줘야 할지도
-// export const onLogin = createAsyncThunk(
-//   'member/signin',
-//   async (data, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.defaults.headers.common['Authorization']
-//     }
-//   }
-//   );
-
-// 이게 필요한가? security로 로그인 시키면 redirect만 main으로 하면 됨
-// export const signin = createAsyncThunk(
-//   'member/signin',
-//   async (data, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.post('/member/signin', data, {
-//         withCredentials: true,
-//       });
-//       return response.data;
-//     } catch (error) {
-//       console.log(error);
-//       return rejectWithValue(error.response.data);
-//     }
-//   }
-// );
+export const checkNickname = createAsyncThunk(
+  'member/checkNickname',
+  async (data, { rejectWithValue }) => {
+    try {
+      console.log(data);
+      const response = await axios.post('/users/nickname', data);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: 'authReducer',
   initialState,
-  reducers: {
-    // gobackToInquery(state, action) {
-    //   state.inqueryBack = action.payload;
-    // },
-    saveRefreshToken(state, action) {
-      state.refreshToken = action.payload;
-    },
-    saveFlag(state, action) {
-      state.flag = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [signup.pending]: (state) => {
       state.signupLoading = true;
       state.signupDone = false;
       state.signupError = null;
     },
-    [signup.fulfilled]: (state, action) => {
-      console.log(action.payload);
+    [signup.fulfilled]: (state) => {
       state.signupLoading = false;
       state.signupDone = true;
       state.signupError = null;
@@ -133,10 +103,39 @@ const authSlice = createSlice({
     [signup.rejected]: (state, action) => {
       state.signupLoading = false;
       state.signupDone = false;
-      state.signupError = action.payload;
+      state.signupError = action.error.message;
+    },
+    [logout.pending]: (state) => {
+      state.logoutLoading = true;
+      state.logoutDone = false;
+      state.logoutError = null;
+    },
+    [logout.fulfilled]: (state) => {
+      state.logoutLoading = false;
+      state.logoutDone = true;
+      state.logoutError = null;
+    },
+    [logout.rejected]: (state, action) => {
+      state.logoutLoading = false;
+      state.logoutDone = false;
+      state.logoutError = action.error.message;
+    },
+    [checkNickname.pending]: (state) => {
+      state.checkNicknameLoading = true;
+      state.checkNicknameDone = false;
+      state.checkNicknameError = null;
+    },
+    [checkNickname.fulfilled]: (state) => {
+      state.checkNicknameLoading = false;
+      state.checkNicknameDone = true;
+      state.checkNicknameError = null;
+    },
+    [checkNickname.rejected]: (state, action) => {
+      state.checkNicknameLoading = false;
+      state.checkNicknameDone = false;
+      state.checkNicknameError = action.error.message;
     },
   },
 });
-export const { saveFlag } = authSlice.actions;
 
 export default authSlice.reducer;

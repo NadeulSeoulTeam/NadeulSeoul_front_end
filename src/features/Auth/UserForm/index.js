@@ -1,7 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { signup } from '../AuthSlice';
+// actions
+import { signup, checkNickname } from '../AuthSlice';
+
+// authenticated
 import { saveLoginSuccess } from '../../../common/api/JWT-Token';
 // import 'emoji-mart/css/emoji-mart.css';
 // import { Picker } from 'emoji-mart';
@@ -33,6 +37,7 @@ function UserForm() {
     errorMsg: '',
   });
 
+  const navigate = useNavigate();
   // useEffect(() => {
   //   const params = new URLSearchParams(document.location.search);
   //   const Id = params.get('id');
@@ -41,6 +46,7 @@ function UserForm() {
 
   const onNicknameChange = (e) => {
     const nicknameInput = e.currentTarget.value;
+
     if (nicknameInput === '') {
       setNicknameErr({
         validationStatus: 'ERROR_BLANK',
@@ -59,6 +65,7 @@ function UserForm() {
       });
       setNickname(nicknameInput);
     }
+    console.log(nicknameInput, nickname);
   };
 
   const onEmojiClick = (e) => {
@@ -89,11 +96,33 @@ function UserForm() {
     emoji,
   };
 
+  const NickName = {
+    nickname,
+  };
+
+  const onClickNickNameCheck = useCallback(() => {
+    console.log(NickName);
+    dispatch(checkNickname(NickName))
+      .unwrap()
+      .then((response) => {
+        if (response.status === 200) {
+          alert(`${response.data.message}`);
+        } else {
+          alert(`${response.data.message}`);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const onInputSuccess = useCallback(() => {
+    // 409에러 대체
     dispatch(signup(data))
       .then((response) => {
-        saveLoginSuccess('true');
+        saveLoginSuccess('flase');
         console.log(response);
+        navigate('/');
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -127,9 +156,7 @@ function UserForm() {
           // onChange={(e) => {
           //   onNicknameChange(e, validateNickname(e));
           // }}
-          onChange={(e) => {
-            onNicknameChange(e);
-          }}
+          onChange={onNicknameChange}
           error={!(nicknameErr.validationStatus === 'SUCCESS')}
           helperText={
             !(nicknameErr.validationStatus === 'SUCCESS')
@@ -138,6 +165,7 @@ function UserForm() {
           }
           placeholder="닉네임을 입력해주세요."
         />
+        <GreenBtn onClick={onClickNickNameCheck}>닉네임 중복검사</GreenBtn>
         <TextInput
           variant="outlined"
           disabled

@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // authenticated
-import { saveToken } from '../../../common/api/JWT-Token';
-
-// actions
-import { saveFlag } from '../AuthSlice';
+import { saveLoginSuccess, saveToken } from '../../../common/api/JWT-Token';
 
 function Redirect() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const params = new URLSearchParams(document.location.search);
@@ -18,11 +14,10 @@ function Redirect() {
     const flag = params.get('flag');
     console.log(flag);
     saveToken(token);
-    dispatch(saveFlag(flag));
     if (flag === 'true') {
       navigate('/member/signup');
     } else {
-      // saveLoginSuccess('true');
+      saveLoginSuccess(flag);
       navigate('/');
     }
   }, []);

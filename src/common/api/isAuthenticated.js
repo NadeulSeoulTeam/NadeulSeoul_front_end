@@ -1,7 +1,7 @@
-import { getToken } from './JWT-Token';
+import { getToken, getLoginSuccess } from './JWT-Token';
 
 const isAuthenticated = () => !!getToken();
 
 export default isAuthenticated;
 
-export const isAuthenticatedforsignin = () => !!getToken();
+export const isLoggedIn = () => getLoginSuccess();

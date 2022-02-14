@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from '../../common/api/httpCommunication';
+
+// save Cookie
+
+import { saveUserInfo } from '../../common/api/JWT-Token';
 
 export const initialState = {
   courses: [
@@ -52,17 +56,21 @@ export const initialState = {
     },
   ],
   selectedCourse: {},
+  userInfo: null, // 로그인한 사용자 정보
   fetchCoursesLoading: false,
   fetchCoursesDone: false,
   fetchCoursesError: null,
   fetchUsersLoading: false,
   fetchUsersDone: false,
   fetchUsersError: null,
+  LoadUserInfoLoading: false, // 사용자 정보 요청 시도
+  LoadUserInfoDone: false,
+  LoadUserInfoError: null,
 };
 
 export const fetchCourses = createAsyncThunk('main/fetchCourses', async () => {
   try {
-    const response = await axios.get('/api/v1/curations/statics/courses');
+    const response = await axios.get('/curations/statics/courses');
     return response.data.data;
   } catch (error) {
     return error.response.data;
@@ -72,12 +80,26 @@ export const fetchCourses = createAsyncThunk('main/fetchCourses', async () => {
 // 활발한 나들러 받아오는 주소 확인
 export const fetchUsers = createAsyncThunk('main/fetchUsers', async () => {
   try {
-    const response = await axios.get('/api/v1/curations/statics/nadeulers');
+    const response = await axios.get('/curations/statics/nadeulers');
     return response.data.data;
   } catch (error) {
     return error.response.data;
   }
 });
+
+// 유저 정보 확인
+export const LoadUserInfo = createAsyncThunk(
+  'main/LoadUserInfo',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/users');
+      saveUserInfo(response.data.data);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const mainSlice = createSlice({
   name: 'mainReducer',
@@ -122,6 +144,21 @@ const mainSlice = createSlice({
       state.fetchUsersLoading = true;
       state.fetchUsersDone = false;
       state.fetchUsersError = action.payload.data.message;
+    },
+    [LoadUserInfo.pending]: (state) => {
+      state.LoadUserInfoLoading = true;
+      state.LoadUserInfoDone = false;
+      state.LoadUserInfoError = null;
+    },
+    [LoadUserInfo.fulfilled]: (state, action) => {
+      state.LoadUserInfoLoading = false;
+      state.LoadUserInfoDone = true;
+      state.userInfo = action.payload.data;
+    },
+    [LoadUserInfo.rejected]: (state, action) => {
+      state.LoadUserInfoLoading = true;
+      state.LoadUserInfoDone = false;
+      state.LoadUserInfoError = action.error.message;
     },
   },
 });

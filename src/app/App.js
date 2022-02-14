@@ -2,7 +2,7 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 // style
 import GlobalFonts from '../fonts/fonts';
@@ -29,16 +29,12 @@ import BoardForm from '../features/MyPage/Board/BoardForm';
 import StoreView from '../features/StoreView';
 
 // import Profile from '../features/MyPage/Routes/Profile';
-import isAuthenticated from '../common/api/isAuthenticated';
+import isAuthenticated, {isLoggedIn} from '../common/api/isAuthenticated';
 import PrivateRoute from '../common/routes/PrivateRoute';
 import PublicRoute from '../common/routes/PublicRoute';
 
-// actions
-
 function App() {
-  const { flag } = useSelector((state) => state.auth);
-
-  console.log(typeof flag, flag);
+ 
   return (
     <Container>
       <BrowserRouter>
@@ -51,17 +47,18 @@ function App() {
             <Route path="/questions/new" element={<BoardForm />} />
             <Route path="/CourseCreationForm" element={<CourseCreationForm />}/>
           </Route>
+
           {/* Only public Not Authenticated */}
+          <Route element={<PublicRoute isAuthenticated={isLoggedIn} />}>
             <Route path="/member/signin" element={<SignIn />} />
             <Route path="/member/signup" element={<UserForm />} />
-          <Route element={<PublicRoute isAuthenticated={isAuthenticated} />} />
+          </Route>
 
           {/* Public & private */}
           <Route path="/CourseView" element={<CourseView />} />
           <Route path="/mypage/:id" element={<MyPage />} />
           <Route Route path="/" element={<MainPage />} />
           <Route path="/oauth/redirect" element={<Redirect />} />
-          <Route element={<PrivateRoute flag={flag} />} />
           <Route path="/mypage/:id/follower" element={<FollowersList />} />
           <Route path="/mypage/:id/followee" element={<FollowingsList />} />
           <Route path="/Course" element={<Course />} />
