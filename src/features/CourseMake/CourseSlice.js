@@ -43,6 +43,7 @@ const course = createSlice({
     },
     markers: [],
     clicked: false,
+    clickedIndex: -1,
   },
   reducers: {
     // add: (state, action) => {
@@ -98,6 +99,9 @@ const course = createSlice({
     setClicked: (state, action) => {
       state.clicked = action.payload;
     },
+    setClickedIndex: (state, action) => {
+      state.clickedIndex = action.payload;
+    },
   },
 
   extraReducers: {
@@ -131,6 +135,7 @@ export const {
   removeMarkers,
   moveToList,
   setClicked,
+  setClickedIndex,
 } = course.actions;
 
 export default course.reducer;
@@ -142,3 +147,4 @@ export const getKeyword = (state) => state.course.keywordInput;
 export const getSearchData = (state) => state.course.searchData;
 export const getMarkers = (state) => state.course.markers;
 export const getClicked = (state) => state.course.clicked;
+export const getClickedIndex = (state) => state.course.clickedIndex;

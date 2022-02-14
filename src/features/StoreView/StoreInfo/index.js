@@ -1,18 +1,18 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-prototype-builtins */
 import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { StoreCard, CardHeader, CardScript, LikeButton } from './styles';
+import { StoreCard, CardHeader, CardScript } from './styles';
 import { getStore, clickLikeCancel, clickLike } from '../StoreSlice';
+import LikeButton from './LikeButton';
 
 function StoreInfo() {
-  const [likeClicked, setLikeClicked] = useState(false);
   const storeData = useSelector(getStore);
   const dispatch = useDispatch();
   const { kakao } = window;
 
   useEffect(() => {
-    console.log(storeData, 'ㄱㄱㄱㄱㄱㄱㄱ');
     if (storeData.hasOwnProperty('place_name')) {
       const roadviewContainer = document.getElementById('roadview'); // 로드뷰를 표시할 div
       const roadview = new kakao.maps.Roadview(roadviewContainer); // 로드뷰 객체
@@ -27,20 +27,6 @@ function StoreInfo() {
     }
   }, [storeData]);
 
-  const userClickLike = () => {
-    // 비동기 통신
-    if (likeClicked) {
-      // true->false
-      dispatch(clickLikeCancel());
-    } else {
-      // false->true
-      const formData = new FormData();
-      // formData.append('member_seq', user.member_seq);
-      // formData.append('curation_seq', course.curation_seq);
-      dispatch(clickLike(formData));
-    }
-    setLikeClicked(!likeClicked);
-  };
   return (
     storeData.hasOwnProperty('place_name') && (
       <StoreCard sx={{ minWidth: 400 }}>
@@ -51,13 +37,7 @@ function StoreInfo() {
         {storeData.phone && storeData.phone > 0 && (
           <CardScript>전화번호 : {storeData.phone}</CardScript>
         )}
-        <LikeButton
-          active={!!likeClicked}
-          type="submit"
-          onClick={userClickLike}
-        >
-          좋아요
-        </LikeButton>
+        <LikeButton storeData={storeData} />
       </StoreCard>
     )
   );

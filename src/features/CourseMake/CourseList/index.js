@@ -12,6 +12,8 @@ import {
   getSearchData,
   moveToList,
   setClicked,
+  setClickedIndex,
+  getClickedIndex,
 } from '../CourseSlice';
 import CourseListItem from './CourseListItem';
 import { ArrowBack, ArrowForward, List } from './styles';
@@ -22,6 +24,7 @@ function CourseList() {
 
   let clickTimer;
   const tempData = useSelector(getSearchData);
+  const clickedIndex = useSelector(getClickedIndex);
   const course = useSelector(getCourse);
   const dispatch = useDispatch();
 
@@ -43,7 +46,10 @@ function CourseList() {
     }
   };
 
-  const addToCart = (search) => {
+  const addToCart = (search, index) => {
+    console.log('index', index);
+    console.log('search', search);
+    dispatch(setClickedIndex(index));
     // 더블클릭->카트추가
     if (clickTimer) {
       clearTimeout(clickTimer);
@@ -73,6 +79,7 @@ function CourseList() {
         console.log('singleClick', search);
         clickTimer = null;
         const latlng = { lat: search.y, lng: search.x };
+
         dispatch(setClicked(true));
         dispatch(moveToList(latlng));
       }, 250);
@@ -80,8 +87,13 @@ function CourseList() {
   };
   const mapToComponent = (data) => {
     return data.map((search, index) => (
-      <div id={index}>
-        <CourseListItem addToCart={addToCart} search={search} />
+      <div>
+        <CourseListItem
+          addToCart={addToCart}
+          search={search}
+          index={index}
+          active={clickedIndex === index}
+        />
       </div>
     ));
   };

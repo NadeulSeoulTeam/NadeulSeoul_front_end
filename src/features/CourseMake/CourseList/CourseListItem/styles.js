@@ -22,7 +22,10 @@ export const StoreName = styled.div`
   padding-left: 10px;
   text-align: start;
   padding-bottom: 20px;
-  color: #68c78e;
+  color: #0de073;
+  ${({ active }) => {
+    return active ? `color: white` : ``;
+  }}
 `;
 
 export const StoreDescription = styled.div`
@@ -31,4 +34,7 @@ export const StoreDescription = styled.div`
   font-size: 15px;
   padding-left: 10px;
   text-align: start;
+  ${({ active }) => {
+    return active ? `color: white` : ``;
+  }}
 `;

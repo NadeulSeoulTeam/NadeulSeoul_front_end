@@ -31,7 +31,7 @@ export const CardScript = styled.div`
   font-size: 14px;
 `;
 
-export const LikeButton = styled.button`
+export const LikeButtonStyle = styled.button`
   position: relative;
   width: 70px;
   padding: 10px;
