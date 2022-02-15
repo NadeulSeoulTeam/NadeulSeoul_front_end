@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useInView } from 'react-intersection-observer';
 // material UI
 // import Card from '@mui/material/Card';
 
 // css
+import axios from 'axios';
 import {
   Container,
   RightDiv,
@@ -48,8 +50,14 @@ function CourseViewCart({ curationSeq }) {
   const [commentWrote, setCommentWrote] = useState(false);
   const [userComment, setUserComment] = useState();
   const [likeClicked, setLikeClicked] = useState(false);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [comments, setComments] = useState([]);
   const { getComment, isLiked } = useSelector((state) => state.courseView);
   // 현재 카트에 리스트가 저장되어있는 배열
+
+  // infinite scroll
+  const [ref, inView] = useInView();
 
   // 댓글 작성 리랜더링
   useEffect(() => {
@@ -59,6 +67,20 @@ function CourseViewCart({ curationSeq }) {
   useEffect(() => {
     dispatch(isLike({ curationSeq }));
   }, [likeClicked]);
+  // 무한 스크롤 리랜더링
+  const getComments = useCallback(async () => {
+    setLoading(true);
+    await axios.get().then((res) => {
+      setComments((prevState) => [...prevState, res]);
+    });
+    setLoading(false);
+  }, [page]);
+  useEffect(() => {
+    if (inView && !loading) {
+      setPage((prevState) => prevState + 1);
+    }
+  }, [inView, loading]);
+
   const mapTransportationToComponent = () => {
     return course.data.transportation.map((transportation) => (
       <Transportation>{transportation}</Transportation>
@@ -156,7 +178,10 @@ function CourseViewCart({ curationSeq }) {
         </LikeBtn>
       </div>
       <GreenDash />
-      <CommentArea>{mapCommentToComponent()}</CommentArea>
+      <CommentArea>
+        {mapCommentToComponent()}
+        <div ref={ref}>Element</div>
+      </CommentArea>
       <CommentCreationArea>
         {user && (
           <TextInput
