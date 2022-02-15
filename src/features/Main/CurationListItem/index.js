@@ -35,7 +35,7 @@ function CurationListItem({ curation }) {
           src={sampleImg}
           alt="default image"
         />
-        <LikeChip>👍 {curation.likes}</LikeChip>
+        <LikeChip>👍 {curation.good}</LikeChip>
       </ImageDiv>
       <CurationTitle>{curation.title}</CurationTitle>
     </Wrapper>

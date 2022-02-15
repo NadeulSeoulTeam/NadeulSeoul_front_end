@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from '../../common/api/httpCommunication';
 
 export const initialState = {
   courses: [
@@ -51,6 +51,7 @@ export const initialState = {
       category_name: '가정,생활 > 복합쇼핑몰',
     },
   ],
+  hotStore: undefined,
   selectedCourse: {},
   fetchCoursesLoading: false,
   fetchCoursesDone: false,
@@ -58,11 +59,25 @@ export const initialState = {
   fetchUsersLoading: false,
   fetchUsersDone: false,
   fetchUsersError: null,
+  fetchHotStoresLoading: false,
+  fetchHotStoreDone: false,
+  fetchHotStoreError: null,
+  // Local tag
+  localTag: undefined,
+  fetchLocalTagsLoading: false,
+  fetchLocalTagsDone: false,
+  fetchLocalTagsError: null,
+
+  // Theme tag
+  themeTag: undefined,
+  fetchThemeTagsLoading: false,
+  fetchThemeTagsDone: false,
+  fetchThemeTagsError: null,
 };
 
 export const fetchCourses = createAsyncThunk('main/fetchCourses', async () => {
   try {
-    const response = await axios.get('/api/v1/curations/statics/courses');
+    const response = await axios.get('curations/statics/courses');
     return response.data.data;
   } catch (error) {
     return error.response.data;
@@ -72,13 +87,51 @@ export const fetchCourses = createAsyncThunk('main/fetchCourses', async () => {
 // 활발한 나들러 받아오는 주소 확인
 export const fetchUsers = createAsyncThunk('main/fetchUsers', async () => {
   try {
-    const response = await axios.get('/api/v1/curations/statics/nadeulers');
+    const response = await axios.get('curations/statics/nadeulers');
     return response.data.data;
   } catch (error) {
     return error.response.data;
   }
 });
-
+// 찜 순위로 가져오기
+export const fetchHotStores = createAsyncThunk(
+  'main/fetchHotStores',
+  async () => {
+    try {
+      const response = await axios.get('curations/statics/stores');
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+// 지역 tag list 가져오기
+export const fetchLocalTags = createAsyncThunk(
+  'main/fetchLocalTags',
+  async () => {
+    try {
+      const response = await axios.get('tags/local');
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+// 테마 tag list 가져오기
+export const fetchThemeTags = createAsyncThunk(
+  'main/fetchThemeTags',
+  async () => {
+    try {
+      const response = await axios.get('tags/theme');
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
 const mainSlice = createSlice({
   name: 'mainReducer',
   initialState,
@@ -122,6 +175,51 @@ const mainSlice = createSlice({
       state.fetchUsersLoading = true;
       state.fetchUsersDone = false;
       state.fetchUsersError = action.payload.data.message;
+    },
+    [fetchHotStores.pending]: (state) => {
+      state.fetchHotStoreLoading = true;
+      state.fetchHotStoreDone = false;
+      state.fetchUsersError = null;
+    },
+    [fetchHotStores.fulfilled]: (state, action) => {
+      state.fetchHotStoreLoading = false;
+      state.fetchHotStoreDone = true;
+      state.hotStore = action.payload;
+    },
+    [fetchHotStores.rejected]: (state, action) => {
+      state.fetchHotStoresLoading = true;
+      state.fetchHotStoreDone = false;
+      state.fetchHotStoreError = action.payload.data.message;
+    },
+    [fetchLocalTags.pending]: (state) => {
+      state.fetchLocalTagsLoading = true;
+      state.fetchLocalTagsDone = false;
+      state.fetchLocalTagsError = null;
+    },
+    [fetchLocalTags.fulfilled]: (state, action) => {
+      state.fetchLocalTagsLoading = false;
+      state.fetchLocalTagsDone = true;
+      state.localTags = action.payload;
+    },
+    [fetchLocalTags.rejected]: (state, action) => {
+      state.fetchLocalTagsLoading = true;
+      state.fetchLocalTagsDone = false;
+      state.fetchLocalTagsError = action.payload.data.message;
+    },
+    [fetchThemeTags.pending]: (state) => {
+      state.fetchThemeTagsLoading = true;
+      state.fetchThemeTagsDone = false;
+      state.fetchThemeTagsError = null;
+    },
+    [fetchThemeTags.fulfilled]: (state, action) => {
+      state.fetchThemeTagsLoading = false;
+      state.fetchThemeTagsDone = true;
+      state.themeTags = action.payload;
+    },
+    [fetchThemeTags.rejected]: (state, action) => {
+      state.fetchThemeTagsLoading = true;
+      state.fetchThemeTagsDone = false;
+      state.fetchThemeTagsError = action.payload.data.message;
     },
   },
 });

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { StylesProvider } from '@material-ui/core/styles';
 
 // components
+import { useDispatch, useSelector } from 'react-redux';
 import TagList from '../TagList';
 import UserList from '../UserList';
 import StoreList from '../StoreList';
@@ -20,12 +21,20 @@ import {
   TagOpener,
 } from './styles';
 
+import { fetchLocalTags, fetchThemeTags } from '../MainSlice';
+
 function MainPage() {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const { themeTag, localTag } = useSelector((state) => state.main);
   const handleOpen = () => {
     setOpen(!open);
   };
-
+  useEffect(() => {
+    dispatch(fetchLocalTags());
+    dispatch(fetchThemeTags());
+    console.log(themeTag, localTag);
+  }, []);
   return (
     <div>
       <TopWrapper>

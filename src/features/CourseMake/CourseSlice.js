@@ -1,16 +1,30 @@
+/* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 // import _concat from 'lodash/concat';
 // import _remove from 'lodash/remove';
 import _find from 'lodash/find';
 
+// 큐레이션 요청
 export const courseInfoPost = createAsyncThunk(
   '/CourseCreationForm',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        'http://localhost:8080/api/v1/curations',
-        data
+      const response = await axios.post('/api/v1/curations', data);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+// 큐레이션 삭제
+export const courseInfoDelete = createAsyncThunk(
+  '/CourseCreationForm',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(
+        `/api/v1/curations/${data.curation_seq}`
       );
       return response.data;
     } catch (err) {
@@ -21,9 +35,9 @@ export const courseInfoPost = createAsyncThunk(
 
 export const initialState = {
   courseInfo: {},
-  courseInfoDone: false,
-  courseInfoError: null,
-  courseInfoSending: false,
+  courseInfoPostDone: false,
+  courseInfoPostError: null,
+  courseInfoPostSending: false,
 };
 
 const course = createSlice({
@@ -105,21 +119,22 @@ const course = createSlice({
   },
 
   extraReducers: {
+    // 코스 info post
     [courseInfoPost.pending]: (state) => {
-      state.courseInfoSending = true;
-      state.courseInfoDone = false;
-      state.courseInfoError = null;
+      state.courseInfoPostSending = true;
+      state.courseInfoPostDone = false;
+      state.courseInfoPostError = null;
     },
     [courseInfoPost.fulfilled]: (state, action) => {
       const post = _find(state.mainPosts, { id: action.payload.PostId });
-      state.courseInfoSending = false;
-      state.courseInfoDone = true;
+      state.courseInfoPostSending = false;
+      state.courseInfoPostDone = true;
       // 수정
       post.courseInfo = action.payload.CourseInfo;
     },
     [courseInfoPost.rejected]: (state, action) => {
-      state.courseInfoSending = true;
-      state.courseInfoError = action.error.message;
+      state.courseInfoPostSending = true;
+      state.courseInfoPostError = action.error.message;
     },
   },
 });
