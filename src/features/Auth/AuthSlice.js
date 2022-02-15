@@ -29,7 +29,7 @@ export const signup = createAsyncThunk(
   'member/signup',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/users/signup', data);
+      const response = await axios.post('/auth/users/signup', data);
       return response;
     } catch (error) {
       console.log(error);
@@ -57,7 +57,7 @@ export const logout = createAsyncThunk(
   'member/logout',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get('/users/signout');
+      const response = await axios.get('/auth/users/signout');
       deleteToken();
       deleteLoginSuccess();
       deleteUserInfo();
@@ -75,7 +75,7 @@ export const checkNickname = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       console.log(data);
-      const response = await axios.post('/users/nickname', data);
+      const response = await axios.post('/auth/users/nickname', data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response);

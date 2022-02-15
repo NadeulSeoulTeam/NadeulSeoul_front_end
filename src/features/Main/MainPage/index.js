@@ -28,6 +28,9 @@ import {
 // actions
 import { LoadUserInfo, fetchLocalTags, fetchThemeTags } from '../MainSlice';
 
+// cookie
+import { getLoginSuccess } from '../../../common/api/JWT-Token';
+
 function MainPage() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -36,16 +39,18 @@ function MainPage() {
     setOpen(!open);
   };
 
-  useEffect(() => {
-    // dispatch(LoadUserInfo())
-    //   .unwrap()
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-  });
+  if (getLoginSuccess) {
+    useEffect(() => {
+      dispatch(LoadUserInfo())
+        .unwrap()
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  }
 
   useEffect(() => {
     // dispatch(fetchLocalTags());
