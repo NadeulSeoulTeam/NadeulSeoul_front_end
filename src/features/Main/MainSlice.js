@@ -70,12 +70,12 @@ export const initialState = {
   fetchHotStoreDone: false,
   fetchHotStoreError: null,
   // Local tag
-  localTag: undefined,
+  localTag: [],
   fetchLocalTagsLoading: false,
   fetchLocalTagsDone: false,
   fetchLocalTagsError: null,
   // Theme tag
-  themeTag: undefined,
+  themeTag: [],
   fetchThemeTagsLoading: false,
   fetchThemeTagsDone: false,
   fetchThemeTagsError: null,
@@ -235,7 +235,8 @@ const mainSlice = createSlice({
     [fetchLocalTags.fulfilled]: (state, action) => {
       state.fetchLocalTagsLoading = false;
       state.fetchLocalTagsDone = true;
-      state.localTags = action.payload;
+      state.localTag = action.payload.data;
+      console.log(action.payload.data);
     },
     [fetchLocalTags.rejected]: (state, action) => {
       state.fetchLocalTagsLoading = true;
@@ -250,7 +251,8 @@ const mainSlice = createSlice({
     [fetchThemeTags.fulfilled]: (state, action) => {
       state.fetchThemeTagsLoading = false;
       state.fetchThemeTagsDone = true;
-      state.themeTags = action.payload;
+      state.themeTag = action.payload.data;
+      console.log(action.payload.data);
     },
     [fetchThemeTags.rejected]: (state, action) => {
       state.fetchThemeTagsLoading = true;

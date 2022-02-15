@@ -53,6 +53,7 @@ function CourseViewCart({ curationSeq }) {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [comments, setComments] = useState([]);
+  const [infComment, setInfComment] = useState([]);
   const { getComment, isLiked } = useSelector((state) => state.courseView);
   // 현재 카트에 리스트가 저장되어있는 배열
 
@@ -61,26 +62,40 @@ function CourseViewCart({ curationSeq }) {
 
   // 댓글 작성 리랜더링
   useEffect(() => {
-    dispatch(getCommentList({ curationSeq, pageNumber: 0, pageSize: 10 }));
-  }, [commentWrote]);
+    setLoading(true);
+    dispatch(getCommentList({ curationSeq, pageNumber: page, pageSize: 10 }));
+    setLoading(false);
+  }, [commentWrote, page]);
   // 좋아요 리랜더링
   useEffect(() => {
     dispatch(isLike({ curationSeq }));
   }, [likeClicked]);
   // 무한 스크롤 리랜더링
-  const getComments = useCallback(async () => {
-    setLoading(true);
-    await axios.get().then((res) => {
-      setComments((prevState) => [...prevState, res]);
-    });
-    setLoading(false);
-  }, [page]);
+  // useEffect(() => {
+  //   dispatch(getCommentList({ curationSeq, pageNumber: page, pageSize: 10 }));
+  // }, [page]);
+  // const getComments = useCallback(async () => {
+  //   setLoading(true);
+  //   await axios
+  //     .get(`/api/v1/curations/comments/${curationSeq}?page=${page}&size=${10}`)
+  //     .then((res) => {
+  //       setComments((prevState) => [...prevState, res]);
+  //     })
+  //     .then(() => console.log(comments));
+
+  //   setLoading(false);
+  // }, [page]);
+  // useEffect(() => {
+  //   getComments();
+  // }, []);
   useEffect(() => {
+    console.log(inView);
     if (inView && !loading) {
+      console.log('here');
       setPage((prevState) => prevState + 1);
     }
   }, [inView, loading]);
-
+  useEffect(() => {}, [comments]);
   const mapTransportationToComponent = () => {
     return course.data.transportation.map((transportation) => (
       <Transportation>{transportation}</Transportation>
@@ -88,35 +103,34 @@ function CourseViewCart({ curationSeq }) {
   };
 
   const mapCommentToComponent = () => {
-    // if (getComment === undefined) return <div />;
-    console.log(course.data.comments);
-    return (
-      course.data.comments
-        // return getComment.content
-        .slice(0)
-        .reverse()
-        .map((comment) => (
-          // return course.data.comments.map((comment) => (
-          <div style={{ margin: '10px 0', display: 'flex' }}>
+    console.log(getComment);
+    if (getComment.length === 0) {
+      return <div />;
+    }
+    const appendComment = getComment
+      // .slice(0)
+      // .reverse()
+      .map((comment, idx) =>
+        getComment.length - 1 === idx ? (
+          <div style={{ margin: '10px 0', display: 'flex' }} ref={ref}>
             <ProfileEmoji>프로필</ProfileEmoji>
-            {/* <div style={{ margin: '0 0 0 5px', display: 'inline-block' }}>
-          <CommentNickname>{comment.user.userSeq}</CommentNickname>
-          <CommentContent>{comment.content}</CommentContent>
-        </div> */}
-            {/*
-             <CourseViewComment
-              userSeq={comment.user.userSeq}
-              content={comment.content}
-            /> */}
             <CourseViewComment
-              userSeq={comment.user_nickname}
+              userSeq={comment.user.nickname}
               content={comment.content}
             />
           </div>
-        ))
-    );
+        ) : (
+          <div style={{ margin: '10px 0', display: 'flex' }}>
+            <ProfileEmoji>프로필</ProfileEmoji>
+            <CourseViewComment
+              userSeq={comment.user.nickname}
+              content={comment.content}
+            />
+          </div>
+        )
+      );
+    return appendComment;
   };
-
   const commentWrite = (e) => {
     setUserComment(e.target.value);
   };
@@ -166,7 +180,7 @@ function CourseViewCart({ curationSeq }) {
       </div>
       <div style={{ display: 'inline-block' }}>
         <Content>
-          {getComment !== undefined} && {mapTransportationToComponent}
+          {getComment.length !== 0} && {mapTransportationToComponent}
         </Content>
         <Content>{course.data.budget}원 / 1인</Content>
         <Content>{course.data.fixed_people}</Content>
@@ -178,10 +192,7 @@ function CourseViewCart({ curationSeq }) {
         </LikeBtn>
       </div>
       <GreenDash />
-      <CommentArea>
-        {mapCommentToComponent()}
-        <div ref={ref}>Element</div>
-      </CommentArea>
+      <CommentArea>{mapCommentToComponent()}</CommentArea>
       <CommentCreationArea>
         {user && (
           <TextInput

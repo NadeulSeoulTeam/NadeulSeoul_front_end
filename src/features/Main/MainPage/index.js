@@ -31,7 +31,7 @@ import { LoadUserInfo, fetchLocalTags, fetchThemeTags } from '../MainSlice';
 function MainPage() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const { themeTag, localTag } = useSelector((state) => state.main);
+  // const { themeTag, localTag } = useSelector((state) => state.main);
   const handleOpen = () => {
     setOpen(!open);
   };
@@ -48,9 +48,9 @@ function MainPage() {
   });
 
   useEffect(() => {
-    // dispatch(fetchLocalTags());
-    // dispatch(fetchThemeTags());
-    console.log(themeTag, localTag);
+    dispatch(fetchLocalTags());
+    dispatch(fetchThemeTags());
+    // console.log(themeTag, localTag);
   }, []);
 
   return (

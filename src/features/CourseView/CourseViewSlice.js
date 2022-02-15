@@ -23,7 +23,7 @@ export const getCommentList = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `curations/comments/${data.curationSeq}?page=${data.pageNumber}&size=${data.pageSize}`
+        `curations/comments/${data.curationSeq}?page=${data.pageNumber}&size=${data.pageSize}&sort=date,desc`
       );
       console.log(response.data);
       return response.data;
@@ -37,7 +37,7 @@ export const sendComment = createAsyncThunk(
   'CourseView/sendComment',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`curations/comments/`, data);
+      const response = await axios.post(`curations/comments`, data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -106,7 +106,7 @@ export const initialState = {
   sendCommentLoading: false,
   sendCommentDone: false,
   sendCommentError: null,
-  getComment: undefined, // 댓글 리스트 받아오기
+  getComment: [], // 댓글 리스트 받아오기
   getCommentLoading: false,
   getCommentDone: false,
   getCommentError: null,
@@ -217,7 +217,9 @@ const course = createSlice({
     },
     [getCommentList.fulfilled]: (state, action) => {
       state.getCommentLoading = false;
-      state.getComment = action.payload.data;
+      for (let i = 0; i < action.payload.data.content.length; i += 1) {
+        state.getComment.push(action.payload.data.content[i]);
+      }
       state.getCommentDone = true;
     },
     [getCommentList.rejected]: (state, action) => {
