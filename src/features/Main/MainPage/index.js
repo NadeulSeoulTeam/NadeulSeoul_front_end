@@ -39,7 +39,9 @@ function MainPage() {
     setOpen(!open);
   };
 
-  if (getLoginSuccess() !== 'true') {
+  console.log(getLoginSuccess(), typeof getLoginSuccess());
+
+  if (getLoginSuccess() === 'false') {
     useEffect(() => {
       dispatch(LoadUserInfo())
         .unwrap()
@@ -49,7 +51,7 @@ function MainPage() {
         .catch((error) => {
           console.log(error);
         });
-    });
+    }, []);
   }
 
   useEffect(() => {
