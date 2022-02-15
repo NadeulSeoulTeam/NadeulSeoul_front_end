@@ -209,5 +209,8 @@ export const GreenBtn = styled(Button)`
     &.Mui-disabled {
       background-color: #fafafa;
     }
+    &:hover {
+      background-color: #06d469;
+    }
   }
 `;

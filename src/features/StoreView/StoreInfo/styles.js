@@ -50,6 +50,7 @@ export const LikeButtonStyle = styled.button`
   font-size: 1.3rem;
   background-color: transparent;
   border: transparent;
+  cursor: pointer;
   ${({ active }) => {
     return active ? `opacity: 1` : `opacity: 0.2`;
   }}

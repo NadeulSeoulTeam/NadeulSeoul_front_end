@@ -14,5 +14,8 @@ export const GreenBtn = styled(Button)`
     color: white;
     cursor: pointer;
     border: none;
+    &:hover {
+      background-color: #06d469;
+    }
   }
 `;

@@ -9,6 +9,7 @@ export const StoreCard = styled(Card)`
     min-width: 200px;
     min-height: 70px;
     border-radius: 20px;
+    cursor: pointer;
     ${({ active }) => {
       return active ? `background-color: #0de073` : `background-color: white`;
     }};
