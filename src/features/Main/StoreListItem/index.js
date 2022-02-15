@@ -22,6 +22,9 @@ function StoreListItem({ store }) {
       elevation={1}
       // onClick={() => selectCourse(curation)}
     >
+      {/* <StoreName>{store.title}</StoreName>
+      <Address>{store.address}</Address>
+      <StoreInfo>{store.category_name}</StoreInfo> */}
       <StoreName>{store.name}</StoreName>
       <Address>{store.address}</Address>
       <StoreInfo>{store.category_name}</StoreInfo>

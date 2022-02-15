@@ -8,8 +8,6 @@ export const clickLike = createAsyncThunk(
   'StoreView/like',
   async (data, { rejectWithValue }) => {
     try {
-      // console.log(storeSeq);
-      // const baseUrl = 'http://localhost:8080/';
       const response = await axios.post(
         `/api/v1/stores/${data.storeSeq}`,
         data

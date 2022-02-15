@@ -6,24 +6,39 @@ import testdata from './testdata';
 
 // Course 정보 가져오기
 export const getCourseInfo = createAsyncThunk(
-  'CourseView',
+  'CourseView/CourseInfo',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`curations/${data}`);
+      const response = await axios.get(`/api/v1/curations/${data.curationSeq}`);
+      console.log(response.data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
     }
   }
 );
-// 댓글 가져오기
 
-// 댓글 보내기
-export const sendComment = createAsyncThunk(
-  'CourseView',
+// 댓글 가져오기
+export const getCommentList = createAsyncThunk(
+  'CourseView/CommentInfo',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('curations/comments', data);
+      const response = await axios.get(
+        `/api/v1/curations/comments/${data.curationSeq}?page=${data.pageNumber}&size=${data.pageSize}`
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+// 댓글 보내기
+export const sendComment = createAsyncThunk(
+  'CourseView/sendComment',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`/api/v1/curations/comments/`, data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -33,7 +48,7 @@ export const sendComment = createAsyncThunk(
 
 // 스크랩(좋아요) 누르기
 export const clickLike = createAsyncThunk(
-  'CourseView',
+  'CourseView/clickLike',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post('/stores/18203409');
@@ -46,7 +61,7 @@ export const clickLike = createAsyncThunk(
 
 // 스크랩(좋아요) 취소
 export const clickLikeCancel = createAsyncThunk(
-  'CourseView',
+  'CourseView/clickLikeCancel',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.delete('curations/bookmarks/');
@@ -75,6 +90,10 @@ export const initialState = {
   sendCommentLoading: false,
   sendCommentDone: false,
   sendCommentError: null,
+  getComment: undefined, // 댓글 리스트 받아오기
+  getCommentLoading: false,
+  getCommentDone: false,
+  getCommentError: null,
   clickLikeLoading: false, // 좋아요 보내기
   clickLikeDone: false,
   clickLikeError: null,
@@ -83,7 +102,7 @@ export const initialState = {
   clickLikeCancelError: null,
 };
 const course = createSlice({
-  name: 'CourseViewReducer',
+  name: 'courseView',
   initialState,
   reducers: {
     setCourse: (state, action) => {
@@ -156,6 +175,20 @@ const course = createSlice({
       state.clickLikeCancelLoading = false;
       state.clickLikeCancelError = action.error.message;
     },
+    [getCommentList.pending]: (state) => {
+      state.getCommentLoading = true;
+      state.getCommentDone = false;
+      state.getCommentError = null;
+    },
+    [getCommentList.fulfilled]: (state, action) => {
+      state.getCommentLoading = false;
+      state.getComment = action.payload.data;
+      state.getCommentDone = true;
+    },
+    [getCommentList.rejected]: (state, action) => {
+      state.getCommentLoading = false;
+      state.getCommentError = action.error.message;
+    },
   },
 });
 
@@ -170,3 +203,4 @@ export const getKeyword = (state) => state.course.keywordInput;
 export const getSearchData = (state) => state.course.searchData;
 export const getMarkers = (state) => state.course.markers;
 export const getClicked = (state) => state.course.clicked;
+export const getComment = (state) => state.course.getComment;

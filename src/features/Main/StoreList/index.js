@@ -1,19 +1,19 @@
-import React, { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useRef, useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import StoreGrid from './styles';
-
+import { fetchHotStores } from '../MainSlice';
 import StoreListItem from '../StoreListItem';
 
 function StoreList() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const scrollRef = useRef(null);
   const [isDrag, setIsDrag] = useState(false);
   const [startX, setStartX] = useState();
-
-  // useEffect(() => {
-  //   dispatch(fetchStores());
-  // }, []);
+  const { hotStore } = useSelector((state) => state.main);
+  useEffect(() => {
+    dispatch(fetchHotStores());
+  }, []);
 
   const storeList = useSelector((state) => state.main.stores);
 
@@ -53,11 +53,15 @@ function StoreList() {
     }
   };
 
-  const onThrottleDragMove = throttle(onDragMove, 100);
+  const onThrottleDragMove = throttle(onDragMove, 30);
 
   const mapToComponent = (data) => {
-    return data.map((store) => <StoreListItem store={store} />);
-  };
+
+    if (hotStore === undefined) return <div />;
+    console.log(data);
+    // console.log(hotStore.data);
+    // return hotStore.data.map((store) => <StoreListItem store={store} />);
+
 
   return (
     // <Grid container>{mapToComponent(storeList)}</Grid>;
