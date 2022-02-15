@@ -3,9 +3,11 @@ import { useDispatch } from 'react-redux';
 
 import { deleteCourse } from '../../CourseSlice';
 import {
+  Store,
+  StoreDiv,
   StoreName,
   StoreOrder,
-  Store,
+  StoreOrderNum,
   StoreDescription,
   DeleteButton,
 } from './styles';
@@ -18,12 +20,14 @@ function CourseCartItem({ cart, index }) {
   };
   return (
     <Store>
-      <StoreOrder>{index + 1}</StoreOrder>
-      <StoreName>{cart.place_name}</StoreName>
-      <StoreDescription>{cart.address_name}</StoreDescription>
-      <DeleteButton onClick={() => deleteCourseSelected(cart)}>
-        삭제
-      </DeleteButton>
+      <StoreOrder>
+        <StoreOrderNum>{index + 1}</StoreOrderNum>
+      </StoreOrder>
+      <StoreDiv>
+        <StoreName>{cart.place_name}</StoreName>
+        <StoreDescription>{cart.address_name}</StoreDescription>
+      </StoreDiv>
+      <DeleteButton onClick={() => deleteCourseSelected(cart)} />
     </Store>
   );
 }

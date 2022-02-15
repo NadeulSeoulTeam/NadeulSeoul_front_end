@@ -118,7 +118,7 @@ function CourseMap() {
       id="map"
       style={{
         width: '100%',
-        height: '700px',
+        height: '100vh',
       }}
     />
   );

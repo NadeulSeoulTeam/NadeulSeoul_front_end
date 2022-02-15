@@ -197,7 +197,7 @@ function CourseViewMap({ curationSeq }) {
         id="map"
         style={{
           width: '100%',
-          height: '730px',
+          height: '100vh',
         }}
       />
       {clickRender(clickedMarkerInfo)}

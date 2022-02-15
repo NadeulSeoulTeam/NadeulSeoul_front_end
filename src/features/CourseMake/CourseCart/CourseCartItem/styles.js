@@ -1,47 +1,53 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
-import Button from '@mui/material/Button';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const Store = styled.div`
-  display: grid;
-  grid-template-areas:
-    ' storeOrder storeName storeName button'
-    ' storeOrder storeDescription storeDescription button';
-  margin: 5px;
-  grid-template-rows: 30px 30px;
+  margin: 1.2rem 0;
+  display: flex;
+  align-items: center;
+  position: relative;
 `;
 
-export const StoreName = styled.span`
-  grid-area: storeName;
-  font-family: Roboto;
-  font-size: 14px;
+export const StoreDiv = styled.span`
+  display: inline-block;
+  margin-left: 10px;
+`;
+
+export const StoreName = styled.p`
+  font-size: 0.9rem;
   font-weight: bold;
-  padding-bottom: 0px;
-  padding-left: 10px;
   text-align: start;
-  height: 30px;
+  margin: 0;
 `;
 
-export const StoreDescription = styled.span`
-  grid-area: storeDescription;
-  font-family: Roboto;
-  font-size: 12px;
-  padding-left: 10px;
+export const StoreDescription = styled.p`
+  font-size: 0.8rem;
   text-align: start;
+  margin: 5px 0 0 0;
 `;
 
 export const StoreOrder = styled.div`
-  grid-area: storeOrder;
-  border: 3px solid #68c78e;
+  border: 2px solid #0de073;
   border-radius: 50%;
-  box-sizing: border-box;
-  height: 40px;
-  width: 40px;
-  margin-left: 20px;
-  text-align: center;
-  line-height: 30px;
+  height: 1.5rem;
+  width: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-export const DeleteButton = styled(Button)`
-  display: button;
+export const StoreOrderNum = styled.p`
+  font-size: 0.8rem;
+`;
+
+export const DeleteButton = styled(CloseIcon)`
+  && {
+    position: absolute;
+    right: 0;
+    color: #c4c4c4;
+    font-size: 1rem;
+    padding: 3px;
+    cursor: pointer;
+  }
 `;

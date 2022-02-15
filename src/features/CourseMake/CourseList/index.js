@@ -68,7 +68,7 @@ function CourseList() {
       }
 
       if (course.length >= 6) {
-        alert('7개 이상 등록할 수 없습니다!');
+        alert('장소는 6개까지 등록할 수 있습니다!');
         return;
       }
       setStoreClicked(storeClicked.concat(search.id));
