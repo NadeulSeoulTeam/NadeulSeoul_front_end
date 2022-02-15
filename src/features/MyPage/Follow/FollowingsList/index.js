@@ -21,6 +21,9 @@ import FollowButton from '../FollowButton';
 // actions
 import { loadFollowings } from '../../MyPageSlice';
 
+// cookie
+import { getUserInfo } from '../../../../common/api/JWT-Token';
+
 // mui
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -38,7 +41,7 @@ function FollowingsList() {
     []
   );
 
-  const MyId = 1; // 1번 사용자가 로그인 했다고 가정
+  const MyId = getUserInfo().userSeq; // 1번 사용자가 로그인 했다고 가정 => 토큰으로 대체
 
   if (MyId !== user?.userSeq) {
     useEffect(() => {

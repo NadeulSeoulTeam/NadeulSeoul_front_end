@@ -14,6 +14,9 @@ import StatusUser from '../../Follow/StatusUser';
 // custom style
 import { GreenBtn } from './styles';
 
+// cookie
+import { getUserInfo } from '../../../../common/api/JWT-Token';
+
 function ProfileCard({
   userId,
   emoji,
@@ -22,7 +25,7 @@ function ProfileCard({
   followerCount,
 }) {
   const [isMe, setIsMe] = useState(false);
-  const me = 1; // 로그인한 사람의 id 현재 로그인 가정(meanstrike)
+  const me = getUserInfo().userSeq;
   const navigate = useNavigate();
 
   // 1. 내 마이페이지에 들어오면 버튼이 안보이게

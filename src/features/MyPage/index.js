@@ -6,6 +6,8 @@ import { useParams } from 'react-router';
 import BasicTabs from './Tabs/BasicTabs';
 import ProfileCard from './Card/ProfileCard';
 
+// cookie
+import { getUserInfo } from '../../common/api/JWT-Token';
 // actions
 import {
   loadUser,
@@ -18,7 +20,8 @@ import {
 function MyPage() {
   const dispatch = useDispatch();
   const params = useParams();
-  const { userInfo, user } = useSelector((state) => state.mypage);
+  const { user } = useSelector((state) => state.mypage);
+  console.log(getUserInfo());
   // 서버에 유저정보 요청
   useEffect(() => {
     dispatch(loadUser(params.id))
@@ -32,13 +35,14 @@ function MyPage() {
   }, []);
 
   // userId to BoradListItem
+  // 쿠키에 있는 로그인한 유저 아이디 넘기기
   useEffect(() => {
-    dispatch(UserIdToListItem(userInfo.id));
+    dispatch(UserIdToListItem(getUserInfo().userSeq));
   });
 
   // 로그인한 사람의 팔로잉 팔로우 정보 가져오기
   useEffect(() => {
-    dispatch(loadFollowers(1))
+    dispatch(loadFollowers(getUserInfo().userSeq))
       .unwrap()
       .then((response) => {
         console.log(response);
@@ -47,7 +51,7 @@ function MyPage() {
       .catch((err) => {
         console.log(err.response.data);
       });
-    dispatch(loadFollowings(1))
+    dispatch(loadFollowings(getUserInfo().userSeq))
       .unwrap()
       .then((response) => {
         console.log(response);

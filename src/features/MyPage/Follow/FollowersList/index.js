@@ -21,6 +21,9 @@ import FollowButton from '../FollowButton';
 // actions
 import { loadFollowers } from '../../MyPageSlice';
 
+// cookie
+import { getUserInfo } from '../../../../common/api/JWT-Token';
+
 // mui
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -43,7 +46,7 @@ function FollowersList() {
   // 다른 사람의 팔로잉 팔로우 리스트까지 가져와야 하니깐 요청이 이루어 질 수밖에 없음!
   // 분기 조건으로 하면 될거 같다.
 
-  const MyId = 1; // 1번 사용자가 로그인 했다고 가정 => 토큰으로 대체
+  const MyId = getUserInfo().userSeq; // 1번 사용자가 로그인 했다고 가정 => 토큰으로 대체
 
   if (MyId !== user?.userSeq) {
     useEffect(() => {

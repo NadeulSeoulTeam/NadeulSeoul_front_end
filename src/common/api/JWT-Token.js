@@ -55,5 +55,5 @@ export const getUserInfo = () => {
 
 // delete User Info
 export const deleteUserInfo = () => {
-  return cookies.remove('LoggedIn', { path: '/' });
+  return cookies.remove('userinfo', { path: '/' });
 };

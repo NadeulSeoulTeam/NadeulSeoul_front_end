@@ -13,7 +13,7 @@ import { StoreName, Address, StoreInfo } from './styles';
 
 function CurationCard({ storeName, addressName, categoryName }) {
   return (
-    // 여기서 상세 curaetion으로 onClick 매서드 사용해소 navgative로 이동
+    // 여기서 상세 curaetion으로 onClick 매서드
     <Card
       sx={{
         maxWidth: 300,
