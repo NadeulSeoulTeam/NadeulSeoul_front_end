@@ -16,6 +16,7 @@ import CurationCardLikePlace from '../../Card/CuraionCardLikePlace';
 // actions
 import {
   loadPostsInfinity,
+  setLikePlaceBasket,
   // loadPostsInfinityLikePlace,
 } from '../../MyPageSlice';
 import { GreenBtn } from './styles';
@@ -32,13 +33,12 @@ function a11yProps(index) {
 function BasicTabs() {
   const {
     InfinityPosts,
+    myCourse,
     // loadInfinityPostsLoading,
     // InfinityPostsLikePlace,
     // hasMoreLikePlace,
     // loadInfinityPostsLikePlaceLoading,
   } = useSelector((state) => state.mypage);
-
-  console.log(InfinityPosts);
 
   const dispatch = useDispatch();
   const [value, setValue] = useState(2);
@@ -47,12 +47,28 @@ function BasicTabs() {
     setValue(newValue);
   };
 
-  const [page, setPage] = useState(2);
+  const onClickSendCourse = () => {
+    console.log('here');
+    const data = {
+      storeSeqList: myCourse,
+    };
+    console.log(data);
+    dispatch(setLikePlaceBasket(data))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     const data = {
       page,
-      size: 24,
+      size: 8,
     };
     dispatch(loadPostsInfinity(data))
       .unwrap()
@@ -171,7 +187,9 @@ function BasicTabs() {
       </TabPanel> */}
       <TabPanel value={value} index={2}>
         <Stack spacing={2} direction="row-reverse">
-          <GreenBtn variant="contained">나만의 코스 만들기</GreenBtn>
+          <GreenBtn onClick={onClickSendCourse} variant="contained">
+            나만의 코스 만들기
+          </GreenBtn>
         </Stack>
         <Box
           sx={{
@@ -187,8 +205,8 @@ function BasicTabs() {
           {InfinityPosts.map((v, i) => (
             <CurationCardLikePlace
               // eslint-disable-next-line react/no-array-index-key
-              key={i + v.likeplaceId}
-              likeplaceId={v.likeplaceId}
+              key={i + v.storeSeq}
+              storeSeq={v.storeSeq}
               storeName={v.storeName}
               addressName={v.addressName}
               categoryName={v.categoryName}

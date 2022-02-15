@@ -1,6 +1,8 @@
-import React, { useCallback, useState } from 'react';
+/* eslint-disable no-else-return */
+/* eslint-disable consistent-return */
+import React, { useState } from 'react';
 // import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // mui
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -18,19 +20,30 @@ function CuraionCardLikePlace({
   storeName,
   addressName,
   categoryName,
-  likeplaceId,
+  storeSeq,
 }) {
   const [isClicked, setIsClicked] = useState(true);
   const dispatch = useDispatch();
-  console.log('isClicked', isClicked);
-  const onClickCourseMake = useCallback(() => {
+  const { myCourse } = useSelector((state) => state.mypage);
+  console.log(typeof myCourse.length, myCourse.length, myCourse);
+
+  // 정리 4 onClick 이벤트 분기 , 알고리즘
+  const onClickCourseMakeUnderSix = () => {
     setIsClicked((prev) => !prev);
     if (isClicked === true) {
-      dispatch(setMyCourse(likeplaceId));
+      dispatch(setMyCourse(storeSeq));
     } else {
-      dispatch(deleteMyCourse(likeplaceId));
+      dispatch(deleteMyCourse(storeSeq));
     }
-  }, [isClicked]);
+  };
+
+  const onClickCourseMakeOverSix = () => {
+    if (isClicked === true) {
+      alert('7개 이상 담을 수 없습니다.');
+    }
+    setIsClicked(true);
+    dispatch(deleteMyCourse(storeSeq));
+  };
 
   return (
     // 여기서 상세 curaetion으로 onClick 매서드
@@ -52,7 +65,15 @@ function CuraionCardLikePlace({
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button onClick={onClickCourseMake} size="small" color="primary">
+        <Button
+          onClick={
+            myCourse.length > 5
+              ? onClickCourseMakeOverSix
+              : onClickCourseMakeUnderSix
+          }
+          size="small"
+          color="primary"
+        >
           {isClicked ? '추가' : '삭제'}
         </Button>
       </CardActions>

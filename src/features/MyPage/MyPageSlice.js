@@ -1,7 +1,7 @@
+/* eslint-disable no-self-assign */
 /* eslint-disable no-unused-expressions */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import _concat from 'lodash/concat';
-import _remove from 'lodash/remove';
 // import _find from 'lodash/find';
 
 // dummy data for 인피니티 스크롤 쳅터마다 각각 마다 구현해야 함!
@@ -28,7 +28,7 @@ export const generateDummyCardLikePlcae = (number) =>
   Array(number)
     .fill()
     .map(() => ({
-      likeplaceId: shortId.generate(),
+      likeplaceId: Math.floor(Math.random() * 100000),
       storeName: '장소 이름',
       addressName: '서울시 서대문구 장천동 53-20 ',
       categoryName: '오코노미야끼 전문식당',
@@ -102,11 +102,10 @@ export const loadPostsInfinity = createAsyncThunk(
   'mypage/loadPostsInfinity',
   async (data, { rejectWithValue }) => {
     try {
-      // console.log(data);
-      // const response = await axios.get(
-      //   `/curations?page=${data.page}&size=${data.size}`
-      // );
-      return generateDummyCardLikePlcae(8);
+      const response = await axios.get(
+        `/stores/bookmarks?page=${data.page}&size=${data.size}`
+      );
+      return response;
     } catch (err) {
       return rejectWithValue(err.resonse.data);
     }
@@ -142,6 +141,19 @@ export const loadUser = createAsyncThunk(
   }
 );
 
+// 찜한장소 생성페이지로 보내기
+export const setLikePlaceBasket = createAsyncThunk(
+  'mypage/setLikePlaceBasket',
+  async (data, { rejectWithValue }) => {
+    try {
+      console.log(data);
+      const response = await axios.post('/stores/bookmarks/courses', data);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.resonse.data);
+    }
+  }
+);
 // 팔로워 목록 조회
 export const loadFollowers = createAsyncThunk(
   'mypage/loadFollowers',
@@ -174,7 +186,7 @@ export const follow = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log(data);
     try {
-      const response = await axios.post(`mypage/${data}/follow`);
+      const response = await axios.post(`/mypage/${data}/follow`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -187,7 +199,7 @@ export const unfollow = createAsyncThunk(
   'mypage/unfollow',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`mypage/${data}/unfollow`);
+      const response = await axios.delete(`/mypage/${data}/unfollow`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -331,13 +343,17 @@ export const initialState = {
   singlePost: null, // 문의 게시판 상세 정보
   PostId: null, // 문의게시판 postId
   UserId: null, // 문의게시판 UserId
-  myCourse: [],
+  myCourse: [], // 장바구니
+  myCourseToCreate: null,
   loadInfinityPostsLoading: false, // 인피니티 스크롤 요청 myNadle, LikeNadle
   loadInfinityPostsDone: false,
   loadInfinityPostsError: null,
   loadInfinityPostsLikePlaceLoading: false, // 인피니티 스크롤 요청 LikePlace
   loadInfinityPostsLikePlaceDone: false,
   loadInfinityPostsLikePlaceError: null,
+  setLikePlaceLoading: false, // 장바구니
+  setLikePlaceDone: false,
+  setLikePlaceError: null,
   loadUserLoading: false, // mypage 유저 정보 조회 시도
   loadUserDone: false,
   loadUserError: null,
@@ -390,13 +406,10 @@ const MyPageSlice = createSlice({
       state.followinfoToList = action.payload;
     },
     setMyCourse(state, action) {
-      state.myCourse = state.myCourse.filter((item) => 
-        item === action.payload;
-      );
+      state.myCourse.push(action.payload);
     },
     deleteMyCourse(state, action) {
-      console.log(action.payload);
-      _remove(state.myCourse, action.payload);
+      state.myCourse = state.myCourse.filter((v) => v !== action.payload);
     },
   },
   extraReducers: {
@@ -411,7 +424,10 @@ const MyPageSlice = createSlice({
       state.loadInfinityPostsLoading = false;
       state.loadInfinityPostsDone = true;
       // state.InfinityPosts = action.payload.data.data.content;
-      state.InfinityPosts = _concat(state.InfinityPosts, action.payload);
+      state.InfinityPosts = _concat(
+        state.InfinityPosts,
+        action.payload.data.data.content
+      );
 
       // state.hasMorePosts = action.payload.length === 8;
     },
@@ -452,6 +468,22 @@ const MyPageSlice = createSlice({
     [loadUser.rejected]: (state, action) => {
       state.loadUserLoading = false;
       state.loadUserError = action.error.message;
+    },
+    // 장바구니
+    [setLikePlaceBasket.pending]: (state) => {
+      state.setLikePlaceLoading = true;
+      state.setLikePlaceDone = false;
+      state.setLikePlaceError = null;
+    },
+    [setLikePlaceBasket.fulfilled]: (state, action) => {
+      console.log(action);
+      state.setLikePlaceLoading = false;
+      state.setLikePlaceDone = true;
+      state.myCourseToCreate = action.payload.data; // 서버에서 온 courese정보가 담긴다.
+    },
+    [setLikePlaceBasket.rejected]: (state, action) => {
+      state.setLikePlaceLoading = false;
+      state.setLikePlaceError = action.error.message;
     },
 
     // 팔로워 유저 정보 조회
