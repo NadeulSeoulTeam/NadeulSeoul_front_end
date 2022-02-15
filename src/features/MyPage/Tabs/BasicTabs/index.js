@@ -14,6 +14,7 @@ import CurationCard from '../../Card/CurationCard';
 
 // actions
 import { loadPostsInfinity, loadPostsInfinityPlace } from '../../MyPageSlice';
+import CuraionCardLikePlace from '../../Card/CuraionCardLikePlace';
 
 //
 // mui basic tabs
@@ -179,8 +180,13 @@ function BasicTabs() {
           }}
         >
           {InfinityPostsPlace.map((v, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <CurationCard key={i + v.likePlaceId} imgUrl={v.imgUrl} />
+            <CuraionCardLikePlace
+              // eslint-disable-next-line react/no-array-index-key
+              key={i + v.storeSeq}
+              storeName={v.storeName}
+              addressName={v.addressName}
+              categoryName={v.categoryName}
+            />
           ))}
         </Box>
       </TabPanel>

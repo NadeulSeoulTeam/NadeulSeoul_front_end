@@ -26,8 +26,9 @@ const Demo = styled('div')(({ theme }) => ({
 }));
 
 function FollowingsList() {
-  const { followinfoToList } = useSelector((state) => state.mypage);
+  const { followinfoToList, FollowInfo } = useSelector((state) => state.mypage);
   console.log(followinfoToList);
+  console.log(FollowInfo[0].FollowingsList);
   // const params = useParams();
   // const dispatch = useDispatch();
   // const FollowList = FollowInfo.filter((v) => {
@@ -66,21 +67,21 @@ function FollowingsList() {
           </Typography>
           <Demo>
             <List dense={false}>
-              {followinfoToList?.map((v, i) => (
+              {FollowInfo[0].FollowingsList?.map((v, i) => (
                 <ListItem
                   // eslint-disable-next-line react/no-array-index-key
                   key={v + i}
                   secondaryAction={
                     <IconButton edge="end" aria-label="Follow">
-                      <FollowButton userId={v?.followerSeq} />
+                      <FollowButton userId={v?.id} />
                     </IconButton>
                   }
                 >
                   <ListItemAvatar>
                     <Avatar>{v?.emoji}</Avatar>
                   </ListItemAvatar>
-                  <Button onClick={onClickGotoMypage(v?.followerSeq)}>
-                    {v?.followerSeq}
+                  <Button onClick={onClickGotoMypage(v?.id)}>
+                    {v?.nickname}
                   </Button>
                 </ListItem>
               ))}

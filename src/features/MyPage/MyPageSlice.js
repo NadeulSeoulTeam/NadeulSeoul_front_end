@@ -27,10 +27,10 @@ export const generateDummyPlaceCard = (number) =>
   Array(number)
     .fill()
     .map(() => ({
-      storeSeq: '1',
+      storeSeq: shortId.generate(),
       storeName: '장소이름',
       addressName: '서울특별시 서대문구 창천동 53-20',
-      category: '오코노미야끼 전문식당',
+      categoryName: '오코노미야끼 전문식당',
     }));
 
 export const User = [

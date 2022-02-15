@@ -1,9 +1,9 @@
 // 여기는 일단 놔두자, 뭔가 오류가 있는거 같기도,,
 // 같은 걸로 2개다 해서 하나는 안되는거 일지도,,,
 
-import React, { useEffect, useCallback } from 'react';
-import { useParams } from 'react-router';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useCallback } from 'react';
+// import { useParams } from 'react-router';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // mui
@@ -22,7 +22,7 @@ import Button from '@mui/material/Button';
 import FollowButton from '../FollowButton';
 
 // actions
-import { loadFollowers } from '../../MyPageSlice';
+// import { loadFollowers } from '../../MyPageSlice';
 
 // mui
 const Demo = styled('div')(({ theme }) => ({
@@ -31,11 +31,10 @@ const Demo = styled('div')(({ theme }) => ({
 
 function FollowersList() {
   // user별 팔로잉 팔로우 리스트를 불러오면 된다.
-  const { followerUsers, followinfoToList } = useSelector(
-    (state) => state.mypage
-  );
-  const params = useParams();
-  const dispatch = useDispatch();
+  const { followinfoToList, FollowInfo } = useSelector((state) => state.mypage);
+  console.log(FollowInfo[0].FollowersList);
+  // const params = useParams();
+  // const dispatch = useDispatch();
   // const FollowList = FollowInfo.filter((v) => {
   //   // console.log(typeof v.id);
   //   return v.id === parseInt(params.id, 10);
@@ -48,16 +47,16 @@ function FollowersList() {
   // console.log(FollowList[0].FollowersList);
   console.log(followinfoToList);
 
-  useEffect(() => {
-    dispatch(loadFollowers(params.id))
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   dispatch(loadFollowers(params.id))
+  //     .unwrap()
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.response.data);
+  //     });
+  // }, []);
 
   const onClickGotoMypage = useCallback(
     (id) => () => {
@@ -75,7 +74,7 @@ function FollowersList() {
           </Typography>
           <Demo>
             <List dense={false}>
-              {followerUsers.map((v, i) => (
+              {FollowInfo[0].FollowersList?.map((v, i) => (
                 <ListItem
                   // eslint-disable-next-line react/no-array-index-key
                   key={v + i}
@@ -89,7 +88,7 @@ function FollowersList() {
                     <Avatar>{v?.emoji}</Avatar>
                   </ListItemAvatar>
                   <Button onClick={onClickGotoMypage(v?.memberSeq)}>
-                    {v?.memberSeq}
+                    {v?.nickname}
                   </Button>
                 </ListItem>
               ))}
