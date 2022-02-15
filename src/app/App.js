@@ -50,9 +50,9 @@ function App() {
           </Route>
 
           {/* Only public Not Authenticated */}
+            <Route path="/member/signup" element={<UserForm />} />
           <Route element={<PublicRoute isAuthenticated={isLoggedIn} />}>
             <Route path="/member/signin" element={<SignIn />} />
-            <Route path="/member/signup" element={<UserForm />} />
           </Route>
 
           {/* Public & private */}

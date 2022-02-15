@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable consistent-return */
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -96,26 +98,6 @@ function UserForm() {
     emoji,
   };
 
-  const NickName = {
-    nickname,
-  };
-
-  const onClickNickNameCheck = useCallback(() => {
-    console.log(NickName);
-    dispatch(checkNickname(NickName))
-      .unwrap()
-      .then((response) => {
-        if (response.status === 200) {
-          alert(`${response.data.message}`);
-        } else {
-          alert(`${response.data.message}`);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
   const onInputSuccess = useCallback(() => {
     // 409에러 대체
     dispatch(signup(data))
@@ -128,6 +110,26 @@ function UserForm() {
         console.log(error.response.data);
       });
   }, [data]);
+
+  const nickNamedata = {
+    nickname,
+  };
+
+  // 정리3 usecallback과 onChange와의 관계
+  const onClickNickNameCheck = useCallback(() => {
+    dispatch(checkNickname(nickNamedata))
+      .unwrap()
+      .then((response) => {
+        if (response.status === 200) {
+          alert(`${response.data.message}`);
+        } else {
+          alert(`${response.data.message}`);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [nickname]);
 
   return (
     <Container>
