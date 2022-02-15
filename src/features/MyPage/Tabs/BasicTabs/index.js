@@ -46,6 +46,7 @@ function BasicTabs() {
   const [value, setValue] = useState(0);
 
   console.log(value);
+  console.log(InfinityPostsPlace);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -142,7 +143,7 @@ function BasicTabs() {
         >
           {InfinityPosts.map((v, i) => (
             // eslint-disable-next-line react/no-array-index-key
-            <CurationCard key={i + v.myNadlecourseId} imgUrl={v.imgUrl} />
+            <CurationCard key={i + v.myNadlecourseId + 2} imgUrl={v.imgUrl} />
           ))}
         </Box>
       </TabPanel>
@@ -161,7 +162,7 @@ function BasicTabs() {
           {InfinityPosts.map((v, i) => (
             <CurationCard
               // eslint-disable-next-line react/no-array-index-key
-              key={i + v.likeNadlecourseId}
+              key={i + v.likeNadlecourseId + 1}
               imgUrl={v.imgUrl}
             />
           ))}
