@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import _concat from 'lodash/concat';
 import _remove from 'lodash/remove';
@@ -389,12 +390,13 @@ const MyPageSlice = createSlice({
       state.followinfoToList = action.payload;
     },
     setMyCourse(state, action) {
-      state.myCourse.push(action.payload);
+      state.myCourse = state.myCourse.filter((item) => 
+        item === action.payload;
+      );
     },
     deleteMyCourse(state, action) {
-      _remove(state.myCourse, {
-        id: action.payload.id,
-      });
+      console.log(action.payload);
+      _remove(state.myCourse, action.payload);
     },
   },
   extraReducers: {
@@ -660,6 +662,11 @@ const MyPageSlice = createSlice({
     },
   },
 });
-export const { postIdToListItem, UserIdToListItem, followinfoToList } =
-  MyPageSlice.actions;
+export const {
+  postIdToListItem,
+  UserIdToListItem,
+  followinfoToList,
+  setMyCourse,
+  deleteMyCourse,
+} = MyPageSlice.actions;
 export default MyPageSlice.reducer;

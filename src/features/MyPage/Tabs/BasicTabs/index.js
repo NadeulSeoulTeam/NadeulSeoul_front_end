@@ -188,6 +188,7 @@ function BasicTabs() {
             <CurationCardLikePlace
               // eslint-disable-next-line react/no-array-index-key
               key={i + v.likeplaceId}
+              likeplaceId={v.likeplaceId}
               storeName={v.storeName}
               addressName={v.addressName}
               categoryName={v.categoryName}

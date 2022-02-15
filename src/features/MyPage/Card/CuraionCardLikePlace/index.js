@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 // import PropTypes from 'prop-types';
-
+import { useDispatch } from 'react-redux';
 // mui
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -11,11 +11,26 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 
 import { StoreName, Address, StoreInfo } from './styles';
 
-function CuraionCardLikePlace({ storeName, addressName, categoryName }) {
+// actions
+import { setMyCourse, deleteMyCourse } from '../../MyPageSlice';
+
+function CuraionCardLikePlace({
+  storeName,
+  addressName,
+  categoryName,
+  likeplaceId,
+}) {
   const [isClicked, setIsClicked] = useState(true);
+  const dispatch = useDispatch();
+  console.log('isClicked', isClicked);
   const onClickCourseMake = useCallback(() => {
     setIsClicked((prev) => !prev);
-  }, []);
+    if (isClicked === true) {
+      dispatch(setMyCourse(likeplaceId));
+    } else {
+      dispatch(deleteMyCourse(likeplaceId));
+    }
+  }, [isClicked]);
 
   return (
     // 여기서 상세 curaetion으로 onClick 매서드
