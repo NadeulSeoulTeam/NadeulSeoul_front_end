@@ -4,40 +4,36 @@ import Card from '@mui/material/Card';
 import ClearIcon from '@mui/icons-material/Clear';
 
 export const StoreCard = styled(Card)`
-  position: relative;
-  width: 100px;
-  margin: 10px;
-`;
-
-export const Store = styled.div`
-  display: grid;
-  grid-template-areas:
-    ' storeName storeName storeName storeName'
-    ' storeDescription storeDescription storeDescription storeDescription';
-  margin: 20px;
+  && {
+    margin: 0 0 1.5rem 0;
+    padding: 1rem;
+    min-width: 200px;
+    min-height: 70px;
+    border-radius: 20px;
+    position: relative;
+  }
 `;
 
 export const StoreName = styled.div`
-  grid-area: storeName;
-  font-family: Roboto;
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: bold;
-  padding-left: 10px;
-  text-align: start;
-  padding-bottom: 20px;
-  color: #68c78e;
+  margin: 0 0 10px 0;
+  color: #0de073;
 `;
 
 export const StoreDescription = styled.div`
-  grid-area: storeDescription;
-  font-family: Roboto;
-  font-size: 12px;
-  padding-left: 10px;
-  text-align: start;
+  font-size: 0.8rem;
+  margin: 5px 0 0 0;
 `;
 
 export const DeleteButton = styled(ClearIcon)`
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  && {
+    position: absolute;
+    margin: 5px;
+    top: 0.5rem;
+    right: 0.5rem;
+    color: #c4c4c4;
+    cursor: pointer;
+    font-size: 1rem;
+  }
 `;

@@ -15,15 +15,13 @@ import ImageUploading from 'react-images-uploading';
 import { Axios } from 'axios';
 
 import { getCourse, updateCourse, courseInfoPost } from '../CourseSlice';
-// css
 
 import CourseCreationModal from './CourseCreationModal/CourseCreationModal';
 import CourseCreationFormCartListItem from './CourseCreationFormCartListItem/CourseCreationFormCartListItem';
 // JSON
 import tags from '../tags';
 
-// Image
-// css
+// style
 import {
   CourseForm,
   ArticleDiv,
@@ -31,25 +29,9 @@ import {
   ArticleName,
   ArticleContent,
   RouteList,
-  RouteEdit,
-  CourseDes,
-  CourseDesContent,
-  FixdedMember,
-  FixedMemberContent,
-  Budget,
-  BudgetInput,
-  Transportation,
-  TransportationTag,
-  Local,
-  LocalTag,
-  Theme,
-  ThemeTag,
-  CourseCreateButton,
   ButtonToggle,
-  ImageUpload,
-  ImageUploadContent,
   ImageUploadPictureDiv,
-  ImageFunc,
+  ImageContainer,
   ImageAddButton,
   ImageAllDeleteButton,
   PictureLeftButton,
@@ -57,10 +39,8 @@ import {
   ClearPicture,
   CorrectPicture,
   PictureNumbering,
-  LocalToggle,
-  ThemeToggle,
-  LocalTagDesc,
-  ThemeTagDesc,
+  TextToggleBtn,
+  TagDesc,
   GreenBtn,
 } from './styles';
 
@@ -140,22 +120,16 @@ function CourseCreactionForm() {
       }
     };
     return (
-      <ImageFunc>
-        <img src={image.data_url} alt="" width="300" />
-        <PictureLeftButton
-          sx={{ color: '#68c78e' }}
-          fontSize="large"
-          onClick={movePicLeft}
-        />
+      <div>
+        <ImageContainer>
+          <img src={image.data_url} alt="" />
+        </ImageContainer>
+        <PictureLeftButton onClick={movePicLeft} />
         <PictureNumbering>
-          사진 : {pageNum + 1}/{imageList.length}
+          {pageNum + 1}/{imageList.length}
         </PictureNumbering>
-        <CorrectPicture
-          sx={{ fontSize: 20, color: '#68c78e' }}
-          onClick={() => onImageUpdate(index)}
-        />
+        <CorrectPicture onClick={() => onImageUpdate(index)} />
         <ClearPicture
-          sx={{ fontSize: 20, color: '#68c78e' }}
           onClick={() => {
             onImageRemove(index);
             if (pageNum === 0) {
@@ -164,12 +138,8 @@ function CourseCreactionForm() {
             setPageNum(pageNum - 1);
           }}
         />
-        <PictureRightButton
-          sx={{ color: '#68c78e' }}
-          fontSize="large"
-          onClick={movePicRight}
-        />
-      </ImageFunc>
+        <PictureRightButton onClick={movePicRight} />
+      </div>
     );
   };
 
@@ -380,7 +350,7 @@ function CourseCreactionForm() {
 
   const mapToComponentLocalTags = (data) => {
     return data.local.map((local, index) => (
-      <LocalToggle
+      <TextToggleBtn
         active={!!localClicked.isClicked[index]}
         type="button"
         id={Object.keys(local)}
@@ -388,13 +358,13 @@ function CourseCreactionForm() {
         key={Object.keys(local)}
       >
         {Object.values(local)}
-      </LocalToggle>
+      </TextToggleBtn>
     ));
   };
 
   const mapToComponentThemeTags = (data) => {
     return data.theme.map((theme, index) => (
-      <ThemeToggle
+      <TextToggleBtn
         active={!!themeClicked.isClicked[index]}
         type="button"
         onClick={() => makeThemeTag(index)}
@@ -403,7 +373,7 @@ function CourseCreactionForm() {
         key={Object.keys(theme)}
       >
         {Object.values(theme)}
-      </ThemeToggle>
+      </TextToggleBtn>
     ));
   };
 
@@ -494,71 +464,59 @@ function CourseCreactionForm() {
       </ArticleDiv>
       <ArticleDiv>
         <ArticleName>교통수단</ArticleName>
-        <TransportationTag>
+        <div style={{ left: '120px', margin: '3px 0' }}>
           {mapToComponentTransportationTags(tags)}
-        </TransportationTag>
+        </div>
       </ArticleDiv>
       <ArticleDiv>
         <ArticleName>
           <span style={{ color: '#0de073' }}>* </span>지역 태그
         </ArticleName>
-        <LocalTag>
-          <LocalTagDesc>
-            지역 태그는 선택하신 장소를 기반으로 자동 생성돼요.
-          </LocalTagDesc>{' '}
-          <br />
+        <div style={{ left: '120px', width: '65vw' }}>
+          <TagDesc>지역 태그는 선택하신 장소를 기반으로 자동 생성돼요.</TagDesc>
           {mapToComponentLocalTags(tags)}
-        </LocalTag>
+        </div>
       </ArticleDiv>
       <ArticleDiv>
         <ArticleName>
           <span style={{ color: '#0de073' }}>* </span>테마 태그
         </ArticleName>
-        <ThemeTag>
-          <ThemeTagDesc>테마 태그는 1개 이상 선택해 주세요.</ThemeTagDesc>{' '}
-          <br />
+        <div style={{ left: '120px', width: '65vw' }}>
+          <TagDesc>테마 태그는 1개 이상 선택해 주세요.</TagDesc>
           {mapToComponentThemeTags(tags)}
-        </ThemeTag>
+        </div>
       </ArticleDiv>
       <ArticleDiv>
         <ArticleName>이미지 업로드</ArticleName>
-        <ImageUploadContent>
-          <ImageUploading
-            multiple
-            value={images}
-            onChange={onImageChange}
-            maxNumber={maxNumber}
-            dataURLKey="data_url"
-            onError={onError}
-          >
-            {({
-              imageList,
-              onImageUpload,
-              onImageRemoveAll,
-              onImageUpdate,
-              onImageRemove,
-              isDragging,
-              dragProps,
-            }) => (
-              // write your building UI
-              <ImageUploadPictureDiv>
-                {imageUploadFunc(imageList, onImageUpdate, onImageRemove)}
-                <ImageAddButton
-                  color="success"
-                  sx={{ fontSize: 20, color: '#68c78e' }}
-                  style={isDragging ? { color: 'red' } : undefined}
-                  onClick={onImageUpload}
-                  {...dragProps}
-                />
-                <ImageAllDeleteButton
-                  color="success"
-                  sx={{ fontSize: 20, color: '#68c78e' }}
-                  onClick={onImageRemoveAll}
-                />
-              </ImageUploadPictureDiv>
-            )}
-          </ImageUploading>
-        </ImageUploadContent>
+        <ImageUploading
+          multiple
+          value={images}
+          onChange={onImageChange}
+          maxNumber={maxNumber}
+          dataURLKey="data_url"
+          onError={onError}
+        >
+          {({
+            imageList,
+            onImageUpload,
+            onImageRemoveAll,
+            onImageUpdate,
+            onImageRemove,
+            isDragging,
+            dragProps,
+          }) => (
+            // write your building UI
+            <ImageUploadPictureDiv>
+              {imageUploadFunc(imageList, onImageUpdate, onImageRemove)}
+              <ImageAddButton
+                style={isDragging ? { color: 'red' } : undefined}
+                onClick={onImageUpload}
+                {...dragProps}
+              />
+              <ImageAllDeleteButton onClick={onImageRemoveAll} />
+            </ImageUploadPictureDiv>
+          )}
+        </ImageUploading>
       </ArticleDiv>
       <GreenBtn type="submit" onClick={sendCourse}>
         이대로 코스 생성하기
