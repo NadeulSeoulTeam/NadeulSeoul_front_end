@@ -39,7 +39,7 @@ function MainPage() {
     setOpen(!open);
   };
 
-  if (getLoginSuccess) {
+  if (getLoginSuccess() !== 'true') {
     useEffect(() => {
       dispatch(LoadUserInfo())
         .unwrap()
