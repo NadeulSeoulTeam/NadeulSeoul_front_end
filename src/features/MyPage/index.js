@@ -37,12 +37,12 @@ function MyPage() {
   // userId to BoradListItem
   // 쿠키에 있는 로그인한 유저 아이디 넘기기
   useEffect(() => {
-    dispatch(UserIdToListItem(getUserInfo().userSeq));
+    dispatch(UserIdToListItem(1));
   });
 
   // 로그인한 사람의 팔로잉 팔로우 정보 가져오기
   useEffect(() => {
-    dispatch(loadFollowers(getUserInfo().userSeq))
+    dispatch(loadFollowers(1))
       .unwrap()
       .then((response) => {
         console.log(response);
@@ -51,7 +51,7 @@ function MyPage() {
       .catch((err) => {
         console.log(err.response.data);
       });
-    dispatch(loadFollowings(getUserInfo().userSeq))
+    dispatch(loadFollowings(1))
       .unwrap()
       .then((response) => {
         console.log(response);

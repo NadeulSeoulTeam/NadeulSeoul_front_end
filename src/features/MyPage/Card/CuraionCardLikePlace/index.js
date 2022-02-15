@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 // import PropTypes from 'prop-types';
 
 // mui
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 // import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
+import { Button, CardActionArea, CardActions } from '@mui/material';
 
 // custom style
 
 import { StoreName, Address, StoreInfo } from './styles';
 
-function CurationCard({ storeName, addressName, categoryName }) {
+function CuraionCardLikePlace({ storeName, addressName, categoryName }) {
+  const [isClicked, setIsClicked] = useState(true);
+  const onClickCourseMake = useCallback(() => {
+    setIsClicked((prev) => !prev);
+  }, []);
+
   return (
     // 여기서 상세 curaetion으로 onClick 매서드
+
     <Card
       sx={{
         maxWidth: 300,
@@ -30,8 +36,13 @@ function CurationCard({ storeName, addressName, categoryName }) {
           <StoreInfo>{categoryName}</StoreInfo>
         </CardContent>
       </CardActionArea>
+      <CardActions>
+        <Button onClick={onClickCourseMake} size="small" color="primary">
+          {isClicked ? '추가' : '삭제'}
+        </Button>
+      </CardActions>
     </Card>
   );
 }
 
-export default CurationCard;
+export default CuraionCardLikePlace;

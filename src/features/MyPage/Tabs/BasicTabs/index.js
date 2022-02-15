@@ -1,23 +1,24 @@
 /* eslint-disable react/require-default-props */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import { useParams } from 'react-router';
 
 // mui
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import TabPanel from '../TabPanel';
 
 // component
 import CurationCard from '../../Card/CurationCard';
-// import CurationCardLikePlace from '../../Card/CuraionCardLikePlace';
+import CurationCardLikePlace from '../../Card/CuraionCardLikePlace';
 
 // actions
 import {
   loadPostsInfinity,
   // loadPostsInfinityLikePlace,
 } from '../../MyPageSlice';
+import { GreenBtn } from './styles';
 
 //
 // mui basic tabs
@@ -40,13 +41,13 @@ function BasicTabs() {
   console.log(InfinityPosts);
 
   const dispatch = useDispatch();
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(2);
   const handleChange = (event, newValue) => {
     console.log(newValue);
     setValue(newValue);
   };
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(2);
 
   useEffect(() => {
     const data = {
@@ -168,7 +169,10 @@ function BasicTabs() {
           ))}
         </Box>
       </TabPanel> */}
-      {/* <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={2}>
+        <Stack spacing={2} direction="row-reverse">
+          <GreenBtn variant="contained">나만의 코스 만들기</GreenBtn>
+        </Stack>
         <Box
           sx={{
             display: 'flex',
@@ -180,7 +184,7 @@ function BasicTabs() {
             borderRadius: 1,
           }}
         >
-          {InfinityPostsLikePlace.map((v, i) => (
+          {InfinityPosts.map((v, i) => (
             <CurationCardLikePlace
               // eslint-disable-next-line react/no-array-index-key
               key={i + v.likeplaceId}
@@ -190,7 +194,7 @@ function BasicTabs() {
             />
           ))}
         </Box>
-      </TabPanel> */}
+      </TabPanel>
     </Box>
   );
 }

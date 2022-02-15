@@ -19,7 +19,8 @@ function FollowButton({ userId }) {
   const { followeeUsers } = useSelector((state) => state.mypage);
   // 팔로잉 목록 출력, 현재 meanstrike계정에 로그인 했다고 가정
 
-  const myId = getUserInfo().userSeq; // 1번 사용자가 로그인했다고 가정
+  // const myId = getUserInfo().userSeq; // 1번 사용자가 로그인했다고 가정
+  const myId = 1;
   const isFollowing = followeeUsers?.find((v) => v.followeeSeq === userId);
   const params = useParams();
   const onClickButton = useCallback(async () => {

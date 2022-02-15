@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import _concat from 'lodash/concat';
-// import _remove from 'lodash/remove';
+import _remove from 'lodash/remove';
 // import _find from 'lodash/find';
 
 // dummy data for 인피니티 스크롤 쳅터마다 각각 마다 구현해야 함!
@@ -101,11 +101,11 @@ export const loadPostsInfinity = createAsyncThunk(
   'mypage/loadPostsInfinity',
   async (data, { rejectWithValue }) => {
     try {
-      console.log(data);
-      const response = await axios.get(
-        `/curations?page=${data.page}&size=${data.size}`
-      );
-      return response;
+      // console.log(data);
+      // const response = await axios.get(
+      //   `/curations?page=${data.page}&size=${data.size}`
+      // );
+      return generateDummyCardLikePlcae(8);
     } catch (err) {
       return rejectWithValue(err.resonse.data);
     }
@@ -330,6 +330,7 @@ export const initialState = {
   singlePost: null, // 문의 게시판 상세 정보
   PostId: null, // 문의게시판 postId
   UserId: null, // 문의게시판 UserId
+  myCourse: [],
   loadInfinityPostsLoading: false, // 인피니티 스크롤 요청 myNadle, LikeNadle
   loadInfinityPostsDone: false,
   loadInfinityPostsError: null,
@@ -387,6 +388,14 @@ const MyPageSlice = createSlice({
     followinfoToList(state, action) {
       state.followinfoToList = action.payload;
     },
+    setMyCourse(state, action) {
+      state.myCourse.push(action.payload);
+    },
+    deleteMyCourse(state, action) {
+      _remove(state.myCourse, {
+        id: action.payload.id,
+      });
+    },
   },
   extraReducers: {
     // 인피니티 스크롤 myNadle, LikeNadle
@@ -400,10 +409,7 @@ const MyPageSlice = createSlice({
       state.loadInfinityPostsLoading = false;
       state.loadInfinityPostsDone = true;
       // state.InfinityPosts = action.payload.data.data.content;
-      state.InfinityPosts = _concat(
-        state.InfinityPosts,
-        action.payload.data.data.content
-      );
+      state.InfinityPosts = _concat(state.InfinityPosts, action.payload);
 
       // state.hasMorePosts = action.payload.length === 8;
     },
