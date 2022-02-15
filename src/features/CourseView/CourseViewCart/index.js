@@ -25,6 +25,7 @@ import {
   CommentContent,
   TextInput,
   CommentBtn,
+  Thumbnail,
 } from './styles';
 
 // dummy data
@@ -128,7 +129,7 @@ function CourseViewCart({ curationSeq }) {
         <AfterNickname>의 나들코스</AfterNickname>
       </RightDiv>
       <Picture>
-        사진자리
+        <Thumbnail src="/test_img/0.JPG" />
         <CourseStoreLoad>사진 더보기</CourseStoreLoad>
       </Picture>
       <Description>{course.data.desc}</Description>

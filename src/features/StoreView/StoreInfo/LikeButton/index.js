@@ -6,15 +6,22 @@ import { clickLikeCancel, clickLike, clickLikeCheck } from '../../StoreSlice';
 
 function LikeButton({ storeData }) {
   const dispatch = useDispatch();
-  const [likeClicked, setLikeClicked] = useState(
-    dispatch(clickLikeCheck(Number(storeData.id)))
-  );
-
+  const [likeClick, setLikeClick] = useState(false);
+  const { likeClicked } = useSelector((state) => state.store);
+  useEffect(() => {
+    console.log(storeData);
+    dispatch(clickLikeCheck({ storeSeq: storeData.id }));
+    console.log(likeClicked);
+  }, [likeClick]);
+  useEffect(() => {
+    dispatch(clickLikeCheck({ storeSeq: storeData.id }));
+  }, [storeData]);
   const userClickLike = () => {
     // 비동기 통신
     if (likeClicked) {
       // true->false
-      dispatch(clickLikeCancel(Number(storeData.id)));
+      // dispatch(clickLikeCancel(Number(storeData.id)));
+      dispatch(clickLikeCancel({ storeSeq: storeData.id }));
     } else {
       // false->true
       // const formData = new FormData();
@@ -38,7 +45,7 @@ function LikeButton({ storeData }) {
       };
       dispatch(clickLike(data));
     }
-    setLikeClicked(!likeClicked);
+    setLikeClick(!likeClick);
   };
   return (
     <div>

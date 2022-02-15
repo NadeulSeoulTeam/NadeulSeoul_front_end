@@ -46,6 +46,11 @@ export const Picture = styled.div`
   cursor: pointer;
 `;
 
+export const Thumbnail = styled.img`
+  width: 160px;
+  height: 120px;
+`;
+
 export const Description = styled.div`
   margin: 0.5rem 1.5rem 0.5rem 1.5rem;
   font-size: 0.9rem;
