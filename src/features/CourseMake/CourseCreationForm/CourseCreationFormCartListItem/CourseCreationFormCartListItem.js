@@ -5,13 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { deleteCourse, getCourse } from '../../CourseSlice';
 
-import {
-  StoreCard,
-  Store,
-  StoreName,
-  StoreDescription,
-  DeleteButton,
-} from './styles';
+import { StoreCard, StoreName, StoreDescription, DeleteButton } from './styles';
 
 function CourseCreationFormCartListItem({ cart }) {
   const dispatch = useDispatch();
@@ -26,15 +20,11 @@ function CourseCreationFormCartListItem({ cart }) {
     dispatch(deleteCourse(selectedCart));
   };
   return (
-    <StoreCard sx={{ minWidth: 200, minHeight: 100 }}>
-      <Store>
-        <StoreName>{cart.place_name}</StoreName>
-        <StoreDescription>{cart.address_name}</StoreDescription>
-      </Store>
-      <DeleteButton
-        sx={{ fontSize: 20, color: '#68c78e' }}
-        onClick={() => deleteCourseSelected(cart)}
-      />
+    <StoreCard>
+      <StoreName>{cart.place_name}</StoreName>
+      <StoreDescription>{cart.address_name}</StoreDescription>
+      <StoreDescription>{cart.category_name}</StoreDescription>
+      <DeleteButton onClick={() => deleteCourseSelected(cart)} />
     </StoreCard>
   );
 }
