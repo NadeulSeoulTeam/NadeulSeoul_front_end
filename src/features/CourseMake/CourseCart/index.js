@@ -3,18 +3,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-// material UI
-
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-
 // react-beautiful-dnd
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import CourseCartItem from './CourseCartItem';
 
 import { getCourse, updateCourse } from '../CourseSlice';
-import { CourseCard, Header, List, CreateButton } from './styles';
+import { CourseCard, Header, List, InfoMsg, GreenBtn } from './styles';
 
 function CourseCart() {
   // 현재 카트에 리스트가 저장되어있는 배열
@@ -57,43 +52,38 @@ function CourseCart() {
   };
 
   return (
-    <CourseCard sx={{ minWidth: 400 }}>
-      <CardContent>
-        <Header>내 코스에 추가할 장소</Header>
-        <Typography>
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId="cart">
-              {(provided) => (
-                <List
-                  className="characters"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {mapToComponent(carts)}
-                  {provided.placeholder}
-                </List>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </Typography>
-      </CardContent>
-
-      <CreateButton
+    <CourseCard>
+      <Header>내 코스에 추가할 장소</Header>
+      {carts.length === 0 ? (
+        <InfoMsg>
+          장소를 검색해서 코스에 추가할 수 있어요. 검색 결과를 한 번 누르면
+          위치를 볼 수 있고, 더블클릭하면 코스에 추가됩니다.
+        </InfoMsg>
+      ) : null}
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="cart">
+          {(provided) => (
+            <List
+              className="characters"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {mapToComponent(carts)}
+              {provided.placeholder}
+            </List>
+          )}
+        </Droppable>
+      </DragDropContext>
+      <GreenBtn
         onClick={() => {
-          if (carts.length === 0) alert('한 개 이상의 장소를 추가해주세요');
+          if (carts.length === 0) alert('한 개 이상의 장소를 추가해주세요.');
           else navigate(`/CourseCreationForm`);
         }}
       >
         이대로 코스 생성하기
-      </CreateButton>
+      </GreenBtn>
     </CourseCard>
   );
 }
 
 export default CourseCart;
-
-/* <div className="CourseCart">
-      <div className="Course Header"></div>
-      {mapToComponent(carts)}
-      
-    </div> */
