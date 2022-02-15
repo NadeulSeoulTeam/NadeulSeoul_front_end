@@ -3,7 +3,7 @@ import _concat from 'lodash/concat';
 // import _remove from 'lodash/remove';
 // import _find from 'lodash/find';
 
-// dummy data for 인피니티 스크롤
+// dummy data for 인피니티 스크롤 쳅터마다 각각 마다 구현해야 함!
 
 import shortId from 'shortid';
 import axios from '../../common/api/httpCommunication';
@@ -21,6 +21,16 @@ export const generateDummyCard = (number) =>
     .map(() => ({
       myNadlecourseId: shortId.generate(),
       imgUrl: `https://picsum.photos/200/300?random=${randomNumFloor}`,
+    }));
+
+export const generateDummyCardLikePlcae = (number) =>
+  Array(number)
+    .fill()
+    .map(() => ({
+      likeplaceId: shortId.generate(),
+      storeName: '장소 이름',
+      addressName: '서울시 서대문구 장천동 53-20 ',
+      categoryName: '오코노미야끼 전문식당',
     }));
 
 export const User = [
@@ -85,14 +95,33 @@ export const BoardListItem = {
   answer_date: '2022, 0202',
 };
 
-// 인피니티 스크롤 test
+// 인피니티 스크롤 for MyNadle, LikeNadle course
 
 export const loadPostsInfinity = createAsyncThunk(
   'mypage/loadPostsInfinity',
   async (data, { rejectWithValue }) => {
     try {
-      // const response = await axios.get("백엔드 주소");
-      return generateDummyCard(8);
+      console.log(data);
+      const response = await axios.get(
+        `/curations?page=${data.page}&size=${data.size}`
+      );
+      return response;
+    } catch (err) {
+      return rejectWithValue(err.resonse.data);
+    }
+  }
+);
+
+// 인피니티 스크롤 for LikePlace
+
+export const loadPostsInfinityLikePlace = createAsyncThunk(
+  'mypage/loadPostsInfinityLikePlace',
+  async (data, { rejectWithValue }) => {
+    try {
+      // const response = await axios.get(
+      //   `/curations?page=${data.page}&size=${data.size}`
+      // );
+      return generateDummyCardLikePlcae(8);
     } catch (err) {
       return rejectWithValue(err.resonse.data);
     }
@@ -171,7 +200,7 @@ export const loadBoardList = createAsyncThunk(
   'mypage/loadBoardList',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/inqurys/questions/list/${data}`);
+      const response = await axios.get(`/inquiries/questions/list/${data}`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -186,7 +215,7 @@ export const loadBoardListItem = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `/inqurys/questions/${data.questionSeq}`
+        `/inquiries/questions/${data.questionSeq}`
       );
       return response;
     } catch (error) {
@@ -201,7 +230,7 @@ export const addPost = createAsyncThunk(
   'mypage/addPost',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/inqurys/questions', data);
+      const response = await axios.post('/inquiries/questions', data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -216,7 +245,7 @@ export const updatePost = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `/inqurys/questions/${data.questionSeq}`,
+        `/inquiries/questions/${data.questionSeq}`,
         data
       );
       return response;
@@ -232,7 +261,7 @@ export const removePost = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log(data);
     try {
-      const response = await axios.delete(`/inqurys/questions/${data}`);
+      const response = await axios.delete(`/inquiries/questions/${data}`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -247,7 +276,7 @@ export const addAnswer = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log(data);
     try {
-      const response = await axios.post('/inqurys/answers', data);
+      const response = await axios.post('/inquiries/answers', data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -262,7 +291,7 @@ export const updateAnswer = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log(data);
     try {
-      const response = await axios.put(`/inqurys/answers`, data);
+      const response = await axios.put(`/inquiries/answers`, data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -276,7 +305,7 @@ export const removeAnswer = createAsyncThunk(
   'mypage/removeAnswer',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`/inqurys/answers/${data}`);
+      const response = await axios.delete(`/inquiries/answers/${data}`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -290,11 +319,10 @@ export const initialState = {
   userInfo: User, // 내 정보 test
   user: null,
   followinfoToList: null,
-  InfinityPosts: [], // test infinity scroll
-  loadInfinityPostsLoading: false,
-  loadInfinityPostsDone: false,
-  loadInfinityPostsError: null,
+  InfinityPosts: [], // infinity scroll myNadle, LikeNadle
   hasMorePosts: true,
+  InfinityPostsLikePlace: [], // infinity scroll LikePlace
+  hasMoreLikePlace: true,
   FollowInfo: FollowList, // 팔로잉, 팔로워 정보 test
   followeeUsers: null,
   followerUsers: null,
@@ -302,6 +330,12 @@ export const initialState = {
   singlePost: null, // 문의 게시판 상세 정보
   PostId: null, // 문의게시판 postId
   UserId: null, // 문의게시판 UserId
+  loadInfinityPostsLoading: false, // 인피니티 스크롤 요청 myNadle, LikeNadle
+  loadInfinityPostsDone: false,
+  loadInfinityPostsError: null,
+  loadInfinityPostsLikePlaceLoading: false, // 인피니티 스크롤 요청 LikePlace
+  loadInfinityPostsLikePlaceDone: false,
+  loadInfinityPostsLikePlaceError: null,
   loadUserLoading: false, // mypage 유저 정보 조회 시도
   loadUserDone: false,
   loadUserError: null,
@@ -351,25 +385,50 @@ const MyPageSlice = createSlice({
       state.UserId = action.payload;
     },
     followinfoToList(state, action) {
-      console.log(action);
-      state.followinfoToList = action.payload.followDtoList;
+      state.followinfoToList = action.payload;
     },
   },
   extraReducers: {
+    // 인피니티 스크롤 myNadle, LikeNadle
     [loadPostsInfinity.pending]: (state) => {
       state.loadInfinityPostsLoading = true;
       state.loadInfinityPostsDone = false;
       state.loadInfinityPostsError = null;
     },
     [loadPostsInfinity.fulfilled]: (state, action) => {
+      console.log(action);
       state.loadInfinityPostsLoading = false;
       state.loadInfinityPostsDone = true;
-      state.InfinityPosts = _concat(state.InfinityPosts, action.payload);
-      state.hasMorePosts = action.payload.length === 8;
+      // state.InfinityPosts = action.payload.data.data.content;
+      state.InfinityPosts = _concat(
+        state.InfinityPosts,
+        action.payload.data.data.content
+      );
+
+      // state.hasMorePosts = action.payload.length === 8;
     },
     [loadPostsInfinity.rejected]: (state, action) => {
       state.loadInfinityPostsLoading = false;
       state.loadInfinityPostsError = action.error.message;
+    },
+    // 인피니티 스크롤 LikePlace
+    [loadPostsInfinityLikePlace.pending]: (state) => {
+      state.loadInfinityPostsLikePlaceLoading = true;
+      state.loadInfinityPostsLikePlaceDone = false;
+      state.loadInfinityPostsLikePlaceError = null;
+    },
+    [loadPostsInfinityLikePlace.fulfilled]: (state, action) => {
+      state.loadInfinityPostsLikePlaceLoading = false;
+      state.loadInfinityPostsLikePlaceDone = true;
+      state.InfinityPostsLikePlace = _concat(
+        state.InfinityPostsLikePlace,
+        action.payload
+      );
+      state.hasMoreLikePlace = action.payload.length === 8;
+    },
+    [loadPostsInfinityLikePlace.rejected]: (state, action) => {
+      state.loadInfinityPostsLikePlaceLoading = false;
+      state.loadInfinityPostsLikePlaceError = action.error.message;
     },
     // 유저 정보 조회
     [loadUser.pending]: (state) => {
@@ -396,7 +455,7 @@ const MyPageSlice = createSlice({
 
     [loadFollowers.fulfilled]: (state, action) => {
       state.loadFollowersLoading = false;
-      state.followerUsers = action.payload.data.followDtoList;
+      state.followerUsers = action.payload.data;
       state.loadFollowersDone = true;
     },
     [loadFollowers.rejected]: (state, action) => {
@@ -411,7 +470,7 @@ const MyPageSlice = createSlice({
     },
     [loadFollowings.fulfilled]: (state, action) => {
       state.loadFollowingsLoading = false;
-      state.followeeUsers = action.payload.data.followDtoList;
+      state.followeeUsers = action.payload.data;
       state.loadFollowingsDone = true;
     },
     [loadFollowings.rejected]: (state, action) => {
@@ -461,8 +520,8 @@ const MyPageSlice = createSlice({
     [loadBoardList.fulfilled]: (state, action) => {
       state.loadPostsLoading = false;
       state.loadPostsDone = true;
-      console.log(action.payload.data.data.inquryDtoList);
-      state.mainPosts = action.payload.data.data.inquryDtoList;
+      console.log(action.payload.data.data.inquiryDtoList);
+      state.mainPosts = action.payload.data.data.inquiryDtoList;
       // state.mainPosts = _concat(
       //   state.mainPosts,
       //   createData(

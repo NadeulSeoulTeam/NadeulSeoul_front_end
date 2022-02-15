@@ -11,7 +11,8 @@ import { loadBoardListItem } from '../../MyPageSlice';
 import BoardListItemAnswer from './BoardListItemAnswer';
 import BoardListItemQuestion from './BoardListItemQuestion';
 
-// components
+// cookie
+import { getUserInfo } from '../../../../common/api/JWT-Token';
 
 function BoardListItem() {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function BoardListItem() {
   const savedPostid = navigateState?.postId;
 
   window.localStorage.setItem('data', savedPostid);
+  const isAdmin = getUserInfo().role !== 'ROLE_MEMBER';
 
   console.log(savedPostid);
   useEffect(() => {
@@ -52,7 +54,13 @@ function BoardListItem() {
           question={singlePost?.question}
           PostId={savedPostid}
         />
-        <BoardListItemAnswer answer={singlePost?.answer} PostId={savedPostid} />
+        {(singlePost?.answer || isAdmin) && (
+          <BoardListItemAnswer
+            answer={singlePost?.answer}
+            PostId={savedPostid}
+            isAdmin={isAdmin}
+          />
+        )}
       </>
     )
   );

@@ -56,12 +56,12 @@ function StoreList() {
   const onThrottleDragMove = throttle(onDragMove, 30);
 
   const mapToComponent = (data) => {
+
     if (hotStore === undefined) return <div />;
     console.log(data);
     // console.log(hotStore.data);
     // return hotStore.data.map((store) => <StoreListItem store={store} />);
-    return data.map((store) => <StoreListItem store={store} />);
-  };
+
 
   return (
     // <Grid container>{mapToComponent(storeList)}</Grid>;

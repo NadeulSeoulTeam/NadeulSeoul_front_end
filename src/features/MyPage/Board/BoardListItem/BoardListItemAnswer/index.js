@@ -22,7 +22,7 @@ import {
   removeAnswer,
 } from '../../../MyPageSlice';
 
-function BoardListItemAnswer({ answer, PostId }) {
+function BoardListItemAnswer({ answer, PostId, isAdmin }) {
   const dispatch = useDispatch();
   const [editModeAnswer, seteditModeAnswer] = useState(false);
   const [reply, setReply] = useState(answer);
@@ -112,22 +112,24 @@ function BoardListItemAnswer({ answer, PostId }) {
                 />
               </div>
             </Box>
-            <Stack direction="row" spacing={2}>
-              <Button
-                onClick={onClickAnswerUpdate}
-                variant="contained"
-                startIcon={<SendIcon />}
-              >
-                Send
-              </Button>
-              <Button
-                onClick={onClickAnswerDelete}
-                variant="contained"
-                startIcon={<DeleteIcon />}
-              >
-                Delete
-              </Button>
-            </Stack>
+            {isAdmin && (
+              <Stack direction="row" spacing={2}>
+                <Button
+                  onClick={onClickAnswerUpdate}
+                  variant="contained"
+                  startIcon={<SendIcon />}
+                >
+                  Send
+                </Button>
+                <Button
+                  onClick={onClickAnswerDelete}
+                  variant="contained"
+                  startIcon={<DeleteIcon />}
+                >
+                  Delete
+                </Button>
+              </Stack>
+            )}
           </>
         ) : (
           <>
@@ -145,22 +147,24 @@ function BoardListItemAnswer({ answer, PostId }) {
                 {answer}
               </Paper>
             </Box>
-            <Stack direction="row" spacing={2}>
-              <Button
-                onClick={onToggleChangeAnswer}
-                variant="contained"
-                startIcon={<BorderColorIcon />}
-              >
-                Update
-              </Button>
-              <Button
-                onClick={onClickAnswerDelete}
-                variant="contained"
-                startIcon={<DeleteIcon />}
-              >
-                Delete
-              </Button>
-            </Stack>
+            {isAdmin && (
+              <Stack direction="row" spacing={2}>
+                <Button
+                  onClick={onToggleChangeAnswer}
+                  variant="contained"
+                  startIcon={<BorderColorIcon />}
+                >
+                  Update
+                </Button>
+                <Button
+                  onClick={onClickAnswerDelete}
+                  variant="contained"
+                  startIcon={<DeleteIcon />}
+                >
+                  Delete
+                </Button>
+              </Stack>
+            )}
           </>
         )
       ) : (
@@ -186,22 +190,24 @@ function BoardListItemAnswer({ answer, PostId }) {
               />
             </div>
           </Box>
-          <Stack direction="row" spacing={2}>
-            <Button
-              onClick={onClickAnswerSend}
-              variant="contained"
-              startIcon={<BorderColorIcon />}
-            >
-              Send
-            </Button>
-            <Button
-              onClick={onClickAnswerDelete}
-              variant="contained"
-              startIcon={<DeleteIcon />}
-            >
-              Delete
-            </Button>
-          </Stack>
+          {isAdmin && (
+            <Stack direction="row" spacing={2}>
+              <Button
+                onClick={onClickAnswerSend}
+                variant="contained"
+                startIcon={<BorderColorIcon />}
+              >
+                Send
+              </Button>
+              <Button
+                onClick={onClickAnswerDelete}
+                variant="contained"
+                startIcon={<DeleteIcon />}
+              >
+                Delete
+              </Button>
+            </Stack>
+          )}
         </>
       )}
     </>

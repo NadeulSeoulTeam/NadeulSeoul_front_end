@@ -53,12 +53,12 @@ function BoardListItemQuestion({ questionTitle, question, PostId }) {
       .unwrap()
       .then((response) => {
         console.log(response);
+        navigate(-1);
       })
       .catch((error) => {
         console.log(error.response.data);
       });
     console.log(PostId);
-    navigate(-1);
   };
 
   const onClickUpdate = () => {
@@ -79,11 +79,11 @@ function BoardListItemQuestion({ questionTitle, question, PostId }) {
       .unwrap()
       .then((response) => {
         console.log(response);
+        navigate(-1);
       })
       .catch((err) => {
         console.log(err.response.data);
       });
-    navigate(-1);
   };
 
   const onChangeContext = (e) => {

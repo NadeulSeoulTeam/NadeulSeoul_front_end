@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
+import { useParams } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // mui
@@ -18,7 +19,10 @@ import Button from '@mui/material/Button';
 import FollowButton from '../FollowButton';
 
 // actions
-// import { loadFollowings } from '../../MyPageSlice';
+import { loadFollowings } from '../../MyPageSlice';
+
+// cookie
+import { getUserInfo } from '../../../../common/api/JWT-Token';
 
 // mui
 const Demo = styled('div')(({ theme }) => ({
@@ -26,61 +30,56 @@ const Demo = styled('div')(({ theme }) => ({
 }));
 
 function FollowingsList() {
-  const { followinfoToList } = useSelector((state) => state.mypage);
-  console.log(followinfoToList);
-  // const params = useParams();
-  // const dispatch = useDispatch();
-  // const FollowList = FollowInfo.filter((v) => {
-  //   // console.log(typeof v.id);
-  //   return v.id === parseInt(params.id, 10);
-  // });
-  const nickName = 'meanstrike';
-  // const followingsList = FollowList[0].FollowingsList;
+  const { followeeUsers, user } = useSelector((state) => state.mypage);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   dispatch(loadFollowings(params.id))
-  //     .unwrap()
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.response.data);
-  //     });
-  // }, []);
-
+  const dispatch = useDispatch();
+  const params = useParams();
   const onClickGotoMypage = useCallback(
     (id) => () => {
-      console.log('go to mypage"');
       navigate(`/mypage/${id}`);
     },
     []
   );
+
+  const MyId = getUserInfo().userSeq; // 1번 사용자가 로그인 했다고 가정 => 토큰으로 대체
+
+  if (MyId !== user?.userSeq) {
+    useEffect(() => {
+      dispatch(loadFollowings(params.id))
+        .unwrap()
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    }, []);
+  }
 
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={12}>
           <Typography sx={{ mt: 4, mb: 2 }} variant="h4" component="div">
-            {nickName}님의 팔로잉 리스트
+            {user?.nickName}님의 팔로잉 리스트
           </Typography>
           <Demo>
             <List dense={false}>
-              {followinfoToList?.map((v, i) => (
+              {followeeUsers?.map((v, i) => (
                 <ListItem
                   // eslint-disable-next-line react/no-array-index-key
                   key={v + i}
                   secondaryAction={
                     <IconButton edge="end" aria-label="Follow">
-                      <FollowButton userId={v?.followerSeq} />
+                      <FollowButton userId={v?.followeeSeq} />
                     </IconButton>
                   }
                 >
                   <ListItemAvatar>
                     <Avatar>{v?.emoji}</Avatar>
                   </ListItemAvatar>
-                  <Button onClick={onClickGotoMypage(v?.followerSeq)}>
-                    {v?.followerSeq}
+                  <Button onClick={onClickGotoMypage(v?.followeeSeq)}>
+                    {v?.nickname}
                   </Button>
                 </ListItem>
               ))}

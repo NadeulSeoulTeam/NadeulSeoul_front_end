@@ -2,7 +2,10 @@ import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { signup } from '../AuthSlice';
+// actions
+import { signup, checkNickname } from '../AuthSlice';
+
+// authenticated
 import { saveLoginSuccess } from '../../../common/api/JWT-Token';
 // import 'emoji-mart/css/emoji-mart.css';
 // import { Picker } from 'emoji-mart';
@@ -21,7 +24,6 @@ import {
 
 function UserForm() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   // states
   const [nickname, setNickname] = useState('');
   const [emoji, setEmoji] = useState('');
@@ -35,6 +37,7 @@ function UserForm() {
     errorMsg: '',
   });
 
+  const navigate = useNavigate();
   // useEffect(() => {
   //   const params = new URLSearchParams(document.location.search);
   //   const Id = params.get('id');
@@ -42,8 +45,8 @@ function UserForm() {
   // });
 
   const onNicknameChange = (e) => {
-    console.log(e.currentTarget.value);
     const nicknameInput = e.currentTarget.value;
+
     if (nicknameInput === '') {
       setNicknameErr({
         validationStatus: 'ERROR_BLANK',
@@ -62,6 +65,7 @@ function UserForm() {
       });
       setNickname(nicknameInput);
     }
+    console.log(nicknameInput, nickname);
   };
 
   const onEmojiClick = (e) => {
@@ -92,23 +96,36 @@ function UserForm() {
     emoji,
   };
 
-  const onInputSuccess = useCallback(() => {
-    console.log(data);
-    dispatch(signup(data))
+  const NickName = {
+    nickname,
+  };
+
+  const onClickNickNameCheck = useCallback(() => {
+    console.log(NickName);
+    dispatch(checkNickname(NickName))
+      .unwrap()
       .then((response) => {
-        console.log(response);
-        if (response.payload.status === 200) {
-          console.log('성공');
-          saveLoginSuccess(true);
-        } else if (response.payload.status === 500) {
-          alert('회원가입 실패했습니다.');
+        if (response.status === 200) {
+          alert(`${response.data.message}`);
+        } else {
+          alert(`${response.data.message}`);
         }
       })
       .catch((error) => {
-        console.log(error.response.data);
-      })
-      .then(() => {
+        console.log(error);
+      });
+  }, []);
+
+  const onInputSuccess = useCallback(() => {
+    // 409에러 대체
+    dispatch(signup(data))
+      .then((response) => {
+        saveLoginSuccess('flase');
+        console.log(response);
         navigate('/');
+      })
+      .catch((error) => {
+        console.log(error.response.data);
       });
   }, [data]);
 
@@ -139,9 +156,7 @@ function UserForm() {
           // onChange={(e) => {
           //   onNicknameChange(e, validateNickname(e));
           // }}
-          onChange={(e) => {
-            onNicknameChange(e);
-          }}
+          onChange={onNicknameChange}
           error={!(nicknameErr.validationStatus === 'SUCCESS')}
           helperText={
             !(nicknameErr.validationStatus === 'SUCCESS')
@@ -150,6 +165,7 @@ function UserForm() {
           }
           placeholder="닉네임을 입력해주세요."
         />
+        <GreenBtn onClick={onClickNickNameCheck}>닉네임 중복검사</GreenBtn>
         <TextInput
           variant="outlined"
           disabled

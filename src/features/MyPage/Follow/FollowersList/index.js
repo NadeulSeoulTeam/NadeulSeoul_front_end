@@ -1,7 +1,4 @@
-// 여기는 일단 놔두자, 뭔가 오류가 있는거 같기도,,
-// 같은 걸로 2개다 해서 하나는 안되는거 일지도,,,
-
-import React, { useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -24,72 +21,70 @@ import FollowButton from '../FollowButton';
 // actions
 import { loadFollowers } from '../../MyPageSlice';
 
+// cookie
+import { getUserInfo } from '../../../../common/api/JWT-Token';
+
 // mui
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
 function FollowersList() {
-  // user별 팔로잉 팔로우 리스트를 불러오면 된다.
-  const { followerUsers, followinfoToList } = useSelector(
-    (state) => state.mypage
-  );
-  const params = useParams();
-  const dispatch = useDispatch();
-  // const FollowList = FollowInfo.filter((v) => {
-  //   // console.log(typeof v.id);
-  //   return v.id === parseInt(params.id, 10);
-  // });
-  const nickName = 'meanstrike';
-  // const followersList = FollowList[0].FollowersList;
+  const { followerUsers, user } = useSelector((state) => state.mypage);
   const navigate = useNavigate();
-
-  // console.log(params.id);
-  // console.log(FollowList[0].FollowersList);
-  console.log(followinfoToList);
-
-  useEffect(() => {
-    dispatch(loadFollowers(params.id))
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  }, []);
-
+  const dispatch = useDispatch();
+  const params = useParams();
   const onClickGotoMypage = useCallback(
     (id) => () => {
-      console.log('go to mypage"');
       navigate(`/mypage/${id}`);
     },
     []
   );
+
+  // 요청을 한번만 보낼수가 없다! 유저벌 팔로잉 팔로워 리스트도 가져와야하기 떄문에!
+  // 내 팔로잉 팔로우 리스트를 가져올때는 한번의 요청으로도 가능하지만,
+  // 다른 사람의 팔로잉 팔로우 리스트까지 가져와야 하니깐 요청이 이루어 질 수밖에 없음!
+  // 분기 조건으로 하면 될거 같다.
+
+  const MyId = getUserInfo().userSeq; // 1번 사용자가 로그인 했다고 가정 => 토큰으로 대체
+
+  if (MyId !== user?.userSeq) {
+    useEffect(() => {
+      dispatch(loadFollowers(params.id))
+        .unwrap()
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    }, []);
+  }
+
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={12}>
           <Typography sx={{ mt: 4, mb: 2 }} variant="h4" component="div">
-            {nickName}님의 팔로워 리스트
+            {user?.nickName}님의 팔로워 리스트
           </Typography>
           <Demo>
             <List dense={false}>
-              {followerUsers.map((v, i) => (
+              {followerUsers?.map((v, i) => (
                 <ListItem
                   // eslint-disable-next-line react/no-array-index-key
                   key={v + i}
                   secondaryAction={
                     <IconButton edge="end" aria-label="Follow">
-                      <FollowButton UserId={parseInt(v?.memberSeq, 10)} />
+                      <FollowButton UserId={parseInt(v?.followerSeq, 10)} />
                     </IconButton>
                   }
                 >
                   <ListItemAvatar>
                     <Avatar>{v?.emoji}</Avatar>
                   </ListItemAvatar>
-                  <Button onClick={onClickGotoMypage(v?.memberSeq)}>
-                    {v?.memberSeq}
+                  <Button onClick={onClickGotoMypage(v?.followerSeq)}>
+                    {v?.nickname}
                   </Button>
                 </ListItem>
               ))}

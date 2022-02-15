@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 // mui
 import Card from '@mui/material/Card';
@@ -10,7 +10,7 @@ import { CardActionArea } from '@mui/material';
 
 // assets
 
-function CurationCard({ imgUrl }) {
+function CurationCard({ thumnail, title }) {
   return (
     // 여기서 상세 curaetion으로 onClick 매서드 사용해소 navgative로 이동
     <Card
@@ -22,22 +22,18 @@ function CurationCard({ imgUrl }) {
       }}
     >
       <CardActionArea>
-        <CardMedia component="img" height="140" image={imgUrl} alt="test" />
+        <CardMedia component="img" height="140" />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            코스
+            {title}
           </Typography>
           <Typography variant="body2" color="text.secondary" component="div">
-            test
+            {thumnail}
           </Typography>
         </CardContent>
       </CardActionArea>
     </Card>
   );
 }
-
-CurationCard.propTypes = {
-  imgUrl: PropTypes.string.isRequired,
-};
 
 export default CurationCard;

@@ -61,8 +61,6 @@ function CurationList() {
   const onThrottleDragMove = throttle(onDragMove, 100);
 
   const mapToComponent = (data) => {
-    console.log('CurationList');
-    console.log(data);
     return data.map((curation) => (
       <CurationListItem key={curation.curation_seq} curation={curation} />
     ));

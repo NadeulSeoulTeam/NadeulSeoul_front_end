@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../common/api/httpCommunication';
 
+// save Cookie
+import { saveUserInfo } from '../../common/api/JWT-Token';
+
+
 export const initialState = {
   courses: [
     { curation_seq: 1, title: '큐레이션 제목 길게 테스트중 으아아', likes: 39 },
@@ -53,12 +57,16 @@ export const initialState = {
   ],
   hotStore: undefined,
   selectedCourse: {},
+  userInfo: null, // 로그인한 사용자 정보
   fetchCoursesLoading: false,
   fetchCoursesDone: false,
   fetchCoursesError: null,
   fetchUsersLoading: false,
   fetchUsersDone: false,
   fetchUsersError: null,
+  LoadUserInfoLoading: false, // 사용자 정보 요청 시도
+  LoadUserInfoDone: false,
+  LoadUserInfoError: null,
   fetchHotStoresLoading: false,
   fetchHotStoreDone: false,
   fetchHotStoreError: null,
@@ -67,7 +75,6 @@ export const initialState = {
   fetchLocalTagsLoading: false,
   fetchLocalTagsDone: false,
   fetchLocalTagsError: null,
-
   // Theme tag
   themeTag: undefined,
   fetchThemeTagsLoading: false,
@@ -93,6 +100,21 @@ export const fetchUsers = createAsyncThunk('main/fetchUsers', async () => {
     return error.response.data;
   }
 });
+
+// 유저 정보 확인
+export const LoadUserInfo = createAsyncThunk(
+  'main/LoadUserInfo',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/users');
+      saveUserInfo(response.data.data);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 // 찜 순위로 가져오기
 export const fetchHotStores = createAsyncThunk(
   'main/fetchHotStores',
@@ -176,6 +198,20 @@ const mainSlice = createSlice({
       state.fetchUsersDone = false;
       state.fetchUsersError = action.payload.data.message;
     },
+    [LoadUserInfo.pending]: (state) => {
+      state.LoadUserInfoLoading = true;
+      state.LoadUserInfoDone = false;
+      state.LoadUserInfoError = null;
+    },
+    [LoadUserInfo.fulfilled]: (state, action) => {
+      state.LoadUserInfoLoading = false;
+      state.LoadUserInfoDone = true;
+      state.userInfo = action.payload.data;
+    },
+    [LoadUserInfo.rejected]: (state, action) => {
+      state.LoadUserInfoLoading = true;
+      state.LoadUserInfoDone = false;
+      state.LoadUserInfoError = action.error.message;
     [fetchHotStores.pending]: (state) => {
       state.fetchHotStoreLoading = true;
       state.fetchHotStoreDone = false;

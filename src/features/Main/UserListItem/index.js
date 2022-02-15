@@ -15,9 +15,7 @@ function UserListItem({ user }) {
   //   dispatch(select(selectedUser));
   // };
 
-  useEffect(() => {
-    console.log(user);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Wrapper

@@ -5,13 +5,17 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 
 // components
 import FollowButton from '../../Follow/FollowButton';
 import StatusUser from '../../Follow/StatusUser';
+
+// custom style
+import { GreenBtn } from './styles';
+
+// cookie
+import { getUserInfo } from '../../../../common/api/JWT-Token';
 
 function ProfileCard({
   userId,
@@ -21,7 +25,7 @@ function ProfileCard({
   followerCount,
 }) {
   const [isMe, setIsMe] = useState(false);
-  const me = 1; // 로그인한 사람의 id 현재 로그인 가정(meanstrike)
+  const me = getUserInfo().userSeq;
   const navigate = useNavigate();
 
   // 1. 내 마이페이지에 들어오면 버튼이 안보이게
@@ -33,7 +37,7 @@ function ProfileCard({
     } else {
       setIsMe(false);
     }
-  }, []);
+  }, [userId]);
 
   const onClickToQuestionBoard = useCallback(() => {
     console.log('문의게시판으로 가자');
@@ -42,9 +46,6 @@ function ProfileCard({
 
   return (
     <>
-      <Typography sx={{ mt: 4, mb: 2 }} variant="h4" component="div">
-        {nickName}님의 mypage
-      </Typography>
       <Card sx={{ maxWidth: 300 }}>
         <CardHeader
           avatar={
@@ -64,9 +65,11 @@ function ProfileCard({
         {isMe ? null : <FollowButton userId={userId} />}
       </Card>
       <Stack spacing={2} direction="row-reverse">
-        <Button variant="contained" onClick={onClickToQuestionBoard}>
-          문의게시판
-        </Button>
+        {isMe ? (
+          <GreenBtn variant="contained" onClick={onClickToQuestionBoard}>
+            문의게시판
+          </GreenBtn>
+        ) : null}
       </Stack>
     </>
   );

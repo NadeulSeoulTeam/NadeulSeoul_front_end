@@ -1,0 +1,10 @@
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+
+function PublicRoute({ isAuthenticated }) {
+  // 1은 이제 토큰에 들어있는 로그인한 사람의 id가 되겠징,,
+  console.log(isAuthenticated());
+  return isAuthenticated() ? <Navigate to="/" /> : <Outlet />;
+}
+
+export default PublicRoute;

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 // import { StylesProvider } from '@material-ui/core/styles';
 
@@ -21,7 +22,11 @@ import {
   TagOpener,
 } from './styles';
 
+
+// actions
+import { LoadUserInfo } from '../MainSlice';
 import { fetchLocalTags, fetchThemeTags } from '../MainSlice';
+
 
 function MainPage() {
   const dispatch = useDispatch();
@@ -30,11 +35,26 @@ function MainPage() {
   const handleOpen = () => {
     setOpen(!open);
   };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(LoadUserInfo())
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+
   useEffect(() => {
     dispatch(fetchLocalTags());
     dispatch(fetchThemeTags());
     console.log(themeTag, localTag);
   }, []);
+
   return (
     <div>
       <TopWrapper>
