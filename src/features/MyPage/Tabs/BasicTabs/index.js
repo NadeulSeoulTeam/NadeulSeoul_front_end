@@ -4,10 +4,17 @@ import { useSelector, useDispatch } from 'react-redux';
 // import { useParams } from 'react-router';
 
 // mui
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+// import Tabs from '@mui/material/Tabs';
+// import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import TabPanel from '../TabPanel';
+import {
+  Underline,
+  GreyBox,
+  CustomTabs,
+  CustomTab,
+  ContentArea,
+} from './styles';
 
 // component
 import CurationCard from '../../Card/CurationCard';
@@ -99,7 +106,7 @@ function BasicTabs() {
         // window.scrollY : 얼마나 내렸는지
         // document.documentElement.clientHeight : 화면에 보이는 길이
         // document.documentElement.scrollHeight : 총길이
-        if (hasMorePosts && !loadInfinityPostsLoading) {
+        if (hasMorePostsPlace && !loadInfinityPostsLoading) {
           if (
             window.scrollY + document.documentElement.clientHeight >
             document.documentElement.scrollHeight - 300
@@ -117,48 +124,30 @@ function BasicTabs() {
     }, [hasMorePostsPlace, loadInfinityPostsPlaceLoading, InfinityPostsPlace]);
   }
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs
+    <Box sx={{ width: '100%', position: 'relative' }}>
+      <Box sx={{ position: 'relative' }}>
+        <CustomTabs
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="내 나들코스" {...a11yProps(3)} />
-          <Tab label="찜한 나들 코스" {...a11yProps(1)} />
-          <Tab label="찜한 장소" {...a11yProps(2)} />
-        </Tabs>
+          <CustomTab label="내 나들코스" {...a11yProps(3)} />
+          <CustomTab label="찜한 나들코스" {...a11yProps(1)} />
+          <CustomTab label="찜한 장소" {...a11yProps(2)} />
+        </CustomTabs>
+        <Underline />
       </Box>
+      <GreyBox value={value} />
       <TabPanel value={value} index={0}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-            p: 1,
-            m: 1,
-            bgcolor: 'background.paper',
-            borderRadius: 1,
-          }}
-        >
+        <ContentArea>
           {InfinityPosts.map((v, i) => (
             // eslint-disable-next-line react/no-array-index-key
             <CurationCard key={i + v.myNadlecourseId + 2} imgUrl={v.imgUrl} />
           ))}
-        </Box>
+        </ContentArea>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-            p: 1,
-            m: 1,
-            bgcolor: 'background.paper',
-            borderRadius: 1,
-          }}
-        >
+        <ContentArea>
           {InfinityPosts.map((v, i) => (
             <CurationCard
               // eslint-disable-next-line react/no-array-index-key
@@ -166,20 +155,10 @@ function BasicTabs() {
               imgUrl={v.imgUrl}
             />
           ))}
-        </Box>
+        </ContentArea>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-            p: 1,
-            m: 1,
-            bgcolor: 'background.paper',
-            borderRadius: 1,
-          }}
-        >
+        <ContentArea>
           {InfinityPostsPlace.map((v, i) => (
             <CuraionCardLikePlace
               // eslint-disable-next-line react/no-array-index-key
@@ -189,7 +168,7 @@ function BasicTabs() {
               categoryName={v.categoryName}
             />
           ))}
-        </Box>
+        </ContentArea>
       </TabPanel>
     </Box>
   );

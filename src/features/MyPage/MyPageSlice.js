@@ -104,7 +104,7 @@ export const loadPostsInfinity = createAsyncThunk(
       // const response = await axios.get("백엔드 주소");
       return generateDummyCard(8);
     } catch (err) {
-      return rejectWithValue(err.resonse.data);
+      return rejectWithValue(err.response.data);
     }
   }
 );
@@ -116,7 +116,7 @@ export const loadPostsInfinityPlace = createAsyncThunk(
       // const response = await axios.get("백엔드 주소");
       return generateDummyPlaceCard(8);
     } catch (err) {
-      return rejectWithValue(err.resonse.data);
+      return rejectWithValue(err.response.data);
     }
   }
 );
@@ -129,7 +129,7 @@ export const loadUser = createAsyncThunk(
       const response = await axios.get(`/mypage/${data}`);
       return response.data;
     } catch (err) {
-      return rejectWithValue(err.resonse.data);
+      return rejectWithValue(err.response.data);
     }
   }
 );
@@ -142,7 +142,7 @@ export const loadFollowers = createAsyncThunk(
       const response = await axios.get(`/mypage/${data}/follower`);
       return response.data;
     } catch (err) {
-      return rejectWithValue(err.resonse.data);
+      return rejectWithValue(err.response.data);
     }
   }
 );
@@ -155,7 +155,7 @@ export const loadFollowings = createAsyncThunk(
       const response = await axios.get(`/mypage/${data}/followee`);
       return response.data;
     } catch (err) {
-      return rejectWithValue(err.resonse.data);
+      return rejectWithValue(err.response.data);
     }
   }
 );

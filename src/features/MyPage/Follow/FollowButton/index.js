@@ -5,8 +5,8 @@ import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
 
 // mui
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import FollowBtn from './styles';
 
 // actions
 import { follow, loadUser, unfollow, loadFollowings } from '../../MyPageSlice';
@@ -19,7 +19,7 @@ function FollowButton({ userId }) {
   const dispatch = useDispatch();
   const { followeeUsers } = useSelector((state) => state.mypage);
   // 팔로잉 목록 출력, 현재 meanstrike계정에 로그인 했다고 가정
-  const myId = 1; // 1번 사용자가 로그인했다고 가정
+  const myId = 2; // 1번 사용자가 로그인했다고 가정
   const isFollowing = followeeUsers?.find((v) => v.followerSeq === userId);
   const params = useParams();
   console.log(params);
@@ -58,11 +58,9 @@ function FollowButton({ userId }) {
   }
 
   return (
-    <Stack spacing={2} direction="row">
-      <Button variant="contained" onClick={onClickButton}>
-        {isFollowing ? 'unfollow' : 'follow'}
-      </Button>
-    </Stack>
+    <FollowBtn isFollowing={isFollowing} onClick={onClickButton}>
+      {isFollowing ? '언팔로우' : '팔로우'}
+    </FollowBtn>
   );
 }
 

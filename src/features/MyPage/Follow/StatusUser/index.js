@@ -2,33 +2,33 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // MUI
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
+import { FunctionBtn, Number, Description } from './styles';
 
 function StatusUser({ followerCount, followeeCount, userId }) {
   const navigate = useNavigate();
   // const params = useParams();
   // const mypage = user?.data;
+
   return (
-    <>
-      <Button
-        variant="text"
+    <div>
+      <FunctionBtn
         onClick={() => {
           navigate(`/mypage/${userId}/followee`);
         }}
       >
-        팔로잉
-      </Button>
-      {followeeCount}
-      <Button
-        variant="text"
+        <Number>{followeeCount}</Number>
+        <Description>팔로잉</Description>
+      </FunctionBtn>
+      <FunctionBtn
         onClick={() => {
           navigate(`/mypage/${userId}/follower`);
         }}
       >
-        팔로워
-      </Button>
-      {followerCount}
-    </>
+        <Number>{followerCount}</Number>
+        <Description>팔로워</Description>
+      </FunctionBtn>
+    </div>
   );
 }
 

@@ -1,14 +1,17 @@
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
 // mui
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import Avatar from '@mui/material/Avatar';
-import { red } from '@mui/material/colors';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import {
+  Container,
+  Nickname,
+  ProfileEmoji,
+  ProfileDiv,
+  TextDiv,
+} from './styles';
 
 // components
 import FollowButton from '../../Follow/FollowButton';
@@ -41,34 +44,25 @@ function ProfileCard() {
   }, []);
 
   return (
-    <>
-      <Typography sx={{ mt: 4, mb: 2 }} variant="h4" component="div">
-        {userInfo[0].nickname}님의 mypage
-      </Typography>
-      <Card sx={{ maxWidth: 300 }}>
-        <CardHeader
-          avatar={
-            <Avatar sx={{ bgcolor: red[200] }} aria-label="emoji">
-              {userInfo[0].emoji}
-            </Avatar>
-          }
-          title={userInfo[0].nickname}
-          subheader={
-            <StatusUser
-              followeeCount={userInfo[0].Followings}
-              followerCount={userInfo[0].Followers}
-              userId={userInfo[0].id}
-            />
-          }
-        />
+    <Container>
+      <ProfileDiv>
+        <ProfileEmoji>{userInfo[0].emoji}</ProfileEmoji>
+        <TextDiv>
+          <Nickname>{userInfo[0].nickname}</Nickname>
+          <StatusUser
+            followeeCount={userInfo[0].Followings}
+            followerCount={userInfo[0].Followers}
+            userId={userInfo[0].id}
+          />
+        </TextDiv>
         <FollowButton userId={userInfo[0].id} />
-      </Card>
+      </ProfileDiv>
       <Stack spacing={2} direction="row-reverse">
         <Button variant="contained" onClick={onClickToQuestionBoard}>
           문의게시판
         </Button>
       </Stack>
-    </>
+    </Container>
   );
 }
 
