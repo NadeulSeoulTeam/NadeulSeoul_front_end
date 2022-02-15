@@ -66,29 +66,33 @@ function CourseViewCart({ curationSeq }) {
   };
 
   const mapCommentToComponent = () => {
-    if (getComment === undefined) return <div />;
-
-    return getComment.content
-      .slice(0)
-      .reverse()
-      .map((comment) => (
-        // return course.data.comments.map((comment) => (
-        <div style={{ margin: '10px 0', display: 'flex' }}>
-          <ProfileEmoji>프로필</ProfileEmoji>
-          {/* <div style={{ margin: '0 0 0 5px', display: 'inline-block' }}>
+    // if (getComment === undefined) return <div />;
+    console.log(course.data.comments);
+    return (
+      course.data.comments
+        // return getComment.content
+        .slice(0)
+        .reverse()
+        .map((comment) => (
+          // return course.data.comments.map((comment) => (
+          <div style={{ margin: '10px 0', display: 'flex' }}>
+            <ProfileEmoji>프로필</ProfileEmoji>
+            {/* <div style={{ margin: '0 0 0 5px', display: 'inline-block' }}>
           <CommentNickname>{comment.user.userSeq}</CommentNickname>
           <CommentContent>{comment.content}</CommentContent>
         </div> */}
-          <CourseViewComment
-            userSeq={comment.user.userSeq}
-            content={comment.content}
-          />
-          {/* <CourseViewComment
-          userSeq={comment.user_nickname}
-          content={comment.content}
-        /> */}
-        </div>
-      ));
+            {/*
+             <CourseViewComment
+              userSeq={comment.user.userSeq}
+              content={comment.content}
+            /> */}
+            <CourseViewComment
+              userSeq={comment.user_nickname}
+              content={comment.content}
+            />
+          </div>
+        ))
+    );
   };
 
   const commentWrite = (e) => {

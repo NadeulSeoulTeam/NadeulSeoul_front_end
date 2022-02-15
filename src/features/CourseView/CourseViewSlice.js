@@ -2,7 +2,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import _find from 'lodash/find';
 import axios from '../../common/api/httpCommunication';
-import testdata from './testdata';
 
 // Course 정보 가져오기
 export const getCourseInfo = createAsyncThunk(
