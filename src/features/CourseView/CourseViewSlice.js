@@ -35,7 +35,7 @@ export const getCommentList = createAsyncThunk(
 );
 // 댓글 보내기
 export const sendComment = createAsyncThunk(
-  'CourseView',
+  'CourseView/sendComment',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post(`/api/v1/curations/comments/`, data);
@@ -48,7 +48,7 @@ export const sendComment = createAsyncThunk(
 
 // 스크랩(좋아요) 누르기
 export const clickLike = createAsyncThunk(
-  'CourseView',
+  'CourseView/clickLike',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post('/stores/18203409');
@@ -61,7 +61,7 @@ export const clickLike = createAsyncThunk(
 
 // 스크랩(좋아요) 취소
 export const clickLikeCancel = createAsyncThunk(
-  'CourseView',
+  'CourseView/clickLikeCancel',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.delete('curations/bookmarks/');
