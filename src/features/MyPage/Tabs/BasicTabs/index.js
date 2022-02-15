@@ -43,16 +43,13 @@ function BasicTabs() {
   const dispatch = useDispatch();
   const [value, setValue] = useState(2);
   const handleChange = (event, newValue) => {
-    console.log(newValue);
     setValue(newValue);
   };
 
   const onClickSendCourse = () => {
-    console.log('here');
     const data = {
       storeSeqList: myCourse,
     };
-    console.log(data);
     dispatch(setLikePlaceBasket(data))
       .unwrap()
       .then((response) => {

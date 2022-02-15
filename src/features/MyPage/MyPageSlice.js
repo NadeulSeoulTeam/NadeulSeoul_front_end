@@ -345,13 +345,16 @@ export const initialState = {
   UserId: null, // 문의게시판 UserId
   myCourse: [], // 장바구니
   myCourseToCreate: null,
-  loadInfinityPostsLoading: false, // 인피니티 스크롤 요청 myNadle, LikeNadle
+  loadInfinityPostsLoading: false, // 인피니티 LikePlace,
   loadInfinityPostsDone: false,
   loadInfinityPostsError: null,
-  loadInfinityPostsLikePlaceLoading: false, // 인피니티 스크롤 요청 LikePlace
-  loadInfinityPostsLikePlaceDone: false,
-  loadInfinityPostsLikePlaceError: null,
-  setLikePlaceLoading: false, // 장바구니
+  loadInfinityPostsMyNadleLoading: false, // 인피니티 내 나들코스
+  loadInfinityPostsMyNadleDone: false,
+  loadInfinityPostsMyNadleError: null,
+  loadInfinityPostsLikeNadleLoading: false, // 인피니티 찜한 나들 코스
+  loadInfinityPostsLikeNadleDone: false,
+  loadInfinityPostsLikeNadleError: null,
+  setLikePlaceLoading: false, // 장바구니 담기 요청 시도
   setLikePlaceDone: false,
   setLikePlaceError: null,
   loadUserLoading: false, // mypage 유저 정보 조회 시도
@@ -476,7 +479,6 @@ const MyPageSlice = createSlice({
       state.setLikePlaceError = null;
     },
     [setLikePlaceBasket.fulfilled]: (state, action) => {
-      console.log(action);
       state.setLikePlaceLoading = false;
       state.setLikePlaceDone = true;
       state.myCourseToCreate = action.payload.data; // 서버에서 온 courese정보가 담긴다.
