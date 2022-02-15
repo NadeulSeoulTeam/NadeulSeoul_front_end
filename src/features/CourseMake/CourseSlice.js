@@ -1,16 +1,19 @@
 /* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import _find from 'lodash/find';
+
+import { getToken } from '../../common/api/JWT-Token';
+
 import axios from '../../common/api/httpCommunication';
 // import _concat from 'lodash/concat';
 // import _remove from 'lodash/remove';
-
 // 큐레이션 요청
 export const courseInfoPost = createAsyncThunk(
   '/CourseCreationForm',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/v1/curations', data);
+      const response = await axios.post('auth/curations', data, {
+        headers: { Authorization: getToken() },
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -126,11 +129,10 @@ const course = createSlice({
       state.courseInfoPostError = null;
     },
     [courseInfoPost.fulfilled]: (state, action) => {
-      const post = _find(state.mainPosts, { id: action.payload.PostId });
       state.courseInfoPostSending = false;
       state.courseInfoPostDone = true;
       // 수정
-      post.courseInfo = action.payload.CourseInfo;
+      state.courseInfo = action.payload.CourseInfo;
     },
     [courseInfoPost.rejected]: (state, action) => {
       state.courseInfoPostSending = true;
