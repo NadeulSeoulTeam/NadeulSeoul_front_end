@@ -36,7 +36,7 @@ export const clickLike = createAsyncThunk(
   'CourseView',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('curations/bookmarks/', data);
+      const response = await axios.post('/stores/18203409');
       return response.data;
     } catch (err) {
       return rejectWithValue(err);

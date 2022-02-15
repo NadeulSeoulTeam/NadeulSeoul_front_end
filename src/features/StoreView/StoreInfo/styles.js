@@ -1,43 +1,55 @@
 import styled from 'styled-components';
 import Card from '@mui/material/Card';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const StoreCard = styled(Card)`
-  position: absolute;
+  && {
+    position: absolute;
+    min-width: 275px;
+    border-radius: 20px 0 0 20px;
+    padding: 0 0 3rem 0;
+    z-index: 2;
+    top: 80px;
+    right: 0;
+  }
+`;
 
-  justify-content: center;
-  z-index: 2;
-  top: 80px;
-  right: 0.5%;
-  width: 200px;
-  height: 450px;
+export const CloseBtn = styled(CloseIcon)`
+  position: absolute;
+  margin: 5px;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: #c4c4c4;
+  cursor: pointer;
 `;
+
 export const CardHeader = styled.div`
-  position: relative;
-  font-family: Roboto;
-  font-style: normal;
   font-weight: bold;
-  font-size: 22px;
-  padding: 20px;
-  padding-left: 60px;
-  color: #68c78e;
+  font-size: 1.1rem;
+  padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+  color: #0de073;
 `;
+
 export const CardScript = styled.div`
-  position: relative;
-  padding-left: 60px;
-  padding-bottom: 10px;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
+  padding: 5px 1.5rem 0 1.5rem;
   font-size: 14px;
 `;
 
-export const LikeButton = styled.button`
-  position: relative;
-  width: 70px;
-  padding: 10px;
-  margin: 10px;
-  left: 310px;
-  bottom: 50px;
+export const BtnExplain = styled.span`
+  position: absolute;
+  right: 3rem;
+  bottom: 1rem;
+  font-size: 0.7rem;
+  color: #c4c4c4;
+`;
+
+export const LikeButtonStyle = styled.button`
+  position: absolute;
+  right: 0.5rem;
+  bottom: 1rem;
+  font-size: 1.3rem;
+  background-color: transparent;
+  border: transparent;
   ${({ active }) => {
     return active ? `opacity: 1` : `opacity: 0.2`;
   }}

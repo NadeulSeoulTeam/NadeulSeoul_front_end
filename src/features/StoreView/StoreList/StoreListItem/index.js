@@ -3,23 +3,21 @@ import React, { useEffect } from 'react';
 // material UI
 
 // css
-import { StoreCard, Store, StoreName, StoreDescription } from './styles';
+import { StoreCard, StoreName, StoreDescription } from './styles';
 
-function StoreListItem({ addToCart, search }) {
+function StoreListItem({ addToCart, search, index, active }) {
   useEffect(() => {
     console.log('courselistitem start');
     console.log(search);
   }, []);
 
   return (
-    <StoreCard
-      sx={{ minWidth: 275, minHeight: 100 }}
-      onClick={() => addToCart(search)}
-    >
-      <Store>
-        <StoreName>{search.place_name}</StoreName>
-        <StoreDescription>{search.address_name}</StoreDescription>
-      </Store>
+    <StoreCard active={active} onClick={() => addToCart(search, index)}>
+      <StoreName active={active}>{search.place_name}</StoreName>
+      <StoreDescription active={active}>{search.address_name}</StoreDescription>
+      <StoreDescription active={active}>
+        {search.category_name}
+      </StoreDescription>
     </StoreCard>
   );
 }

@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/button-has-type */
+
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
 
 // style
 import GlobalFonts from '../fonts/fonts';
@@ -33,10 +33,10 @@ import isAuthenticated, {isLoggedIn} from '../common/api/isAuthenticated';
 import PrivateRoute from '../common/routes/PrivateRoute';
 import PublicRoute from '../common/routes/PublicRoute';
 
-function App() {
- 
+function App() { 
   return (
     <Container>
+
       <BrowserRouter>
         <GlobalFonts />
         <Routes>
