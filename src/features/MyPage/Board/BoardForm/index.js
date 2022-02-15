@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 // mui
 import Box from '@mui/material/Box';
@@ -16,13 +16,15 @@ import Stack from '@mui/material/Stack';
 // actions
 import { addPost } from '../../MyPageSlice';
 
+// cookie
+import { getUserInfo } from '../../../../common/api/JWT-Token';
+
 function BoardForm() {
-  const { userInfo } = useSelector((state) => state.mypage);
   const [title, setTitle] = useState();
   const [context, setContext] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const myId = userInfo[0].id;
+  const myId = getUserInfo().userSeq;
 
   const onChangeTitle = useCallback((e) => {
     // console.log(e.target.value);

@@ -21,7 +21,8 @@ import { loadBoardList, postIdToListItem } from '../../MyPageSlice';
 // custom styles
 import { GreenBtn, MainTitle } from './styles';
 
-// components
+// cookie
+import { getUserInfo } from '../../../../common/api/JWT-Token';
 
 // title, id, date(작성 시간) 3개만 프로필에 표시하면 된다.
 const columns = [
@@ -40,7 +41,7 @@ function BoardList() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const dispatch = useDispatch();
   // 서버 연결시 rows 대신에 mainPosts에 연결하면 됨
-  const { userInfo, mainPosts } = useSelector((state) => state.mypage);
+  const { mainPosts } = useSelector((state) => state.mypage);
   const navigate = useNavigate();
   console.log(mainPosts);
   const handleChangePage = (event, newPage) => {
@@ -68,7 +69,7 @@ function BoardList() {
   }, []);
 
   useEffect(() => {
-    dispatch(loadBoardList(userInfo[0].id))
+    dispatch(loadBoardList(getUserInfo().userSeq))
       .unwrap()
       .then((response) => {
         console.log(response);
@@ -76,7 +77,7 @@ function BoardList() {
       .catch((error) => {
         console.log(error);
       });
-    console.log(userInfo[0].id);
+    console.log(getUserInfo().userSeq);
   }, []);
 
   return (
