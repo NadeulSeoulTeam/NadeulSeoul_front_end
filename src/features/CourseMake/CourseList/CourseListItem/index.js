@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 // material UI
 
 // css
-import { StoreCard, Store, StoreName, StoreDescription } from './styles';
+import { StoreCard, StoreName, StoreDescription } from './styles';
 
 function CourseListItem({ addToCart, search, index, active }) {
   useEffect(() => {
@@ -13,20 +13,12 @@ function CourseListItem({ addToCart, search, index, active }) {
   }, []);
 
   return (
-    <StoreCard
-      sx={{
-        minWidth: 275,
-        minHeight: 100,
-        backgroundColor: active ? '#0de073' : '',
-      }}
-      onClick={() => addToCart(search, index)}
-    >
-      <Store>
-        <StoreName active={active}>{search.place_name}</StoreName>
-        <StoreDescription active={active}>
-          {search.address_name}
-        </StoreDescription>
-      </Store>
+    <StoreCard active={active} onClick={() => addToCart(search, index)}>
+      <StoreName active={active}>{search.place_name}</StoreName>
+      <StoreDescription active={active}>{search.address_name}</StoreDescription>
+      <StoreDescription active={active}>
+        {search.category_name}
+      </StoreDescription>
     </StoreCard>
   );
 }
