@@ -23,6 +23,16 @@ export const generateDummyCard = (number) =>
       imgUrl: `https://picsum.photos/200/300?random=${randomNumFloor}`,
     }));
 
+export const generateDummyPlaceCard = (number) =>
+  Array(number)
+    .fill()
+    .map(() => ({
+      storeSeq: '1',
+      storeName: '장소이름',
+      addressName: '서울특별시 서대문구 창천동 53-20',
+      category: '오코노미야끼 전문식당',
+    }));
+
 export const User = [
   {
     id: 1,
@@ -93,6 +103,18 @@ export const loadPostsInfinity = createAsyncThunk(
     try {
       // const response = await axios.get("백엔드 주소");
       return generateDummyCard(8);
+    } catch (err) {
+      return rejectWithValue(err.resonse.data);
+    }
+  }
+);
+
+export const loadPostsInfinityPlace = createAsyncThunk(
+  'mypage/loadPostsInfinityPlace',
+  async (data, { rejectWithValue }) => {
+    try {
+      // const response = await axios.get("백엔드 주소");
+      return generateDummyPlaceCard(8);
     } catch (err) {
       return rejectWithValue(err.resonse.data);
     }
@@ -291,10 +313,15 @@ export const initialState = {
   user: null,
   followinfoToList: null,
   InfinityPosts: [], // test infinity scroll
+  InfinityPostsPlace: [],
   loadInfinityPostsLoading: false,
   loadInfinityPostsDone: false,
   loadInfinityPostsError: null,
+  loadInfinityPostsLoadingPlace: false,
+  loadInfinityPostsDonePlace: false,
+  loadInfinityPostsErrorPlace: null,
   hasMorePosts: true,
+  hasMorePostsPlace: true,
   FollowInfo: FollowList, // 팔로잉, 팔로워 정보 test
   followeeUsers: null,
   followerUsers: null,
@@ -367,9 +394,28 @@ const MyPageSlice = createSlice({
       state.InfinityPosts = _concat(state.InfinityPosts, action.payload);
       state.hasMorePosts = action.payload.length === 8;
     },
+
     [loadPostsInfinity.rejected]: (state, action) => {
       state.loadInfinityPostsLoading = false;
       state.loadInfinityPostsError = action.error.message;
+    },
+    [loadPostsInfinityPlace.pending]: (state) => {
+      state.loadInfinityPostsLoadingPlace = true;
+      state.loadInfinityPostsDonePlace = false;
+      state.loadInfinityPostsErrorPlace = null;
+    },
+    [loadPostsInfinityPlace.fulfilled]: (state, action) => {
+      state.loadInfinityPostsLoadingPlace = false;
+      state.loadInfinityPostsDonePlace = true;
+      state.InfinityPostsPlace = _concat(
+        state.InfinityPostsPlace,
+        action.payload
+      );
+      state.hasMorePostsPlace = action.payload.length === 8;
+    },
+    [loadPostsInfinityPlace.rejected]: (state, action) => {
+      state.loadInfinityPostsLoadingPlace = false;
+      state.loadInfinityPostsErrorPlace = action.error.message;
     },
     // 유저 정보 조회
     [loadUser.pending]: (state) => {

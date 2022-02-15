@@ -13,7 +13,7 @@ import TabPanel from '../TabPanel';
 import CurationCard from '../../Card/CurationCard';
 
 // actions
-import { loadPostsInfinity } from '../../MyPageSlice';
+import { loadPostsInfinity, loadPostsInfinityPlace } from '../../MyPageSlice';
 
 //
 // mui basic tabs
@@ -28,6 +28,9 @@ function BasicTabs() {
   const {
     // userInfo,
     InfinityPosts,
+    InfinityPostsPlace,
+    hasMorePostsPlace,
+    loadInfinityPostsPlaceLoading,
     hasMorePosts,
     loadInfinityPostsLoading,
   } = useSelector((state) => state.mypage);
@@ -41,9 +44,8 @@ function BasicTabs() {
   // const likeNadlecourseInfo = mypage.likeNadlecourse;
   const [value, setValue] = useState(0);
 
+  console.log(value);
   const handleChange = (event, newValue) => {
-    console.log(event);
-    console.log(newValue);
     setValue(newValue);
   };
 
@@ -59,33 +61,59 @@ function BasicTabs() {
   //   }
   // };
 
-  useEffect(() => {
-    // boardHandler();
-    dispatch(loadPostsInfinity());
-  }, []);
-
-  useEffect(() => {
-    function onScroll() {
-      // window.scrollY : 얼마나 내렸는지
-      // document.documentElement.clientHeight : 화면에 보이는 길이
-      // document.documentElement.scrollHeight : 총길이
-      if (hasMorePosts && !loadInfinityPostsLoading) {
-        if (
-          window.scrollY + document.documentElement.clientHeight >
-          document.documentElement.scrollHeight - 300
-        ) {
-          // const lastId =
-          //   InfinityPosts[InfinityPosts.length - 1]?.myNadlecourseId;
-          dispatch(loadPostsInfinity());
+  if (value === 0 || value === 1) {
+    useEffect(() => {
+      // boardHandler();
+      dispatch(loadPostsInfinity());
+    }, []);
+    useEffect(() => {
+      function onScroll() {
+        // window.scrollY : 얼마나 내렸는지
+        // document.documentElement.clientHeight : 화면에 보이는 길이
+        // document.documentElement.scrollHeight : 총길이
+        if (hasMorePosts && !loadInfinityPostsLoading) {
+          if (
+            window.scrollY + document.documentElement.clientHeight >
+            document.documentElement.scrollHeight - 300
+          ) {
+            // const lastId =
+            //   InfinityPosts[InfinityPosts.length - 1]?.myNadlecourseId;
+            dispatch(loadPostsInfinity());
+          }
         }
       }
-    }
-    window.addEventListener('scroll', onScroll);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-    };
-  }, [hasMorePosts, loadInfinityPostsLoading, InfinityPosts]);
-
+      window.addEventListener('scroll', onScroll);
+      return () => {
+        window.removeEventListener('scroll', onScroll);
+      };
+    }, [hasMorePosts, loadInfinityPostsLoading, InfinityPosts]);
+  } else if (value === 2) {
+    useEffect(() => {
+      // boardHandler();
+      dispatch(loadPostsInfinityPlace());
+    }, []);
+    useEffect(() => {
+      function onScroll() {
+        // window.scrollY : 얼마나 내렸는지
+        // document.documentElement.clientHeight : 화면에 보이는 길이
+        // document.documentElement.scrollHeight : 총길이
+        if (hasMorePosts && !loadInfinityPostsLoading) {
+          if (
+            window.scrollY + document.documentElement.clientHeight >
+            document.documentElement.scrollHeight - 300
+          ) {
+            // const lastId =
+            //   InfinityPosts[InfinityPosts.length - 1]?.myNadlecourseId;
+            dispatch(loadPostsInfinityPlace());
+          }
+        }
+      }
+      window.addEventListener('scroll', onScroll);
+      return () => {
+        window.removeEventListener('scroll', onScroll);
+      };
+    }, [hasMorePostsPlace, loadInfinityPostsPlaceLoading, InfinityPostsPlace]);
+  }
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -117,7 +145,7 @@ function BasicTabs() {
           ))}
         </Box>
       </TabPanel>
-      {/* <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={1}>
         <Box
           sx={{
             display: 'flex',
@@ -129,7 +157,7 @@ function BasicTabs() {
             borderRadius: 1,
           }}
         >
-          {likeNadlecourseInfo.map((v, i) => (
+          {InfinityPosts.map((v, i) => (
             <CurationCard
               // eslint-disable-next-line react/no-array-index-key
               key={i + v.likeNadlecourseId}
@@ -150,12 +178,12 @@ function BasicTabs() {
             borderRadius: 1,
           }}
         >
-          {likePlaceInfo.map((v, i) => (
+          {InfinityPostsPlace.map((v, i) => (
             // eslint-disable-next-line react/no-array-index-key
             <CurationCard key={i + v.likePlaceId} imgUrl={v.imgUrl} />
           ))}
         </Box>
-      </TabPanel> */}
+      </TabPanel>
     </Box>
   );
 }
