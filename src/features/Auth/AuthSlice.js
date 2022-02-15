@@ -29,7 +29,7 @@ export const signup = createAsyncThunk(
   'member/signup',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/users/signup', data);
+      const response = await axios.post('auth/users/signup', data);
       return response;
     } catch (error) {
       console.log(error);
