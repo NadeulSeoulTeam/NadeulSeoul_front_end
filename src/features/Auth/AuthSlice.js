@@ -77,7 +77,7 @@ export const checkNickname = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       console.log(data);
-      const response = await axios.post('/users/nickname', data);
+      const response = await axios.post('auth/users/nickname', data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response);
