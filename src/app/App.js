@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/button-has-type */
 
@@ -5,7 +6,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 // style
-import GlobalFonts from '../fonts/fonts';
+import GlobalFonts from '../assets/fonts/fonts';
 import Container from './AppStyle';
 
 // Common

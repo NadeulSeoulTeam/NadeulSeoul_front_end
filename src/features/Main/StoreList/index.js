@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -12,7 +13,7 @@ function StoreList() {
   const [startX, setStartX] = useState();
   const { hotStore } = useSelector((state) => state.main);
   useEffect(() => {
-    dispatch(fetchHotStores());
+    // dispatch(fetchHotStores());
   }, []);
 
   const storeList = useSelector((state) => state.main.stores);
@@ -56,13 +57,11 @@ function StoreList() {
   const onThrottleDragMove = throttle(onDragMove, 30);
 
   const mapToComponent = (data) => {
-
     if (hotStore === undefined) return <div />;
     console.log(data);
     // console.log(hotStore.data);
-    // return hotStore.data.map((store) => <StoreListItem store={store} />);
-
-
+    return hotStore.data.map((store) => <StoreListItem store={store} />);
+  };
   return (
     // <Grid container>{mapToComponent(storeList)}</Grid>;
     <StoreGrid

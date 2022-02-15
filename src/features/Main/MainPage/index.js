@@ -1,12 +1,15 @@
-
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
 import React, { useEffect, useState } from 'react';
 // import { StylesProvider } from '@material-ui/core/styles';
 
-// components
 import { useDispatch, useSelector } from 'react-redux';
+
+// components
+import StoreList from '../StoreList';
 import TagList from '../TagList';
 import UserList from '../UserList';
-import StoreList from '../StoreList';
 import CurationList from '../CurationList';
 import SearchBar from '../../../common/SearchBar';
 
@@ -22,11 +25,8 @@ import {
   TagOpener,
 } from './styles';
 
-
 // actions
-import { LoadUserInfo } from '../MainSlice';
-import { fetchLocalTags, fetchThemeTags } from '../MainSlice';
-
+import { LoadUserInfo, fetchLocalTags, fetchThemeTags } from '../MainSlice';
 
 function MainPage() {
   const dispatch = useDispatch();
@@ -36,22 +36,20 @@ function MainPage() {
     setOpen(!open);
   };
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(LoadUserInfo())
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // dispatch(LoadUserInfo())
+    //   .unwrap()
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   });
 
   useEffect(() => {
-    dispatch(fetchLocalTags());
-    dispatch(fetchThemeTags());
+    // dispatch(fetchLocalTags());
+    // dispatch(fetchThemeTags());
     console.log(themeTag, localTag);
   }, []);
 

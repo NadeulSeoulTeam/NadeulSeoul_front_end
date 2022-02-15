@@ -4,7 +4,6 @@ import axios from '../../common/api/httpCommunication';
 // save Cookie
 import { saveUserInfo } from '../../common/api/JWT-Token';
 
-
 export const initialState = {
   courses: [
     { curation_seq: 1, title: '큐레이션 제목 길게 테스트중 으아아', likes: 39 },
@@ -212,6 +211,7 @@ const mainSlice = createSlice({
       state.LoadUserInfoLoading = true;
       state.LoadUserInfoDone = false;
       state.LoadUserInfoError = action.error.message;
+    },
     [fetchHotStores.pending]: (state) => {
       state.fetchHotStoreLoading = true;
       state.fetchHotStoreDone = false;

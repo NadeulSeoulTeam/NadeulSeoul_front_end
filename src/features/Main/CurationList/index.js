@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import React, { useRef, useState } from 'react';
@@ -16,7 +17,7 @@ function CurationList() {
   const [startX, setStartX] = useState();
 
   useEffect(() => {
-    dispatch(fetchCourses());
+    // dispatch(fetchCourses());
   }, []);
 
   // 받아온 코스 list
