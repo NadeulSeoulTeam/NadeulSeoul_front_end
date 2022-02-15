@@ -56,7 +56,7 @@ function App() {
           </Route>
 
           {/* Public & private */}
-          <Route path="/CourseView" element={<CourseView />} />
+          <Route path="/courseview/:curationNo" element={<CourseView />} />
           <Route path="/mypage/:id" element={<MyPage />} />
           <Route Route path="/" element={<MainPage />} />
           <Route path="/oauth/redirect" element={<Redirect />} />

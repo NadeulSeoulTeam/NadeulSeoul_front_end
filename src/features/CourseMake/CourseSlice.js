@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import _find from 'lodash/find';
+import axios from '../../common/api/httpCommunication';
 // import _concat from 'lodash/concat';
 // import _remove from 'lodash/remove';
-import _find from 'lodash/find';
 
 // 큐레이션 요청
 export const courseInfoPost = createAsyncThunk(

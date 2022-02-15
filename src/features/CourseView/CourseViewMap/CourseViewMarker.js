@@ -8,7 +8,7 @@ export function addMarker(kakao, map, position, idx) {
   // const imageSrc =
   //   'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png'; // 마커 이미지 url, 스프라이트 이미지를 씁니다
 
-  const imgSrcConcat = 'marker_img/marker_'; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+  const imgSrcConcat = '/marker_img/marker_'; // 마커 이미지 url, 스프라이트 이미지를 씁니다
   const imageSrc = imgSrcConcat.concat(`${idx + 1}.png`);
   console.log(imageSrc);
   const imageSize = new kakao.maps.Size(36, 36); // 마커 이미지의 크기

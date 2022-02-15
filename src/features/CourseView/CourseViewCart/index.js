@@ -11,7 +11,6 @@ import {
   Nickname,
   AfterNickname,
   Picture,
-  MorePic,
   Description,
   SubTitle,
   Content,
@@ -35,8 +34,10 @@ import {
   clickLike,
   clickLikeCancel,
   getCommentList,
+  isLike,
 } from '../CourseViewSlice';
 import CourseViewComment from './CourseViewComment';
+import CourseStoreLoad from '../CourseStoreLoad';
 
 function CourseViewCart({ curationSeq }) {
   const dispatch = useDispatch();
@@ -46,16 +47,17 @@ function CourseViewCart({ curationSeq }) {
   const [commentWrote, setCommentWrote] = useState(false);
   const [userComment, setUserComment] = useState();
   const [likeClicked, setLikeClicked] = useState(false);
-  const { getComment } = useSelector((state) => state.courseView);
+  const { getComment, isLiked } = useSelector((state) => state.courseView);
   // 현재 카트에 리스트가 저장되어있는 배열
-  useEffect(() => {
-    dispatch(getCommentList({ curationSeq, pageNumber: 0, pageSize: 10 }));
-  }, []);
 
   // 댓글 작성 리랜더링
   useEffect(() => {
     dispatch(getCommentList({ curationSeq, pageNumber: 0, pageSize: 10 }));
   }, [commentWrote]);
+  // 좋아요 리랜더링
+  useEffect(() => {
+    dispatch(isLike({ curationSeq }));
+  }, [likeClicked]);
   const mapTransportationToComponent = () => {
     return course.data.transportation.map((transportation) => (
       <Transportation>{transportation}</Transportation>
@@ -106,15 +108,15 @@ function CourseViewCart({ curationSeq }) {
 
   const userClickLike = () => {
     // 비동기 통신
-    if (likeClicked) {
+    if (isLiked) {
       // true->false
-      dispatch(clickLikeCancel());
+      dispatch(clickLikeCancel({ curationSeq }));
     } else {
       // false->true
       // const formData = new FormData();
       // formData.append('member_seq', user.member_seq);
       // formData.append('curation_seq', course.curation_seq);
-      dispatch(clickLike(user.member_seq));
+      dispatch(clickLike({ curationSeq }));
     }
     setLikeClicked(!likeClicked);
   };
@@ -127,7 +129,7 @@ function CourseViewCart({ curationSeq }) {
       </RightDiv>
       <Picture>
         사진자리
-        <MorePic>사진 더보기</MorePic>
+        <CourseStoreLoad>사진 더보기</CourseStoreLoad>
       </Picture>
       <Description>{course.data.desc}</Description>
       <div style={{ display: 'inline-block' }}>
@@ -144,7 +146,7 @@ function CourseViewCart({ curationSeq }) {
       </div>
       <div style={{ textAlign: 'end', padding: '0 1.5rem' }}>
         <BtnExplain>눌러서 좋아요 표시하기</BtnExplain>
-        <LikeBtn active={!!likeClicked} type="submit" onClick={userClickLike}>
+        <LikeBtn active={!!isLiked} type="submit" onClick={userClickLike}>
           👍
         </LikeBtn>
       </div>

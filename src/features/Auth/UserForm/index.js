@@ -120,7 +120,7 @@ function UserForm() {
     // 409에러 대체
     dispatch(signup(data))
       .then((response) => {
-        saveLoginSuccess('flase');
+        saveLoginSuccess('false');
         console.log(response);
         navigate('/');
       })

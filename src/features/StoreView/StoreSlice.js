@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-unused-expressions */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from '../../common/api/httpCommunication';
 
 // 스크랩(좋아요) 누르기
 export const clickLike = createAsyncThunk(

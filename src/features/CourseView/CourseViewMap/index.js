@@ -61,6 +61,7 @@ function CourseViewMap({ curationSeq }) {
 
   useEffect(() => {
     console.log(courseInfo);
+    console.log(curationSeq);
   }, [courseInfo]);
 
   // 마커 클릭 이벤트

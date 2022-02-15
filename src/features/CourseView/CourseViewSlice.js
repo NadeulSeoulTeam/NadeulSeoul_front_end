@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import _find from 'lodash/find';
+import axios from '../../common/api/httpCommunication';
 import testdata from './testdata';
 
 // Course 정보 가져오기
@@ -24,7 +24,7 @@ export const getCommentList = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `/api/v1/curations/comments/${data.curationSeq}?page=${data.pageNumber}&size=${data.pageSize}`
+        `curations/comments/${data.curationSeq}?page=${data.pageNumber}&size=${data.pageSize}`
       );
       console.log(response.data);
       return response.data;
@@ -38,20 +38,35 @@ export const sendComment = createAsyncThunk(
   'CourseView/sendComment',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`/api/v1/curations/comments/`, data);
+      const response = await axios.post(`curations/comments/`, data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
     }
   }
 );
-
+// 스크랩(좋아요) 확인하기
+export const isLike = createAsyncThunk(
+  'CourseView/isLike',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `curations/bookmarks/${data.curationSeq}`
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
 // 스크랩(좋아요) 누르기
 export const clickLike = createAsyncThunk(
   'CourseView/clickLike',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/stores/18203409');
+      const response = await axios.post(
+        `curations/bookmarks/${data.curationSeq}`
+      );
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -64,7 +79,9 @@ export const clickLikeCancel = createAsyncThunk(
   'CourseView/clickLikeCancel',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete('curations/bookmarks/');
+      const response = await axios.delete(
+        `curations/bookmarks/${data.curationSeq}`
+      );
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -94,10 +111,14 @@ export const initialState = {
   getCommentLoading: false,
   getCommentDone: false,
   getCommentError: null,
+  isLiked: false,
+  isLikeLoading: false, // 좋아요 확인
+  isLikeDone: false,
+  isLikeError: null,
   clickLikeLoading: false, // 좋아요 보내기
   clickLikeDone: false,
   clickLikeError: null,
-  clickLikeCancelLoading: false,
+  clickLikeCancelLoading: false, // 좋아요 취소
   clickLikeCancelDone: false,
   clickLikeCancelError: null,
 };
@@ -146,6 +167,21 @@ const course = createSlice({
     [sendComment.rejected]: (state, action) => {
       state.sendCommentLoading = false;
       state.sendCommentError = action.error.message;
+    },
+    // like 확인
+    [isLike.pending]: (state) => {
+      state.isLikeLoading = true;
+      state.isLikeDone = false;
+      state.isLikeError = null;
+    },
+    [isLike.fulfilled]: (state, action) => {
+      state.isLikeLoading = false;
+      state.isLikeDone = true;
+      state.isLiked = action.payload.data;
+    },
+    [isLike.rejected]: (state, action) => {
+      state.isLikeLoading = false;
+      state.isLikeError = action.error.message;
     },
     // like 보내기
     [clickLike.pending]: (state) => {
