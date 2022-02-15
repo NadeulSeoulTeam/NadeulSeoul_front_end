@@ -10,14 +10,31 @@ function TagList() {
   const { localTag, themeTag } = useSelector((state) => state.main);
   const [localClicked, setLocalClicked] = useState();
   const [themeClicked, setThemeClicked] = useState();
+  const [clicked, setClicked] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
-    setLocalClicked(localTag.map((local) => ({ local: false })));
-    setThemeClicked({
-      isClicked: Array(themeTag.length).fill(false),
-    });
-    console.log(localClicked, themeClicked);
+    setLocalClicked(Array(localTag.length).fill(false));
+    setThemeClicked(Array(themeTag.length).fill(false));
   }, []);
+  useEffect(() => {
+    console.log(localClicked, themeClicked);
+  }, [localClicked, themeClicked]);
+  useEffect(() => {
+    console.log(localClicked);
+    console.log(themeClicked);
+  }, [clicked]);
+  const setLocalBoolean = (codeSeq) => {
+    console.log(codeSeq);
+    localClicked[codeSeq - 1] = !localClicked[codeSeq - 1];
+    setLocalClicked(localClicked);
+    setClicked(!clicked);
+  };
+  const setThemeBoolean = (codeSeq) => {
+    console.log(codeSeq);
+    themeClicked[codeSeq - 26] = !themeClicked[codeSeq - 26];
+    setLocalClicked(themeClicked);
+    setClicked(!clicked);
+  };
   const regionTagList = () => {
     return localTag.map((region) => (
       <Box
@@ -25,14 +42,18 @@ function TagList() {
         component="div"
         sx={{ display: 'inline', pr: 1 }}
       >
-        {region.codeName}
+        <button type="submit" onClick={() => setLocalBoolean(region.codeSeq)}>
+          {region.codeName}
+        </button>
       </Box>
     ));
   };
   const themeTagList = () => {
     return themeTag.map((theme) => (
       <Box id={theme.codeSeq} component="div" sx={{ display: 'inline', pr: 1 }}>
-        {theme.codeName}
+        <button type="submit" onClick={() => setThemeBoolean(theme.codeSeq)}>
+          {theme.codeName}
+        </button>
       </Box>
     ));
   };
