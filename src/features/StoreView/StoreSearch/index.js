@@ -37,16 +37,17 @@ function StoreSearch({ searchKeyword }) {
   };
 
   const searchPlaces = (kakaoKeyword) => {
-    console.log('ok');
-    console.log(kakaoKeyword);
-    if (!kakaoKeyword.replace(/^\s+|\s+$/g, '')) {
-      alert('키워드를 입력해주세요!');
-      return false;
+    if (kakaoKeyword !== null) {
+      if (!kakaoKeyword.replace(/^\s+|\s+$/g, '')) {
+        alert('키워드를 입력해주세요!');
+        return false;
+      }
+      console.log('start search');
+      // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+      ps.keywordSearch(kakaoKeyword, placesSearchCB);
+      return true;
     }
-    console.log('start search');
-    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-    ps.keywordSearch(kakaoKeyword, placesSearchCB);
-    return true;
+    return false;
   };
   useEffect(() => {
     if (searchKeyword !== undefined) {

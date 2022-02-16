@@ -58,7 +58,7 @@ function CourseMap() {
         searchData.data[i].x
       );
       tempMarkers.push(addMarker(kakao, map, placePosition, i, null)); // 배열에 생성된 마커를 추가합니다
-      if (i === 0) {
+      if (i === 0 && map !== undefined) {
         map.panTo(placePosition);
         // dispatch(
         //   moveToList({ lat: searchData.data[i].y, lng: searchData.data[i].x })
@@ -103,7 +103,7 @@ function CourseMap() {
     () => {
       console.log('lat, lang changed');
       console.log(clicked);
-      if (clicked) {
+      if (clicked && map !== undefined) {
         const placePosition = new kakao.maps.LatLng(lat, lng);
         map.panTo(placePosition);
       }
