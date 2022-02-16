@@ -30,27 +30,29 @@ import BoardForm from '../features/MyPage/Board/BoardForm';
 import StoreView from '../features/StoreView';
 
 // import Profile from '../features/MyPage/Routes/Profile';
-import isAuthenticated, {isLoggedIn} from '../common/api/isAuthenticated';
+import isAuthenticated, { isLoggedIn } from '../common/api/isAuthenticated';
 import PrivateRoute from '../common/routes/PrivateRoute';
 import PublicRoute from '../common/routes/PublicRoute';
 
-function App() { 
+function App() {
   return (
     <Container>
-
       <BrowserRouter>
         <GlobalFonts />
         <Routes>
           {/* private */}
+          <Route Route path="/questions" element={<BoardList />} />
+          <Route path="/questions/:QuestionId" element={<BoardListItem />} />
+          <Route path="/questions/new" element={<BoardForm />} />
           <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
-            <Route Route path="/questions" element={<BoardList />} />
-            <Route path="/questions/:QuestionId" element={<BoardListItem />} />
-            <Route path="/questions/new" element={<BoardForm />} />
-            <Route path="/CourseCreationForm" element={<CourseCreationForm />}/>
+            <Route
+              path="/CourseCreationForm"
+              element={<CourseCreationForm />}
+            />
           </Route>
 
           {/* Only public Not Authenticated */}
-            <Route path="/member/signup" element={<UserForm />} />
+          <Route path="/member/signup" element={<UserForm />} />
           <Route element={<PublicRoute isAuthenticated={isLoggedIn} />}>
             <Route path="/member/signin" element={<SignIn />} />
           </Route>

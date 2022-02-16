@@ -2,16 +2,9 @@
 /* eslint-disable no-unused-expressions */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import _concat from 'lodash/concat';
-// import _find from 'lodash/find';
-
-// dummy data for 인피니티 스크롤 쳅터마다 각각 마다 구현해야 함!
 
 import shortId from 'shortid';
 import axios from '../../common/api/httpCommunication';
-
-// dummy data for header part
-// 이모지 필요
-// 내 나들코스, 찜한 나들 코스, 찜한 장소 더미 데이터 만들기
 
 // 문의 게시판 createData
 const randomNum = Math.random() * 5;
@@ -28,7 +21,7 @@ export const generateDummyCardLikePlcae = (number) =>
   Array(number)
     .fill()
     .map(() => ({
-      likeplaceId: Math.floor(Math.random() * 100000),
+      storeSeq: Math.floor(Math.random() * 100000),
       storeName: '장소 이름',
       addressName: '서울시 서대문구 장천동 53-20 ',
       categoryName: '오코노미야끼 전문식당',
@@ -96,13 +89,15 @@ export const BoardListItem = {
   answer_date: '2022, 0202',
 };
 
-// 인피니티 스크롤 for MyNadle, LikeNadle course
-export const loadPostsInfinity = createAsyncThunk(
-  'mypage/loadPostsInfinity',
+// 인피니티 스크롤 for LikeNadle course
+
+export const loadPostsInfinityLikeNadle = createAsyncThunk(
+  'mypage/loadPostsInfinityLikeNadle',
   async (data, { rejectWithValue }) => {
     try {
+      console.log(data);
       const response = await axios.get(
-        `/curations/bookmarks?page=${data.page}&size=${data.size}`
+        `/curations/bookmarks?page=${data.likeNadlepage}&size=${data.size}`
       );
       return response;
     } catch (err) {
@@ -111,20 +106,6 @@ export const loadPostsInfinity = createAsyncThunk(
   }
 );
 
-// export const loadPostsInfinity = createAsyncThunk(
-//   'mypage/loadPostsInfinity',
-//   async (data, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.get(
-//         `/stores/bookmarks?page=${data.page}&size=${data.size}`
-//       );
-//       return response;
-//     } catch (err) {
-//       return rejectWithValue(err.resonse.data);
-//     }
-//   }
-// );
-
 // 인피니티 스크롤 for LikePlace
 
 export const loadPostsInfinityLikePlace = createAsyncThunk(
@@ -132,9 +113,25 @@ export const loadPostsInfinityLikePlace = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       // const response = await axios.get(
-      //   `/curations?page=${data.page}&size=${data.size}`
+      //   `/stores/bookmarks?page=${data.page}&size=${data.size}`
       // );
-      return generateDummyCardLikePlcae(8);
+      return generateDummyCardLikePlcae(10);
+    } catch (err) {
+      return rejectWithValue(err.resonse.data);
+    }
+  }
+);
+
+// 내 나틀 코스
+
+export const loadPostsInfinityMyNadle = createAsyncThunk(
+  'mypage/loadPostsInfinityMyNadle',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `/curations?page=${data.page}&size=${data.size}`
+      );
+      return response;
     } catch (err) {
       return rejectWithValue(err.resonse.data);
     }
@@ -345,8 +342,9 @@ export const initialState = {
   userInfo: User, // 내 정보 test
   user: null,
   followinfoToList: null,
-  InfinityPosts: [], // infinity scroll myNadle, LikeNadle
-  hasMorePosts: true,
+  LikeNadles: [], // infinity scroll LikeNadle
+  MyNadles: [], // infinity scroll MyNadles
+  LikePlaces: [], // infinity scroll LikePlaces
   InfinityPostsLikePlace: [], // infinity scroll LikePlace
   hasMoreLikePlace: true,
   FollowInfo: FollowList, // 팔로잉, 팔로워 정보 test
@@ -358,15 +356,15 @@ export const initialState = {
   UserId: null, // 문의게시판 UserId
   myCourse: [], // 장바구니
   myCourseToCreate: null,
-  loadInfinityPostsLoading: false, // 인피니티 LikePlace,
-  loadInfinityPostsDone: false,
-  loadInfinityPostsError: null,
-  loadInfinityPostsMyNadleLoading: false, // 인피니티 내 나들코스
-  loadInfinityPostsMyNadleDone: false,
-  loadInfinityPostsMyNadleError: null,
-  loadInfinityPostsLikeNadleLoading: false, // 인피니티 찜한 나들 코스
-  loadInfinityPostsLikeNadleDone: false,
-  loadInfinityPostsLikeNadleError: null,
+  loadInfinityLikePlacesLoading: false, // 인피니티 LikePlace,
+  loadInfinityLikePlacesDone: false,
+  loadInfinityLikePlacesError: null,
+  loadInfinityMyNadlesLoading: false, // 인피니티 내 나들코스
+  loadInfinityMyNadlesDone: false,
+  loadInfinityMyNadlesError: null,
+  loadInfinityLikeNadlesLoading: false, // 인피니티 찜한 나들 코스
+  loadInfinityLikeNadlesDone: false,
+  loadInfinityLikeNadlesError: null,
   setLikePlaceLoading: false, // 장바구니 담기 요청 시도
   setLikePlaceDone: false,
   setLikePlaceError: null,
@@ -429,46 +427,56 @@ const MyPageSlice = createSlice({
     },
   },
   extraReducers: {
-    // 인피니티 스크롤 myNadle, LikeNadle
-    [loadPostsInfinity.pending]: (state) => {
-      state.loadInfinityPostsLoading = true;
-      state.loadInfinityPostsDone = false;
-      state.loadInfinityPostsError = null;
+    // 인피니티 스크롤 LikeNadles
+    [loadPostsInfinityLikeNadle.pending]: (state) => {
+      state.loadInfinityLikeNadlesLoading = true;
+      state.loadInfinityLikeNadlesDone = false;
+      state.loadInfinityLikeNadlesError = null;
     },
-    [loadPostsInfinity.fulfilled]: (state, action) => {
-      console.log(action);
-      state.loadInfinityPostsLoading = false;
-      state.loadInfinityPostsDone = true;
-      // state.InfinityPosts = action.payload.data.data.content;
-      state.InfinityPosts = _concat(
-        state.InfinityPosts,
+    [loadPostsInfinityLikeNadle.fulfilled]: (state, action) => {
+      state.loadInfinityLikeNadlesLoading = false;
+      state.loadInfinityLikeNadlesDone = true;
+      state.LikeNadles = _concat(
+        state.LikeNadles,
         action.payload.data.data.content
       );
-
-      // state.hasMorePosts = action.payload.length === 8;
     },
-    [loadPostsInfinity.rejected]: (state, action) => {
-      state.loadInfinityPostsLoading = false;
-      state.loadInfinityPostsError = action.error.message;
+    [loadPostsInfinityLikeNadle.rejected]: (state, action) => {
+      state.loadInfinityLikeNadlesLoading = false;
+      state.loadInfinityLikeNadlesError = action.error.message;
     },
-    // 인피니티 스크롤 LikePlace
+    // 인피니티 스크롤 LikePlaces
     [loadPostsInfinityLikePlace.pending]: (state) => {
-      state.loadInfinityPostsLikePlaceLoading = true;
-      state.loadInfinityPostsLikePlaceDone = false;
-      state.loadInfinityPostsLikePlaceError = null;
+      state.loadInfinityLikePlacesLoading = true;
+      state.loadInfinityLikePlacesDone = false;
+      state.loadInfinityLikePlacesError = null;
     },
     [loadPostsInfinityLikePlace.fulfilled]: (state, action) => {
-      state.loadInfinityPostsLikePlaceLoading = false;
-      state.loadInfinityPostsLikePlaceDone = true;
-      state.InfinityPostsLikePlace = _concat(
-        state.InfinityPostsLikePlace,
-        action.payload
-      );
-      state.hasMoreLikePlace = action.payload.length === 8;
+      state.loadInfinityLikePlacesLoading = false;
+      state.loadInfinityLikePlacesDone = true;
+      state.LikePlaces = _concat(state.LikePlaces, action.payload);
     },
     [loadPostsInfinityLikePlace.rejected]: (state, action) => {
-      state.loadInfinityPostsLikePlaceLoading = false;
-      state.loadInfinityPostsLikePlaceError = action.error.message;
+      state.loadInfinityLikePlacesLoading = false;
+      state.loadInfinityLikePlacesError = action.error.message;
+    },
+    // 인피니티 스크롤 MyNadles
+    [loadPostsInfinityLikePlace.pending]: (state) => {
+      state.loadInfinityMyNadlesLoading = true;
+      state.loadInfinityMyNadlesDone = false;
+      state.loadInfinityMyNadlesError = null;
+    },
+    [loadPostsInfinityLikePlace.fulfilled]: (state, action) => {
+      state.loadInfinityMyNadlesLoading = false;
+      state.loadInfinityMyNadlesDone = true;
+      state.MyNadles = _concat(
+        state.MyNadles,
+        action.payload.data.data.content
+      );
+    },
+    [loadPostsInfinityLikePlace.rejected]: (state, action) => {
+      state.loadInfinityLikePlacesLoading = false;
+      state.loadInfinityLikePlacesError = action.error.message;
     },
     // 유저 정보 조회
     [loadUser.pending]: (state) => {

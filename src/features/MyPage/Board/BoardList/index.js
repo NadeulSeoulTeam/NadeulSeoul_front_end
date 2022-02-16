@@ -22,7 +22,7 @@ import { loadBoardList, postIdToListItem } from '../../MyPageSlice';
 import { GreenBtn, MainTitle } from './styles';
 
 // cookie
-import { getUserInfo } from '../../../../common/api/JWT-Token';
+// import { getUserInfo } from '../../../../common/api/JWT-Token';
 
 // title, id, date(작성 시간) 3개만 프로필에 표시하면 된다.
 const columns = [
@@ -69,7 +69,7 @@ function BoardList() {
   }, []);
 
   useEffect(() => {
-    dispatch(loadBoardList(getUserInfo().userSeq))
+    dispatch(loadBoardList(1))
       .unwrap()
       .then((response) => {
         console.log(response);
@@ -77,7 +77,6 @@ function BoardList() {
       .catch((error) => {
         console.log(error);
       });
-    console.log(getUserInfo().userSeq);
   }, []);
 
   return (
