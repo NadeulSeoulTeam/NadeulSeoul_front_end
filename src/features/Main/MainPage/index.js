@@ -12,7 +12,7 @@ import TagList from '../TagList';
 import UserList from '../UserList';
 import CurationList from '../CurationList';
 import SearchBar from '../../../common/SearchBar';
-
+import sampleImg from '../nongdam.png';
 // custom style
 import {
   TopWrapper,
@@ -23,19 +23,96 @@ import {
   SubTitle,
   SampleTags,
   TagOpener,
+  Wrapper,
+  ImageDiv,
+  CurationImage,
+  LikeChip,
+  CurationTitle,
+  CurationGrid,
 } from './styles';
 
 // actions
-import { LoadUserInfo, fetchLocalTags, fetchThemeTags } from '../MainSlice';
+import {
+  LoadUserInfo,
+  fetchLocalTags,
+  fetchThemeTags,
+  LocalNThemeTagsSelected,
+} from '../MainSlice';
 
 function MainPage() {
+  const [localClicked, setLocalClicked] = useState();
+  const [themeClicked, setThemeClicked] = useState();
+  const [clicked, setClicked] = useState(0);
+
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const { themeTag, localTag } = useSelector((state) => state.main);
+  const [tagsSelectedContent, setTagsSelectedContent] = useState();
+  // const { themeTag, localTag } = useSelector((state) => state.main);
+  const { localTag, themeTag, localNThemeTagsSelected } = useSelector(
+    (state) => state.main
+  );
   const handleOpen = () => {
     setOpen(!open);
   };
-
+  useEffect(() => {
+    setLocalClicked(Array(localTag.length).fill(false));
+    setThemeClicked(Array(themeTag.length).fill(false));
+  }, []);
+  useEffect(() => {
+    console.log(localClicked, themeClicked);
+  }, [localClicked, themeClicked]);
+  useEffect(() => {
+    console.log(localClicked);
+    console.log(themeClicked);
+    console.log(clicked);
+    if (clicked > 0) {
+      const local = [];
+      const theme = [];
+      for (let i = 0; i < localClicked.length; i += 1) {
+        if (localClicked[i]) local.push(i + 1);
+      }
+      for (let i = 0; i < themeClicked.length; i += 1) {
+        if (themeClicked[i]) theme.push(i + 26);
+      }
+      const data = { local, theme };
+      dispatch(LocalNThemeTagsSelected(data));
+    }
+  }, [clicked]);
+  // 태그 조건부 랜더링
+  const tagSelectRender = (content) => {
+    if (content === undefined) return <div />;
+    return content.map((curation) => (
+      <Wrapper>
+        <ImageDiv>
+          <CurationImage alt="profile_img" src={sampleImg} />
+          <LikeChip>👍{curation.good}</LikeChip>
+        </ImageDiv>
+        <CurationTitle>{curation.title}</CurationTitle>
+      </Wrapper>
+    ));
+  };
+  useEffect(() => {
+    if (
+      localNThemeTagsSelected.content !== undefined &&
+      localNThemeTagsSelected.content.length > 0
+    ) {
+      setTagsSelectedContent(localNThemeTagsSelected.content);
+    }
+  }, [localNThemeTagsSelected]);
+  const setLocalBoolean = (codeSeq) => {
+    console.log(codeSeq);
+    localClicked[codeSeq - 1] = !localClicked[codeSeq - 1];
+    setLocalClicked(localClicked);
+    if (localClicked[codeSeq - 1]) setClicked(clicked + 1);
+    else setClicked(clicked - 1);
+  };
+  const setThemeBoolean = (codeSeq) => {
+    console.log(codeSeq);
+    themeClicked[codeSeq - 26] = !themeClicked[codeSeq - 26];
+    setThemeClicked(themeClicked);
+    if (themeClicked[codeSeq - 26]) setClicked(clicked + 1);
+    else setClicked(clicked - 1);
+  };
   useEffect(() => {
     // dispatch(LoadUserInfo())
     //   .unwrap()
@@ -48,9 +125,9 @@ function MainPage() {
   });
 
   useEffect(() => {
-    // dispatch(fetchLocalTags());
-    // dispatch(fetchThemeTags());
-    console.log(themeTag, localTag);
+    dispatch(fetchLocalTags());
+    dispatch(fetchThemeTags());
+    // console.log(themeTag, localTag);
   }, []);
 
   return (
@@ -66,16 +143,27 @@ function MainPage() {
           <SampleTags>공원 산책</SampleTags>
           <TagOpener onClick={handleOpen}>태그 더보기▼</TagOpener>
         </MidWrapper>
-        {open ? <TagList /> : null}
+        {open ? (
+          <TagList
+            themeClicked={themeClicked}
+            localClicked={localClicked}
+            setLocalBoolean={setLocalBoolean}
+            setThemeBoolean={setThemeBoolean}
+          />
+        ) : null}
       </TopWrapper>
-      <BottomWrapper>
-        <SubTitle>지금 HOT한 코스</SubTitle>
-        <CurationList />
-        <SubTitle>열정적인 나들러</SubTitle>
-        <UserList />
-        <SubTitle>나들러들이 많이 찜한 장소</SubTitle>
-        <StoreList />
-      </BottomWrapper>
+      {clicked === 0 ? (
+        <BottomWrapper>
+          <SubTitle>지금 HOT한 코스</SubTitle>
+          <CurationList />
+          <SubTitle>열정적인 나들러</SubTitle>
+          <UserList />
+          <SubTitle>나들러들이 많이 찜한 장소</SubTitle>
+          <StoreList />
+        </BottomWrapper>
+      ) : (
+        <CurationGrid>{tagSelectRender(tagsSelectedContent)}</CurationGrid>
+      )}
     </div>
   );
 }

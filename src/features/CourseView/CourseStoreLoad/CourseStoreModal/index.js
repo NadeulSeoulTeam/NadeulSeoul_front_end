@@ -39,12 +39,12 @@ const ButtonRightStyle = {
 export default function CourseStoreModal({ handleClose, open }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [imageUrl, setImageUrl] = useState([
-    './test_img/0.JPG',
-    './test_img/1.JPG',
-    './test_img/2.JPG',
-    './test_img/3.JPG',
-    './test_img/4.JPG',
-    './test_img/5.JPG',
+    '/test_img/0.JPG',
+    '/test_img/1.JPG',
+    '/test_img/2.JPG',
+    '/test_img/3.JPG',
+    '/test_img/4.JPG',
+    '/test_img/5.JPG',
   ]);
   const moveLeft = () => {
     if (currentPage === 0) return;

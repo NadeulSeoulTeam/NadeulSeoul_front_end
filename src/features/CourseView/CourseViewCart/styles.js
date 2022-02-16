@@ -46,15 +46,9 @@ export const Picture = styled.div`
   cursor: pointer;
 `;
 
-export const MorePic = styled.p`
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  font-size: 0.7rem;
-  background-color: white;
-  border-radius: 30px;
-  padding: 3px 5px;
-  margin: 0;
+export const Thumbnail = styled.img`
+  width: 160px;
+  height: 120px;
 `;
 
 export const Description = styled.div`

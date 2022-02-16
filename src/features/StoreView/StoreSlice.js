@@ -1,17 +1,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-unused-expressions */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from '../../common/api/httpCommunication';
 
 // 스크랩(좋아요) 누르기
 export const clickLike = createAsyncThunk(
   'StoreView/like',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `/api/v1/stores/${data.storeSeq}`,
-        data
-      ); // url: baseUrl + url
+      const response = await axios.post(`stores/${data.storeSeq}`, data);
 
       return response.data;
     } catch (err) {
@@ -26,7 +23,7 @@ export const clickLikeCancel = createAsyncThunk(
   'StoreView/likeCancel',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`/api/v1/stores/bookmarks/${data}`);
+      const response = await axios.delete(`stores/bookmarks/${data.storeSeq}`);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -39,7 +36,7 @@ export const clickLikeCheck = createAsyncThunk(
   'StoreView/likeCancel',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/v1/stores/bookmarks/${data}`);
+      const response = await axios.get(`stores/bookmarks/${data.storeSeq}`);
       console.log(response.data);
       return response.data;
     } catch (err) {
@@ -75,6 +72,7 @@ export const initialState = {
   sendCommentLoading: false,
   sendCommentDone: false,
   sendCommentError: null,
+  likeClicked: false,
   clickLikeLoading: false, // 좋아요 보내기
   clickLikeDone: false,
   clickLikeError: null,
@@ -162,6 +160,7 @@ const store = createSlice({
     [clickLike.fulfilled]: (state, action) => {
       state.clickLikeLoading = false;
       state.clickLikeDone = true;
+      state.likeClicked = true;
     },
     [clickLike.rejected]: (state, action) => {
       state.clickLikeLoading = false;
@@ -176,6 +175,7 @@ const store = createSlice({
     [clickLikeCancel.fulfilled]: (state, action) => {
       state.clickLikeCancelLoading = false;
       state.clickLikeCancelDone = true;
+      state.likeClicked = false;
     },
     [clickLikeCancel.rejected]: (state, action) => {
       state.clickLikeCancelLoading = false;
@@ -189,6 +189,9 @@ const store = createSlice({
     [clickLikeCheck.fulfilled]: (state, action) => {
       state.clickLikeCheckLoading = false;
       state.clickLikeCheckDone = true;
+      console.log(action.payload);
+      if (action.payload.data === null) return;
+      state.likeClicked = action.payload.data.isBookmark;
     },
     [clickLikeCheck.rejected]: (state, action) => {
       state.clickLikeCheckLoading = false;
