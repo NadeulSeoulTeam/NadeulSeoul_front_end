@@ -25,9 +25,9 @@ function StoreListItem({ store }) {
       {/* <StoreName>{store.title}</StoreName>
       <Address>{store.address}</Address>
       <StoreInfo>{store.category_name}</StoreInfo> */}
-      <StoreName>{store.name}</StoreName>
-      <Address>{store.address}</Address>
-      <StoreInfo>{store.category_name}</StoreInfo>
+      <StoreName>{store.storeName}</StoreName>
+      <Address>{store.addressName}</Address>
+      <StoreInfo>{store.categoryName}</StoreInfo>
     </Wrapper>
   );
 }

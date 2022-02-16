@@ -14,7 +14,12 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ImageUploading from 'react-images-uploading';
 import { Axios } from 'axios';
 
-import { getCourse, updateCourse, courseInfoPost } from '../CourseSlice';
+import {
+  getCourse,
+  updateCourse,
+  courseInfoPost,
+  courseImagePost,
+} from '../CourseSlice';
 
 import CourseCreationModal from './CourseCreationModal/CourseCreationModal';
 import CourseCreationFormCartListItem from './CourseCreationFormCartListItem/CourseCreationFormCartListItem';
@@ -247,6 +252,7 @@ function CourseCreactionForm() {
   }, [courseInfo]);
 
   const sendCourse = () => {
+    // 1번 255~~~
     const formData = new FormData();
     setCourseInfo((courseInfo.transportation = makeTransportationTagBoolean()));
     setCourseInfo((courseInfo.local = makeLocalTagBoolean()));
@@ -263,7 +269,8 @@ function CourseCreactionForm() {
     // formData.append('transportation', courseInfo.transportation);
     // formData.append('local', courseInfo.local);
     // formData.append('theme', courseInfo.theme);
-
+    dispatch(courseImagePost(formData));
+    // 2번 272~~~~304
     const arr = [];
     for (let i = 0; i < courseInfo.courseRoute.length; i += 1) {
       const data = {
@@ -289,13 +296,14 @@ function CourseCreactionForm() {
       theme: courseInfo.theme,
     };
 
-    console.log(courseInfo);
-    // courseInfo.fileList = formData;
-    setCourseInfo(courseInfo);
-    // 전부 formdata에 넣어서 보내주기
-    // dispatch(courseInfoPost(formData));
+    // console.log(courseInfo);
+    // // courseInfo.fileList = formData;
+    // // 전부 formdata에 넣어서 보내주기
+    // // dispatch(courseInfoPost(formData));
     dispatch(courseInfoPost(data));
-    console.log(data);
+    // dispatch(courseImagePost(formData));
+    setCourseInfo(courseInfo);
+    // console.log(data);
     // handleOpen();
   };
   // course 정보 backend 송신 함수

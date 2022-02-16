@@ -42,7 +42,7 @@ import {
 import CourseViewComment from './CourseViewComment';
 import CourseStoreLoad from '../CourseStoreLoad';
 
-function CourseViewCart({ curationSeq }) {
+function CourseViewCart({ curationSeq, courseInfo }) {
   const dispatch = useDispatch();
   const [course, setCourse] = useState(testdata);
   // 이 시점에서 getCourseInfo?
@@ -165,25 +165,35 @@ function CourseViewCart({ curationSeq }) {
   return (
     <Container>
       <RightDiv>
-        <Nickname>{course.data.member_nickname}</Nickname>
+        <Nickname>넣어야댐</Nickname>
         <AfterNickname>의 나들코스</AfterNickname>
       </RightDiv>
       <Picture>
         <Thumbnail src="/test_img/0.JPG" />
         <CourseStoreLoad>사진 더보기</CourseStoreLoad>
       </Picture>
-      <Description>{course.data.desc}</Description>
+      <Description>{courseInfo.description}</Description>
       <div style={{ display: 'inline-block' }}>
         <SubTitle>교통편</SubTitle>
         <SubTitle>코스 예산</SubTitle>
         <SubTitle>함께 한 인원</SubTitle>
       </div>
       <div style={{ display: 'inline-block' }}>
-        <Content>
-          {getComment.length !== 0} && {mapTransportationToComponent}
-        </Content>
-        <Content>{course.data.budget}원 / 1인</Content>
-        <Content>{course.data.fixed_people}</Content>
+        {courseInfo.transportation === undefined ? (
+          <Content />
+        ) : (
+          <Content>교통수단</Content>
+        )}
+        {courseInfo.budget === null ? (
+          <Content />
+        ) : (
+          <Content>{courseInfo.budget}원 / 1인</Content>
+        )}
+        {courseInfo.personnel === null ? (
+          <Content />
+        ) : (
+          <Content>{courseInfo.personnel}</Content>
+        )}
       </div>
       <div style={{ textAlign: 'end', padding: '0 1.5rem' }}>
         <BtnExplain>눌러서 좋아요 표시하기</BtnExplain>

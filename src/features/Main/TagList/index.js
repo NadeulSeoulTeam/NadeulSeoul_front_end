@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchLocalTags, fetchThemeTags } from '../MainSlice';
-import { LocalTag, ThemeTag } from './styles';
+import { TextToggleBtn } from './styles';
 
 function TagList({
   themeClicked,
@@ -53,13 +53,13 @@ function TagList({
             component="div"
             sx={{ display: 'inline', pr: 1 }}
           >
-            <LocalTag
+            <TextToggleBtn
               type="submit"
               active={!!localClicked[region.codeSeq - 1]}
               onClick={() => setLocalBoolean(region.codeSeq)}
             >
               {region.codeName}
-            </LocalTag>
+            </TextToggleBtn>
           </Box>
         )
     );
@@ -73,13 +73,13 @@ function TagList({
             component="div"
             sx={{ display: 'inline', pr: 1 }}
           >
-            <ThemeTag
+            <TextToggleBtn
               type="submit"
               active={!!themeClicked[theme.codeSeq - 26]}
               onClick={() => setThemeBoolean(theme.codeSeq)}
             >
               {theme.codeName}
-            </ThemeTag>
+            </TextToggleBtn>
           </Box>
         )
     );

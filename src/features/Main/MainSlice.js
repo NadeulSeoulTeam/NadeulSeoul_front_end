@@ -60,15 +60,18 @@ export const initialState = {
   fetchCoursesLoading: false,
   fetchCoursesDone: false,
   fetchCoursesError: null,
-  fetchUsersLoading: false,
-  fetchUsersDone: false,
-  fetchUsersError: null,
   LoadUserInfoLoading: false, // 사용자 정보 요청 시도
   LoadUserInfoDone: false,
   LoadUserInfoError: null,
-  fetchHotStoresLoading: false,
+  fetchHotStoresLoading: false, // 핫한 코스
   fetchHotStoreDone: false,
   fetchHotStoreError: null,
+  fetchUsersLoading: false, // 열정적 나들러
+  fetchUsersDone: false,
+  fetchUsersError: null,
+  fetchPlaceLoading: false, // 찜한 장소
+  fetchPlaceDone: false,
+  ffetchPlaceError: null,
   // Local tag
   localTag: [],
   fetchLocalTagsLoading: false,
@@ -86,24 +89,40 @@ export const initialState = {
   localNThemeTagsSelectedError: null,
 };
 
+// hot 한 코스 목록 가져오기
 export const fetchCourses = createAsyncThunk('main/fetchCourses', async () => {
   try {
-    const response = await axios.get('curations/statics/courses');
+    const response = await axios.get('statics/courses');
+    console.log(response.data);
+    return response.data.data;
+  } catch (error) {
+    return error.response.data;
+  }
+});
+// 활발한 나들러 받아오는 주소 확인
+export const fetchUsers = createAsyncThunk('main/nadeulers', async () => {
+  try {
+    const response = await axios.get('statics/nadeulers');
+    console.log(response.data);
     return response.data.data;
   } catch (error) {
     return error.response.data;
   }
 });
 
-// 활발한 나들러 받아오는 주소 확인
-export const fetchUsers = createAsyncThunk('main/fetchUsers', async () => {
-  try {
-    const response = await axios.get('curations/statics/nadeulers');
-    return response.data.data;
-  } catch (error) {
-    return error.response.data;
+// 찜 순위로 가져오기
+export const fetchHotStores = createAsyncThunk(
+  'main/fetchHotStores',
+  async () => {
+    try {
+      const response = await axios.get('statics/stores');
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
   }
-});
+);
 
 // 유저 정보 확인
 export const LoadUserInfo = createAsyncThunk(
@@ -119,19 +138,6 @@ export const LoadUserInfo = createAsyncThunk(
   }
 );
 
-// 찜 순위로 가져오기
-export const fetchHotStores = createAsyncThunk(
-  'main/fetchHotStores',
-  async () => {
-    try {
-      const response = await axios.get('curations/statics/stores');
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      return error.response.data;
-    }
-  }
-);
 // 지역 tag list 가져오기
 export const fetchLocalTags = createAsyncThunk(
   'main/fetchLocalTags',
@@ -211,27 +217,12 @@ const mainSlice = createSlice({
     [fetchUsers.fulfilled]: (state, action) => {
       state.fetchUsersLoading = false;
       state.fetchUsersDone = true;
-      state.Users = action.payload;
+      state.users = action.payload;
     },
     [fetchUsers.rejected]: (state, action) => {
       state.fetchUsersLoading = true;
       state.fetchUsersDone = false;
       state.fetchUsersError = action.payload.data.message;
-    },
-    [LoadUserInfo.pending]: (state) => {
-      state.LoadUserInfoLoading = true;
-      state.LoadUserInfoDone = false;
-      state.LoadUserInfoError = null;
-    },
-    [LoadUserInfo.fulfilled]: (state, action) => {
-      state.LoadUserInfoLoading = false;
-      state.LoadUserInfoDone = true;
-      state.userInfo = action.payload.data;
-    },
-    [LoadUserInfo.rejected]: (state, action) => {
-      state.LoadUserInfoLoading = true;
-      state.LoadUserInfoDone = false;
-      state.LoadUserInfoError = action.error.message;
     },
     [fetchHotStores.pending]: (state) => {
       state.fetchHotStoreLoading = true;
@@ -247,6 +238,21 @@ const mainSlice = createSlice({
       state.fetchHotStoresLoading = true;
       state.fetchHotStoreDone = false;
       state.fetchHotStoreError = action.payload.data.message;
+    },
+    [LoadUserInfo.pending]: (state) => {
+      state.LoadUserInfoLoading = true;
+      state.LoadUserInfoDone = false;
+      state.LoadUserInfoError = null;
+    },
+    [LoadUserInfo.fulfilled]: (state, action) => {
+      state.LoadUserInfoLoading = false;
+      state.LoadUserInfoDone = true;
+      state.userInfo = action.payload.data;
+    },
+    [LoadUserInfo.rejected]: (state, action) => {
+      state.LoadUserInfoLoading = true;
+      state.LoadUserInfoDone = false;
+      state.LoadUserInfoError = action.error.message;
     },
     [fetchLocalTags.pending]: (state) => {
       state.fetchLocalTagsLoading = true;
