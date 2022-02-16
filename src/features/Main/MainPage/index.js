@@ -56,7 +56,7 @@ function MainPage() {
   const handleOpen = () => {
     setOpen(!open);
   };
-  
+
   console.log(getLoginSuccess(), typeof getLoginSuccess());
 
   if (getLoginSuccess() === 'false') {
@@ -71,16 +71,16 @@ function MainPage() {
         });
     }, []);
   }
-  
+
   useEffect(() => {
     setLocalClicked(Array(localTag.length).fill(false));
     setThemeClicked(Array(themeTag.length).fill(false));
   }, []);
-  
+
   useEffect(() => {
     console.log(localClicked, themeClicked);
   }, [localClicked, themeClicked]);
-  
+
   useEffect(() => {
     console.log(localClicked);
     console.log(themeClicked);
@@ -98,7 +98,7 @@ function MainPage() {
       dispatch(LocalNThemeTagsSelected(data));
     }
   }, [clicked]);
-  
+
   // 태그 조건부 랜더링
   const tagSelectRender = (content) => {
     if (content === undefined) return <div />;
