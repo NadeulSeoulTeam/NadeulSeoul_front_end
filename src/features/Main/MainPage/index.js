@@ -39,6 +39,9 @@ import {
   LocalNThemeTagsSelected,
 } from '../MainSlice';
 
+// cookie
+import { getLoginSuccess } from '../../../common/api/JWT-Token';
+
 function MainPage() {
   const [localClicked, setLocalClicked] = useState();
   const [themeClicked, setThemeClicked] = useState();
@@ -54,13 +57,31 @@ function MainPage() {
   const handleOpen = () => {
     setOpen(!open);
   };
+  
+  console.log(getLoginSuccess(), typeof getLoginSuccess());
+
+  if (getLoginSuccess() === 'false') {
+    useEffect(() => {
+      dispatch(LoadUserInfo())
+        .unwrap()
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, []);
+  }
+  
   useEffect(() => {
     setLocalClicked(Array(localTag.length).fill(false));
     setThemeClicked(Array(themeTag.length).fill(false));
   }, []);
+  
   useEffect(() => {
     console.log(localClicked, themeClicked);
   }, [localClicked, themeClicked]);
+  
   useEffect(() => {
     console.log(localClicked);
     console.log(themeClicked);
@@ -78,6 +99,7 @@ function MainPage() {
       dispatch(LocalNThemeTagsSelected(data));
     }
   }, [clicked]);
+  
   // 태그 조건부 랜더링
   const tagSelectRender = (content) => {
     if (content === undefined) return <div />;
@@ -91,6 +113,7 @@ function MainPage() {
       </Wrapper>
     ));
   };
+
   useEffect(() => {
     if (
       localNThemeTagsSelected.content !== undefined &&
@@ -99,6 +122,7 @@ function MainPage() {
       setTagsSelectedContent(localNThemeTagsSelected.content);
     }
   }, [localNThemeTagsSelected]);
+
   const setLocalBoolean = (codeSeq) => {
     console.log(codeSeq);
     localClicked[codeSeq - 1] = !localClicked[codeSeq - 1];
@@ -106,6 +130,7 @@ function MainPage() {
     if (localClicked[codeSeq - 1]) setClicked(clicked + 1);
     else setClicked(clicked - 1);
   };
+
   const setThemeBoolean = (codeSeq) => {
     console.log(codeSeq);
     themeClicked[codeSeq - 26] = !themeClicked[codeSeq - 26];
@@ -113,6 +138,7 @@ function MainPage() {
     if (themeClicked[codeSeq - 26]) setClicked(clicked + 1);
     else setClicked(clicked - 1);
   };
+
   useEffect(() => {
     // dispatch(LoadUserInfo())
     //   .unwrap()

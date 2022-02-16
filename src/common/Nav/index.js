@@ -32,7 +32,6 @@ function Nav() {
   // 실제로는 cookie에서 user 정보 받아오기? 일단 지금은 그냥 state로 했어욥! 넵!
   // const [isLogged, setIsLogged] = useState(false);
 
-  console.log(getUserInfo());
   const onHolderClick = () => {
     setIsOpen(!isOpen);
   };
@@ -51,21 +50,35 @@ function Nav() {
     navigate('/member/signin');
   };
 
+  const onClickEditUserInfo = () => {
+    navigate('/member/edit');
+  };
+
+  const onClickBoard = () => {
+    navigate('/questions');
+  };
+
+  const onClickNickname = () => {
+    navigate(`/mypage/${getUserInfo()?.userSeq}`);
+  };
+
   const openedBar = (
     <div>
       <Slide direction="right" in={isOpen} mountOnEnter unmountOnExit>
-        <WhiteHolder onClick={() => onHolderClick()}>
+        <WhiteHolder onClick={onHolderClick}>
           <Icon style={{ color: '#0de073' }} />
         </WhiteHolder>
       </Slide>
       <Slide direction="right" in={isOpen} mountOnEnter unmountOnExit>
         <Container>
           {isAuthenticated() ? (
-            <Nickname>{getUserInfo()?.nickname}</Nickname>
+            <Nickname onClick={onClickNickname}>
+              {getUserInfo()?.nickname}
+            </Nickname>
           ) : (
             <Nickname>익명의 나들러</Nickname>
           )}
-          <CenterDiv style={{ top: '6rem' }}>
+          <CenterDiv style={{ top: '5.8rem' }}>
             {isAuthenticated() ? (
               <div>
                 <Text style={{ fontWeight: 'bold' }}>
@@ -86,14 +99,21 @@ function Nav() {
               <GreenText style={{ top: '7rem' }} onClick={onLogoutClick}>
                 로그아웃
               </GreenText>
-
-              <GreenText style={{ top: '8rem' }}>회원정보 수정</GreenText>
+              <GreenText
+                style={{ top: '8.3rem' }}
+                onClick={onClickEditUserInfo}
+              >
+                회원정보 수정
+              </GreenText>
+              <GreenText style={{ top: '9.6rem' }} onClick={onClickBoard}>
+                문의게시판
+              </GreenText>
               <GreenBtn>나만의 코스 만들기</GreenBtn>
             </div>
           ) : (
             <div>
               <GreenText
-                style={{ top: '7.5rem' }}
+                style={{ top: '8.3rem' }}
                 onClick={() => onLoinClick()}
               >
                 로그인 / 회원가입

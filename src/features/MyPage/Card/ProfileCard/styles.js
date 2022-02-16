@@ -1,21 +1,32 @@
-/* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
+import Avatar from '@mui/material/Avatar';
 
-import Button from '@mui/material/Button';
+export const Container = styled.div`
+  padding: 3rem 5rem;
+`;
 
-export const GreenBtn = styled(Button)`
+export const ProfileDiv = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+`;
+
+export const TextDiv = styled.div`
+  margin-left: 1rem;
+  display: inline;
+`;
+
+export const Nickname = styled.p`
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+`;
+
+export const ProfileEmoji = styled(Avatar)`
   && {
-    font-family: 'Suit';
-    font-weight: bold;
-    background-color: #0de073;
-    margin: 20px;
-    padding: 8px 20px;
-    border-radius: 50px;
-    color: white;
-    cursor: pointer;
-    border: none;
-    &:hover {
-      background-color: #06d469;
-    }
+    width: 90px;
+    height: 90px;
+    font-size: 2.5rem;
+    background-color: #d1f0df;
   }
 `;

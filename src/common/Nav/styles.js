@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 export const Container = styled.div`
   width: 280px;
-  height: 240px;
+  height: 260px;
   background-color: white;
   border-radius: 0 20px 20px 0;
   padding: 0;
@@ -42,7 +42,7 @@ export const Icon = styled(MenuIcon)`
     font-size: 1.8rem;
     margin-top: 50%;
     margin-left: 50%;
-    transform: translate(-60%, -50%);
+    transform: translate(-60%, -45%);
   }
 `;
 
@@ -57,6 +57,7 @@ export const Nickname = styled.p`
   top: 1rem;
   left: 50%;
   transform: translate(-50%, 0%);
+  cursor: pointer;
   overflow: hidden;
 `;
 

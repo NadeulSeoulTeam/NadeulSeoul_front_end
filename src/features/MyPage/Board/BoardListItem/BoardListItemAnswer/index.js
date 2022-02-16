@@ -3,15 +3,15 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-// mui
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import SendIcon from '@mui/icons-material/Send';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import TextField from '@mui/material/TextField';
+// styles
+import {
+  AnswerTitle,
+  Underline,
+  AnswerContent,
+  GreenBtn,
+  GreyBtn,
+  TextInput,
+} from './styles';
 
 // actions
 
@@ -84,129 +84,83 @@ function BoardListItemAnswer({ answer, PostId, isAdmin }) {
   };
   return (
     <>
-      <h2>관리자 답변</h2>
       {/* 1. 이미 답변이 존재하면 수정, 삭제  / paper  */}
       {/* 2. 답변이 없다면 답변 작성하기만 / textarea */}
 
       {answer ? (
         editModeAnswer ? (
           <>
-            <Box
-              component="form"
-              sx={{
-                '& .MuiTextField-root': { m: 1, width: '70%' },
-              }}
-              noValidate
-              autoComplete="off"
-            >
-              <div>
-                <TextField
-                  id="standard-multiline-static"
-                  label="내용"
-                  fullWidth
-                  multiline
-                  rows={8}
-                  size="medium"
-                  value={reply}
-                  onChange={onChangeAnswerContext}
-                />
-              </div>
-            </Box>
+            <AnswerTitle>관리자 답변</AnswerTitle>
+            <Underline />
+            <AnswerTitle style={{ paddingBottom: '0', marginBottom: '8px' }}>
+              내용
+            </AnswerTitle>
+            <TextInput
+              size="small"
+              multiline
+              rows={5}
+              placeholder="내용"
+              value={reply}
+              onChange={onChangeAnswerContext}
+            />
             {isAdmin && (
-              <Stack direction="row" spacing={2}>
-                <Button
-                  onClick={onClickAnswerUpdate}
-                  variant="contained"
-                  startIcon={<SendIcon />}
-                >
-                  Send
-                </Button>
-                <Button
-                  onClick={onClickAnswerDelete}
-                  variant="contained"
-                  startIcon={<DeleteIcon />}
-                >
-                  Delete
-                </Button>
-              </Stack>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'end',
+                  marginTop: '1.5rem',
+                }}
+              >
+                <GreyBtn onClick={onClickAnswerDelete}>삭제하기</GreyBtn>
+                <GreenBtn onClick={onClickAnswerUpdate}>작성하기</GreenBtn>
+              </div>
             )}
           </>
         ) : (
           <>
-            <Box
-              sx={{
-                display: 'flex',
-                '& > :not(style)': {
-                  m: 1,
-                  width: '70%',
-                  height: 230,
-                },
-              }}
-            >
-              <Paper variant="outlined" square>
-                {answer}
-              </Paper>
-            </Box>
+            <AnswerTitle>관리자 답변</AnswerTitle>
+            <Underline />
+            <AnswerContent>{answer}</AnswerContent>
             {isAdmin && (
-              <Stack direction="row" spacing={2}>
-                <Button
-                  onClick={onToggleChangeAnswer}
-                  variant="contained"
-                  startIcon={<BorderColorIcon />}
-                >
-                  Update
-                </Button>
-                <Button
-                  onClick={onClickAnswerDelete}
-                  variant="contained"
-                  startIcon={<DeleteIcon />}
-                >
-                  Delete
-                </Button>
-              </Stack>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'end',
+                  marginTop: '1.5rem',
+                }}
+              >
+                <GreyBtn onClick={onClickAnswerDelete}>삭제하기</GreyBtn>
+                <GreenBtn onClick={onToggleChangeAnswer}>수정하기</GreenBtn>
+              </div>
             )}
           </>
         )
       ) : (
         <>
-          <Box
-            component="form"
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '70%' },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <div>
-              <TextField
-                id="standard-multiline-static"
-                label="내용"
-                fullWidth
-                multiline
-                rows={8}
-                size="medium"
-                value={reply}
-                onChange={onChangeAnswerContext}
-              />
-            </div>
-          </Box>
+          <AnswerTitle>관리자 답변</AnswerTitle>
+          <Underline />
+          <AnswerTitle style={{ paddingBottom: '0', marginBottom: '8px' }}>
+            내용
+          </AnswerTitle>
+          <TextInput
+            size="small"
+            multiline
+            rows={5}
+            placeholder="내용"
+            value={reply}
+            onChange={onChangeAnswerContext}
+          />
           {isAdmin && (
-            <Stack direction="row" spacing={2}>
-              <Button
-                onClick={onClickAnswerSend}
-                variant="contained"
-                startIcon={<BorderColorIcon />}
-              >
-                Send
-              </Button>
-              <Button
-                onClick={onClickAnswerDelete}
-                variant="contained"
-                startIcon={<DeleteIcon />}
-              >
-                Delete
-              </Button>
-            </Stack>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'end',
+                marginTop: '1.5rem',
+              }}
+            >
+              <GreyBtn onClick={onClickAnswerDelete}>삭제하기</GreyBtn>
+              <GreenBtn onClick={onClickAnswerSend}>작성하기</GreenBtn>
+            </div>
           )}
         </>
       )}

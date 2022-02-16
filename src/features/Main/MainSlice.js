@@ -110,7 +110,7 @@ export const LoadUserInfo = createAsyncThunk(
   'main/LoadUserInfo',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/users');
+      const response = await axios.get('auth/users');
       saveUserInfo(response.data.data);
       return response;
     } catch (error) {

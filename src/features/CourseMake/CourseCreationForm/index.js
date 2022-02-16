@@ -48,6 +48,7 @@ function CourseCreactionForm() {
   const carts = useSelector(getCourse);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   // info
   const [courseInfo, setCourseInfo] = useState({
     title: 'axios 통신 테스트 - cors 확인 ',

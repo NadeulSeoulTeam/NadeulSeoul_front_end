@@ -21,7 +21,6 @@ function MyPage() {
   const dispatch = useDispatch();
   const params = useParams();
   const { user } = useSelector((state) => state.mypage);
-  console.log(getUserInfo());
   // 서버에 유저정보 요청
   useEffect(() => {
     dispatch(loadUser(params.id))
