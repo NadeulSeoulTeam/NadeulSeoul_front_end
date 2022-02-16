@@ -2,6 +2,9 @@ import styled from 'styled-components';
 
 // mui
 import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+// import Grid from '@mui/material/Grid';
 
 export const TopWrapper = styled.div`
   padding: 100px 50px 0 50px;
@@ -67,4 +70,55 @@ export const TagOpener = styled.p`
   text-decoration: underline;
   cursor: pointer;
   margin: 0 2px;
+`;
+
+export const Wrapper = styled(Card)`
+  && {
+    background-color: transparent;
+    margin: 0 20px 0 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    width: 12vw;
+  }
+`;
+
+export const ImageDiv = styled.div`
+  width: 12vw;
+  height: 12vw;
+  background-color: transparent;
+  position: relative;
+`;
+
+export const CurationImage = styled.img`
+  width: 12vw;
+  height: 12vw;
+  object-fit: cover;
+`;
+
+export const LikeChip = styled.div`
+  font-size: 0.7rem;
+  color: white;
+  background-color: #0de073;
+  border-radius: 20px;
+  display: block;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 3px 8px 5px 8px;
+`;
+
+export const CurationTitle = styled.p`
+  font-size: 0.9rem;
+  margin: 10px 0;
+`;
+
+export const CurationGrid = styled(Grid)`
+  && {
+    display: flex;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;

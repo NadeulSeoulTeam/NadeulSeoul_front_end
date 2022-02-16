@@ -12,7 +12,7 @@ import TagList from '../TagList';
 import UserList from '../UserList';
 import CurationList from '../CurationList';
 import SearchBar from '../../../common/SearchBar';
-
+import sampleImg from '../nongdam.png';
 // custom style
 import {
   TopWrapper,
@@ -23,6 +23,12 @@ import {
   SubTitle,
   SampleTags,
   TagOpener,
+  Wrapper,
+  ImageDiv,
+  CurationImage,
+  LikeChip,
+  CurationTitle,
+  CurationGrid,
 } from './styles';
 
 // actions
@@ -75,7 +81,15 @@ function MainPage() {
   // 태그 조건부 랜더링
   const tagSelectRender = (content) => {
     if (content === undefined) return <div />;
-    return content.map((curation) => <div>{curation.curationSeq}</div>);
+    return content.map((curation) => (
+      <Wrapper>
+        <ImageDiv>
+          <CurationImage alt="profile_img" src={sampleImg} />
+          <LikeChip>👍{curation.good}</LikeChip>
+        </ImageDiv>
+        <CurationTitle>{curation.title}</CurationTitle>
+      </Wrapper>
+    ));
   };
   useEffect(() => {
     if (
@@ -148,7 +162,7 @@ function MainPage() {
           <StoreList />
         </BottomWrapper>
       ) : (
-        <div>{tagSelectRender(tagsSelectedContent)}</div>
+        <CurationGrid>{tagSelectRender(tagsSelectedContent)}</CurationGrid>
       )}
     </div>
   );

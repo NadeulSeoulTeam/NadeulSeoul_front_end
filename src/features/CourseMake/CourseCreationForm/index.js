@@ -300,8 +300,8 @@ function CourseCreactionForm() {
         phone: courseInfo.courseRoute[i].phone,
         storeName: courseInfo.courseRoute[i].place_name,
         placeUrl: courseInfo.courseRoute[i].place_url,
-        lat: courseInfo.courseRoute[i].x,
-        lng: courseInfo.courseRoute[i].y,
+        x: courseInfo.courseRoute[i].x,
+        y: courseInfo.courseRoute[i].y,
       };
       arr.push(data);
     }
