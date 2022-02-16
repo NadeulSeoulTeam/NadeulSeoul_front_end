@@ -55,7 +55,9 @@ function ProfileCard() {
             userId={userInfo[0].id}
           />
         </TextDiv>
-        <FollowButton userId={userInfo[0].id} />
+        <div style={{ position: 'absolute', top: '50px', left: '240px' }}>
+          <FollowButton userId={userInfo[0].id} />
+        </div>
       </ProfileDiv>
       <Stack spacing={2} direction="row-reverse">
         <Button variant="contained" onClick={onClickToQuestionBoard}>

@@ -2,12 +2,13 @@ import styled from 'styled-components';
 import Avatar from '@mui/material/Avatar';
 
 export const Container = styled.div`
-  padding: 3rem 5rem;
+  padding: 3rem 5rem 0 5rem;
 `;
 
 export const ProfileDiv = styled.div`
   display: flex;
   align-items: center;
+  position: relative;
 `;
 
 export const TextDiv = styled.div`

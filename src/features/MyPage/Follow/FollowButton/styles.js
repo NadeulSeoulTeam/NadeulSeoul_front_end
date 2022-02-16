@@ -2,9 +2,8 @@ import styled from 'styled-components';
 
 const FollowBtn = styled.button`
   border-radius: 30px;
-  padding: 5px 10px;
+  padding: 5px 1rem;
   border: 2px solid #0de073;
-  margin: 42px 0 0 10px;
   font-family: 'Suit';
   font-weight: bold;
   ${({ isFollowing }) => {

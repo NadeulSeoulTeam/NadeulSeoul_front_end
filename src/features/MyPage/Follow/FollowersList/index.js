@@ -7,27 +7,21 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // mui
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import {
+  Container,
+  Title,
+  SubTitle,
+  ProfileEmoji,
+  Nickname,
+  CustomListItem,
+} from './styles';
 
 // component
 import FollowButton from '../FollowButton';
 
 // actions
 // import { loadFollowers } from '../../MyPageSlice';
-
-// mui
-const Demo = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-}));
 
 function FollowersList() {
   // user별 팔로잉 팔로우 리스트를 불러오면 된다.
@@ -66,37 +60,28 @@ function FollowersList() {
     []
   );
   return (
-    <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={12}>
-          <Typography sx={{ mt: 4, mb: 2 }} variant="h4" component="div">
-            {nickName}님의 팔로워 리스트
-          </Typography>
-          <Demo>
-            <List dense={false}>
-              {FollowInfo[0].FollowersList?.map((v, i) => (
-                <ListItem
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={v + i}
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="Follow">
-                      <FollowButton UserId={parseInt(v?.memberSeq, 10)} />
-                    </IconButton>
-                  }
-                >
-                  <ListItemAvatar>
-                    <Avatar>{v?.emoji}</Avatar>
-                  </ListItemAvatar>
-                  <Button onClick={onClickGotoMypage(v?.memberSeq)}>
-                    {v?.nickname}
-                  </Button>
-                </ListItem>
-              ))}
-            </List>
-          </Demo>
-        </Grid>
-      </Grid>
-    </Box>
+    // <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
+    <Container>
+      <Title>{nickName}</Title>
+      <SubTitle>팔로워</SubTitle>
+      <List>
+        {FollowInfo[0].FollowersList?.map((v, i) => (
+          <CustomListItem
+            // eslint-disable-next-line react/no-array-index-key
+            key={v + i}
+            secondaryAction={
+              <FollowButton UserId={parseInt(v?.memberSeq, 10)} />
+            }
+          >
+            <ProfileEmoji>{v?.emoji}</ProfileEmoji>
+            <Nickname onClick={onClickGotoMypage(v?.memberSeq)}>
+              {v?.nickname}
+            </Nickname>
+          </CustomListItem>
+        ))}
+      </List>
+    </Container>
+    // </Box>
   );
 }
 

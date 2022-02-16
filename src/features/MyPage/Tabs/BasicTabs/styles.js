@@ -15,9 +15,9 @@ export const GreyBox = styled.div`
   background-color: #fafafa;
   // background-color: black;
   height: 5px;
-  ${({ value }) => value === 0 && `width: 99px; left: 49.8px; top: 45px;`}
-  ${({ value }) => value === 1 && `width: 112px; left: 148.6px; top: 45px;`}
-  ${({ value }) => value === 2 && `width: 86.2px; left: 260.2px; top: 45px;`}
+  ${({ value }) => value === 0 && `width: 99.5px; left: 49.8px; top: 45px;`}
+  ${({ value }) => value === 1 && `width: 112.5px; left: 148.6px; top: 45px;`}
+  ${({ value }) => value === 2 && `width: 86.9px; left: 259.8px; top: 45px;`}
 `;
 
 export const CustomTabs = styled(Tabs)`
