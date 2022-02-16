@@ -23,9 +23,7 @@ function CurationList() {
   useEffect(() => {
     dispatch(fetchCourses());
   }, []);
-  useEffect(() => {
-    console.log(courses, '회칙회칙!');
-  }, [courses]);
+  useEffect(() => {}, [courses]);
   const throttle = (func, ms) => {
     let throttled = false;
     return (...args) => {
