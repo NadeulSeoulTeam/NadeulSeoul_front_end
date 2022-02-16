@@ -13,9 +13,11 @@ function StoreList() {
   const [startX, setStartX] = useState();
   const { hotStore } = useSelector((state) => state.main);
   useEffect(() => {
-    // dispatch(fetchHotStores());
+    dispatch(fetchHotStores());
   }, []);
-
+  useEffect(() => {
+    console.log(hotStore, '회칙회칙!');
+  }, [hotStore]);
   const storeList = useSelector((state) => state.main.stores);
 
   const throttle = (func, ms) => {

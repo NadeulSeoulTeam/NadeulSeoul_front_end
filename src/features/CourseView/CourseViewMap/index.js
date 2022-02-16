@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -14,6 +15,9 @@ import {
   // moveToList,
   // getClicked,
   setClicked,
+  clickStoreLikeCheck,
+  clickStoreLike,
+  clickStoreLikeCancel,
 } from '../CourseViewSlice';
 // styled-component
 
@@ -40,7 +44,7 @@ import {
   CourseTitle,
 } from './styles';
 
-function CourseViewMap({ curationSeq }) {
+function CourseViewMap({ curationSeq, courseInfo }) {
   // 뒤로 가기에 대한 처리
   const [tempMarkers, setTempMarkers] = useState([]);
   const [tempLatLng, setTempLatLng] = useState([]);
@@ -55,15 +59,24 @@ function CourseViewMap({ curationSeq }) {
   // const clicked = useSelector(getClicked);
   // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch();
-  const courseInfo = useSelector((state) => state.courseInfo);
-  // star clicked
-  const [likeClicked, setLikeClicked] = useState(false);
 
+  // star clicked
+  const { likeStoreClicked } = useSelector((state) => state.courseView);
+  const [likeClicked, setLikeClicked] = useState(false);
   useEffect(() => {
     console.log(courseInfo);
     console.log(curationSeq);
   }, [courseInfo]);
-
+  useEffect(() => {
+    // dispatch(clickStoreLikeCheck({ storeSeq: storeData.id }));
+    if (clickedMarkerInfo !== undefined)
+      dispatch(clickStoreLikeCheck({ storeSeq: clickedMarkerInfo.id }));
+  }, [likeClicked]);
+  useEffect(() => {
+    if (clickedMarkerInfo !== undefined)
+      dispatch(clickStoreLikeCheck({ storeSeq: clickedMarkerInfo.id }));
+    console.log(clickedMarkerInfo);
+  }, [clickedMarkerInfo]);
   // 마커 클릭 이벤트
   const markerClickEventHandler = () => {
     let clickedIndex = null;
@@ -82,22 +95,28 @@ function CourseViewMap({ curationSeq }) {
     if (info === undefined) {
       return (
         <div>
-          <CourseViewCart curationSeq={curationSeq} />
+          <CourseViewCart curationSeq={curationSeq} courseInfo={courseInfo} />
         </div>
       );
     }
 
     const userClickHeart = () => {
       // 비동기 통신
-      if (likeClicked) {
+      if (likeStoreClicked) {
         // true->false
-        // dispatch(clickStarCancel());
+        dispatch(clickStoreLikeCancel());
       } else {
-        // false->true
-        // const formData = new FormData();
-        // formData.append('member_seq', user.member_seq);
-        // formData.append('curation_seq', course.curation_seq);
-        // dispatch(clickStar(formData));
+        const data = {
+          storeSeq: Number(clickedMarkerInfo.id),
+          addressName: clickedMarkerInfo.address_name,
+          categoryName: clickedMarkerInfo.category_name,
+          phone: clickedMarkerInfo.phone,
+          storeName: clickedMarkerInfo.place_name,
+          placeUrl: clickedMarkerInfo.place_url,
+          lat: clickedMarkerInfo.x,
+          lng: clickedMarkerInfo.y,
+        };
+        dispatch(clickStoreLike(data));
       }
       console.log('clicked');
       setLikeClicked(!likeClicked);
@@ -191,7 +210,7 @@ function CourseViewMap({ curationSeq }) {
 
   return (
     <div>
-      <CourseTitle>{courseData.title}</CourseTitle>
+      <CourseTitle>{courseInfo.title}</CourseTitle>
       <Map
         clicked={clickedMarkerInfo}
         className="map"

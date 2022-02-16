@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 // import { Link } from 'react-router-dom';
 
 // custom style
+import { useNavigate } from 'react-router';
 import {
   Wrapper,
   ImageDiv,
@@ -18,13 +20,15 @@ import sampleImg from '../nongdam.png';
 
 function CurationListItem({ curation }) {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const selectCourse = (selectedCourse) => {
     dispatch(select(selectedCourse));
+    console.log(curation);
+    navigate(`/courseview/${curation.curationSeq}`);
   };
 
   useEffect(() => {
-    // console.log(curation);
+    console.log(curation);
   }, []);
 
   return (

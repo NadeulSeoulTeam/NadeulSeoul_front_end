@@ -8,7 +8,10 @@ export const clickLike = createAsyncThunk(
   'StoreView/like',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`stores/${data.storeSeq}`, data);
+      const response = await axios.post(
+        `auth/stores/bookmarks/${data.storeSeq}`,
+        data
+      );
 
       return response.data;
     } catch (err) {
@@ -23,7 +26,9 @@ export const clickLikeCancel = createAsyncThunk(
   'StoreView/likeCancel',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`stores/bookmarks/${data.storeSeq}`);
+      const response = await axios.delete(
+        `auth/stores/bookmarks/${data.storeSeq}`
+      );
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -36,7 +41,9 @@ export const clickLikeCheck = createAsyncThunk(
   'StoreView/likeCancel',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`stores/bookmarks/${data.storeSeq}`);
+      const response = await axios.get(
+        `auth/stores/bookmarks/${data.storeSeq}`
+      );
       console.log(response.data);
       return response.data;
     } catch (err) {

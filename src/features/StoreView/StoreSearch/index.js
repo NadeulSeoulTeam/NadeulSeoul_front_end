@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getCourse, keywordInput, searchDataInputs } from '../StoreSlice';
 import { Wrapper, SearchBase, SearchInput, SearchBtn } from './styles';
 
-function StoreSearch() {
+function StoreSearch({ searchKeyword }) {
   const dispatch = useDispatch();
   const course = useSelector(getCourse);
   const keyword = course.keywordInput;
@@ -37,18 +37,23 @@ function StoreSearch() {
   };
 
   const searchPlaces = (kakaoKeyword) => {
-    console.log('ok');
-    console.log(kakaoKeyword);
-    if (!kakaoKeyword.replace(/^\s+|\s+$/g, '')) {
-      alert('키워드를 입력해주세요!');
-      return false;
+    if (kakaoKeyword !== null) {
+      if (!kakaoKeyword.replace(/^\s+|\s+$/g, '')) {
+        alert('키워드를 입력해주세요!');
+        return false;
+      }
+      console.log('start search');
+      // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+      ps.keywordSearch(kakaoKeyword, placesSearchCB);
+      return true;
     }
-    console.log('start search');
-    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-    ps.keywordSearch(kakaoKeyword, placesSearchCB);
-    return true;
+    return false;
   };
-
+  useEffect(() => {
+    if (searchKeyword !== undefined) {
+      searchPlaces(searchKeyword);
+    }
+  }, []);
   useEffect(() => {
     // searchPlaces();
     console.log('useEffect');
@@ -70,7 +75,11 @@ function StoreSearch() {
   return (
     <Wrapper container direction="row" justifyContent="center">
       <SearchBase elevation={1}>
-        <SearchInput placeholder="어디로 떠날까요?" onKeyDown={keyPress} />
+        {searchKeyword === undefined ? (
+          <SearchInput placeholder="어디로 떠날까요?" onKeyDown={keyPress} />
+        ) : (
+          <SearchInput value={searchKeyword} onKeyDown={keyPress} />
+        )}
         <SearchBtn />
       </SearchBase>
     </Wrapper>

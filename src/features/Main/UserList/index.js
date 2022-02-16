@@ -1,22 +1,24 @@
-import React, { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useRef, useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import StoreGrid from './styles';
 
 import UserListItem from '../UserListItem';
+import { fetchUsers } from '../MainSlice';
 
 function UserList() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const scrollRef = useRef(null);
+  const { users } = useSelector((state) => state.main);
   const [isDrag, setIsDrag] = useState(false);
   const [startX, setStartX] = useState();
 
-  // useEffect(() => {
-  //   dispatch(fetchStores());
-  // }, []);
-
-  const userList = useSelector((state) => state.main.users);
-
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, []);
+  useEffect(() => {
+    console.log(users, 'users!!!!');
+  }, [users]);
   const throttle = (func, ms) => {
     let throttled = false;
     return (...args) => {
@@ -67,7 +69,8 @@ function UserList() {
       onMouseMove={isDrag ? onThrottleDragMove : null}
       onMouseUp={onDragEnd}
     >
-      {mapToComponent(userList)}
+      {/* {mapToComponent(userList)} */}
+      {mapToComponent(users)}
     </StoreGrid>
   );
 }
