@@ -1,14 +1,17 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router';
 import CourseViewMap from './CourseViewMap';
 import CourseStoreLoad from './CourseStoreLoad';
 import { getCourseInfo } from './CourseViewSlice';
 
 function CourseView() {
   const dispatch = useDispatch();
-  const [courseInfo, setCourseInfo] = useState(0);
+  const navigate = useNavigate();
+  const { courseInfo, courseInfoError } = useSelector(
+    (state) => state.courseView
+  );
   const params = useParams();
   useEffect(() => {
     console.log(params.curationNo);
@@ -18,11 +21,18 @@ function CourseView() {
       })
     );
   }, []);
-
+  useEffect(() => {
+    console.log(courseInfoError, courseInfo);
+  }, [courseInfo]);
+  useEffect(() => {
+    if (courseInfoError === 'Rejected') {
+      navigate('/');
+    }
+  }, [courseInfoError]);
   return (
     <div>
-      <CourseViewMap curationSeq={params.curationNo} />
-      <CourseStoreLoad />
+      <CourseViewMap curationSeq={params.curationNo} courseInfo={courseInfo} />
+      <CourseStoreLoad courseInfo={courseInfo} />
     </div>
   );
 }

@@ -8,7 +8,7 @@ export const getCourseInfo = createAsyncThunk(
   'CourseView/CourseInfo',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/v1/curations/${data.curationSeq}`);
+      const response = await axios.get(`auth/curations/${data.curationSeq}`);
       console.log(response.data);
       return response.data;
     } catch (err) {
@@ -37,7 +37,7 @@ export const sendComment = createAsyncThunk(
   'CourseView/sendComment',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`curations/comments`, data);
+      const response = await axios.post(`curations/comments/auth`, data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -50,7 +50,7 @@ export const isLike = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `curations/bookmarks/${data.curationSeq}`
+        `auth/curations/bookmarks/${data.curationSeq}`
       );
       return response.data;
     } catch (err) {
@@ -64,7 +64,7 @@ export const clickLike = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `curations/bookmarks/${data.curationSeq}`
+        `auth/curations/bookmarks/${data.curationSeq}`
       );
       return response.data;
     } catch (err) {
@@ -79,7 +79,7 @@ export const clickLikeCancel = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `curations/bookmarks/${data.curationSeq}`
+        `auth/curations/bookmarks/${data.curationSeq}`
       );
       return response.data;
     } catch (err) {
@@ -146,12 +146,13 @@ const course = createSlice({
     [getCourseInfo.fulfilled]: (state, action) => {
       state.courseInfoLoading = false;
       // 들어오는 정보 맞춰 주기
-      state.courseInfo = action.data;
+      state.courseInfo = action.payload.data;
       state.courseInfoDone = true;
     },
     [getCourseInfo.rejected]: (state, action) => {
       state.courseInfoLoading = false;
       state.courseInfoError = action.error.message;
+      console.log(action.error.message);
     },
     // comment 보내기
     [sendComment.pending]: (state) => {

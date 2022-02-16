@@ -251,6 +251,7 @@ function CourseCreactionForm() {
   }, [courseInfo]);
 
   const sendCourse = () => {
+    // 1번 255~~~
     const formData = new FormData();
     setCourseInfo((courseInfo.transportation = makeTransportationTagBoolean()));
     setCourseInfo((courseInfo.local = makeLocalTagBoolean()));
@@ -258,49 +259,50 @@ function CourseCreactionForm() {
     for (let i = 0; i < images.length; i += 1) {
       formData.append('fileList', images[i].file);
     }
-    // formData.append('personnel', courseInfo.personnel);
-    // formData.append('description', courseInfo.description);
-    // formData.append('budget', courseInfo.budget);
-    // formData.append('title', courseInfo.title);
-    // formData.append('courseRoute', courseInfo.courseRoute);
-    // // tag들 추가
-    // formData.append('transportation', courseInfo.transportation);
-    // formData.append('local', courseInfo.local);
-    // formData.append('theme', courseInfo.theme);
+    formData.append('personnel', courseInfo.personnel);
+    formData.append('description', courseInfo.description);
+    formData.append('budget', courseInfo.budget);
+    formData.append('title', courseInfo.title);
+    formData.append('courseRoute', courseInfo.courseRoute);
+    // tag들 추가
+    formData.append('transportation', courseInfo.transportation);
+    formData.append('local', courseInfo.local);
+    formData.append('theme', courseInfo.theme);
+    dispatch(courseInfoPost(formData));
+    // 2번 272~~~~304
+    // const arr = [];
+    // for (let i = 0; i < courseInfo.courseRoute.length; i += 1) {
+    //   const data = {
+    //     storeSeq: Number(courseInfo.courseRoute[i].id),
+    //     addressName: courseInfo.courseRoute[i].address_name,
+    //     categoryName: courseInfo.courseRoute[i].category_name,
+    //     phone: courseInfo.courseRoute[i].phone,
+    //     storeName: courseInfo.courseRoute[i].place_name,
+    //     placeUrl: courseInfo.courseRoute[i].place_url,
+    //     x: courseInfo.courseRoute[i].x,
+    //     y: courseInfo.courseRoute[i].y,
+    //   };
+    //   arr.push(data);
+    // }
+    // const data = {
+    //   personnel: courseInfo.personnel,
+    //   description: courseInfo.description,
+    //   budget: courseInfo.budget,
+    //   title: courseInfo.title,
+    //   courseRoute: arr,
+    //   transportation: courseInfo.transportation,
+    //   local: courseInfo.local,
+    //   theme: courseInfo.theme,
+    // };
 
-    const arr = [];
-    for (let i = 0; i < courseInfo.courseRoute.length; i += 1) {
-      const data = {
-        storeSeq: Number(courseInfo.courseRoute[i].id),
-        addressName: courseInfo.courseRoute[i].address_name,
-        categoryName: courseInfo.courseRoute[i].category_name,
-        phone: courseInfo.courseRoute[i].phone,
-        storeName: courseInfo.courseRoute[i].place_name,
-        placeUrl: courseInfo.courseRoute[i].place_url,
-        x: courseInfo.courseRoute[i].x,
-        y: courseInfo.courseRoute[i].y,
-      };
-      arr.push(data);
-    }
-    const data = {
-      personnel: courseInfo.personnel,
-      description: courseInfo.description,
-      budget: courseInfo.budget,
-      title: courseInfo.title,
-      courseRoute: arr,
-      transportation: courseInfo.transportation,
-      local: courseInfo.local,
-      theme: courseInfo.theme,
-    };
-
-    console.log(courseInfo);
-    // courseInfo.fileList = formData;
+    // console.log(courseInfo);
+    // // courseInfo.fileList = formData;
+    // // 전부 formdata에 넣어서 보내주기
+    // // dispatch(courseInfoPost(formData));
+    // dispatch(courseInfoPost(data));
+    // dispatch(courseImagePost(formData));
     setCourseInfo(courseInfo);
-    // 전부 formdata에 넣어서 보내주기
-    // dispatch(courseInfoPost(formData));
-    dispatch(courseInfoPost(data));
-    dispatch(courseImagePost(formData));
-    console.log(data);
+    // console.log(data);
     // handleOpen();
   };
   // course 정보 backend 송신 함수

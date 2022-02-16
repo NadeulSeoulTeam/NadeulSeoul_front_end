@@ -40,7 +40,7 @@ import {
   CourseTitle,
 } from './styles';
 
-function CourseViewMap({ curationSeq }) {
+function CourseViewMap({ curationSeq, courseInfo }) {
   // 뒤로 가기에 대한 처리
   const [tempMarkers, setTempMarkers] = useState([]);
   const [tempLatLng, setTempLatLng] = useState([]);
@@ -55,7 +55,7 @@ function CourseViewMap({ curationSeq }) {
   // const clicked = useSelector(getClicked);
   // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch();
-  const courseInfo = useSelector((state) => state.courseInfo);
+
   // star clicked
   const [likeClicked, setLikeClicked] = useState(false);
 
@@ -82,7 +82,7 @@ function CourseViewMap({ curationSeq }) {
     if (info === undefined) {
       return (
         <div>
-          <CourseViewCart curationSeq={curationSeq} />
+          <CourseViewCart curationSeq={curationSeq} courseInfo={courseInfo} />
         </div>
       );
     }
@@ -191,7 +191,7 @@ function CourseViewMap({ curationSeq }) {
 
   return (
     <div>
-      <CourseTitle>{courseData.title}</CourseTitle>
+      <CourseTitle>{courseInfo.title}</CourseTitle>
       <Map
         clicked={clickedMarkerInfo}
         className="map"
