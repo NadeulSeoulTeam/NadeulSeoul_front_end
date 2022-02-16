@@ -1,16 +1,15 @@
 /* eslint-disable prefer-const */
 /* eslint-disable consistent-return */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate, Link } from 'react-router-dom';
 
 // actions
-import { signup, checkNickname } from '../AuthSlice';
+import { useNavigate } from 'react-router-dom';
+import { editUserInfo, checkNickname } from '../AuthSlice';
 
 // authenticated
-import { saveLoginSuccess } from '../../../common/api/JWT-Token';
-// import 'emoji-mart/css/emoji-mart.css';
-// import { Picker } from 'emoji-mart';
+import { saveLoginSuccess, getUserInfo } from '../../../common/api/JWT-Token';
 
 import {
   Container,
@@ -24,11 +23,11 @@ import {
   EmojiPicker,
 } from './styles';
 
-function UserForm() {
+function EditUserInfo() {
   const dispatch = useDispatch();
   // states
-  const [nickname, setNickname] = useState('');
-  const [emoji, setEmoji] = useState('');
+  const [nickname, setNickname] = useState(getUserInfo().nickname);
+  const [emoji, setEmoji] = useState(getUserInfo().emoji); // getUserInfo에 있는 이모지 바로 넣어서 뜰수 있도록
   // const [id, setId] = useState('');
   const [nicknameErr, setNicknameErr] = useState({
     validationStatus: '',
@@ -40,13 +39,42 @@ function UserForm() {
   });
 
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   const params = new URLSearchParams(document.location.search);
-  //   const Id = params.get('id');
-  //   setId(Id);
-  // });
-
   const [isDuplicated, setIsDuplicated] = useState(false);
+
+  useEffect(() => {
+    if (nickname === '') {
+      setNicknameErr({
+        validationStatus: 'ERROR_BLANK',
+        errorMsg: '닉네임을 입력해주세요.',
+      });
+      setNickname(nickname);
+    } else if (nickname.length > 12) {
+      setNicknameErr({
+        validationStatus: 'ERROR_LENGTH',
+        errorMsg: '닉네임은 12자 이하로 입력해주세요.',
+      });
+    } else {
+      setNicknameErr({
+        validationStatus: 'SUCCESS',
+        errorMsg: null,
+      });
+      setNickname(nickname);
+    }
+    if (emoji === '') {
+      setEmojiErr({
+        validationStatus: 'ERROR_BLANK',
+        errorMsg: '이모지를 선택해주세요.',
+      });
+      setEmoji('');
+    } else {
+      setEmojiErr({
+        validationStatus: 'SUCCESS',
+        errorMsg: null,
+      });
+      setEmoji(emoji);
+    }
+  }, []);
+
   const onNicknameChange = (e) => {
     const nicknameInput = e.currentTarget.value;
 
@@ -99,14 +127,14 @@ function UserForm() {
     emoji,
   };
 
-  const onInputSuccess = useCallback(() => {
+  const onClickEditInfo = useCallback(() => {
     if (isDuplicated === false) {
       return alert('중복된 아이디 입니다.');
     }
-    dispatch(signup(data))
+    dispatch(editUserInfo(data))
       .then((response) => {
-        saveLoginSuccess('false');
         console.log(response);
+        saveLoginSuccess('false');
         navigate('/');
       })
       .catch((error) => {
@@ -123,12 +151,14 @@ function UserForm() {
     dispatch(checkNickname(nickNamedata))
       .unwrap()
       .then((response) => {
+        console.log(response);
         if (response.status === 200) {
           setIsDuplicated(true);
           alert(`${response.data.message}`);
         }
       })
       .catch((error) => {
+        console.log(error.response.data);
         if (error.data.status === 'NICKNAME_DUPLICATION') {
           alert(`${error.data.message}`);
         }
@@ -138,7 +168,7 @@ function UserForm() {
   return (
     <Container>
       <MainTitle>나들서울</MainTitle>
-      <SubTitle>회원가입</SubTitle>
+      <SubTitle>회원정보 수정</SubTitle>
       <VerticalDiv>
         <div style={{ margin: '10px 0' }}>
           <InputLabelGreen>*</InputLabelGreen>
@@ -194,11 +224,11 @@ function UserForm() {
           style={{ fontFamily: 'Suit' }}
         />
       </div>
-      <GreenBtn onClick={onInputSuccess} disabled={formInvalid}>
-        이대로 계정 생성하기
+      <GreenBtn onClick={onClickEditInfo} disabled={formInvalid}>
+        이대로 계정 수정하기
       </GreenBtn>
     </Container>
   );
 }
 
-export default UserForm;
+export default EditUserInfo;

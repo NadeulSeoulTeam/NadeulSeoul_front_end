@@ -3,13 +3,15 @@ import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-// mui
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import BackspaceIcon from '@mui/icons-material/Backspace';
-import SendIcon from '@mui/icons-material/Send';
-import Stack from '@mui/material/Stack';
+import {
+  Container,
+  Header,
+  RowDiv,
+  SubTitle,
+  Content,
+  GreenBtn,
+  GreyBtn,
+} from './styles';
 
 // component
 
@@ -70,62 +72,32 @@ function BoardForm() {
   });
 
   return (
-    <>
-      <h2>문의 게시글 작성</h2>
-      <Box
-        sx={{
-          width: '50%',
-          maxWidth: '100%',
-        }}
-      >
-        <TextField
+    <Container>
+      <Header>문의 게시글 작성</Header>
+      <RowDiv>
+        <SubTitle>제목</SubTitle>
+        <Content
           onChange={onChangeTitle}
-          fullWidth
-          value={title}
-          label="제목"
-          id="fullWidth"
-          autoFocus
+          style={{ minWidth: '50vw' }}
+          placeholder="제목을 적어주세요."
         />
-      </Box>
-
-      <Box
-        component="form"
-        sx={{
-          '& .MuiTextField-root': { m: 1, width: '70%' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div>
-          <TextField
-            id="standard-multiline-static"
-            label="내용"
-            fullWidth
-            multiline
-            rows={8}
-            size="medium"
-            value={context}
-            onChange={onChangeContext}
-          />
-        </div>
-      </Box>
-      <Stack direction="row" spacing={2}>
-        <Button
-          onClick={onClickGoback}
-          variant="contained"
-          startIcon={<BackspaceIcon />}
-        >
-          Back
-        </Button>
-        <Button
-          onClick={onClickSend}
-          variant="contained"
-          startIcon={<SendIcon />}
-        >
-          Send
-        </Button>
-      </Stack>
-    </>
+      </RowDiv>
+      <RowDiv>
+        <SubTitle>내용</SubTitle>
+        <Content
+          multiline
+          rows={8}
+          value={context}
+          style={{ minWidth: '50vw' }}
+          onChange={onChangeContext}
+          placeholder="내용을 적어주세요."
+        />
+      </RowDiv>
+      <div style={{ display: 'flex', justifyContent: 'end' }}>
+        <GreyBtn onClick={onClickGoback}>뒤로가기</GreyBtn>
+        <GreenBtn onClick={onClickSend}>작성하기</GreenBtn>
+      </div>
+    </Container>
   );
 }
 

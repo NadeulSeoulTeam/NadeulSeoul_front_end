@@ -1,26 +1,21 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
+import Container from './styles';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
     // eslint-disable-next-line react/jsx-filename-extension
-    <div
+    <Container
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography component="div">{children}</Typography>
-        </Box>
-      )}
-    </div>
+      {value === index && <div>{children}</div>}
+    </Container>
   );
 }
 

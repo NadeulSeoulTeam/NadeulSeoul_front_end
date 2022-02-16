@@ -6,10 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 // actions
-
 import { loadBoardListItem } from '../../MyPageSlice';
 import BoardListItemAnswer from './BoardListItemAnswer';
 import BoardListItemQuestion from './BoardListItemQuestion';
+
+import { Container, Header } from './styles';
 
 // cookie
 import { getUserInfo } from '../../../../common/api/JWT-Token';
@@ -17,7 +18,7 @@ import { getUserInfo } from '../../../../common/api/JWT-Token';
 function BoardListItem() {
   const dispatch = useDispatch();
   const { PostId, singlePost } = useSelector((state) => state.mypage);
-  const [lodingFinsh, setLoadingFinish] = useState(false);
+  const [loadingFinish, setLoadingFinish] = useState(false);
 
   // 정리해서 남겨두기 1 useNaviate와 localstorage를 활용해서 새로고침 이후에도 state값 유지시키기
   const [id, setId] = useState();
@@ -25,7 +26,7 @@ function BoardListItem() {
   const savedPostid = navigateState?.postId;
 
   window.localStorage.setItem('data', savedPostid);
-  const isAdmin = getUserInfo().role !== 'ROLE_MEMBER';
+  const isAdmin = getUserInfo().role === 'ROLE_MEMBER';
 
   console.log(savedPostid);
   useEffect(() => {
@@ -47,8 +48,9 @@ function BoardListItem() {
   }, [PostId]);
 
   return (
-    lodingFinsh && (
-      <>
+    loadingFinish && (
+      <Container>
+        <Header>문의 게시글</Header>
         <BoardListItemQuestion
           questionTitle={singlePost?.questionTitle}
           question={singlePost?.question}
@@ -61,7 +63,7 @@ function BoardListItem() {
             isAdmin={isAdmin}
           />
         )}
-      </>
+      </Container>
     )
   );
 }

@@ -89,15 +89,14 @@ export const BoardListItem = {
   answer_date: '2022, 0202',
 };
 
-// 인피니티 스크롤 for LikeNadle course
+// 인피니티 스크롤 for 찜한 나들 코스
 
 export const loadPostsInfinityLikeNadle = createAsyncThunk(
   'mypage/loadPostsInfinityLikeNadle',
   async (data, { rejectWithValue }) => {
     try {
-      console.log(data);
       const response = await axios.get(
-        `/curations/bookmarks?page=${data.likeNadlepage}&size=${data.size}`
+        `/curations/bookmarks/${data.myPageId}?page=${data.likeNadlepage}&size=${data.size}`
       );
       return response;
     } catch (err) {
@@ -106,30 +105,29 @@ export const loadPostsInfinityLikeNadle = createAsyncThunk(
   }
 );
 
-// 인피니티 스크롤 for LikePlace
-
+// 인피니티 스크롤 for 찜한 장소
 export const loadPostsInfinityLikePlace = createAsyncThunk(
   'mypage/loadPostsInfinityLikePlace',
   async (data, { rejectWithValue }) => {
     try {
-      // const response = await axios.get(
-      //   `/stores/bookmarks?page=${data.page}&size=${data.size}`
-      // );
-      return generateDummyCardLikePlcae(10);
+      const response = await axios.get(
+        `/stores/bookmarks/${data.myPageId}?page=${data.likePlacepage}&size=${data.size}`
+      );
+      return response;
     } catch (err) {
-      return rejectWithValue(err.resonse.data);
+      return rejectWithValue(err.response.data);
     }
   }
 );
 
-// 내 나틀 코스
+// 인피니티 스크롤 for 내 나들 코스
 
 export const loadPostsInfinityMyNadle = createAsyncThunk(
   'mypage/loadPostsInfinityMyNadle',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `/curations?page=${data.page}&size=${data.size}`
+        `/curations/${data.myPageId}?page=${data.myNadlepage}&size=${data.size}`
       );
       return response;
     } catch (err) {
@@ -157,7 +155,7 @@ export const setLikePlaceBasket = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       console.log(data);
-      const response = await axios.post('/stores/bookmarks/courses', data);
+      const response = await axios.post('/auth/stores/bookmarks/courses', data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.resonse.data);
@@ -196,7 +194,7 @@ export const follow = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log(data);
     try {
-      const response = await axios.post(`/mypage/${data}/follow`);
+      const response = await axios.post(`/auth/mypage/${data}/follow`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -209,7 +207,7 @@ export const unfollow = createAsyncThunk(
   'mypage/unfollow',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`/mypage/${data}/unfollow`);
+      const response = await axios.delete(`/auth/mypage/${data}/unfollow`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -223,7 +221,7 @@ export const loadBoardList = createAsyncThunk(
   'mypage/loadBoardList',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/inquiries/questions/list/${data}`);
+      const response = await axios.get(`/auth/inquiries/questions/`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -238,7 +236,7 @@ export const loadBoardListItem = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `/inquiries/questions/${data.questionSeq}`
+        `/auth/inquiries/questions/${data.questionSeq}`
       );
       return response;
     } catch (error) {
@@ -253,7 +251,7 @@ export const addPost = createAsyncThunk(
   'mypage/addPost',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/inquiries/questions', data);
+      const response = await axios.post('/auth/inquiries/questions', data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -268,7 +266,7 @@ export const updatePost = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `/inquiries/questions/${data.questionSeq}`,
+        `/auth/inquiries/questions/${data.questionSeq}`,
         data
       );
       return response;
@@ -284,7 +282,7 @@ export const removePost = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log(data);
     try {
-      const response = await axios.delete(`/inquiries/questions/${data}`);
+      const response = await axios.delete(`/auth/inquiries/questions/${data}`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -299,7 +297,7 @@ export const addAnswer = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log(data);
     try {
-      const response = await axios.post('/inquiries/answers', data);
+      const response = await axios.post('/auth/inquiries/answers', data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -314,7 +312,7 @@ export const updateAnswer = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log(data);
     try {
-      const response = await axios.put(`/inquiries/answers`, data);
+      const response = await axios.put(`/auth/inquiries/answers`, data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -328,7 +326,7 @@ export const removeAnswer = createAsyncThunk(
   'mypage/removeAnswer',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`/inquiries/answers/${data}`);
+      const response = await axios.delete(`/auth/inquiries/answers/${data}`);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -454,19 +452,22 @@ const MyPageSlice = createSlice({
     [loadPostsInfinityLikePlace.fulfilled]: (state, action) => {
       state.loadInfinityLikePlacesLoading = false;
       state.loadInfinityLikePlacesDone = true;
-      state.LikePlaces = _concat(state.LikePlaces, action.payload);
+      state.LikePlaces = _concat(
+        state.LikePlaces,
+        action.payload.data.data.content
+      );
     },
     [loadPostsInfinityLikePlace.rejected]: (state, action) => {
       state.loadInfinityLikePlacesLoading = false;
       state.loadInfinityLikePlacesError = action.error.message;
     },
     // 인피니티 스크롤 MyNadles
-    [loadPostsInfinityLikePlace.pending]: (state) => {
+    [loadPostsInfinityMyNadle.pending]: (state) => {
       state.loadInfinityMyNadlesLoading = true;
       state.loadInfinityMyNadlesDone = false;
       state.loadInfinityMyNadlesError = null;
     },
-    [loadPostsInfinityLikePlace.fulfilled]: (state, action) => {
+    [loadPostsInfinityMyNadle.fulfilled]: (state, action) => {
       state.loadInfinityMyNadlesLoading = false;
       state.loadInfinityMyNadlesDone = true;
       state.MyNadles = _concat(
@@ -474,9 +475,9 @@ const MyPageSlice = createSlice({
         action.payload.data.data.content
       );
     },
-    [loadPostsInfinityLikePlace.rejected]: (state, action) => {
-      state.loadInfinityLikePlacesLoading = false;
-      state.loadInfinityLikePlacesError = action.error.message;
+    [loadPostsInfinityMyNadle.rejected]: (state, action) => {
+      state.loadInfinityMyNadlesLoading = false;
+      state.loadInfinityMyNadlesError = action.error.message;
     },
     // 유저 정보 조회
     [loadUser.pending]: (state) => {
@@ -608,7 +609,6 @@ const MyPageSlice = createSlice({
       state.loadPostsLoading = false;
       state.loadPostsDone = true;
       state.singlePost = action.payload.data.data;
-      console.log(action.payload.data.data);
     },
     [loadBoardListItem.rejected]: (state, action) => {
       state.loadPostsLoading = false;

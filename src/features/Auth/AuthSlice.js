@@ -4,11 +4,13 @@ import {
   deleteToken,
   deleteLoginSuccess,
   deleteUserInfo,
+  getUserInfo,
 } from '../../common/api/JWT-Token';
 
 axios.defaults.withCredentials = true;
 
 // 기본 state
+
 export const initialState = {
   email: '',
   nickname: '',
@@ -22,9 +24,13 @@ export const initialState = {
   checkNicknameLoading: false, // 닉네임 중복검사 요청 시도
   checkNicknameDone: false,
   checkNicknameError: null,
+  editUserInfoLoading: false, // 회원정보 수정 요청
+  editUserInfoDone: false,
+  editUserInfoError: null,
 };
 
 // 회원가입
+
 export const signup = createAsyncThunk(
   'member/signup',
   async (data, { rejectWithValue }) => {
@@ -38,21 +44,26 @@ export const signup = createAsyncThunk(
   }
 );
 
-// 자동 로그인 연장 (함수명, url 바뀔 수 있음)
-// export const silentRefresh = createAsyncThunk(
-//   'member/refresh',
-//   async (data, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.post('/users/refresh', data);
-//       return response.data;
-//     } catch (error) {
-//       console.log(error);
-//       return rejectWithValue(error.response.data);
-//     }
-//   }
-// );
+// 회원정보 수정
+
+export const editUserInfo = createAsyncThunk(
+  'member/editUserInfo',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(
+        `auth/users/${getUserInfo().userSeq}`,
+        data
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 // 로그아웃
+
 export const logout = createAsyncThunk(
   'member/logout',
   async (data, { rejectWithValue }) => {
@@ -134,6 +145,21 @@ const authSlice = createSlice({
       state.checkNicknameLoading = false;
       state.checkNicknameDone = false;
       state.checkNicknameError = action.error.message;
+    },
+    [editUserInfo.pending]: (state) => {
+      state.editUserInfoLoading = true;
+      state.editUserInfoDone = false;
+      state.editUserInfoError = null;
+    },
+    [editUserInfo.fulfilled]: (state) => {
+      state.editUserInfoLoading = false;
+      state.editUserInfoDone = true;
+      state.editUserInfoError = null;
+    },
+    [editUserInfo.rejected]: (state, action) => {
+      state.editUserInfoLoading = false;
+      state.editUserInfoDone = false;
+      state.editUserInfoError = action.error.message;
     },
   },
 });

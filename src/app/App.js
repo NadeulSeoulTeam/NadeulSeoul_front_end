@@ -29,10 +29,11 @@ import BoardListItem from '../features/MyPage/Board/BoardListItem';
 import BoardForm from '../features/MyPage/Board/BoardForm';
 import StoreView from '../features/StoreView';
 
-// import Profile from '../features/MyPage/Routes/Profile';
+// authenticated
 import isAuthenticated, { isLoggedIn } from '../common/api/isAuthenticated';
 import PrivateRoute from '../common/routes/PrivateRoute';
 import PublicRoute from '../common/routes/PublicRoute';
+import EditUserInfo from '../features/Auth/EditUserInfo';
 
 function App() {
   return (
@@ -51,11 +52,11 @@ function App() {
             />
           </Route>
 
+          <Route path="/member/edit" element={<EditUserInfo />} />
           {/* Only public Not Authenticated */}
           <Route path="/member/signup" element={<UserForm />} />
-          <Route element={<PublicRoute isAuthenticated={isLoggedIn} />}>
-            <Route path="/member/signin" element={<SignIn />} />
-          </Route>
+          <Route path="/member/signin" element={<SignIn />} />
+          <Route element={<PublicRoute isAuthenticated={isLoggedIn} />} />
 
           {/* Public & private */}
           <Route path="/CourseView" element={<CourseView />} />

@@ -1,26 +1,33 @@
+/* eslint-disable no-inner-declarations */
 /* eslint-disable react/require-default-props */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router';
 
-// mui
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+// style
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import TabPanel from '../TabPanel';
+import {
+  Underline,
+  GreyBox,
+  CustomTabs,
+  CustomTab,
+  ContentArea,
+  GreenBtn,
+} from './styles';
 
 // component
 import CurationCard from '../../Card/CurationCard';
-import CurationCardLikePlace from '../../Card/CuraionCardLikePlace';
+import CurationCardLikePlace from '../../Card/CurationCardLikePlace';
 
 // actions
 import {
   loadPostsInfinityLikeNadle,
   loadPostsInfinityLikePlace,
-  // loadPostsInfinityMyNadle,
+  loadPostsInfinityMyNadle,
   setLikePlaceBasket,
 } from '../../MyPageSlice';
-import { GreenBtn } from './styles';
 
 //
 // mui basic tabs
@@ -36,11 +43,15 @@ function BasicTabs() {
     (state) => state.mypage
   );
 
+  const params = useParams();
+  console.log(params.id);
+  const myPageId = params.id;
   const dispatch = useDispatch();
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(2);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const navigate = useNavigate();
 
   const onClickSendCourse = () => {
     const data = {
@@ -50,35 +61,60 @@ function BasicTabs() {
       .unwrap()
       .then((response) => {
         console.log(response);
+        navigate('/course', { state: response.data });
       })
       .catch((error) => {
         console.log(error.response.data);
       });
   };
 
-  // const [myNadlepage, setMyNadlepage] = useState(0);
+  const [myNadlepage, setMyNadlepage] = useState(0);
   const [likeNadlepage, setLikeNadlepage] = useState(0);
   const [likePlacepage, setLikePlacepage] = useState(0);
 
-  // useEffect(() => {
-  //   const data = {
-  //     myNadlepage,
-  //     size: 10,
-  //   };
-  //   dispatch(loadPostsInfinityMyNadle(data))
-  //     .unwrap()
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.response.data);
-  //     });
-  // }, [myNadlepage]);
+  // 내 나들
   useEffect(() => {
-    console.log(likeNadlepage);
+    const data = {
+      myNadlepage,
+      size: 10,
+      myPageId,
+    };
+    dispatch(loadPostsInfinityMyNadle(data))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }, [myNadlepage]);
+
+  function onScrollMyNadle() {
+    // window.scrollY : 얼마나 내렸는지
+    // document.documentElement.clientHeight : 화면에 보이는 길이
+    // document.documentElement.scrollHeight : 총길이
+    if (
+      window.scrollY + document.documentElement.clientHeight >
+      document.documentElement.scrollHeight - 950
+    ) {
+      setMyNadlepage(myNadlepage + 1);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScrollMyNadle);
+    return () => {
+      window.removeEventListener('scroll', onScrollMyNadle);
+    };
+  }, [onScrollMyNadle]);
+
+  // 찜한 나들 코스
+
+  useEffect(() => {
     const data = {
       likeNadlepage,
       size: 10,
+      myPageId,
     };
     dispatch(loadPostsInfinityLikeNadle(data))
       .unwrap()
@@ -89,44 +125,8 @@ function BasicTabs() {
         console.log(error.response.data);
       });
   }, [likeNadlepage]);
-  useEffect(() => {
-    const data = {
-      likePlacepage,
-      size: 10,
-    };
-    dispatch(loadPostsInfinityLikePlace(data))
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  }, [likePlacepage]);
-
-  // function onScrollMyNadle() {
-  //   // window.scrollY : 얼마나 내렸는지
-  //   // document.documentElement.clientHeight : 화면에 보이는 길이
-  //   // document.documentElement.scrollHeight : 총길이
-  //   if (
-  //     window.scrollY + document.documentElement.clientHeight >
-  //     document.documentElement.scrollHeight - 950
-  //   ) {
-  //     setMyNadlepage(myNadlepage + 1);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   window.addEventListener('scroll', onScrollMyNadle);
-  //   return () => {
-  //     window.removeEventListener('scroll', onScrollMyNadle);
-  //   };
-  // }, [onScrollMyNadle]);
 
   function onScrollLikeNadle() {
-    // window.scrollY : 얼마나 내렸는지
-    // document.documentElement.clientHeight : 화면에 보이는 길이
-    // document.documentElement.scrollHeight : 총길이
     if (
       window.scrollY + document.documentElement.clientHeight >
       document.documentElement.scrollHeight - 950
@@ -142,10 +142,25 @@ function BasicTabs() {
     };
   }, [onScrollLikeNadle]);
 
+  // 찜한 장소
+
+  useEffect(() => {
+    const data = {
+      likePlacepage,
+      size: 10,
+      myPageId,
+    };
+    dispatch(loadPostsInfinityLikePlace(data))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }, [likePlacepage]);
+
   function onScrollLikePlace() {
-    // window.scrollY : 얼마나 내렸는지
-    // document.documentElement.clientHeight : 화면에 보이는 길이
-    // document.documentElement.scrollHeight : 총길이
     if (
       window.scrollY + document.documentElement.clientHeight >
       document.documentElement.scrollHeight - 950
@@ -153,7 +168,6 @@ function BasicTabs() {
       setLikePlacepage(likePlacepage + 1);
     }
   }
-
   useEffect(() => {
     window.addEventListener('scroll', onScrollLikePlace);
     return () => {
@@ -162,90 +176,63 @@ function BasicTabs() {
   }, [onScrollLikePlace]);
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs
+    <Box sx={{ width: '100%', position: 'relative' }}>
+      <Box sx={{ position: 'relative' }}>
+        <CustomTabs
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="내 나들코스" {...a11yProps(3)} />
-          <Tab label="찜한 나들 코스" {...a11yProps(1)} />
-          <Tab label="찜한 장소" {...a11yProps(2)} />
-        </Tabs>
+          <CustomTab label="내 나들코스" {...a11yProps(3)} />
+          <CustomTab label="찜한 나들코스" {...a11yProps(1)} />
+          <CustomTab label="찜한 장소" {...a11yProps(2)} />
+        </CustomTabs>
+        <Underline />
       </Box>
+      <GreyBox value={value} />
       <TabPanel value={value} index={0}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-            p: 1,
-            m: 1,
-            bgcolor: 'background.paper',
-            borderRadius: 1,
-          }}
-        >
-          {MyNadles?.map((v, i) => (
+        <ContentArea>
+          {MyNadles.map((v) => (
+            // eslint-disable-next-line react/no-array-index-key
             <CurationCard
-              // eslint-disable-next-line react/no-array-index-key
-              key={i + v.curationSeq}
-              thumnail={v.thumnail}
+              key={v.curationSeq + 957}
+              thumbnail={v.thumbnail}
               title={v.title}
+              good={v.good}
             />
           ))}
-        </Box>
+        </ContentArea>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-            p: 1,
-            m: 1,
-            bgcolor: 'background.paper',
-            borderRadius: 1,
-          }}
-        >
-          {LikeNadles?.map((v, i) => (
+        <ContentArea>
+          {LikeNadles.map((v) => (
             <CurationCard
               // eslint-disable-next-line react/no-array-index-key
-              key={i + v.curationSeq}
+              key={v.curationSeq + 257}
               title={v.title}
-              thumnail={v.thumnail}
+              thumbnail={v.thumbnail}
+              good={v.good}
             />
           ))}
-        </Box>
+        </ContentArea>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Stack spacing={2} direction="row-reverse">
-          <GreenBtn onClick={onClickSendCourse} variant="contained">
+        <div style={{ display: 'flex', justifyContent: 'end' }}>
+          <GreenBtn disabled={myCourse.length < 1} onClick={onClickSendCourse}>
             나만의 코스 만들기
           </GreenBtn>
-        </Stack>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-            p: 1,
-            m: 1,
-            bgcolor: 'background.paper',
-            borderRadius: 1,
-          }}
-        >
-          {LikePlaces?.map((v, i) => (
+        </div>
+        <ContentArea>
+          {LikePlaces.map((v) => (
             <CurationCardLikePlace
-              // eslint-disable-next-line react/no-array-index-key
-              key={i + v.storeSeq}
+              key={v.storeSeq + 641}
               storeSeq={v.storeSeq}
               storeName={v.storeName}
               addressName={v.addressName}
               categoryName={v.categoryName}
             />
           ))}
-        </Box>
+        </ContentArea>
       </TabPanel>
     </Box>
   );
