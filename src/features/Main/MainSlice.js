@@ -217,7 +217,7 @@ const mainSlice = createSlice({
     [fetchUsers.fulfilled]: (state, action) => {
       state.fetchUsersLoading = false;
       state.fetchUsersDone = true;
-      state.Users = action.payload;
+      state.users = action.payload;
     },
     [fetchUsers.rejected]: (state, action) => {
       state.fetchUsersLoading = true;
