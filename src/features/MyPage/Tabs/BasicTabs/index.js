@@ -50,7 +50,7 @@ function BasicTabs() {
   // const myNadlecourseInfo = mypage.myNadlecourse;
   // const likePlaceInfo = mypage.likePlace;
   // const likeNadlecourseInfo = mypage.likeNadlecourse;
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(2);
 
   console.log(value);
   console.log(InfinityPostsPlace);
@@ -70,11 +70,17 @@ function BasicTabs() {
   //   }
   // };
 
+  useEffect(() => {
+    // boardHandler();
+    console.log('이거 실행되나?!');
+    dispatch(loadPostsInfinity());
+  }, []);
+
+  useEffect(() => {
+    // boardHandler();
+    dispatch(loadPostsInfinityPlace());
+  }, []);
   if (value === 0 || value === 1) {
-    useEffect(() => {
-      // boardHandler();
-      dispatch(loadPostsInfinity());
-    }, []);
     useEffect(() => {
       function onScroll() {
         // window.scrollY : 얼마나 내렸는지
@@ -97,10 +103,6 @@ function BasicTabs() {
       };
     }, [hasMorePosts, loadInfinityPostsLoading, InfinityPosts]);
   } else if (value === 2) {
-    useEffect(() => {
-      // boardHandler();
-      dispatch(loadPostsInfinityPlace());
-    }, []);
     useEffect(() => {
       function onScroll() {
         // window.scrollY : 얼마나 내렸는지
