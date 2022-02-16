@@ -20,7 +20,20 @@ export const courseInfoPost = createAsyncThunk(
     }
   }
 );
-
+// image
+export const courseImagePost = createAsyncThunk(
+  '/CourseCreationForm/courseImagePost',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('auth/curations/images', data, {
+        headers: { Authorization: getToken() },
+      });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
 // 큐레이션 삭제
 export const courseInfoDelete = createAsyncThunk(
   '/CourseCreationForm',
@@ -137,6 +150,21 @@ const course = createSlice({
     [courseInfoPost.rejected]: (state, action) => {
       state.courseInfoPostSending = true;
       state.courseInfoPostError = action.error.message;
+    },
+    // 코스 이미지 post
+    [courseImagePost.pending]: (state) => {
+      state.courseImagePostSending = true;
+      state.courseImagePostDone = false;
+      state.courseImagePostError = null;
+    },
+    [courseImagePost.fulfilled]: (state, action) => {
+      state.courseImagePostSending = false;
+      state.courseImagePostDone = true;
+      // 수정
+    },
+    [courseImagePost.rejected]: (state, action) => {
+      state.courseImagePostSending = true;
+      state.courseImagePostError = action.error.message;
     },
   },
 });

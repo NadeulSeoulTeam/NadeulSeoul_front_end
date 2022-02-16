@@ -14,7 +14,12 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ImageUploading from 'react-images-uploading';
 import { Axios } from 'axios';
 
-import { getCourse, updateCourse, courseInfoPost } from '../CourseSlice';
+import {
+  getCourse,
+  updateCourse,
+  courseInfoPost,
+  courseImagePost,
+} from '../CourseSlice';
 
 import CourseCreationModal from './CourseCreationModal/CourseCreationModal';
 import CourseCreationFormCartListItem from './CourseCreationFormCartListItem/CourseCreationFormCartListItem';
@@ -294,6 +299,7 @@ function CourseCreactionForm() {
     // 전부 formdata에 넣어서 보내주기
     // dispatch(courseInfoPost(formData));
     dispatch(courseInfoPost(data));
+    dispatch(courseImagePost(formData));
     console.log(data);
     // handleOpen();
   };
