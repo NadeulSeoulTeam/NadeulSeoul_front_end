@@ -97,13 +97,12 @@ export const BoardListItem = {
 };
 
 // 인피니티 스크롤 for MyNadle, LikeNadle course
-
 export const loadPostsInfinity = createAsyncThunk(
   'mypage/loadPostsInfinity',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `/stores/bookmarks?page=${data.page}&size=${data.size}`
+        `/curations/bookmarks?page=${data.page}&size=${data.size}`
       );
       return response;
     } catch (err) {
@@ -111,6 +110,20 @@ export const loadPostsInfinity = createAsyncThunk(
     }
   }
 );
+
+// export const loadPostsInfinity = createAsyncThunk(
+//   'mypage/loadPostsInfinity',
+//   async (data, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.get(
+//         `/stores/bookmarks?page=${data.page}&size=${data.size}`
+//       );
+//       return response;
+//     } catch (err) {
+//       return rejectWithValue(err.resonse.data);
+//     }
+//   }
+// );
 
 // 인피니티 스크롤 for LikePlace
 

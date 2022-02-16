@@ -6,20 +6,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+// import Stack from '@mui/material/Stack';
 import TabPanel from '../TabPanel';
 
 // component
 import CurationCard from '../../Card/CurationCard';
-import CurationCardLikePlace from '../../Card/CuraionCardLikePlace';
+// import CurationCardLikePlace from '../../Card/CuraionCardLikePlace';
 
 // actions
 import {
   loadPostsInfinity,
-  setLikePlaceBasket,
+  // setLikePlaceBasket,
   // loadPostsInfinityLikePlace,
 } from '../../MyPageSlice';
-import { GreenBtn } from './styles';
+// import { GreenBtn } from './styles';
 
 //
 // mui basic tabs
@@ -33,7 +33,7 @@ function a11yProps(index) {
 function BasicTabs() {
   const {
     InfinityPosts,
-    myCourse,
+    // myCourse,
     // loadInfinityPostsLoading,
     // InfinityPostsLikePlace,
     // hasMoreLikePlace,
@@ -46,19 +46,19 @@ function BasicTabs() {
     setValue(newValue);
   };
 
-  const onClickSendCourse = () => {
-    const data = {
-      storeSeqList: myCourse,
-    };
-    dispatch(setLikePlaceBasket(data))
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  };
+  // const onClickSendCourse = () => {
+  //   const data = {
+  //     storeSeqList: myCourse,
+  //   };
+  //   dispatch(setLikePlaceBasket(data))
+  //     .unwrap()
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response.data);
+  //     });
+  // };
 
   const [page, setPage] = useState(0);
 
@@ -142,7 +142,7 @@ function BasicTabs() {
           <Tab label="찜한 장소" {...a11yProps(2)} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
+      {/* <TabPanel value={value} index={0}>
         <Box
           sx={{
             display: 'flex',
@@ -163,8 +163,8 @@ function BasicTabs() {
             />
           ))}
         </Box>
-      </TabPanel>
-      {/* <TabPanel value={value} index={1}>
+      </TabPanel> */}
+      <TabPanel value={value} index={1}>
         <Box
           sx={{
             display: 'flex',
@@ -181,8 +181,8 @@ function BasicTabs() {
             <CurationCard key={i + v.myNadlecourseId} imgUrl={v.imgUrl} />
           ))}
         </Box>
-      </TabPanel> */}
-      <TabPanel value={value} index={2}>
+      </TabPanel>
+      {/* <TabPanel value={value} index={2}>
         <Stack spacing={2} direction="row-reverse">
           <GreenBtn onClick={onClickSendCourse} variant="contained">
             나만의 코스 만들기
@@ -210,7 +210,7 @@ function BasicTabs() {
             />
           ))}
         </Box>
-      </TabPanel>
+      </TabPanel> */}
     </Box>
   );
 }
