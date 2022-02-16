@@ -73,8 +73,8 @@ function MainPage() {
   }
 
   useEffect(() => {
-    setLocalClicked(Array(localTag.length).fill(false));
-    setThemeClicked(Array(themeTag.length).fill(false));
+    setLocalClicked(Array(localTag?.length).fill(false));
+    setThemeClicked(Array(themeTag?.length).fill(false));
   }, []);
 
   useEffect(() => {

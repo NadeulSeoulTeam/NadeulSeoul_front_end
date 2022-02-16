@@ -200,6 +200,7 @@ function BasicTabs() {
               thumbnail={v.thumbnail}
               title={v.title}
               good={v.good}
+              curationSeq={v.curationSeq}
             />
           ))}
         </ContentArea>
@@ -213,6 +214,7 @@ function BasicTabs() {
               title={v.title}
               thumbnail={v.thumbnail}
               good={v.good}
+              curationSeq={v.curationSeq}
             />
           ))}
         </ContentArea>
