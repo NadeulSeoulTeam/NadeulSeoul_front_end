@@ -15,6 +15,7 @@ import {
   Text,
   GreenText,
   GreenBtn,
+  FunctionBtn,
 } from './styles';
 
 // actions
@@ -81,14 +82,26 @@ function Nav() {
           <CenterDiv style={{ top: '5.8rem' }}>
             {isAuthenticated() ? (
               <div>
-                <Text style={{ fontWeight: 'bold' }}>
-                  {getUserInfo()?.followeeCount}
-                </Text>
-                <Text>팔로잉</Text>
-                <Text style={{ fontWeight: 'bold' }}>
-                  {getUserInfo()?.followerCount}
-                </Text>
-                <Text>팔로워</Text>
+                <FunctionBtn
+                  onClick={() => {
+                    navigate(`/mypage/${getUserInfo()?.userSeq}/followee`);
+                  }}
+                >
+                  <Text style={{ fontWeight: 'bold' }}>
+                    {getUserInfo()?.followeeCount}
+                  </Text>
+                  <Text>팔로잉</Text>
+                </FunctionBtn>
+                <FunctionBtn
+                  onClick={() => {
+                    navigate(`/mypage/${getUserInfo()?.userSeq}/follower`);
+                  }}
+                >
+                  <Text style={{ fontWeight: 'bold' }}>
+                    {getUserInfo()?.followerCount}
+                  </Text>
+                  <Text>팔로워</Text>
+                </FunctionBtn>
               </div>
             ) : (
               <Text>로그인해주세요!</Text>

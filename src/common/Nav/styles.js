@@ -106,3 +106,7 @@ export const GreenBtn = styled(Button)`
     }
   }
 `;
+
+export const FunctionBtn = styled.span`
+  cursor: pointer;
+`;

@@ -6,6 +6,7 @@ import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 
 export const Container = styled.div`
+  padding: 0 5rem 3rem 5rem;
   text-align: center;
 `;
 
@@ -49,7 +50,7 @@ export const TextInput = styled(TextField)`
     font-family: 'Suit';
     background-color: white;
     border-radius: 15px;
-    margin: 10px 20px;
+    margin: 10px 10px 10px 20px;
     & fieldset {
       border-color: #0de073;
     }
@@ -81,9 +82,17 @@ export const GreenBtn = styled(Button)`
     cursor: pointer;
     border: none;
     &.Mui-disabled {
-      background-color: #fafafa;
+      background-color: #e9e9e9;
+    }
+    &:hover {
+      background-color: #06d469;
     }
   }
+`;
+
+export const ArticleDiv = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 export const VerticalDiv = styled.div`
@@ -91,9 +100,36 @@ export const VerticalDiv = styled.div`
   flex-direction: column;
 `;
 
-// 왜인지 적용 안 되고 있음...
+// 왜인지 적용 안 되고 있음
 export const EmojiPicker = styled(Picker)`
   .emoji-mart-search input {
     font-family: 'Suit';
+    ::placeholder {
+      font-family: 'Suit';
+    }
+  }
+`;
+
+export const MiniBtn = styled(Button)`
+  && {
+    display: inline-block;
+    position: absolute;
+    right: -80px;
+    font-family: 'Suit';
+    font-weight: bold;
+    font-size: 0.8rem;
+    background-color: #0de073;
+    margin: 20px 5px;
+    padding: 4px 10px;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    border: none;
+    &.Mui-disabled {
+      background-color: #e9e9e9;
+    }
+    &:hover {
+      background-color: #06d469;
+    }
   }
 `;
