@@ -29,13 +29,43 @@ import {
 import { LoadUserInfo, fetchLocalTags, fetchThemeTags } from '../MainSlice';
 
 function MainPage() {
+  const [localClicked, setLocalClicked] = useState();
+  const [themeClicked, setThemeClicked] = useState();
+  const [clicked, setClicked] = useState(0);
+
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   // const { themeTag, localTag } = useSelector((state) => state.main);
+  const { localTag, themeTag } = useSelector((state) => state.main);
   const handleOpen = () => {
     setOpen(!open);
   };
-
+  useEffect(() => {
+    setLocalClicked(Array(localTag.length).fill(false));
+    setThemeClicked(Array(themeTag.length).fill(false));
+  }, []);
+  useEffect(() => {
+    console.log(localClicked, themeClicked);
+  }, [localClicked, themeClicked]);
+  useEffect(() => {
+    console.log(localClicked);
+    console.log(themeClicked);
+    console.log(clicked);
+  }, [clicked]);
+  const setLocalBoolean = (codeSeq) => {
+    console.log(codeSeq);
+    localClicked[codeSeq - 1] = !localClicked[codeSeq - 1];
+    setLocalClicked(localClicked);
+    if (localClicked[codeSeq - 1]) setClicked(clicked + 1);
+    else setClicked(clicked - 1);
+  };
+  const setThemeBoolean = (codeSeq) => {
+    console.log(codeSeq);
+    themeClicked[codeSeq - 26] = !themeClicked[codeSeq - 26];
+    setThemeClicked(themeClicked);
+    if (themeClicked[codeSeq - 26]) setClicked(clicked + 1);
+    else setClicked(clicked - 1);
+  };
   useEffect(() => {
     // dispatch(LoadUserInfo())
     //   .unwrap()
@@ -66,7 +96,14 @@ function MainPage() {
           <SampleTags>공원 산책</SampleTags>
           <TagOpener onClick={handleOpen}>태그 더보기▼</TagOpener>
         </MidWrapper>
-        {open ? <TagList /> : null}
+        {open ? (
+          <TagList
+            themeClicked={themeClicked}
+            localClicked={localClicked}
+            setLocalBoolean={setLocalBoolean}
+            setThemeBoolean={setThemeBoolean}
+          />
+        ) : null}
       </TopWrapper>
       <BottomWrapper>
         <SubTitle>지금 HOT한 코스</SubTitle>

@@ -290,7 +290,9 @@ function CourseCreactionForm() {
     formData.append('transportation', courseInfo.transportation);
     formData.append('local', courseInfo.local);
     formData.append('theme', courseInfo.theme);
-
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}, ${pair[1]}`);
+    }
     console.log(courseInfo);
     // courseInfo.fileList = formData;
     setCourseInfo(courseInfo);

@@ -46,7 +46,7 @@ function App() {
             <Route Route path="/questions" element={<BoardList />} />
             <Route path="/questions/:QuestionId" element={<BoardListItem />} />
             <Route path="/questions/new" element={<BoardForm />} />
-            <Route path="/CourseCreationForm" element={<CourseCreationForm />}/>
+            {/* <Route path="/CourseCreationForm" element={<CourseCreationForm />}/> */}
           </Route>
 
           {/* Only public Not Authenticated */}
@@ -63,6 +63,7 @@ function App() {
           <Route path="/mypage/:id/follower" element={<FollowersList />} />
           <Route path="/mypage/:id/followee" element={<FollowingsList />} />
           <Route path="/Course" element={<Course />} />
+          <Route path="/CourseCreationForm" element={<CourseCreationForm />}/>
           <Route path="/StoreView" element={<StoreView />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
