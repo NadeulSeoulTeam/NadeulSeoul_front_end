@@ -1,13 +1,15 @@
+/* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
 
-export const LocalTag = styled.button`
+export const TextToggleBtn = styled.button`
+  display: inline;
+  font-family: 'Suit';
+  font-size: 0.9rem;
+  padding: 2px 4px 2px 0;
+  margin: 0 10px 0 0;
+  border: none;
+  background: transparent;
   ${({ active }) => {
-    return active ? `opacity: 1` : `opacity: 0.2`;
-  }}
-`;
-
-export const ThemeTag = styled.button`
-  ${({ active }) => {
-    return active ? `opacity: 1` : `opacity: 0.2`;
+    return active ? `{color: #0de073; font-weight: bold;}` : `color: #c4c4c4`;
   }}
 `;

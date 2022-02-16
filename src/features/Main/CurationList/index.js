@@ -16,13 +16,16 @@ function CurationList() {
   const [isDrag, setIsDrag] = useState(false);
   const [startX, setStartX] = useState();
 
-  useEffect(() => {
-    // dispatch(fetchCourses());
-  }, []);
-
   // 받아온 코스 list
   const courseList = useSelector((state) => state.main.courses);
+  const { courses } = useSelector((state) => state.main);
 
+  useEffect(() => {
+    dispatch(fetchCourses());
+  }, []);
+  useEffect(() => {
+    console.log(courses, '회칙회칙!');
+  }, [courses]);
   const throttle = (func, ms) => {
     let throttled = false;
     return (...args) => {
@@ -75,7 +78,8 @@ function CurationList() {
       onMouseMove={isDrag ? onThrottleDragMove : null}
       onMouseUp={onDragEnd}
     >
-      {mapToComponent(courseList)}
+      {/* {mapToComponent(courseList)} */}
+      {mapToComponent(courses)}
     </CurationGrid>
   );
 }

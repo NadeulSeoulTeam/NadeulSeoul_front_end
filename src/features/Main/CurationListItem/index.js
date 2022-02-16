@@ -24,7 +24,7 @@ function CurationListItem({ curation }) {
   };
 
   useEffect(() => {
-    // console.log(curation);
+    console.log(curation, '여기만 잘된다면...');
   }, []);
 
   return (
