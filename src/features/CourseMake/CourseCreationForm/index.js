@@ -15,40 +15,23 @@ import ImageUploading from 'react-images-uploading';
 import { Axios } from 'axios';
 
 import { getCourse, updateCourse, courseInfoPost } from '../CourseSlice';
-// css
 
 import CourseCreationModal from './CourseCreationModal/CourseCreationModal';
 import CourseCreationFormCartListItem from './CourseCreationFormCartListItem/CourseCreationFormCartListItem';
 // JSON
 import tags from '../tags';
 
-// Image
-// css
+// style
 import {
   CourseForm,
+  ArticleDiv,
   CourseHeader,
-  CourseName,
-  CourseNameContent,
+  ArticleName,
+  ArticleContent,
   RouteList,
-  RouteEdit,
-  CourseDes,
-  CourseDesContent,
-  FixdedMember,
-  FixedMemberContent,
-  Budget,
-  BudgetInput,
-  Transportation,
-  TransportationTag,
-  Local,
-  LocalTag,
-  Theme,
-  ThemeTag,
-  CourseCreateButton,
   ButtonToggle,
-  ImageUpload,
-  ImageUploadContent,
   ImageUploadPictureDiv,
-  ImageFunc,
+  ImageContainer,
   ImageAddButton,
   ImageAllDeleteButton,
   PictureLeftButton,
@@ -56,10 +39,9 @@ import {
   ClearPicture,
   CorrectPicture,
   PictureNumbering,
-  LocalToggle,
-  ThemeToggle,
-  LocalTagDesc,
-  ThemeTagDesc,
+  TextToggleBtn,
+  TagDesc,
+  GreenBtn,
 } from './styles';
 
 function CourseCreactionForm() {
@@ -139,22 +121,16 @@ function CourseCreactionForm() {
       }
     };
     return (
-      <ImageFunc>
-        <img src={image.data_url} alt="" width="300" />
-        <PictureLeftButton
-          sx={{ color: '#68c78e' }}
-          fontSize="large"
-          onClick={movePicLeft}
-        />
+      <div>
+        <ImageContainer>
+          <img src={image.data_url} alt="" />
+        </ImageContainer>
+        <PictureLeftButton onClick={movePicLeft} />
         <PictureNumbering>
-          사진 : {pageNum + 1}/{imageList.length}
+          {pageNum + 1}/{imageList.length}
         </PictureNumbering>
-        <CorrectPicture
-          sx={{ fontSize: 20, color: '#68c78e' }}
-          onClick={() => onImageUpdate(index)}
-        />
+        <CorrectPicture onClick={() => onImageUpdate(index)} />
         <ClearPicture
-          sx={{ fontSize: 20, color: '#68c78e' }}
           onClick={() => {
             onImageRemove(index);
             if (pageNum === 0) {
@@ -163,12 +139,8 @@ function CourseCreactionForm() {
             setPageNum(pageNum - 1);
           }}
         />
-        <PictureRightButton
-          sx={{ color: '#68c78e' }}
-          fontSize="large"
-          onClick={movePicRight}
-        />
-      </ImageFunc>
+        <PictureRightButton onClick={movePicRight} />
+      </div>
     );
   };
 
@@ -282,21 +254,48 @@ function CourseCreactionForm() {
     for (let i = 0; i < images.length; i += 1) {
       formData.append('fileList', images[i].file);
     }
-    formData.append('personnel', courseInfo.personnel);
-    formData.append('description', courseInfo.description);
-    formData.append('budget', courseInfo.budget);
-    formData.append('title', courseInfo.title);
-    formData.append('courseRoute', courseInfo.courseRoute);
-    // tag들 추가
-    formData.append('transportation', courseInfo.transportation);
-    formData.append('local', courseInfo.local);
-    formData.append('theme', courseInfo.theme);
+    // formData.append('personnel', courseInfo.personnel);
+    // formData.append('description', courseInfo.description);
+    // formData.append('budget', courseInfo.budget);
+    // formData.append('title', courseInfo.title);
+    // formData.append('courseRoute', courseInfo.courseRoute);
+    // // tag들 추가
+    // formData.append('transportation', courseInfo.transportation);
+    // formData.append('local', courseInfo.local);
+    // formData.append('theme', courseInfo.theme);
+
+    const arr = [];
+    for (let i = 0; i < courseInfo.courseRoute.length; i += 1) {
+      const data = {
+        storeSeq: Number(courseInfo.courseRoute[i].id),
+        addressName: courseInfo.courseRoute[i].address_name,
+        categoryName: courseInfo.courseRoute[i].category_name,
+        phone: courseInfo.courseRoute[i].phone,
+        storeName: courseInfo.courseRoute[i].place_name,
+        placeUrl: courseInfo.courseRoute[i].place_url,
+        x: courseInfo.courseRoute[i].x,
+        y: courseInfo.courseRoute[i].y,
+      };
+      arr.push(data);
+    }
+    const data = {
+      personnel: courseInfo.personnel,
+      description: courseInfo.description,
+      budget: courseInfo.budget,
+      title: courseInfo.title,
+      courseRoute: arr,
+      transportation: courseInfo.transportation,
+      local: courseInfo.local,
+      theme: courseInfo.theme,
+    };
 
     console.log(courseInfo);
     // courseInfo.fileList = formData;
     setCourseInfo(courseInfo);
     // 전부 formdata에 넣어서 보내주기
-    dispatch(courseInfoPost(formData));
+    // dispatch(courseInfoPost(formData));
+    dispatch(courseInfoPost(data));
+    console.log(data);
     // handleOpen();
   };
   // course 정보 backend 송신 함수
@@ -379,7 +378,7 @@ function CourseCreactionForm() {
 
   const mapToComponentLocalTags = (data) => {
     return data.local.map((local, index) => (
-      <LocalToggle
+      <TextToggleBtn
         active={!!localClicked.isClicked[index]}
         type="button"
         id={Object.keys(local)}
@@ -387,13 +386,13 @@ function CourseCreactionForm() {
         key={Object.keys(local)}
       >
         {Object.values(local)}
-      </LocalToggle>
+      </TextToggleBtn>
     ));
   };
 
   const mapToComponentThemeTags = (data) => {
     return data.theme.map((theme, index) => (
-      <ThemeToggle
+      <TextToggleBtn
         active={!!themeClicked.isClicked[index]}
         type="button"
         onClick={() => makeThemeTag(index)}
@@ -402,7 +401,7 @@ function CourseCreactionForm() {
         key={Object.keys(theme)}
       >
         {Object.values(theme)}
-      </ThemeToggle>
+      </TextToggleBtn>
     ));
   };
 
@@ -420,84 +419,103 @@ function CourseCreactionForm() {
   return (
     <CourseForm>
       <CourseHeader>나만의 코스 만들기</CourseHeader>
-
-      <CourseName>
-        <span style={{ color: '#68c78e' }}>*</span>코스 이름
-      </CourseName>
-      <CourseNameContent
-        onChange={onChange}
-        type="text"
-        id="title"
-        name="title"
-        placeholder="코스의 이름을 입력해주세요."
-      />
-      <RouteEdit>루트 편집</RouteEdit>
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="cart">
-          {(provided) => (
-            <RouteList
-              className="characters"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {mapToComponent()}
-              {provided.placeholder}
-            </RouteList>
-          )}
-        </Droppable>
-      </DragDropContext>
-      <CourseDes>코스 설명</CourseDes>
-      <CourseDesContent
-        onChange={onChange}
-        id="description"
-        name="description"
-        placeholder="다른 나들러들이 코스에 대해 알 수 있게 설명을 적어주세요. "
-      />
-      <FixdedMember>함께한 인원</FixdedMember>
-      <FixedMemberContent
-        onChange={onChange}
-        onInput={onInput}
-        type="text"
-        id="personnel"
-        name="personnel"
-        placeholder="숫자로 적어주세요."
-      />
-      <Budget>예산</Budget>
-      <BudgetInput
-        onChange={onChange}
-        onInput={onInput}
-        type="text"
-        id="budget"
-        name="budget"
-        placeholder="1인당 얼마 정도를 쓰셨나요? 정확하지 않아도 괜찮아요."
-      />
-      <Transportation>교통수단</Transportation>
-      <TransportationTag>
-        {mapToComponentTransportationTags(tags)}
-      </TransportationTag>
-      <Local>
-        <span style={{ color: '#68c78e' }}>*</span>지역 태그
-      </Local>
-      <LocalTag>
-        <LocalTagDesc>
-          지역 태그는 선택하신 장소를 기반으로 자동 생성되요
-        </LocalTagDesc>{' '}
-        <br />
-        {mapToComponentLocalTags(tags)}
-      </LocalTag>
-
-      <Theme>
-        <span style={{ color: '#68c78e' }}>*</span>테마 태그
-      </Theme>
-      <ThemeTag>
-        <ThemeTagDesc>
-          지역 태그는 선택하신 장소를 기반으로 자동 생성되요
-        </ThemeTagDesc>{' '}
-        <br />
-        {mapToComponentThemeTags(tags)}
-      </ThemeTag>
-      <ImageUpload>이미지 업로드</ImageUpload>
-      <ImageUploadContent>
+      <ArticleDiv>
+        <ArticleName>
+          <span style={{ color: '#0de073' }}>* </span>
+          코스 이름
+        </ArticleName>
+        <ArticleContent
+          onChange={onChange}
+          type="text"
+          id="title"
+          name="title"
+          size="small"
+          style={{ width: '40vw' }}
+          placeholder="코스의 이름을 입력해주세요."
+        />
+      </ArticleDiv>
+      <ArticleDiv>
+        <ArticleName>루트 편집</ArticleName>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="cart">
+            {(provided) => (
+              <RouteList
+                className="characters"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {mapToComponent()}
+                {provided.placeholder}
+              </RouteList>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </ArticleDiv>
+      <ArticleDiv>
+        <ArticleName>코스 설명</ArticleName>
+        <ArticleContent
+          onChange={onChange}
+          id="description"
+          name="description"
+          multiline
+          minRows={2}
+          size="small"
+          style={{ width: '60vw' }}
+          placeholder="다른 나들러들이 코스에 대해 알 수 있게 설명을 적어주세요."
+        />
+      </ArticleDiv>
+      <ArticleDiv>
+        <ArticleName>함께한 인원</ArticleName>
+        <ArticleContent
+          onChange={onChange}
+          onInput={onInput}
+          type="text"
+          id="personnel"
+          name="personnel"
+          size="small"
+          style={{ width: '20vw' }}
+          placeholder="숫자로 적어주세요."
+        />
+      </ArticleDiv>
+      <ArticleDiv>
+        <ArticleName>예산</ArticleName>
+        <ArticleContent
+          onChange={onChange}
+          onInput={onInput}
+          type="text"
+          id="budget"
+          name="budget"
+          size="small"
+          style={{ width: '50vw' }}
+          placeholder="1인당 얼마 정도를 쓰셨나요? 정확하지 않아도 괜찮아요."
+        />
+      </ArticleDiv>
+      <ArticleDiv>
+        <ArticleName>교통수단</ArticleName>
+        <div style={{ left: '120px', margin: '3px 0' }}>
+          {mapToComponentTransportationTags(tags)}
+        </div>
+      </ArticleDiv>
+      <ArticleDiv>
+        <ArticleName>
+          <span style={{ color: '#0de073' }}>* </span>지역 태그
+        </ArticleName>
+        <div style={{ left: '120px', width: '65vw' }}>
+          <TagDesc>지역 태그는 선택하신 장소를 기반으로 자동 생성돼요.</TagDesc>
+          {mapToComponentLocalTags(tags)}
+        </div>
+      </ArticleDiv>
+      <ArticleDiv>
+        <ArticleName>
+          <span style={{ color: '#0de073' }}>* </span>테마 태그
+        </ArticleName>
+        <div style={{ left: '120px', width: '65vw' }}>
+          <TagDesc>테마 태그는 1개 이상 선택해 주세요.</TagDesc>
+          {mapToComponentThemeTags(tags)}
+        </div>
+      </ArticleDiv>
+      <ArticleDiv>
+        <ArticleName>이미지 업로드</ArticleName>
         <ImageUploading
           multiple
           value={images}
@@ -519,24 +537,18 @@ function CourseCreactionForm() {
             <ImageUploadPictureDiv>
               {imageUploadFunc(imageList, onImageUpdate, onImageRemove)}
               <ImageAddButton
-                color="success"
-                sx={{ fontSize: 20, color: '#68c78e' }}
                 style={isDragging ? { color: 'red' } : undefined}
                 onClick={onImageUpload}
                 {...dragProps}
               />
-              <ImageAllDeleteButton
-                color="success"
-                sx={{ fontSize: 20, color: '#68c78e' }}
-                onClick={onImageRemoveAll}
-              />
+              <ImageAllDeleteButton onClick={onImageRemoveAll} />
             </ImageUploadPictureDiv>
           )}
         </ImageUploading>
-      </ImageUploadContent>
-      <CourseCreateButton type="submit" onClick={sendCourse}>
+      </ArticleDiv>
+      <GreenBtn type="submit" onClick={sendCourse}>
         이대로 코스 생성하기
-      </CourseCreateButton>
+      </GreenBtn>
       <CourseCreationModal
         sendFinalCourseInfo={sendFinalCourseInfo}
         handleClose={handleClose}

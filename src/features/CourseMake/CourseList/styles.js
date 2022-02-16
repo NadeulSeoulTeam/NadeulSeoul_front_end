@@ -7,7 +7,7 @@ export const ArrowBack = styled(ArrowBackIosIcon)`
   z-index: 2;
   position: absolute;
   left: 7%;
-  bottom: 15%;
+  bottom: 10%;
   &:hover {
     cursor: pointer;
   }
@@ -17,7 +17,7 @@ export const ArrowForward = styled(ArrowForwardIosIcon)`
   z-index: 2;
   position: absolute;
   right: 7%;
-  bottom: 15%;
+  bottom: 10%;
   &:hover {
     cursor: pointer;
   }
@@ -28,7 +28,7 @@ export const List = styled.div`
   display: flex;
   position: absolute;
   z-index: 2;
-  top: 570px;
+  bottom: 1%;
   left: 11%;
   overflow-x: auto;
   scroll-behavior: smooth;

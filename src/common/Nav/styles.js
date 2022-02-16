@@ -52,11 +52,13 @@ export const Nickname = styled.p`
   font-size: 1.5rem;
   color: #0de073;
   position: absolute;
-  width: 160px;
+  width: 250px;
+  height: 35.2px;
   top: 1rem;
   left: 50%;
   transform: translate(-50%, 0%);
   cursor: pointer;
+  overflow: hidden;
 `;
 
 export const CenterDiv = styled.div`
@@ -98,6 +100,9 @@ export const GreenBtn = styled(Button)`
     transform: translate(-50%, 0%);
     &.Mui-disabled {
       background-color: #fafafa;
+    }
+    &:hover {
+      background-color: #06d469;
     }
   }
 `;

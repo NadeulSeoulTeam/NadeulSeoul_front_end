@@ -1,182 +1,92 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import ClearIcon from '@mui/icons-material/Clear';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AddBoxIcon from '@mui/icons-material/AddBox';
+import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 
 export const CourseForm = styled.div`
-  display: grid;
-  grid-template-areas:
-    ' courseHeader courseHeader courseHeader courseHeader '
-    ' courseName courseNameContent courseNameContent courseNameContent '
-    ' routeEdit routeList routeList routeList'
-    ' courseDes courseDesContent courseDesContent courseDesContent'
-    ' fixdedMember fixedMemberContent fixedMemberContent fixedMemberContent'
-    ' budget budgetInput budgetInput budgetInput '
-    ' transportation transportationTag transportationTag transportationTag'
-    ' local localTag localTag localTag'
-    ' theme themeTag themeTag themeTag'
-    ' imageUpload imageUploadContent imageUploadContent imageUploadContent '
-    ' . . courseCreateButton courseCreateButton';
+  padding: 5rem;
 `;
+
+export const ArticleDiv = styled.div`
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+`;
+
 export const CourseHeader = styled.div`
-  grid-area: courseHeader;
-  font-family: Roboto;
-  font-style: normal;
   font-weight: bold;
-  font-size: 40px;
-  line-height: 47px;
-  color: #68c78e;
-  margin: 60px;
-  margin-bottom: 70px;
-  margin-left: 300px;
-`;
-export const CourseName = styled.div`
-  grid-area: courseName;
-  margin: 30px;
-  margin-bottom: 0px;
-  width: 300px;
-  text-align: right;
-  font-weight: bold;
+  font-size: 1.3rem;
+  color: #0de073;
+  margin: 1rem 0;
 `;
 
-export const CourseNameContent = styled.input`
-  grid-area: courseNameContent;
+export const ArticleName = styled.div`
+  font-weight: bold;
+  width: 90px;
+  left: 0;
+  text-align: end;
+  padding: 0;
+  margin: 0 1rem 0 0;
+`;
 
-  margin: 30px;
-  margin-bottom: 0px;
-
-  width: 400px;
-  height: 40px;
-  background: #ffffff;
-  border: 3px solid #68c78e;
-  box-sizing: border-box;
-  border-radius: 20px;
-
-  ::placeholder {
-    color: C4C4C4;
-    padding: 20px;
-    font-family: Roboto;
+export const ArticleContent = styled(TextField)`
+  .MuiOutlinedInput-root {
+    color: #222222;
+    font-family: 'Suit';
+    font-size: 0.9rem;
+    background-color: white;
+    border-radius: 15px;
+    & fieldset {
+      border-color: #0de073;
+    }
+    &:hover > fieldset {
+      border-color: #0de073;
+    }
+    &.Mui-focused > fieldset {
+      border-color: #0de073;
+    }
+    &.Mui-error > fieldset {
+      border-color: #0de073;
+    }
+    input::placeholder {
+      font-size: 0.9rem;
+    }
   }
-`;
-
-export const RouteEdit = styled.div`
-  grid-area: routeEdit;
-  margin: 30px;
-  margin-bottom: 0px;
-  width: 300px;
-  text-align: right;
-  font-weight: bold;
+  .MuiInputBase-inputMultiline {
+    ::placeholder {
+      font-size: 0.9rem;
+    }
+  }
 `;
 
 export const RouteList = styled.ul`
-  grid-area: routeList;
   list-style: none;
-  margin: 30px;
-  margin-bottom: 0px;
+  padding: 0;
 `;
 
-export const CourseDes = styled.div`
-  grid-area: courseDes;
-  margin: 30px;
-  margin-bottom: 0px;
-  width: 300px;
-  text-align: right;
-  font-weight: bold;
-`;
-export const CourseDesContent = styled.textarea`
-  grid-area: courseDesContent;
-  margin: 30px;
-  margin-bottom: 0px;
-
-  width: 700px;
-  height: 200px;
-  background: #ffffff;
-  border: 3px solid #68c78e;
-  box-sizing: border-box;
-  border-radius: 20px;
-
-  ::placeholder {
-    color: C4C4C4;
-    padding: 20px;
-    font-family: Roboto;
-  }
-`;
-export const FixdedMember = styled.div`
-  grid-area: fixdedMember;
-  margin: 30px;
-  margin-bottom: 0px;
-  width: 300px;
-  text-align: right;
-  font-weight: bold;
-`;
-export const FixedMemberContent = styled.input`
-  grid-area: fixedMemberContent;
-  margin: 30px;
-  margin-bottom: 0px;
-
-  width: 170px;
-  height: 50px;
-  background: #ffffff;
-  border: 3px solid #68c78e;
-  box-sizing: border-box;
-  border-radius: 20px;
-
-  ::placeholder {
-    color: C4C4C4;
-    padding: 20px;
-  }
-`;
-export const Budget = styled.div`
-  grid-area: budget;
-  margin: 30px;
-  margin-bottom: 0px;
-  width: 300px;
-  text-align: right;
-  font-weight: bold;
-`;
-export const BudgetInput = styled.input`
-  grid-area: budgetInput;
-  margin: 30px;
-  margin-bottom: 0px;
-
-  width: 400px;
-  height: 50px;
-  background: #ffffff;
-  border: 3px solid #68c78e;
-  box-sizing: border-box;
-  border-radius: 20px;
-
-  ::placeholder {
-    color: C4C4C4;
-    padding: 20px;
-  }
-`;
-export const Transportation = styled.div`
-  grid-area: transportation;
-  margin: 30px;
-  margin-bottom: 0px;
-  width: 300px;
-  text-align: right;
-  font-weight: bold;
-`;
-export const TransportationTag = styled.div`
-  grid-area: transportationTag;
-  margin: 30px;
-  margin-bottom: 0px;
-`;
 export const ButtonToggle = styled.button`
   background: #ffffff;
-  border: 3px solid #68c78e;
+  color: #0de073;
+  font-family: 'Suit';
+  font-weight: bold;
+  padding: 4px 15px;
+  margin: 0 5px 0 0;
+  border: 2px solid #0de073;
   box-sizing: border-box;
   border-radius: 20px;
   ${({ active }) => {
-    return active ? `opacity: 1` : `opacity: 0.2`;
+    return active
+      ? `{background: #0de073; color: white; }`
+      : `{background: white; color: #0de073;}`;
   }}
 `;
+
 export const Local = styled.div`
   grid-area: local;
   margin: 30px;
@@ -185,134 +95,122 @@ export const Local = styled.div`
   text-align: right;
   font-weight: bold;
 `;
-export const LocalTag = styled.div`
-  grid-area: localTag;
-  margin: 30px;
-  margin-bottom: 0px;
-`;
-export const LocalTagDesc = styled.div`
-  opacity: 0.2;
-  font-size: 13.333px;
-`;
-export const LocalToggle = styled.button`
-  border: none;
-  background: transparent;
-  ${({ active }) => {
-    return active ? `color: #68c78e` : `opacity: 0.2`;
-  }}
-`;
-export const Theme = styled.div`
-  grid-area: theme;
-  margin: 30px;
-  margin-bottom: 0px;
-  width: 300px;
-  text-align: right;
-  font-weight: bold;
-`;
-export const ThemeTag = styled.div`
-  grid-area: themeTag;
-  margin: 30px;
-  margin-bottom: 0px;
-`;
-export const ThemeTagDesc = styled.div`
-  opacity: 0.2;
-  font-size: 13.333px;
-`;
-export const ThemeToggle = styled.button`
-  border: none;
-  background: transparent;
-  ${({ active }) => {
-    return active ? `color: #68c78e` : `opacity: 0.2 `;
-  }}
-`;
-export const ImageUpload = styled.div`
-  grid-area: imageUpload;
-  margin: 30px;
-  margin-bottom: 0px;
-  width: 300px;
-  text-align: right;
-  font-weight: bold;
-`;
-export const ImageUploadContent = styled.div`
-  grid-area: imageUploadContent;
-  margin: 30px;
-  margin-bottom: 0px;
 
-  width: 306px;
-  height: 175px;
+export const TagDesc = styled.div`
+  color: #c4c4c4;
+  font-size: 0.7rem;
+  margin: 0 0 5px 0;
+`;
+
+export const TextToggleBtn = styled.button`
+  display: inline;
+  font-family: 'Suit';
+  font-size: 0.9rem;
+  padding: 2px 4px 2px 0;
+  margin: 0 10px 0 0;
+  border: none;
+  background: transparent;
+  ${({ active }) => {
+    return active ? `{color: #0de073; font-weight: bold;}` : `color: #c4c4c4`;
+  }}
+`;
+
+export const ImageUploadPictureDiv = styled.div`
+  width: 260px;
+  height: 195px;
   background: #ffffff;
-  border: 3px solid #68c78e;
-  box-sizing: border-box;
+  border: 2px solid #0de073;
+  border-radius: 20px;
+  position: relative;
+`;
 
-  ::placeholder {
-    color: C4C4C4;
-    padding: 20px;
+export const ImageContainer = styled.div`
+  width: 260px;
+  height: 195px;
+  border-radius: 20px;
+  border: none;
+  overflow: hidden;
+  position: relative;
+  img {
+    max-width: 100%;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 `;
-export const ImageUploadPictureDiv = styled.div`
-  position: relative;
-  width: 300px;
-  height: 230px;
-`;
-export const ImageFunc = styled.div``;
-export const ImageAddButton = styled(AddBoxIcon)`
+
+export const ImageAddButton = styled(AddPhotoAlternateOutlinedIcon)`
   position: absolute;
-  bottom: 32px;
-  right: 30px;
+  bottom: -1.95rem;
+  right: 0;
+  color: #0de073;
 `;
-export const ImageAllDeleteButton = styled(DeleteForeverIcon)`
+
+export const ImageAllDeleteButton = styled(DeleteOutlinedIcon)`
   position: absolute;
-  bottom: 32px;
-  right: 55px;
+  bottom: -2rem;
+  right: 1.7rem;
+  color: #0de073;
+  font-size: 24px;
 `;
+
 export const PictureNumbering = styled.div`
   position: absolute;
-  left: 70px;
-  bottom: 32px;
+  left: 2rem;
+  bottom: -1.8rem;
   font-weight: bold;
-  color: #68c78e;
+  font-size: 0.9rem;
+  color: #0de073;
 `;
+
 export const PictureLeftButton = styled(ArrowLeftIcon)`
   position: absolute;
-  bottom: 25px;
-  left: 0px;
+  bottom: -2rem;
+  left: 0;
+  color: #0de073;
 `;
+
 export const PictureRightButton = styled(ArrowRightIcon)`
   position: absolute;
-  bottom: 25px;
-  right: 0px;
+  bottom: -2rem;
+  left: 3.75rem;
+  color: #0de073;
 `;
-export const ClearPicture = styled(ClearIcon)`
+
+export const ClearPicture = styled(BackspaceOutlinedIcon)`
   position: absolute;
-  bottom: 32px;
-  right: 77px;
+  bottom: -2rem;
+  right: 3.6rem;
+  color: #0de073;
 `;
-export const CorrectPicture = styled(BorderColorIcon)`
+
+export const CorrectPicture = styled(EditOutlinedIcon)`
   position: absolute;
-  bottom: 32px;
-  right: 100px;
+  bottom: -2rem;
+  right: 5.3rem;
+  color: #0de073;
 `;
-export const CourseCreateButton = styled.div`
-  grid-area: courseCreateButton;
-  margin: 90px;
-  margin-bottom: 20px;
-  width: 300px;
-  height: 60px;
 
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 60px;
-  text-align: center;
-  color: #ffffff;
-  background: #68c78e;
-  border-radius: 50px;
-
-  position: relative;
-  left: 10px;
-
-  &: hover {
+export const GreenBtn = styled(Button)`
+  && {
+    font-family: 'Suit';
+    font-weight: bold;
+    background-color: #0de073;
+    margin-top: 3rem;
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: white;
     cursor: pointer;
+    border: none;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    &.Mui-disabled {
+      background-color: #fafafa;
+    }
+    &:hover {
+      background-color: #06d469;
+    }
   }
 `;

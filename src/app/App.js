@@ -59,13 +59,14 @@ function App() {
           <Route element={<PublicRoute isAuthenticated={isLoggedIn} />} />
 
           {/* Public & private */}
-          <Route path="/CourseView" element={<CourseView />} />
+          <Route path="/courseview/:curationNo" element={<CourseView />} />
           <Route path="/mypage/:id" element={<MyPage />} />
           <Route Route path="/" element={<MainPage />} />
           <Route path="/oauth/redirect" element={<Redirect />} />
           <Route path="/mypage/:id/follower" element={<FollowersList />} />
           <Route path="/mypage/:id/followee" element={<FollowingsList />} />
           <Route path="/Course" element={<Course />} />
+          <Route path="/CourseCreationForm" element={<CourseCreationForm />}/>
           <Route path="/StoreView" element={<StoreView />} />
           <Route path="*" element={<Error404 />} />
         </Routes>

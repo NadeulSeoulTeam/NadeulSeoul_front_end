@@ -10,7 +10,7 @@ function CourseStoreLoad() {
 
   return (
     <div>
-      <LoadStoreButton onClick={handleOpen}>+</LoadStoreButton>
+      <LoadStoreButton onClick={handleOpen}>사진 더보기</LoadStoreButton>
       <CourseStoreModal handleClose={handleClose} open={open} />
     </div>
   );

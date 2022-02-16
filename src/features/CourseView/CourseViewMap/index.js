@@ -61,6 +61,7 @@ function CourseViewMap({ curationSeq }) {
 
   useEffect(() => {
     console.log(courseInfo);
+    console.log(curationSeq);
   }, [courseInfo]);
 
   // 마커 클릭 이벤트
@@ -197,7 +198,7 @@ function CourseViewMap({ curationSeq }) {
         id="map"
         style={{
           width: '100%',
-          height: '730px',
+          height: '100vh',
         }}
       />
       {clickRender(clickedMarkerInfo)}
