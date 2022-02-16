@@ -291,12 +291,26 @@ function CourseCreactionForm() {
     // formData.append('local', courseInfo.local);
     // formData.append('theme', courseInfo.theme);
 
+    const arr = [];
+    for (let i = 0; i < courseInfo.courseRoute.length; i += 1) {
+      const data = {
+        storeSeq: Number(courseInfo.courseRoute[i].id),
+        addressName: courseInfo.courseRoute[i].address_name,
+        categoryName: courseInfo.courseRoute[i].category_name,
+        phone: courseInfo.courseRoute[i].phone,
+        storeName: courseInfo.courseRoute[i].place_name,
+        placeUrl: courseInfo.courseRoute[i].place_url,
+        lat: courseInfo.courseRoute[i].x,
+        lng: courseInfo.courseRoute[i].y,
+      };
+      arr.push(data);
+    }
     const data = {
       personnel: courseInfo.personnel,
       description: courseInfo.description,
       budget: courseInfo.budget,
       title: courseInfo.title,
-      courseRoute: courseInfo.courseRoute,
+      courseRoute: arr,
       transportation: courseInfo.transportation,
       local: courseInfo.local,
       theme: courseInfo.theme,
@@ -308,6 +322,7 @@ function CourseCreactionForm() {
     // 전부 formdata에 넣어서 보내주기
     // dispatch(courseInfoPost(formData));
     dispatch(courseInfoPost(data));
+    console.log(data);
     // handleOpen();
   };
   // course 정보 backend 송신 함수
