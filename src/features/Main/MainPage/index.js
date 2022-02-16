@@ -19,7 +19,6 @@ import {
   MidWrapper,
   BottomWrapper,
   MainTitle,
-  GreenBtn,
   SubTitle,
   SampleTags,
   TagOpener,
@@ -131,7 +130,6 @@ function MainPage() {
     <div>
       <TopWrapper>
         <MainTitle>나들서울</MainTitle>
-        <GreenBtn>현재 위치 기준으로 보기</GreenBtn>
         <SearchBar />
         <MidWrapper>
           <SampleTags>강남구</SampleTags>
