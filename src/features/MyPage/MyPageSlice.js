@@ -155,7 +155,10 @@ export const setLikePlaceBasket = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       console.log(data);
-      const response = await axios.post('/auth/stores/bookmarks/courses', data);
+      const response = await axios.post(
+        `/auth/stores/bookmarks/courses/${data.myPageId}`,
+        data
+      );
       return response.data;
     } catch (err) {
       return rejectWithValue(err.resonse.data);

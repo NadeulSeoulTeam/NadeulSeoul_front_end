@@ -56,6 +56,7 @@ function BasicTabs() {
   const onClickSendCourse = () => {
     const data = {
       storeSeqList: myCourse,
+      myPageId: params.id,
     };
     dispatch(setLikePlaceBasket(data))
       .unwrap()
