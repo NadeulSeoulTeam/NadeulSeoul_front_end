@@ -12,15 +12,29 @@ function SearchBar() {
     setSearchInput(e.target.value);
   };
   const search = () => {
-    navigate(`/storeview`);
+    navigate(`/storeview`, { state: searchInput });
   };
   useEffect(() => {
     console.log(searchInput);
   }, [searchInput]);
+
+  const keyPress = (e) => {
+    setSearchInput(e.target.value);
+
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      navigate(`/storeview`, { state: searchInput });
+    }
+  };
+
   return (
     <Wrapper container direction="row" justifyContent="center">
       <SearchBase elevation={1}>
-        <SearchInput onChange={setSearch} placeholder="어디로 떠날까요?" />
+        <SearchInput
+          onChange={setSearch}
+          placeholder="어디로 떠날까요?"
+          onKeyDown={keyPress}
+        />
         <SearchBtn onClick={search} />
       </SearchBase>
     </Wrapper>

@@ -92,10 +92,7 @@ function MainPage() {
     ));
   };
   useEffect(() => {
-    if (
-      localNThemeTagsSelected.content !== undefined &&
-      localNThemeTagsSelected.content.length > 0
-    ) {
+    if (localNThemeTagsSelected.content !== undefined) {
       setTagsSelectedContent(localNThemeTagsSelected.content);
     }
   }, [localNThemeTagsSelected]);

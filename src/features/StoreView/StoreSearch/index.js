@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getCourse, keywordInput, searchDataInputs } from '../StoreSlice';
 import { Wrapper, SearchBase, SearchInput, SearchBtn } from './styles';
 
-function StoreSearch() {
+function StoreSearch({ searchKeyword }) {
   const dispatch = useDispatch();
   const course = useSelector(getCourse);
   const keyword = course.keywordInput;
@@ -48,7 +48,11 @@ function StoreSearch() {
     ps.keywordSearch(kakaoKeyword, placesSearchCB);
     return true;
   };
-
+  useEffect(() => {
+    if (searchKeyword !== undefined) {
+      searchPlaces(searchKeyword);
+    }
+  }, []);
   useEffect(() => {
     // searchPlaces();
     console.log('useEffect');
@@ -70,7 +74,11 @@ function StoreSearch() {
   return (
     <Wrapper container direction="row" justifyContent="center">
       <SearchBase elevation={1}>
-        <SearchInput placeholder="어디로 떠날까요?" onKeyDown={keyPress} />
+        {searchKeyword === undefined ? (
+          <SearchInput placeholder="어디로 떠날까요?" onKeyDown={keyPress} />
+        ) : (
+          <SearchInput value={searchKeyword} onKeyDown={keyPress} />
+        )}
         <SearchBtn />
       </SearchBase>
     </Wrapper>
