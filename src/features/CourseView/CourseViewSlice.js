@@ -195,6 +195,9 @@ const course = createSlice({
     setClicked: (state, action) => {
       state.clicked = action.payload;
     },
+    setCommentStartEmpty: (state) => {
+      state.getComment = [];
+    },
   },
   extraReducers: {
     // courseinfo 받기
@@ -335,7 +338,8 @@ const course = createSlice({
   },
 });
 
-export const { setCourse, addMarkers, setClicked } = course.actions;
+export const { setCourse, addMarkers, setClicked, setCommentStartEmpty } =
+  course.actions;
 
 export default course.reducer;
 export const selectLat = (state) => state.course.Lat;
