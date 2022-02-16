@@ -87,6 +87,56 @@ export const clickLikeCancel = createAsyncThunk(
     }
   }
 );
+
+// 스토어(좋아요) 누르기
+export const clickStoreLike = createAsyncThunk(
+  'StoreView/like',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `auth/stores/bookmarks/${data.storeSeq}`,
+        data
+      );
+
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err);
+    }
+  }
+);
+
+// 스토어(좋아요) 취소
+export const clickStoreLikeCancel = createAsyncThunk(
+  'StoreView/likeCancel',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(
+        `auth/stores/bookmarks/${data.storeSeq}`
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+// 스토어(좋아요) 확인
+export const clickStoreLikeCheck = createAsyncThunk(
+  'StoreView/likeCancel',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `auth/stores/bookmarks/${data.storeSeq}`
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (err) {
+      console.log(err.response);
+      return rejectWithValue(err);
+    }
+  }
+);
 export const initialState = {
   // map state
   Lat: 37.5642135,
@@ -120,6 +170,16 @@ export const initialState = {
   clickLikeCancelLoading: false, // 좋아요 취소
   clickLikeCancelDone: false,
   clickLikeCancelError: null,
+  clickStoreLikeLoading: false, // 좋아요 보내기
+  clickStoreLikeDone: false,
+  clickStoreLikeError: null,
+  clickStoreLikeCancelLoading: false,
+  clickStoreLikeCancelDone: false,
+  clickStoreLikeCancelError: null,
+  clickStoreLikeCheckLoading: false,
+  clickStoreLikeCheckDone: false,
+  clickStoreLikeCheckError: null,
+  likeStoreClicked: false,
 };
 const course = createSlice({
   name: 'courseView',
@@ -226,6 +286,51 @@ const course = createSlice({
     [getCommentList.rejected]: (state, action) => {
       state.getCommentLoading = false;
       state.getCommentError = action.error.message;
+    },
+    [clickLike.pending]: (state) => {
+      state.clickLikeLoading = true;
+      state.clickLikeDone = false;
+      state.clickLikeError = null;
+    },
+    [clickLike.fulfilled]: (state, action) => {
+      state.clickLikeLoading = false;
+      state.clickLikeDone = true;
+      state.likeClicked = true;
+    },
+    [clickLike.rejected]: (state, action) => {
+      state.clickLikeLoading = false;
+      state.clickLikeError = action.error.message;
+    },
+    // like cancel
+    [clickLikeCancel.pending]: (state) => {
+      state.clickLikeCancelLoading = true;
+      state.clickLikeCancelDone = false;
+      state.clickLikeCancelError = null;
+    },
+    [clickLikeCancel.fulfilled]: (state, action) => {
+      state.clickLikeCancelLoading = false;
+      state.clickLikeCancelDone = true;
+      state.likeClicked = false;
+    },
+    [clickLikeCancel.rejected]: (state, action) => {
+      state.clickLikeCancelLoading = false;
+      state.clickLikeCancelError = action.error.message;
+    },
+    [clickStoreLikeCheck.pending]: (state) => {
+      state.clickStoreLikeCheckLoading = true;
+      state.clickStoreLikeCheckDone = false;
+      state.clickStoreLikeCheckError = null;
+    },
+    [clickStoreLikeCheck.fulfilled]: (state, action) => {
+      state.clickStoreLikeCheckLoading = false;
+      state.clickStoreLikeCheckDone = true;
+      console.log(action.payload);
+      if (action.payload.data === null) return;
+      state.likeStoreClicked = action.payload.data.isBookmark;
+    },
+    [clickStoreLikeCheck.rejected]: (state, action) => {
+      state.clickStoreLikeCheckLoading = false;
+      state.clickStoreLikeCheckError = action.error.message;
     },
   },
 });

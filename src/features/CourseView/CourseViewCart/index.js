@@ -179,11 +179,21 @@ function CourseViewCart({ curationSeq, courseInfo }) {
         <SubTitle>함께 한 인원</SubTitle>
       </div>
       <div style={{ display: 'inline-block' }}>
-        <Content>
-          {getComment.length !== 0} && {mapTransportationToComponent}
-        </Content>
-        <Content>{courseInfo.budget}원 / 1인</Content>
-        <Content>{courseInfo.personnel}</Content>
+        {courseInfo.transportation === undefined ? (
+          <Content />
+        ) : (
+          <Content>교통수단</Content>
+        )}
+        {courseInfo.budget === null ? (
+          <Content />
+        ) : (
+          <Content>{courseInfo.budget}원 / 1인</Content>
+        )}
+        {courseInfo.personnel === null ? (
+          <Content />
+        ) : (
+          <Content>{courseInfo.personnel}</Content>
+        )}
       </div>
       <div style={{ textAlign: 'end', padding: '0 1.5rem' }}>
         <BtnExplain>눌러서 좋아요 표시하기</BtnExplain>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -14,6 +15,9 @@ import {
   // moveToList,
   // getClicked,
   setClicked,
+  clickStoreLikeCheck,
+  clickStoreLike,
+  clickStoreLikeCancel,
 } from '../CourseViewSlice';
 // styled-component
 
@@ -57,13 +61,22 @@ function CourseViewMap({ curationSeq, courseInfo }) {
   const dispatch = useDispatch();
 
   // star clicked
+  const { likeStoreClicked } = useSelector((state) => state.courseView);
   const [likeClicked, setLikeClicked] = useState(false);
-
   useEffect(() => {
     console.log(courseInfo);
     console.log(curationSeq);
   }, [courseInfo]);
-
+  useEffect(() => {
+    // dispatch(clickStoreLikeCheck({ storeSeq: storeData.id }));
+    if (clickedMarkerInfo !== undefined)
+      dispatch(clickStoreLikeCheck({ storeSeq: clickedMarkerInfo.id }));
+  }, [likeClicked]);
+  useEffect(() => {
+    if (clickedMarkerInfo !== undefined)
+      dispatch(clickStoreLikeCheck({ storeSeq: clickedMarkerInfo.id }));
+    console.log(clickedMarkerInfo);
+  }, [clickedMarkerInfo]);
   // 마커 클릭 이벤트
   const markerClickEventHandler = () => {
     let clickedIndex = null;
@@ -89,15 +102,21 @@ function CourseViewMap({ curationSeq, courseInfo }) {
 
     const userClickHeart = () => {
       // 비동기 통신
-      if (likeClicked) {
+      if (likeStoreClicked) {
         // true->false
-        // dispatch(clickStarCancel());
+        dispatch(clickStoreLikeCancel());
       } else {
-        // false->true
-        // const formData = new FormData();
-        // formData.append('member_seq', user.member_seq);
-        // formData.append('curation_seq', course.curation_seq);
-        // dispatch(clickStar(formData));
+        const data = {
+          storeSeq: Number(clickedMarkerInfo.id),
+          addressName: clickedMarkerInfo.address_name,
+          categoryName: clickedMarkerInfo.category_name,
+          phone: clickedMarkerInfo.phone,
+          storeName: clickedMarkerInfo.place_name,
+          placeUrl: clickedMarkerInfo.place_url,
+          lat: clickedMarkerInfo.x,
+          lng: clickedMarkerInfo.y,
+        };
+        dispatch(clickStoreLike(data));
       }
       console.log('clicked');
       setLikeClicked(!likeClicked);
