@@ -79,6 +79,11 @@ export const initialState = {
   fetchThemeTagsLoading: false,
   fetchThemeTagsDone: false,
   fetchThemeTagsError: null,
+  // theme&local selected
+  localNThemeTagsSelected: [],
+  localNThemeTagsSelectedLoading: false,
+  localNThemeTagsSelectedDone: false,
+  localNThemeTagsSelectedError: null,
 };
 
 export const fetchCourses = createAsyncThunk('main/fetchCourses', async () => {
@@ -150,6 +155,22 @@ export const fetchThemeTags = createAsyncThunk(
       return response.data;
     } catch (error) {
       return error.response.data;
+    }
+  }
+);
+// 지역 & 테마 선택 가져오기
+export const LocalNThemeTagsSelected = createAsyncThunk(
+  'main/localNThemeTagsSelected',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `tags/search?page=${0}&size=${10}&sort=good`,
+        data
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -258,6 +279,22 @@ const mainSlice = createSlice({
       state.fetchThemeTagsLoading = true;
       state.fetchThemeTagsDone = false;
       state.fetchThemeTagsError = action.payload.data.message;
+    },
+    [LocalNThemeTagsSelected.pending]: (state) => {
+      state.localNThemeTagsSelectedLoading = true;
+      state.localNThemeTagsSelectedDone = false;
+      state.localNThemeTagsSelectedError = null;
+    },
+    [LocalNThemeTagsSelected.fulfilled]: (state, action) => {
+      state.localNThemeTagsSelectedLoading = false;
+      state.localNThemeTagsSelectedDone = true;
+      state.localNThemeTagsSelected = action.payload.data;
+      console.log(action.payload.data);
+    },
+    [LocalNThemeTagsSelected.rejected]: (state, action) => {
+      state.localNThemeTagsSelectedLoading = true;
+      state.localNThemeTagsSelectedDone = false;
+      state.localNThemeTagsSelectedError = action.payload.data.message;
     },
   },
 });

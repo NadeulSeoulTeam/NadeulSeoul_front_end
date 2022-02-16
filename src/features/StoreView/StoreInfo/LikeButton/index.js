@@ -38,7 +38,7 @@ function LikeButton({ storeData }) {
         addressName: storeData.address_name,
         categoryName: storeData.category_name,
         phone: storeData.phone,
-        placeName: storeData.place_name,
+        storeName: storeData.place_name,
         placeUrl: storeData.place_url,
         lat: storeData.x,
         lng: storeData.y,

@@ -26,7 +26,12 @@ import {
 } from './styles';
 
 // actions
-import { LoadUserInfo, fetchLocalTags, fetchThemeTags } from '../MainSlice';
+import {
+  LoadUserInfo,
+  fetchLocalTags,
+  fetchThemeTags,
+  LocalNThemeTagsSelected,
+} from '../MainSlice';
 
 function MainPage() {
   const [localClicked, setLocalClicked] = useState();
@@ -35,8 +40,11 @@ function MainPage() {
 
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [tagsSelectedContent, setTagsSelectedContent] = useState();
   // const { themeTag, localTag } = useSelector((state) => state.main);
-  const { localTag, themeTag } = useSelector((state) => state.main);
+  const { localTag, themeTag, localNThemeTagsSelected } = useSelector(
+    (state) => state.main
+  );
   const handleOpen = () => {
     setOpen(!open);
   };
@@ -51,7 +59,32 @@ function MainPage() {
     console.log(localClicked);
     console.log(themeClicked);
     console.log(clicked);
+    if (clicked > 0) {
+      const local = [];
+      const theme = [];
+      for (let i = 0; i < localClicked.length; i += 1) {
+        if (localClicked[i]) local.push(i + 1);
+      }
+      for (let i = 0; i < themeClicked.length; i += 1) {
+        if (themeClicked[i]) theme.push(i + 26);
+      }
+      const data = { local, theme };
+      dispatch(LocalNThemeTagsSelected(data));
+    }
   }, [clicked]);
+  // 태그 조건부 랜더링
+  const tagSelectRender = (content) => {
+    if (content === undefined) return <div />;
+    return content.map((curation) => <div>{curation.curationSeq}</div>);
+  };
+  useEffect(() => {
+    if (
+      localNThemeTagsSelected.content !== undefined &&
+      localNThemeTagsSelected.content.length > 0
+    ) {
+      setTagsSelectedContent(localNThemeTagsSelected.content);
+    }
+  }, [localNThemeTagsSelected]);
   const setLocalBoolean = (codeSeq) => {
     console.log(codeSeq);
     localClicked[codeSeq - 1] = !localClicked[codeSeq - 1];
@@ -105,14 +138,18 @@ function MainPage() {
           />
         ) : null}
       </TopWrapper>
-      <BottomWrapper>
-        <SubTitle>지금 HOT한 코스</SubTitle>
-        <CurationList />
-        <SubTitle>열정적인 나들러</SubTitle>
-        <UserList />
-        <SubTitle>나들러들이 많이 찜한 장소</SubTitle>
-        <StoreList />
-      </BottomWrapper>
+      {clicked === 0 ? (
+        <BottomWrapper>
+          <SubTitle>지금 HOT한 코스</SubTitle>
+          <CurationList />
+          <SubTitle>열정적인 나들러</SubTitle>
+          <UserList />
+          <SubTitle>나들러들이 많이 찜한 장소</SubTitle>
+          <StoreList />
+        </BottomWrapper>
+      ) : (
+        <div>{tagSelectRender(tagsSelectedContent)}</div>
+      )}
     </div>
   );
 }
