@@ -77,6 +77,7 @@ export const TagOpener = styled.p`
 
 export const Wrapper = styled(Card)`
   && {
+    display: inline-block;
     background-color: transparent;
     margin: 0 20px 0 0;
     cursor: pointer;
@@ -113,13 +114,17 @@ export const LikeChip = styled.div`
 export const CurationTitle = styled.p`
   font-size: 0.9rem;
   margin: 10px 0;
+  height: 1rem;
+  overflow: hidden;
 `;
 
 export const CurationGrid = styled(Grid)`
   && {
-    display: flex;
+    text-align: center;
     margin: 3rem 3rem 0 3rem;
     padding-bottom: 3rem;
+    width: 90vw;
+    height: 200px;
     overflow-x: scroll;
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
