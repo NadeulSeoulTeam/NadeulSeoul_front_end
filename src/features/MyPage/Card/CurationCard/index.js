@@ -14,7 +14,6 @@ import {
 
 function CurationCard({ thumbnail, title, good, curationSeq }) {
   const navigate = useNavigate();
-
   const onClickGotoMyCuration = () => {
     console.log(curationSeq);
     navigate(`/courseview/${curationSeq}`);
@@ -24,7 +23,10 @@ function CurationCard({ thumbnail, title, good, curationSeq }) {
     <Wrapper elevation={0} onClick={onClickGotoMyCuration}>
       {/* <Wrapper elevation={0} onClick={() => selectCourse(curation)}> */}
       <ImageDiv>
-        <CurationImage src={thumbnail} alt="default image" />
+        <CurationImage
+          src={`http://13.124.34.5/api/v1/image/${thumbnail}`}
+          alt="default image"
+        />
         <LikeChip>👍 {good}</LikeChip>
       </ImageDiv>
       <CurationTitle>{title}</CurationTitle>

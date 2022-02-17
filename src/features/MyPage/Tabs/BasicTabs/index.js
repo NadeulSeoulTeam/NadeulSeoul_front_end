@@ -213,7 +213,7 @@ function BasicTabs() {
             // eslint-disable-next-line react/no-array-index-key
             <CurationCard
               key={v.curationSeq + 957}
-              thumbnail={v.thumbnail}
+              thumbnail={v.thumnail}
               title={v.title}
               good={v.good}
               curationSeq={v.curationSeq}
