@@ -211,6 +211,9 @@ const course = createSlice({
     addMarkers: (state, action) => {
       state.markers.push(action.payload);
     },
+    setMarkers: (state, action) => {
+      state.markers = action.payload;
+    },
     setClicked: (state, action) => {
       state.clicked = action.payload;
     },
@@ -378,8 +381,13 @@ const course = createSlice({
   },
 });
 
-export const { setCourse, addMarkers, setClicked, setCommentStartEmpty } =
-  course.actions;
+export const {
+  setCourse,
+  addMarkers,
+  setClicked,
+  setCommentStartEmpty,
+  setMarkers,
+} = course.actions;
 
 export default course.reducer;
 export const selectLat = (state) => state.course.Lat;

@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // components
+import { useNavigate } from 'react-router';
 import StoreList from '../StoreList';
 import TagList from '../TagList';
 import UserList from '../UserList';
@@ -36,6 +37,7 @@ import {
   fetchLocalTags,
   fetchThemeTags,
   LocalNThemeTagsSelected,
+  select,
 } from '../MainSlice';
 
 // cookie
@@ -50,6 +52,7 @@ function MainPage() {
   const [news, setNews] = useState(false);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const [tagsSelectedContent, setTagsSelectedContent] = useState();
   // const { themeTag, localTag } = useSelector((state) => state.main);
   const { localTag, themeTag, localNThemeTagsSelected } = useSelector(
@@ -104,13 +107,19 @@ function MainPage() {
     }
   }, [clicked, news, likes, clicks]);
 
+  const selectCourse = (selectedCourse) => {
+    dispatch(select(selectedCourse));
+
+    navigate(`/courseview/${selectedCourse.curationSeq}`);
+  };
+
   // 태그 조건부 랜더링
   const tagSelectRender = (content) => {
     console.log(content);
     if (content === undefined || content.length === 0)
       return <NoResult>🙄 선택하신 태그를 가진 코스가 없어요.</NoResult>;
     return content.map((curation) => (
-      <Wrapper elevation={0}>
+      <Wrapper elevation={0} onClick={() => selectCourse(curation)}>
         <ImageDiv>
           <CurationImage
             alt="profile_img"
