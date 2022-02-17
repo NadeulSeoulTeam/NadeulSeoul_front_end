@@ -193,13 +193,15 @@ function CourseCreactionForm() {
     //   }
     // }
     // { seq : [num,num]}
-    const transSeq = '';
+    let transSeq = '';
     for (const index in transportationClicked.isClicked) {
       if (transportationClicked.isClicked[index] === true) {
         // eslint-disable-next-line prefer-destructuring
-        transSeq.concat(tp[index]).concat(' ');
+        console.log(tp[index]);
+        transSeq += `${tp[index]} `;
       }
     }
+    console.log(transSeq);
     return transSeq;
   };
   const makeLocalTagBoolean = () => {
