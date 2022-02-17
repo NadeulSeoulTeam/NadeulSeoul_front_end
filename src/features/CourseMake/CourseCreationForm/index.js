@@ -192,11 +192,11 @@ function CourseCreactionForm() {
     //   }
     // }
     // { seq : [num,num]}
-    const transSeq = [];
+    const transSeq = '';
     for (const index in transportationClicked.isClicked) {
       if (transportationClicked.isClicked[index] === true) {
         // eslint-disable-next-line prefer-destructuring
-        transSeq.push(index);
+        transSeq.append(index).append(' ');
       }
     }
     return transSeq;
