@@ -4,9 +4,8 @@ import Container from './styles';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
+  console.log(children);
   return (
-    // eslint-disable-next-line react/jsx-filename-extension
     <Container
       role="tabpanel"
       hidden={value !== index}

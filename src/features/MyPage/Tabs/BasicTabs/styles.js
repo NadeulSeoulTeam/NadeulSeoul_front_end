@@ -56,7 +56,7 @@ export const CustomTab = styled(Tab)`
 export const ContentArea = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
 `;
 
 export const GreenBtn = styled(Button)`

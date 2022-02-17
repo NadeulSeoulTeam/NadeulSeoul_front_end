@@ -92,6 +92,7 @@ function Nav() {
                 <FunctionBtn
                   onClick={() => {
                     navigate(`/mypage/${getUserInfo()?.userSeq}/followee`);
+                    onHolderClick();
                   }}
                 >
                   <Text style={{ fontWeight: 'bold' }}>
@@ -102,6 +103,7 @@ function Nav() {
                 <FunctionBtn
                   onClick={() => {
                     navigate(`/mypage/${getUserInfo()?.userSeq}/follower`);
+                    onHolderClick();
                   }}
                 >
                   <Text style={{ fontWeight: 'bold' }}>
