@@ -106,7 +106,6 @@ function MainPage() {
 
   // 태그 조건부 랜더링
   const tagSelectRender = (content) => {
-    console.log('여기');
     console.log(content);
     if (content === undefined || content.length === 0)
       return <NoResult>🙄 선택하신 태그를 가진 코스가 없어요.</NoResult>;
@@ -173,19 +172,6 @@ function MainPage() {
         <SearchBar />
         <TagOpener onClick={handleOpen}>눌러서 코스 검색하기▼</TagOpener>
         {open ? (
-          <div>
-            <SeparatorBtn type="submit" active={clicks} onClick={clicksClicked}>
-              조회순
-            </SeparatorBtn>
-            <SeparatorBtn type="submit" active={likes} onClick={likesClicked}>
-              좋아요
-            </SeparatorBtn>
-            <SeparatorBtn type="submit" active={news} onClick={newClicked}>
-              최신순
-            </SeparatorBtn>
-          </div>
-        ) : null}
-        {open ? (
           <TagList
             themeClicked={themeClicked}
             localClicked={localClicked}
@@ -204,7 +190,22 @@ function MainPage() {
           <StoreList />
         </BottomWrapper>
       ) : (
-        <CurationGrid>{tagSelectRender(tagsSelectedContent)}</CurationGrid>
+        <div>
+          <div style={{ textAlign: 'end', margin: '1rem 5rem 2rem 0' }}>
+            <SeparatorBtn type="submit" active={clicks} onClick={clicksClicked}>
+              조회순
+            </SeparatorBtn>
+            <SeparatorBtn type="submit" active={likes} onClick={likesClicked}>
+              좋아요
+            </SeparatorBtn>
+            <SeparatorBtn type="submit" active={news} onClick={newClicked}>
+              최신순
+            </SeparatorBtn>
+          </div>
+          <CurationGrid>
+            <div>{tagSelectRender(tagsSelectedContent)}</div>
+          </CurationGrid>
+        </div>
       )}
     </div>
   );

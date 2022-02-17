@@ -77,6 +77,7 @@ export const TagOpener = styled.p`
 
 export const Wrapper = styled(Card)`
   && {
+    display: inline-block;
     background-color: transparent;
     margin: 0 20px 0 0;
     cursor: pointer;
@@ -113,13 +114,17 @@ export const LikeChip = styled.div`
 export const CurationTitle = styled.p`
   font-size: 0.9rem;
   margin: 10px 0;
+  height: 1rem;
+  overflow: hidden;
 `;
 
 export const CurationGrid = styled(Grid)`
   && {
-    display: flex;
+    text-align: center;
     margin: 3rem 3rem 0 3rem;
     padding-bottom: 3rem;
+    width: 90vw;
+    height: 200px;
     overflow-x: scroll;
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
@@ -135,18 +140,16 @@ export const NoResult = styled.p`
 `;
 
 export const SeparatorBtn = styled.button`
-  background: #ffffff;
-  color: #0de073;
   font-family: 'Suit';
-  font-weight: bold;
-  padding: 4px 15px;
-  margin: 0 5px 0 0;
-  border: 2px solid #0de073;
-  box-sizing: border-box;
-  border-radius: 20px;
+  font-size: 0.8rem;
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  padding: 1px 4px;
+  cursor: pointer;
   ${({ active }) => {
     return active
-      ? `{background: #0de073; color: white; }`
-      : `{background: white; color: #0de073;}`;
+      ? `{color: #0de073; font-weight: bold; }`
+      : `{color: #c4c4c4;}`;
   }}
 `;
