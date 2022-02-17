@@ -33,6 +33,7 @@ function Nav() {
   // 실제로는 cookie에서 user 정보 받아오기? 일단 지금은 그냥 state로 했어욥! 넵!
   // const [isLogged, setIsLogged] = useState(false);
 
+  // 정리5 함수안에 함수,, 이걸 왜 몰랏지,,
   const onHolderClick = () => {
     setIsOpen(!isOpen);
   };
@@ -41,26 +42,32 @@ function Nav() {
     dispatch(logout())
       .unwrap()
       .then(() => {
-        window.location.reload();
+        // window.location.reload();
+        navigate('/');
       })
       .catch((error) => {
         console.log(error.response.data);
       });
+    onHolderClick();
   };
   const onLoinClick = () => {
     navigate('/member/signin');
+    onHolderClick();
   };
 
   const onClickEditUserInfo = () => {
     navigate('/member/edit');
+    onHolderClick();
   };
 
   const onClickBoard = () => {
     navigate('/questions');
+    onHolderClick();
   };
 
   const onClickNickname = () => {
     navigate(`/mypage/${getUserInfo()?.userSeq}`);
+    onHolderClick();
   };
 
   const openedBar = (
