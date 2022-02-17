@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import CourseViewMap from './CourseViewMap';
 import CourseStoreLoad from './CourseStoreLoad';
-import { getCourseInfo } from './CourseViewSlice';
+import { getCourseInfo, setMarkers } from './CourseViewSlice';
 
 function CourseView() {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ function CourseView() {
   );
   const params = useParams();
   useEffect(() => {
-    console.log(params.curationNo);
+    setMarkers([]);
     dispatch(
       getCourseInfo({
         curationSeq: params.curationNo,

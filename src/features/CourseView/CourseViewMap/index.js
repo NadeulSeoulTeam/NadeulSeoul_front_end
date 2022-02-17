@@ -30,6 +30,7 @@ import {
   setMarker,
   setBounds,
   setPolyline,
+  removeMarker,
 } from './CourseViewMarker';
 
 import CourseViewCart from '../CourseViewCart';
@@ -67,16 +68,17 @@ function CourseViewMap({ curationSeq, courseInfo }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [mapPushed, setMapPushed] = useState(false);
+  const [beforeInfo, setBeforeInfo] = useState();
+
   // star clicked
   const { likeStoreClicked } = useSelector((state) => state.courseView);
   const [likeClicked, setLikeClicked] = useState(false);
   useEffect(() => {
-    console.log(courseInfo); // 길이가 0일때 분기처리
-    console.log(curationSeq);
-  }, [courseInfo]);
-
+    setTempLatLng([]);
+  }, []);
   useEffect(() => {
-    if (clickedMarkerInfo !== undefined)
+    if (clickedMarkerInfo !== undefined && clickedMarkerInfo !== null)
       dispatch(
         clickStoreLikeCheck({
           storeSeq: clickedMarkerInfo.storeInfoDto.storeSeq,
@@ -168,8 +170,14 @@ function CourseViewMap({ curationSeq, courseInfo }) {
     console.log(kakaoMap, '카카오맵');
     return kakaoMap;
   };
+  useEffect(() => {
+    // setTempMarkers([]);
+    // setTempLatLng([]);
+    // setClickMarkerInfo(null);
+  }, []);
   // 마커 추가 effect
   useEffect(() => {
+    setTempLatLng([]);
     if (courseInfo === null) navigate('/');
     // const bounds = new kakao.maps.LatLngBounds(); // bounds 설정
     // 마커 초기화
@@ -178,17 +186,24 @@ function CourseViewMap({ curationSeq, courseInfo }) {
     const firstMap = initMap();
     dispatch(setClicked(false));
     // removeMarker(tempMarkers);
-    setTempMarkers(tempMarkers.splice(0, tempMarkers.length));
+    // setTempMarkers(tempMarkers.splice(0, tempMarkers.length));
     // 마커 추가
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < courseInfo.curationCourse.length; i += 1) {
+      let arr = [];
       const placePosition = new kakao.maps.LatLng(
         courseInfo.curationCourse[i].storeInfoDto.y,
         courseInfo.curationCourse[i].storeInfoDto.x
       );
       // 위치 배열 추가
-      tempLatLng.push(placePosition);
-      setTempLatLng(tempLatLng);
+      // if (beforeInfo !== courseInfo.curationSeq && ) {
+
+      // }
+      console.log(beforeInfo, 'zz');
+      console.log(courseInfo, 'zz');
+      tempLatLng[tempLatLng.length] = placePosition;
+      // arr[arr.length] = placePosition;
+      setTempLatLng(arr);
 
       bounds.extend(placePosition);
       tempMarkers.push(addMarker(kakao, firstMap, placePosition, i)); // 배열에 생성된 마커를 추가합니다
@@ -200,7 +215,9 @@ function CourseViewMap({ curationSeq, courseInfo }) {
         // );
       }
     }
-    // map.setBounds(bounds);
+    console.log(tempLatLng, '확인해주시오');
+    setMapPushed(true);
+    setBeforeInfo(courseInfo.curationSeq);
     setTempMarkers(tempMarkers);
     setBounds(firstMap, bounds);
     setMarker(firstMap, tempMarkers);
@@ -237,6 +254,7 @@ function CourseViewMap({ curationSeq, courseInfo }) {
         }}
       />
       {clickedMarkerInfo !== undefined &&
+        clickedMarkerInfo !== null &&
         clickRender(clickedMarkerInfo.storeInfoDto)}
       {clickedMarkerInfo === undefined && (
         <div>
