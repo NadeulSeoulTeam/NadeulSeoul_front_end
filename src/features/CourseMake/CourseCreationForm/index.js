@@ -217,9 +217,10 @@ function CourseCreactionForm() {
     for (const index in localClicked.isClicked) {
       if (localClicked.isClicked[index] === true) {
         // eslint-disable-next-line prefer-destructuring
-        localSeq.push(index + 1);
+        localSeq.push(parseInt(index, 10) + 1);
       }
     }
+    console.log(localSeq);
     return localSeq;
   };
   const makeThemeTagBoolean = () => {
@@ -235,9 +236,10 @@ function CourseCreactionForm() {
     for (const index in themeClicked.isClicked) {
       if (themeClicked.isClicked[index] === true) {
         // eslint-disable-next-line prefer-destructuring
-        themeSeq.push(index + 26);
+        themeSeq.push(parseInt(index, 10) + 26);
       }
     }
+    console.log(themeSeq);
     return themeSeq;
   };
   useEffect(() => {
