@@ -197,7 +197,7 @@ function CourseCreactionForm() {
     for (const index in transportationClicked.isClicked) {
       if (transportationClicked.isClicked[index] === true) {
         // eslint-disable-next-line prefer-destructuring
-        transSeq.append(tp[index]).append(' ');
+        transSeq.concat(tp[index]).concat(' ');
       }
     }
     return transSeq;

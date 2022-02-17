@@ -14,7 +14,7 @@ export const courseInfoPost = createAsyncThunk(
       const response = await axios.post('auth/curations', data, {
         headers: {
           Authorization: getToken(),
-          'Content=Type': `multipart/form-data`,
+          'Content-Type': `multipart/form-data`,
         },
       });
       return response.data;
