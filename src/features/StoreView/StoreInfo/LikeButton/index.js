@@ -40,8 +40,8 @@ function LikeButton({ storeData }) {
         phone: storeData.phone,
         storeName: storeData.place_name,
         placeUrl: storeData.place_url,
-        lat: storeData.x,
-        lng: storeData.y,
+        x: storeData.x,
+        y: storeData.y,
       };
       dispatch(clickLike(data));
     }

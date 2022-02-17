@@ -11,7 +11,6 @@ import { addCourse } from './CourseSlice';
 function CourseMake() {
   const dispatch = useDispatch();
   const useNavigateState = useLocation().state;
-  console.log(useNavigateState, '들어온 데이터');
   // navigate 데이터 null 처리 필요
   useEffect(() => {
     if (useNavigateState !== null) {
