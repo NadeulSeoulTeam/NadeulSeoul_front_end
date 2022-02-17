@@ -56,7 +56,7 @@ function BasicTabs() {
   const onClickSendCourse = () => {
     const data = {
       storeSeqList: myCourse,
-      myPageId: params.id,
+      userSeq: params.id,
     };
     dispatch(setLikePlaceBasket(data))
       .unwrap()
@@ -132,6 +132,8 @@ function BasicTabs() {
       window.scrollY + document.documentElement.clientHeight >
       document.documentElement.scrollHeight - 950
     ) {
+      console.log('페이지 체크 : ');
+      console.log(likeNadlepage);
       setLikeNadlepage(likeNadlepage + 1);
     }
   }
@@ -161,20 +163,22 @@ function BasicTabs() {
       });
   }, [likePlacepage]);
 
-  function onScrollLikePlace() {
-    if (
-      window.scrollY + document.documentElement.clientHeight >
-      document.documentElement.scrollHeight - 950
-    ) {
-      setLikePlacepage(likePlacepage + 1);
-    }
-  }
   useEffect(() => {
+    function onScrollLikePlace() {
+      if (
+        window.scrollY + document.documentElement.clientHeight >
+        document.documentElement.scrollHeight - 950
+      ) {
+        console.log('페이지 체크 : ');
+        console.log(likePlacepage);
+        setLikePlacepage(likePlacepage + 1);
+      }
+    }
     window.addEventListener('scroll', onScrollLikePlace);
     return () => {
       window.removeEventListener('scroll', onScrollLikePlace);
     };
-  }, [onScrollLikePlace]);
+  }, []);
 
   return (
     <Box sx={{ width: '100%', position: 'relative' }}>
