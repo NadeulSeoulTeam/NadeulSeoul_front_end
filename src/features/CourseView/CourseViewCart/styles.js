@@ -101,9 +101,11 @@ export const LikeBtn = styled.button`
 `;
 
 export const CommentArea = styled.div`
-  height: 190px;
   margin: 0 1.5rem;
   overflow: auto;
+  ${({ hasPics }) => {
+    return hasPics ? `{ height: 190px; }` : `{ height: 310px; }`;
+  }}
   ::-webkit-scrollbar {
     display: none;
   }
