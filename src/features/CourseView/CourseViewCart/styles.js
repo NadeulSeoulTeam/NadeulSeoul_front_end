@@ -149,9 +149,10 @@ export const CommentCreationArea = styled.div`
 
 export const ProfileEmoji = styled(Avatar)`
   && {
-    font-family: 'Suit';
+    width: 40px;
+    height: 40px;
+    text-align: center;
     background-color: #d1f0df;
-    display: inline-block;
     margin: 0 3px 0 0;
   }
 `;

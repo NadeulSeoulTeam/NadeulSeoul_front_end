@@ -140,18 +140,16 @@ export const NoResult = styled.p`
 `;
 
 export const SeparatorBtn = styled.button`
-  background: #ffffff;
-  color: #0de073;
   font-family: 'Suit';
-  font-weight: bold;
-  padding: 4px 15px;
-  margin: 0 5px 0 0;
-  border: 2px solid #0de073;
-  box-sizing: border-box;
-  border-radius: 20px;
+  font-size: 0.8rem;
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  padding: 1px 4px;
+  cursor: pointer;
   ${({ active }) => {
     return active
-      ? `{background: #0de073; color: white; }`
-      : `{background: white; color: #0de073;}`;
+      ? `{color: #0de073; font-weight: bold; }`
+      : `{color: #c4c4c4;}`;
   }}
 `;
