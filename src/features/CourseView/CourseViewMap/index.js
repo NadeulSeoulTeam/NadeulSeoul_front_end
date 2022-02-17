@@ -71,15 +71,7 @@ function CourseViewMap({ curationSeq, courseInfo }) {
     console.log(courseInfo); // 길이가 0일때 분기처리
     console.log(curationSeq);
   }, [courseInfo]);
-  useEffect(() => {
-    // dispatch(clickStoreLikeCheck({ storeSeq: storeData.id }));
-    if (clickedMarkerInfo !== undefined)
-      dispatch(
-        clickStoreLikeCheck({
-          storeSeq: clickedMarkerInfo.storeInfoDto.storeSeq,
-        })
-      );
-  }, [likeClicked]);
+
   useEffect(() => {
     if (clickedMarkerInfo !== undefined)
       dispatch(
@@ -88,8 +80,8 @@ function CourseViewMap({ curationSeq, courseInfo }) {
         })
       );
     console.log(clickedMarkerInfo);
-  }, [clickedMarkerInfo]);
-  useEffect(() => {}, [likeStoreClicked]);
+  }, [clickedMarkerInfo, likeClicked]);
+  // useEffect(() => {}, [likeStoreClicked]);
   // 마커 클릭 이벤트
   const markerClickEventHandler = () => {
     let clickedIndex = null;
@@ -101,34 +93,32 @@ function CourseViewMap({ curationSeq, courseInfo }) {
       });
     });
   };
-
+  const userClickHeart = () => {
+    // 비동기 통신
+    if (likeStoreClicked) {
+      // true->false
+      console.log('?');
+      dispatch(clickStoreLikeCancel(clickedMarkerInfo.storeInfoDto));
+    } else {
+      const data = {
+        storeSeq: Number(clickedMarkerInfo.storeInfoDto.storeSeq),
+        addressName: clickedMarkerInfo.storeInfoDto.addressName,
+        categoryName: clickedMarkerInfo.storeInfoDto.categoryName,
+        phone: clickedMarkerInfo.storeInfoDto.phone,
+        storeName: clickedMarkerInfo.storeInfoDto.storeName,
+        placeUrl: clickedMarkerInfo.place_url,
+        x: clickedMarkerInfo.storeInfoDto.x,
+        y: clickedMarkerInfo.storeInfoDto.y,
+      };
+      dispatch(clickStoreLike(data));
+    }
+    console.log('clicked');
+    setLikeClicked(!likeClicked);
+  };
   // 클릭시 랜더링 되는 정보
   const clickRender = (info) => {
     // 기본창 랜더링
     console.log(info);
-
-    const userClickHeart = () => {
-      // 비동기 통신
-      if (likeStoreClicked) {
-        // true->false
-        console.log('?');
-        dispatch(clickStoreLikeCancel(clickedMarkerInfo.storeInfoDto));
-      } else {
-        const data = {
-          storeSeq: Number(clickedMarkerInfo.storeInfoDto.storeSeq),
-          addressName: clickedMarkerInfo.storeInfoDto.addressName,
-          categoryName: clickedMarkerInfo.storeInfoDto.categoryName,
-          phone: clickedMarkerInfo.storeInfoDto.phone,
-          storeName: clickedMarkerInfo.storeInfoDto.storeName,
-          placeUrl: clickedMarkerInfo.place_url,
-          x: clickedMarkerInfo.storeInfoDto.x,
-          y: clickedMarkerInfo.storeInfoDto.y,
-        };
-        dispatch(clickStoreLike(data));
-      }
-      console.log('clicked');
-      // setLikeClicked(!likeClicked);
-    };
 
     // store 정보 랜더링
     // eslint-disable-next-line consistent-return

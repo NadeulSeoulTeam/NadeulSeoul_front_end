@@ -108,7 +108,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
     return getComment.map((comment, idx) =>
       getComment.length - 1 === idx ? (
         <div style={{ margin: '10px 0', display: 'flex' }}>
-          <ProfileEmoji>프로필</ProfileEmoji>
+          <ProfileEmoji>{comment.user.emoji}</ProfileEmoji>
           <CourseViewComment
             userSeq={comment.user.nickname}
             content={comment.content}
@@ -116,7 +116,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
         </div>
       ) : (
         <div style={{ margin: '10px 0', display: 'flex' }}>
-          <ProfileEmoji>프로필</ProfileEmoji>
+          <ProfileEmoji>{comment.user.emoji}</ProfileEmoji>
           <CourseViewComment
             userSeq={comment.user.nickname}
             content={comment.content}
