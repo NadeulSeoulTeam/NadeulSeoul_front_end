@@ -133,3 +133,20 @@ export const NoResult = styled.p`
   font-weight: bold;
   font-size: 0.9rem;
 `;
+
+export const SeparatorBtn = styled.button`
+  background: #ffffff;
+  color: #0de073;
+  font-family: 'Suit';
+  font-weight: bold;
+  padding: 4px 15px;
+  margin: 0 5px 0 0;
+  border: 2px solid #0de073;
+  box-sizing: border-box;
+  border-radius: 20px;
+  ${({ active }) => {
+    return active
+      ? `{background: #0de073; color: white; }`
+      : `{background: white; color: #0de073;}`;
+  }}
+`;

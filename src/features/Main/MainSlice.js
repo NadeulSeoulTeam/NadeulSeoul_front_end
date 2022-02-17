@@ -170,10 +170,10 @@ export const LocalNThemeTagsSelected = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `tags/search?page=${0}&size=${10}&sort=good`,
-        data
+        `tags/search?page=${0}&size=${30}&sort=${data.sort}`,
+        data.data
       );
-      console.log(response.data);
+      console.log(response.data, '!@#!@#!@#@!#');
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -297,10 +297,10 @@ const mainSlice = createSlice({
       state.localNThemeTagsSelected = action.payload.data;
       console.log(action.payload.data);
     },
-    [LocalNThemeTagsSelected.rejected]: (state, action) => {
+    [LocalNThemeTagsSelected.rejected]: (state) => {
       state.localNThemeTagsSelectedLoading = true;
       state.localNThemeTagsSelectedDone = false;
-      state.localNThemeTagsSelectedError = action.payload.data.message;
+      // state.localNThemeTagsSelectedError = action.payload.data.message;
     },
   },
 });
