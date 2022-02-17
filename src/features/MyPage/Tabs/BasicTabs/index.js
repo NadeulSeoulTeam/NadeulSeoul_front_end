@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-inner-declarations */
 /* eslint-disable react/require-default-props */
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useParams } from 'react-router';
 
 // style
@@ -18,15 +19,17 @@ import {
 } from './styles';
 
 // component
-// import CurationCard from '../../Card/CurationCard';
+import CurationCard from '../../Card/CurationCard';
 import CurationCardLikePlace from '../../Card/CurationCardLikePlace';
 
 // actions
 import {
-  // loadPostsInfinityLikeNadle,
+  loadPostsInfinityLikeNadle,
   loadPostsInfinityLikePlace,
-  // loadPostsInfinityMyNadle,
+  loadPostsInfinityMyNadle,
   setLikePlaceBasket,
+  getParamsId,
+  getPageCount,
 } from '../../MyPageSlice';
 
 //
@@ -39,10 +42,16 @@ function a11yProps(index) {
 }
 
 function BasicTabs() {
-  const { LikePlaces, myCourse } = useSelector((state) => state.mypage);
-
+  const { LikePlaces, myCourse, MyNadles, LikeNadles } = useSelector(
+    (state) => state.mypage,
+    shallowEqual
+  );
   const params = useParams();
-  console.log(params.id);
+  const location = useLocation();
+  const navigateState = location;
+  // console.log(navigateState);
+  // console.log(params.id);
+  // console.log(MyNadles);
   const myPageId = params.id;
   const dispatch = useDispatch();
   const [value, setValue] = useState(2);
@@ -50,6 +59,10 @@ function BasicTabs() {
     setValue(newValue);
   };
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getParamsId(myPageId));
+  }, []);
 
   const onClickSendCourse = () => {
     const data = {
@@ -67,94 +80,96 @@ function BasicTabs() {
       });
   };
 
-  // const [myNadlepage, setMyNadlepage] = useState(0);
-  // const [likeNadlepage, setLikeNadlepage] = useState(0);
+  const [myNadlepage, setMyNadlepage] = useState(0);
+  const [likeNadlepage, setLikeNadlepage] = useState(0);
   const [likePlacepage, setLikePlacepage] = useState(0);
 
   // 내 나들
-  // useEffect(() => {
-  //   const data = {
-  //     myNadlepage,
-  //     size: 10,
-  //     myPageId,
-  //   };
-  //   dispatch(loadPostsInfinityMyNadle(data))
-  //     .unwrap()
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.response.data);
-  //     });
-  // }, [myNadlepage]);
+  useEffect(() => {
+    const data = {
+      myNadlepage,
+      size: 30,
+      myPageId,
+    };
 
-  // function onScrollMyNadle() {
-  //   // window.scrollY : 얼마나 내렸는지
-  //   // document.documentElement.clientHeight : 화면에 보이는 길이
-  //   // document.documentElement.scrollHeight : 총길이
-  //   if (
-  //     window.scrollY + document.documentElement.clientHeight >
-  //     document.documentElement.scrollHeight - 950
-  //   ) {
-  //     setMyNadlepage(myNadlepage + 1);
-  //   }
-  // }
+    dispatch(loadPostsInfinityMyNadle(data))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }, [myNadlepage]);
 
-  // useEffect(() => {
-  //   window.addEventListener('scroll', onScrollMyNadle);
-  //   return () => {
-  //     window.removeEventListener('scroll', onScrollMyNadle);
-  //   };
-  // }, [onScrollMyNadle]);
+  function onScrollMyNadle() {
+    // window.scrollY : 얼마나 내렸는지
+    // document.documentElement.clientHeight : 화면에 보이는 길이
+    // document.documentElement.scrollHeight : 총길이
+    if (
+      window.scrollY + document.documentElement.clientHeight >
+      document.documentElement.scrollHeight - 950
+    ) {
+      setMyNadlepage(myNadlepage + 1);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScrollMyNadle);
+    return () => {
+      window.removeEventListener('scroll', onScrollMyNadle);
+    };
+  }, [onScrollMyNadle]);
 
   // // 찜한 나들 코스
 
-  // useEffect(() => {
-  //   const data = {
-  //     likeNadlepage,
-  //     size: 10,
-  //     myPageId,
-  //   };
-  //   dispatch(loadPostsInfinityLikeNadle(data))
-  //     .unwrap()
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.response.data);
-  //     });
-  // }, [likeNadlepage]);
+  useEffect(() => {
+    const data = {
+      likeNadlepage,
+      size: 30,
+      myPageId,
+    };
+    dispatch(loadPostsInfinityLikeNadle(data))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }, [likeNadlepage]);
 
-  // function onScrollLikeNadle() {
-  //   if (
-  //     window.scrollY + document.documentElement.clientHeight >
-  //     document.documentElement.scrollHeight - 950
-  //   ) {
-  //     console.log('페이지 체크 : ');
-  //     console.log(likeNadlepage);
-  //     setLikeNadlepage(likeNadlepage + 1);
-  //   }
-  // }
+  function onScrollLikeNadle() {
+    if (
+      window.scrollY + document.documentElement.clientHeight >
+      document.documentElement.scrollHeight - 950
+    ) {
+      console.log('페이지 체크 : ');
+      console.log(likeNadlepage);
+      setLikeNadlepage(likeNadlepage + 1);
+    }
+  }
 
-  // useEffect(() => {
-  //   window.addEventListener('scroll', onScrollLikeNadle);
-  //   return () => {
-  //     window.removeEventListener('scroll', onScrollLikeNadle);
-  //   };
-  // }, [onScrollLikeNadle]);
+  useEffect(() => {
+    window.addEventListener('scroll', onScrollLikeNadle);
+    return () => {
+      window.removeEventListener('scroll', onScrollLikeNadle);
+    };
+  }, [onScrollLikeNadle]);
 
   // 찜한 장소
 
   useEffect(() => {
     const data = {
       likePlacepage,
-      size: 10,
+      size: 30,
       myPageId,
     };
-    return dispatch(loadPostsInfinityLikePlace(data))
+    dispatch(loadPostsInfinityLikePlace(data))
       .unwrap()
       .then((response) => {
         console.log(response);
+        dispatch(getPageCount(likePlacepage));
       })
       .catch((error) => {
         console.log(error.response);
@@ -164,10 +179,9 @@ function BasicTabs() {
   function onScrollLikePlace() {
     if (
       window.scrollY + document.documentElement.clientHeight >
-      document.documentElement.scrollHeight - 300
+      document.documentElement.scrollHeight - 950
     ) {
       console.log('페이지 체크 : ');
-      console.log(likePlacepage);
       setLikePlacepage(likePlacepage + 1);
     }
   }
@@ -193,13 +207,13 @@ function BasicTabs() {
         <Underline />
       </Box>
       <GreyBox value={value} />
-      {/* <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={0}>
         <ContentArea>
-          {MyNadles.map((v) => (
+          {MyNadles?.map((v) => (
             // eslint-disable-next-line react/no-array-index-key
             <CurationCard
               key={v.curationSeq + 957}
-              thumbnail={v.thumbnail}
+              thumbnail={v.thumnail}
               title={v.title}
               good={v.good}
               curationSeq={v.curationSeq}
@@ -209,7 +223,7 @@ function BasicTabs() {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <ContentArea>
-          {LikeNadles.map((v) => (
+          {LikeNadles?.map((v) => (
             <CurationCard
               // eslint-disable-next-line react/no-array-index-key
               key={v.curationSeq + 257}
@@ -220,7 +234,7 @@ function BasicTabs() {
             />
           ))}
         </ContentArea>
-      </TabPanel> */}
+      </TabPanel>
       <TabPanel value={value} index={2}>
         <div style={{ display: 'flex', justifyContent: 'end' }}>
           <GreenBtn disabled={myCourse.length < 1} onClick={onClickSendCourse}>
@@ -228,7 +242,7 @@ function BasicTabs() {
           </GreenBtn>
         </div>
         <ContentArea>
-          {LikePlaces.map((v) => (
+          {LikePlaces?.map((v) => (
             <CurationCardLikePlace
               key={v.storeSeq + 641}
               storeSeq={v.storeSeq}

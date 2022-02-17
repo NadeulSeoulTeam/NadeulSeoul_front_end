@@ -1,7 +1,7 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useInView } from 'react-intersection-observer';
 // material UI
 // import Card from '@mui/material/Card';
 import axios from 'axios';
@@ -29,6 +29,9 @@ import {
   TextInput,
   CommentBtn,
   Thumbnail,
+  LeftIcon,
+  RightIcon,
+  IconContainer,
 } from './styles';
 
 // dummy data
@@ -53,13 +56,19 @@ function CourseViewCart({ curationSeq, courseInfo }) {
   const [userComment, setUserComment] = useState();
   const [likeClicked, setLikeClicked] = useState(false);
   const [page, setPage] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [comments, setComments] = useState([]);
   const [infComment, setInfComment] = useState([]);
-  const { getComment, isLiked } = useSelector((state) => state.courseView);
+  const { getComment, isLiked, totalPages } = useSelector(
+    (state) => state.courseView
+  );
   const [userSeqCookie, setUserSeqCookie] = useState(getUserInfo('userinfo'));
+  // pagination을 위한 page state
+  const [pageNo, setPageNo] = useState(1);
   // infinite scroll
-  const [ref, inView] = useInView();
+  // page 변화시 필요한 useEffect
+  useEffect(() => {
+    // getList();
+  }, [pageNo]);
   useEffect(() => {
     dispatch(setCommentStartEmpty());
   }, []);
@@ -69,9 +78,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
   }, [userSeqCookie]);
   // 댓글 작성 리랜더링
   useEffect(() => {
-    setLoading(true);
-    dispatch(getCommentList({ curationSeq, pageNumber: page, pageSize: 10 }));
-    setLoading(false);
+    dispatch(getCommentList({ curationSeq, pageNumber: page, pageSize: 6 }));
   }, [commentWrote, page]);
   // 좋아요 리랜더링
   useEffect(() => {
@@ -92,62 +99,51 @@ function CourseViewCart({ curationSeq, courseInfo }) {
 
   //   setLoading(false);
   // }, [page]);
-  // useEffect(() => {
-  //   getComments();
-  // }, []);
-  useEffect(() => {
-    console.log(inView);
-    if (inView && !loading) {
-      console.log('here');
-      setPage((prevState) => prevState + 1);
-    }
-  }, [inView, loading]);
+  useEffect(() => {}, [getComment]);
+
   useEffect(() => {}, [comments]);
 
   const mapCommentToComponent = () => {
-    console.log(getComment);
     if (getComment.length === 0) {
       return <div />;
     }
-    const appendComment = getComment
-      // .slice(0)
-      // .reverse()
-      .map((comment, idx) =>
-        getComment.length - 1 === idx ? (
-          <div style={{ margin: '10px 0', display: 'flex' }} ref={ref}>
-            <ProfileEmoji>프로필</ProfileEmoji>
-            <CourseViewComment
-              userSeq={comment.user.nickname}
-              content={comment.content}
-            />
-          </div>
-        ) : (
-          <div style={{ margin: '10px 0', display: 'flex' }}>
-            <ProfileEmoji>프로필</ProfileEmoji>
-            <CourseViewComment
-              userSeq={comment.user.nickname}
-              content={comment.content}
-            />
-          </div>
-        )
-      );
-    return appendComment;
+
+    return getComment.map((comment, idx) =>
+      getComment.length - 1 === idx ? (
+        <div style={{ margin: '10px 0', display: 'flex' }}>
+          <ProfileEmoji>{comment.user.emoji}</ProfileEmoji>
+          <CourseViewComment
+            userSeq={comment.user.nickname}
+            content={comment.content}
+          />
+        </div>
+      ) : (
+        <div style={{ margin: '10px 0', display: 'flex' }}>
+          <ProfileEmoji>{comment.user.emoji}</ProfileEmoji>
+          <CourseViewComment
+            userSeq={comment.user.nickname}
+            content={comment.content}
+          />
+        </div>
+      )
+    );
   };
   const commentWrite = (e) => {
     setUserComment(e.target.value);
   };
 
   const putComment = () => {
-    console.log(commentWrote, '전');
     dispatch(sendComment({ content: userComment, curationSeq }))
       .then(() => {
-        // setCommentWrote(!commentWrote);
+        console.log(commentWrote, '전');
+        dispatch(getCommentList({ curationSeq, pageNumber: 0, pageSize: 10 }));
+        setUserComment('');
       })
       .then(() => {
-        setUserComment('');
+        console.log(commentWrote, '후');
+        setCommentWrote(!commentWrote);
       });
-    setCommentWrote(commentWrote);
-    console.log(commentWrote, '후');
+
     // 댓글 비동기 통신 다시하기
   };
 
@@ -208,6 +204,16 @@ function CourseViewCart({ curationSeq, courseInfo }) {
   const onNicknameClick = (seq) => {
     navigate(`/mypage/${seq}`);
   };
+  const setPageLeft = () => {
+    console.log('왼쪽');
+    if (page === 0) return;
+    setPage(page - 1);
+  };
+  const setPageRight = () => {
+    console.log('오른쪽');
+    if (page === totalPages - 1) return;
+    setPage(page + 1);
+  };
   return (
     <Container>
       <RightDiv>
@@ -236,8 +242,8 @@ function CourseViewCart({ curationSeq, courseInfo }) {
         </Picture>
       ) : (
         <Picture>
-          <Thumbnail src="http://13.124.34.5/api/v1/image/4" />
-          <CourseStoreLoad>사진 더보기</CourseStoreLoad>
+          <Thumbnail src="/default_pic.png" />
+          <CourseStoreLoad pictureList={courseInfo.fileList} />
         </Picture>
       )}
       {courseInfo !== null && courseInfo.description !== undefined ? (
@@ -245,7 +251,6 @@ function CourseViewCart({ curationSeq, courseInfo }) {
       ) : (
         <div />
       )}
-
       <div style={{ display: 'inline-block' }}>
         <SubTitle>교통편</SubTitle>
         <SubTitle>코스 예산</SubTitle>
@@ -281,6 +286,15 @@ function CourseViewCart({ curationSeq, courseInfo }) {
       <GreenDash />
       {/* CommentArea 길이 css 수정은 완료 hasPics={hasPics} 로 넘겨주세요 */}
       <CommentArea>{mapCommentToComponent()}</CommentArea>
+      {/* pagination */}
+      {getComment !== undefined && getComment.length > 0 && (
+        <IconContainer>
+          <LeftIcon type="submit" onClick={setPageLeft} />
+
+          <RightIcon type="submit" onClick={setPageRight} />
+        </IconContainer>
+      )}
+
       <CommentCreationArea>
         {user && (
           <TextInput

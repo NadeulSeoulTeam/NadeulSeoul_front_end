@@ -33,6 +33,7 @@ function CourseView() {
   return (
     <div>
       <CourseViewMap curationSeq={params.curationNo} courseInfo={courseInfo} />
+
       <CourseStoreLoad courseInfo={courseInfo} />
     </div>
   );

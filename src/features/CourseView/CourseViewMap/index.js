@@ -1,3 +1,6 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-return-assign */
+/* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -71,15 +74,7 @@ function CourseViewMap({ curationSeq, courseInfo }) {
     console.log(courseInfo); // 길이가 0일때 분기처리
     console.log(curationSeq);
   }, [courseInfo]);
-  useEffect(() => {
-    // dispatch(clickStoreLikeCheck({ storeSeq: storeData.id }));
-    if (clickedMarkerInfo !== undefined)
-      dispatch(
-        clickStoreLikeCheck({
-          storeSeq: clickedMarkerInfo.storeInfoDto.storeSeq,
-        })
-      );
-  }, [likeClicked]);
+
   useEffect(() => {
     if (clickedMarkerInfo !== undefined)
       dispatch(
@@ -88,8 +83,8 @@ function CourseViewMap({ curationSeq, courseInfo }) {
         })
       );
     console.log(clickedMarkerInfo);
-  }, [clickedMarkerInfo]);
-  useEffect(() => {}, [likeStoreClicked]);
+  }, [clickedMarkerInfo, likeClicked]);
+  // useEffect(() => {}, [likeStoreClicked]);
   // 마커 클릭 이벤트
   const markerClickEventHandler = () => {
     let clickedIndex = null;
@@ -101,34 +96,32 @@ function CourseViewMap({ curationSeq, courseInfo }) {
       });
     });
   };
-
+  const userClickHeart = () => {
+    // 비동기 통신
+    if (likeStoreClicked) {
+      // true->false
+      console.log('?');
+      dispatch(clickStoreLikeCancel(clickedMarkerInfo.storeInfoDto));
+    } else {
+      const data = {
+        storeSeq: Number(clickedMarkerInfo.storeInfoDto.storeSeq),
+        addressName: clickedMarkerInfo.storeInfoDto.addressName,
+        categoryName: clickedMarkerInfo.storeInfoDto.categoryName,
+        phone: clickedMarkerInfo.storeInfoDto.phone,
+        storeName: clickedMarkerInfo.storeInfoDto.storeName,
+        placeUrl: clickedMarkerInfo.place_url,
+        x: clickedMarkerInfo.storeInfoDto.x,
+        y: clickedMarkerInfo.storeInfoDto.y,
+      };
+      dispatch(clickStoreLike(data));
+    }
+    console.log('clicked');
+    setLikeClicked(!likeClicked);
+  };
   // 클릭시 랜더링 되는 정보
   const clickRender = (info) => {
     // 기본창 랜더링
     console.log(info);
-
-    const userClickHeart = () => {
-      // 비동기 통신
-      if (likeStoreClicked) {
-        // true->false
-        console.log('?');
-        dispatch(clickStoreLikeCancel(clickedMarkerInfo.storeInfoDto));
-      } else {
-        const data = {
-          storeSeq: Number(clickedMarkerInfo.storeInfoDto.storeSeq),
-          addressName: clickedMarkerInfo.storeInfoDto.addressName,
-          categoryName: clickedMarkerInfo.storeInfoDto.categoryName,
-          phone: clickedMarkerInfo.storeInfoDto.phone,
-          storeName: clickedMarkerInfo.storeInfoDto.storeName,
-          placeUrl: clickedMarkerInfo.place_url,
-          lat: clickedMarkerInfo.storeInfoDto.x,
-          lng: clickedMarkerInfo.storeInfoDto.y,
-        };
-        dispatch(clickStoreLike(data));
-      }
-      console.log('clicked');
-      // setLikeClicked(!likeClicked);
-    };
 
     // store 정보 랜더링
     // eslint-disable-next-line consistent-return
@@ -216,20 +209,23 @@ function CourseViewMap({ curationSeq, courseInfo }) {
   }, [courseInfo]);
 
   useEffect(() => {}, [clickedMarkerInfo]);
-
+  const tagHeader = () => {
+    if (courseInfo.local === undefined || courseInfo.theme === undefined)
+      return;
+    let localHeader = '';
+    courseInfo.local.map((local) => (localHeader += `#${local.codeName} `));
+    courseInfo.theme.map((theme) => (localHeader += `#${theme.codeName} `));
+    console.log(localHeader);
+    return (
+      <CourseHeader>
+        <CourseTitle>{courseInfo.title}</CourseTitle>
+        <CourseTags>{localHeader}</CourseTags>
+      </CourseHeader>
+    );
+  };
   return (
     <div>
-      {courseInfo === null ? (
-        <div />
-      ) : (
-        <CourseHeader>
-          <CourseTitle>{courseInfo.title}</CourseTitle>
-          <CourseTags>로컬태그</CourseTags>
-          <CourseTags>
-            테마태그 근데 길어지면 망함 이거어떡함 하나씩만 띄울까?
-          </CourseTags>
-        </CourseHeader>
-      )}
+      {courseInfo === null ? <div /> : <div>{tagHeader()}</div>}
 
       <Map
         clicked={clickedMarkerInfo}

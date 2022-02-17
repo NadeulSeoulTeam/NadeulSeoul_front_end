@@ -1,7 +1,6 @@
 /* eslint-disable no-self-assign */
 /* eslint-disable no-unused-expressions */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import _concat from 'lodash/concat';
 
 import shortId from 'shortid';
 import axios from '../../common/api/httpCommunication';
@@ -339,6 +338,7 @@ export const removeAnswer = createAsyncThunk(
 export const initialState = {
   userInfo: User, // 내 정보 test
   user: null,
+  count: 0,
   followinfoToList: null,
   LikeNadles: [], // infinity scroll LikeNadle
   MyNadles: [], // infinity scroll MyNadles
@@ -353,6 +353,9 @@ export const initialState = {
   PostId: null, // 문의게시판 postId
   UserId: null, // 문의게시판 UserId
   myCourse: [], // 장바구니
+  isChanged: false,
+  paramsId: null,
+  pageCount: 0,
   myCourseToCreate: null,
   loadInfinityLikePlacesLoading: false, // 인피니티 LikePlace,
   loadInfinityLikePlacesDone: false,
@@ -423,6 +426,15 @@ const MyPageSlice = createSlice({
     deleteMyCourse(state, action) {
       state.myCourse = state.myCourse.filter((v) => v !== action.payload);
     },
+    changedMypage(state) {
+      state.isChanged;
+    },
+    getParamsId(state, action) {
+      state.paramsId = action.payload;
+    },
+    getPageCount(state, action) {
+      state.pageCount = action.payload;
+    },
   },
   extraReducers: {
     // 인피니티 스크롤 LikeNadles
@@ -434,10 +446,18 @@ const MyPageSlice = createSlice({
     [loadPostsInfinityLikeNadle.fulfilled]: (state, action) => {
       state.loadInfinityLikeNadlesLoading = false;
       state.loadInfinityLikeNadlesDone = true;
-      state.LikeNadles = _concat(
-        state.LikeNadles,
-        action.payload.data.data.content
-      );
+      state.LikeNadles = action.payload.data.data.content;
+      // if (state.count === 0) {
+      //   state.LikeNadles = [];
+      // }
+      // state.loadInfinityLikeNadlesDone = true;
+      // state.LikeNadles = action.payload.data.data.content.concat(
+      //   state.LikeNadles
+      // );
+      // state.LikeNadles = state.LikeNadles.filter(
+      //   (value, index, self) =>
+      //     index === self.findIndex((t) => t.curationSeq === value.curationSeq)
+      // );
     },
     [loadPostsInfinityLikeNadle.rejected]: (state, action) => {
       state.loadInfinityLikeNadlesLoading = false;
@@ -452,10 +472,7 @@ const MyPageSlice = createSlice({
     [loadPostsInfinityLikePlace.fulfilled]: (state, action) => {
       state.loadInfinityLikePlacesLoading = false;
       state.loadInfinityLikePlacesDone = true;
-      state.LikePlaces = _concat(
-        state.LikePlaces,
-        action.payload.data.data.content
-      );
+      state.LikePlaces = action.payload.data.data.content;
     },
     [loadPostsInfinityLikePlace.rejected]: (state, action) => {
       state.loadInfinityLikePlacesLoading = false;
@@ -469,11 +486,13 @@ const MyPageSlice = createSlice({
     },
     [loadPostsInfinityMyNadle.fulfilled]: (state, action) => {
       state.loadInfinityMyNadlesLoading = false;
+      state.MyNadles = action.payload.data.data.content;
+      // state.MyNadles = action.payload.data.data.content.concat(state.MyNadles);
+      // state.MyNadles = state.MyNadles.filter(
+      //   (value, index, self) =>
+      //     index === self.findIndex((t) => t.curationSeq === value.curationSeq)
+      // );
       state.loadInfinityMyNadlesDone = true;
-      state.MyNadles = _concat(
-        state.MyNadles,
-        action.payload.data.data.content
-      );
     },
     [loadPostsInfinityMyNadle.rejected]: (state, action) => {
       state.loadInfinityMyNadlesLoading = false;
@@ -493,7 +512,6 @@ const MyPageSlice = createSlice({
     [loadUser.rejected]: (state, action) => {
       state.loadUserLoading = false;
       state.loadUserError = action.error.message;
-      console.log(action.error.message);
     },
     // 장바구니
     [setLikePlaceBasket.pending]: (state) => {
@@ -724,5 +742,8 @@ export const {
   followinfoToList,
   setMyCourse,
   deleteMyCourse,
+  changedMypage,
+  getParamsId,
+  getPageCount,
 } = MyPageSlice.actions;
 export default MyPageSlice.reducer;

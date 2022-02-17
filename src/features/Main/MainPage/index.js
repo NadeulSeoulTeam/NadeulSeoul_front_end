@@ -12,7 +12,7 @@ import TagList from '../TagList';
 import UserList from '../UserList';
 import CurationList from '../CurationList';
 import SearchBar from '../../../common/SearchBar';
-import sampleImg from '../nongdam.png';
+
 // custom style
 import {
   TopWrapper,
@@ -27,6 +27,7 @@ import {
   CurationTitle,
   CurationGrid,
   NoResult,
+  SeparatorBtn,
 } from './styles';
 
 // actions
@@ -44,7 +45,9 @@ function MainPage() {
   const [localClicked, setLocalClicked] = useState();
   const [themeClicked, setThemeClicked] = useState();
   const [clicked, setClicked] = useState(0);
-
+  const [clicks, setClicks] = useState(true);
+  const [likes, setLikes] = useState(false);
+  const [news, setNews] = useState(false);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [tagsSelectedContent, setTagsSelectedContent] = useState();
@@ -81,9 +84,10 @@ function MainPage() {
   }, [localClicked, themeClicked]);
 
   useEffect(() => {
-    console.log(localClicked);
-    console.log(themeClicked);
-    console.log(clicked);
+    let sort;
+    if (clicks) sort = 'views,desc';
+    else if (likes) sort = 'good,desc';
+    else if (news) sort = 'date,desc';
     if (clicked > 0) {
       const local = [];
       const theme = [];
@@ -93,20 +97,25 @@ function MainPage() {
       for (let i = 0; i < themeClicked.length; i += 1) {
         if (themeClicked[i]) theme.push(i + 26);
       }
-      const data = { local, theme };
+
+      const data = { data: { local, theme }, sort };
       dispatch(LocalNThemeTagsSelected(data));
+      console.log(data);
     }
-  }, [clicked]);
+  }, [clicked, news, likes, clicks]);
 
   // 태그 조건부 랜더링
   const tagSelectRender = (content) => {
     console.log(content);
-    if (content === undefined || content.length < 1)
+    if (content === undefined || content.length === 0)
       return <NoResult>🙄 선택하신 태그를 가진 코스가 없어요.</NoResult>;
     return content.map((curation) => (
       <Wrapper elevation={0}>
         <ImageDiv>
-          <CurationImage alt="profile_img" src={sampleImg} />
+          <CurationImage
+            alt="profile_img"
+            src={`http://13.124.34.5/api/v1/image/${curation.thumnail}`}
+          />
           <LikeChip>👍{curation.good}</LikeChip>
         </ImageDiv>
         <CurationTitle>{curation.title}</CurationTitle>
@@ -141,13 +150,40 @@ function MainPage() {
     dispatch(fetchThemeTags());
     // console.log(themeTag, localTag);
   }, []);
-
+  const clicksClicked = () => {
+    setClicks(true);
+    setLikes(false);
+    setNews(false);
+  };
+  const likesClicked = () => {
+    setClicks(false);
+    setLikes(true);
+    setNews(false);
+  };
+  const newClicked = () => {
+    setClicks(false);
+    setLikes(false);
+    setNews(true);
+  };
   return (
     <div>
       <TopWrapper>
         <MainTitle>나들서울</MainTitle>
         <SearchBar />
         <TagOpener onClick={handleOpen}>눌러서 코스 검색하기▼</TagOpener>
+        {open ? (
+          <div>
+            <SeparatorBtn type="submit" active={clicks} onClick={clicksClicked}>
+              조회순
+            </SeparatorBtn>
+            <SeparatorBtn type="submit" active={likes} onClick={likesClicked}>
+              좋아요
+            </SeparatorBtn>
+            <SeparatorBtn type="submit" active={news} onClick={newClicked}>
+              최신순
+            </SeparatorBtn>
+          </div>
+        ) : null}
         {open ? (
           <TagList
             themeClicked={themeClicked}

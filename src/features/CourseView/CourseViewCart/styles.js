@@ -4,6 +4,32 @@ import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+
+export const IconContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const LeftIcon = styled(ChevronLeftIcon)`
+  margin: 10px;
+  && {
+    font-size: 2rem;
+    color: #0de073;
+    cursor: pointer;
+  }
+`;
+
+export const RightIcon = styled(ChevronRightIcon)`
+  margin: 10px;
+  && {
+    font-size: 2rem;
+    color: #0de073;
+    cursor: pointer;
+    right: 10px;
+  }
+`;
 
 export const Container = styled.div`
   width: 280px;
@@ -44,7 +70,7 @@ export const Picture = styled.div`
   margin: 1rem auto 0.5rem auto;
   width: 160px;
   height: 120px;
-  background-color: #0de073;
+
   position: relative;
   cursor: pointer;
 `;
@@ -105,7 +131,7 @@ export const LikeBtn = styled.button`
 
 export const CommentArea = styled.div`
   margin: 0 1.5rem;
-  overflow: auto;
+  display: 'flex',
   ${({ hasPics }) => {
     return hasPics ? `{ height: 190px; }` : `{ height: 310px; }`;
   }}

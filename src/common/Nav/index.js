@@ -73,10 +73,12 @@ function Nav() {
 
   const naviCourseMake = () => {
     navigate(`/course`);
+    onHolderClick();
   };
 
   const onHomeClick = () => {
     navigate(`/`);
+    onHolderClick();
   };
 
   const openedBar = (
@@ -102,6 +104,7 @@ function Nav() {
                 <FunctionBtn
                   onClick={() => {
                     navigate(`/mypage/${getUserInfo()?.userSeq}/followee`);
+                    onHolderClick();
                   }}
                 >
                   <Text style={{ fontWeight: 'bold' }}>
@@ -112,6 +115,7 @@ function Nav() {
                 <FunctionBtn
                   onClick={() => {
                     navigate(`/mypage/${getUserInfo()?.userSeq}/follower`);
+                    onHolderClick();
                   }}
                 >
                   <Text style={{ fontWeight: 'bold' }}>
@@ -142,10 +146,7 @@ function Nav() {
             </div>
           ) : (
             <div>
-              <GreenText
-                style={{ top: '8.3rem' }}
-                onClick={() => onLoinClick()}
-              >
+              <GreenText style={{ top: '8.3rem' }} onClick={onLoinClick}>
                 로그인 / 회원가입
               </GreenText>
               <GreenBtn disabled>나만의 코스 만들기</GreenBtn>
