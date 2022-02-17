@@ -6,13 +6,15 @@ import CourseCart from './CourseCart';
 import CourseMap from './CourseMap';
 import CourseSearch from './CourseSearch';
 import CourseList from './CourseList';
-import { addCourse } from './CourseSlice';
+import { addCourse, updateCourse } from './CourseSlice';
 
 function CourseMake() {
   const dispatch = useDispatch();
   const useNavigateState = useLocation().state;
-  console.log(useNavigateState, '들어온 데이터');
   // navigate 데이터 null 처리 필요
+  useEffect(() => {
+    dispatch(updateCourse([]));
+  }, []);
   useEffect(() => {
     if (useNavigateState !== null) {
       for (let i = 0; i < useNavigateState.length; i += 1) {
