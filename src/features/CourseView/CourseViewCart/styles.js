@@ -106,6 +106,9 @@ export const CommentArea = styled.div`
   ${({ hasPics }) => {
     return hasPics ? `{ height: 190px; }` : `{ height: 310px; }`;
   }}
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const CommentCreationArea = styled.div`

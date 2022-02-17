@@ -12,7 +12,10 @@ export const courseInfoPost = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post('auth/curations', data, {
-        headers: { Authorization: getToken() },
+        headers: {
+          Authorization: getToken(),
+          'Content-Type': `multipart/form-data`,
+        },
       });
       return response.data;
     } catch (err) {

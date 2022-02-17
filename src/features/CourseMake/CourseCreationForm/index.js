@@ -54,9 +54,10 @@ function CourseCreactionForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const tp = ['도보', '버스', '지하철', '자동차', '택시', '자전거'];
   // info
   const [courseInfo, setCourseInfo] = useState({
-    title: 'axios 통신 테스트 - cors 확인 ',
+    title: '큐레이션',
     description: null,
     personnel: null,
     budget: null,
@@ -192,13 +193,15 @@ function CourseCreactionForm() {
     //   }
     // }
     // { seq : [num,num]}
-    const transSeq = [];
+    let transSeq = '';
     for (const index in transportationClicked.isClicked) {
       if (transportationClicked.isClicked[index] === true) {
         // eslint-disable-next-line prefer-destructuring
-        transSeq.push(index);
+        console.log(tp[index]);
+        transSeq += `${tp[index]} `;
       }
     }
+    console.log(transSeq);
     return transSeq;
   };
   const makeLocalTagBoolean = () => {
@@ -214,9 +217,10 @@ function CourseCreactionForm() {
     for (const index in localClicked.isClicked) {
       if (localClicked.isClicked[index] === true) {
         // eslint-disable-next-line prefer-destructuring
-        localSeq.push(index);
+        localSeq.push(parseInt(index, 10) + 1);
       }
     }
+    console.log(localSeq);
     return localSeq;
   };
   const makeThemeTagBoolean = () => {
@@ -232,9 +236,10 @@ function CourseCreactionForm() {
     for (const index in themeClicked.isClicked) {
       if (themeClicked.isClicked[index] === true) {
         // eslint-disable-next-line prefer-destructuring
-        themeSeq.push(index);
+        themeSeq.push(parseInt(index, 10) + 26);
       }
     }
+    console.log(themeSeq);
     return themeSeq;
   };
   useEffect(() => {
@@ -269,7 +274,7 @@ function CourseCreactionForm() {
     // formData.append('transportation', courseInfo.transportation);
     // formData.append('local', courseInfo.local);
     // formData.append('theme', courseInfo.theme);
-    dispatch(courseImagePost(formData));
+    // dispatch(courseImagePost(formData));
     // 2번 272~~~~304
     const arr = [];
     for (let i = 0; i < courseInfo.courseRoute.length; i += 1) {
@@ -295,12 +300,15 @@ function CourseCreactionForm() {
       local: courseInfo.local,
       theme: courseInfo.theme,
     };
-
+    formData.append(
+      'curationRequestDto',
+      new Blob([JSON.stringify(data)], { type: 'application/json' })
+    );
     // console.log(courseInfo);
     // // courseInfo.fileList = formData;
     // // 전부 formdata에 넣어서 보내주기
     // // dispatch(courseInfoPost(formData));
-    dispatch(courseInfoPost(data));
+    dispatch(courseInfoPost(formData));
     // dispatch(courseImagePost(formData));
     setCourseInfo(courseInfo);
     // console.log(data);

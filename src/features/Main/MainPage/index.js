@@ -134,17 +134,6 @@ function MainPage() {
   };
 
   useEffect(() => {
-    // dispatch(LoadUserInfo())
-    //   .unwrap()
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-  });
-
-  useEffect(() => {
     dispatch(fetchLocalTags());
     dispatch(fetchThemeTags());
     // console.log(themeTag, localTag);

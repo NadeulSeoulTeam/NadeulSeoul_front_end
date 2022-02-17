@@ -155,10 +155,7 @@ export const setLikePlaceBasket = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       console.log(data);
-      const response = await axios.post(
-        `/auth/stores/bookmarks/courses/${data.myPageId}`,
-        data
-      );
+      const response = await axios.post('/auth/stores/bookmarks/courses', data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.resonse.data);
@@ -496,6 +493,7 @@ const MyPageSlice = createSlice({
     [loadUser.rejected]: (state, action) => {
       state.loadUserLoading = false;
       state.loadUserError = action.error.message;
+      console.log(action.error.message);
     },
     // 장바구니
     [setLikePlaceBasket.pending]: (state) => {

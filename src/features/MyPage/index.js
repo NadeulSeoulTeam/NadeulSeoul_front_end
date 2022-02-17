@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 // components
 import BasicTabs from './Tabs/BasicTabs';
@@ -20,7 +21,8 @@ import {
 function MyPage() {
   const dispatch = useDispatch();
   const params = useParams();
-  const { user } = useSelector((state) => state.mypage);
+  const navigate = useNavigate();
+  const { user, loadUserError } = useSelector((state) => state.mypage);
   // 서버에 유저정보 요청
   useEffect(() => {
     dispatch(loadUser(params.id))
@@ -60,6 +62,10 @@ function MyPage() {
         console.log(err.response.data);
       });
   }, []);
+
+  if (loadUserError) {
+    navigate('/');
+  }
   return (
     <>
       <ProfileCard
