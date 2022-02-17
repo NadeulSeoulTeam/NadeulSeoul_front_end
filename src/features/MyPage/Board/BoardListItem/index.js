@@ -26,7 +26,7 @@ function BoardListItem() {
   const savedPostid = navigateState?.postId;
 
   window.localStorage.setItem('data', savedPostid);
-  const isAdmin = getUserInfo().role === 'ROLE_MEMBER';
+  const isAdmin = getUserInfo().role !== 'ROLE_MEMBER';
 
   console.log(savedPostid);
   useEffect(() => {
