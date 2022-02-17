@@ -29,6 +29,9 @@ import {
   TextInput,
   CommentBtn,
   Thumbnail,
+  LeftIcon,
+  RightIcon,
+  IconContainer,
 } from './styles';
 
 // dummy data
@@ -239,8 +242,8 @@ function CourseViewCart({ curationSeq, courseInfo }) {
         </Picture>
       ) : (
         <Picture>
-          <Thumbnail src="http://13.124.34.5/api/v1/image/4" />
-          <CourseStoreLoad>사진 더보기</CourseStoreLoad>
+          <Thumbnail src="/default_pic.png" />
+          <CourseStoreLoad pictureList={courseInfo.fileList} />
         </Picture>
       )}
       {courseInfo !== null && courseInfo.description !== undefined ? (
@@ -284,12 +287,14 @@ function CourseViewCart({ curationSeq, courseInfo }) {
       {/* CommentArea 길이 css 수정은 완료 hasPics={hasPics} 로 넘겨주세요 */}
       <CommentArea>{mapCommentToComponent()}</CommentArea>
       {/* pagination */}
-      <button type="submit" onClick={setPageLeft}>
-        왼쪽
-      </button>
-      <button type="submit" onClick={setPageRight}>
-        오른쪽
-      </button>
+      {getComment !== undefined && getComment.length > 0 && (
+        <IconContainer>
+          <LeftIcon type="submit" onClick={setPageLeft} />
+
+          <RightIcon type="submit" onClick={setPageRight} />
+        </IconContainer>
+      )}
+
       <CommentCreationArea>
         {user && (
           <TextInput

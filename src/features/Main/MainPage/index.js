@@ -12,7 +12,7 @@ import TagList from '../TagList';
 import UserList from '../UserList';
 import CurationList from '../CurationList';
 import SearchBar from '../../../common/SearchBar';
-import sampleImg from '../nongdam.png';
+
 // custom style
 import {
   TopWrapper,
@@ -113,7 +113,10 @@ function MainPage() {
     return content.map((curation) => (
       <Wrapper elevation={0}>
         <ImageDiv>
-          <CurationImage alt="profile_img" src={sampleImg} />
+          <CurationImage
+            alt="profile_img"
+            src={`http://13.124.34.5/api/v1/image/${curation.thumnail}`}
+          />
           <LikeChip>👍{curation.good}</LikeChip>
         </ImageDiv>
         <CurationTitle>{curation.title}</CurationTitle>

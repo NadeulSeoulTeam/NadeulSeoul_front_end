@@ -11,7 +11,7 @@ function CourseStoreLoad({ pictureList }) {
 
   return (
     <div>
-      {pictureList !== undefined && (
+      {pictureList !== undefined && pictureList.length > 0 && (
         <div>
           <LoadStoreButton onClick={handleOpen}>사진 더보기</LoadStoreButton>
           <CourseStoreModal

@@ -1,3 +1,6 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-return-assign */
+/* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -206,20 +209,23 @@ function CourseViewMap({ curationSeq, courseInfo }) {
   }, [courseInfo]);
 
   useEffect(() => {}, [clickedMarkerInfo]);
-
+  const tagHeader = () => {
+    if (courseInfo.local === undefined || courseInfo.theme === undefined)
+      return;
+    let localHeader = '';
+    courseInfo.local.map((local) => (localHeader += `#${local.codeName} `));
+    courseInfo.theme.map((theme) => (localHeader += `#${theme.codeName} `));
+    console.log(localHeader);
+    return (
+      <CourseHeader>
+        <CourseTitle>{courseInfo.title}</CourseTitle>
+        <CourseTags>{localHeader}</CourseTags>
+      </CourseHeader>
+    );
+  };
   return (
     <div>
-      {courseInfo === null ? (
-        <div />
-      ) : (
-        <CourseHeader>
-          <CourseTitle>{courseInfo.title}</CourseTitle>
-          <CourseTags>로컬태그</CourseTags>
-          <CourseTags>
-            테마태그 근데 길어지면 망함 이거어떡함 하나씩만 띄울까?
-          </CourseTags>
-        </CourseHeader>
-      )}
+      {courseInfo === null ? <div /> : <div>{tagHeader()}</div>}
 
       <Map
         clicked={clickedMarkerInfo}

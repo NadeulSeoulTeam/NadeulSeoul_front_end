@@ -16,8 +16,6 @@ import {
 // action
 import { select } from '../MainSlice';
 
-import sampleImg from '../nongdam.png';
-
 function CurationListItem({ curation }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,7 +34,7 @@ function CurationListItem({ curation }) {
       <ImageDiv>
         <CurationImage
           // src={`http://localhost:8080/api/v1/image/${curation.thumbnail}`}
-          src={sampleImg}
+          src={`http://13.124.34.5/api/v1/image/${curation.thumnail}`}
           alt="default image"
         />
         <LikeChip>👍 {curation.good}</LikeChip>
