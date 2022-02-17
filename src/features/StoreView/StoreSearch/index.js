@@ -75,11 +75,8 @@ function StoreSearch({ searchKeyword }) {
   return (
     <Wrapper container direction="row" justifyContent="center">
       <SearchBase elevation={1}>
-        {searchKeyword === undefined ? (
-          <SearchInput placeholder="어디로 떠날까요?" onKeyDown={keyPress} />
-        ) : (
-          <SearchInput value={searchKeyword} onKeyDown={keyPress} />
-        )}
+        <SearchInput placeholder="어디로 떠날까요?" onKeyDown={keyPress} />
+
         <SearchBtn />
       </SearchBase>
     </Wrapper>
