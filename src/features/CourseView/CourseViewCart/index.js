@@ -137,14 +137,16 @@ function CourseViewCart({ curationSeq, courseInfo }) {
   };
 
   const putComment = () => {
+    console.log(commentWrote, '전');
     dispatch(sendComment({ content: userComment, curationSeq }))
       .then(() => {
-        setCommentWrote(!commentWrote);
+        // setCommentWrote(!commentWrote);
       })
       .then(() => {
         setUserComment('');
-        console.log(commentWrote);
       });
+    setCommentWrote(commentWrote);
+    console.log(commentWrote, '후');
     // 댓글 비동기 통신 다시하기
   };
 
@@ -163,19 +165,20 @@ function CourseViewCart({ curationSeq, courseInfo }) {
     setLikeClicked(!likeClicked);
   };
   const userClickTrash = () => {
-    dispatch(deleteCourseInfo({ curationSeq })).then(() => {
-      navigate('/');
-    });
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      dispatch(deleteCourseInfo({ curationSeq })).then(() => {
+        navigate('/');
+      });
+    }
   };
   const likeButton = () => {
     if (
       courseInfo === null ||
       userSeqCookie === undefined ||
       courseInfo.userinfos === undefined
-    )
+    ) {
       return <div />;
-    console.log(userSeqCookie.userSeq);
-    console.log(courseInfo.userinfos.userSeq);
+    }
     if (userSeqCookie.userSeq === courseInfo.userinfos.userSeq) {
       return (
         <LikeBtn active={!!isLiked} type="submit" onClick={userClickTrash}>

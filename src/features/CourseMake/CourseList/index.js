@@ -82,7 +82,7 @@ function CourseList() {
 
         dispatch(setClicked(true));
         dispatch(moveToList(latlng));
-      }, 250);
+      }, 350);
     }
   };
   const mapToComponent = (data) => {

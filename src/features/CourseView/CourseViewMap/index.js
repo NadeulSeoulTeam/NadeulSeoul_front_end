@@ -103,13 +103,7 @@ function CourseViewMap({ curationSeq, courseInfo }) {
   // 클릭시 랜더링 되는 정보
   const clickRender = (info) => {
     // 기본창 랜더링
-    if (info === undefined) {
-      return (
-        <div>
-          <CourseViewCart curationSeq={curationSeq} courseInfo={courseInfo} />
-        </div>
-      );
-    }
+    console.log(info);
 
     const userClickHeart = () => {
       // 비동기 통신
@@ -240,6 +234,11 @@ function CourseViewMap({ curationSeq, courseInfo }) {
       />
       {clickedMarkerInfo !== undefined &&
         clickRender(clickedMarkerInfo.storeInfoDto)}
+      {clickedMarkerInfo === undefined && (
+        <div>
+          <CourseViewCart curationSeq={curationSeq} courseInfo={courseInfo} />
+        </div>
+      )}
     </div>
   );
 }
