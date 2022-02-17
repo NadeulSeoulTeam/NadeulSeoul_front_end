@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchLocalTags, fetchThemeTags } from '../MainSlice';
-import { TextToggleBtn } from './styles';
+import { TextToggleBtn, TagDiv, TagTitle } from './styles';
 
 function TagList({
   themeClicked,
@@ -44,6 +45,7 @@ function TagList({
   //   if (themeClicked[codeSeq - 26]) setClicked(clicked + 1);
   //   else setClicked(clicked - 1);
   // };
+
   const regionTagList = () => {
     return localTag.map(
       (region) =>
@@ -64,6 +66,7 @@ function TagList({
         )
     );
   };
+
   const themeTagList = () => {
     return themeTag.map(
       (theme) =>
@@ -90,17 +93,18 @@ function TagList({
       <Paper
         sx={{
           backgroundColor: '#ffffff',
-          width: '70vw',
+          width: '60vw',
           textAlign: 'left',
         }}
       >
-        <div>
-          <p>지역 태그</p>
+        <TagDiv>
+          <TagTitle>지역 태그</TagTitle>
           {regionTagList()}
-
-          <p>테마 태그</p>
+        </TagDiv>
+        <TagDiv>
+          <TagTitle>테마 태그</TagTitle>
           {themeTagList()}
-        </div>
+        </TagDiv>
       </Paper>
     </Container>
   );

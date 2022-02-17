@@ -16,11 +16,9 @@ import sampleImg from '../nongdam.png';
 // custom style
 import {
   TopWrapper,
-  MidWrapper,
   BottomWrapper,
   MainTitle,
   SubTitle,
-  SampleTags,
   TagOpener,
   Wrapper,
   ImageDiv,
@@ -146,13 +144,7 @@ function MainPage() {
       <TopWrapper>
         <MainTitle>나들서울</MainTitle>
         <SearchBar />
-        <MidWrapper>
-          <SampleTags>강남구</SampleTags>
-          <SampleTags>서대문구</SampleTags>
-          <SampleTags>데이트코스</SampleTags>
-          <SampleTags>공원 산책</SampleTags>
-          <TagOpener onClick={handleOpen}>태그 더보기▼</TagOpener>
-        </MidWrapper>
+        <TagOpener onClick={handleOpen}>눌러서 코스 검색하기▼</TagOpener>
         {open ? (
           <TagList
             themeClicked={themeClicked}
