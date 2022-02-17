@@ -54,9 +54,10 @@ function CourseCreactionForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const tp = ['도보', '버스', '지하철', '자동차', '택시', '자전거'];
   // info
   const [courseInfo, setCourseInfo] = useState({
-    title: 'axios 통신 테스트 - cors 확인 ',
+    title: '큐레이션',
     description: null,
     personnel: null,
     budget: null,
@@ -196,7 +197,7 @@ function CourseCreactionForm() {
     for (const index in transportationClicked.isClicked) {
       if (transportationClicked.isClicked[index] === true) {
         // eslint-disable-next-line prefer-destructuring
-        transSeq.append(index).append(' ');
+        transSeq.append(tp[index]).append(' ');
       }
     }
     return transSeq;
@@ -214,7 +215,7 @@ function CourseCreactionForm() {
     for (const index in localClicked.isClicked) {
       if (localClicked.isClicked[index] === true) {
         // eslint-disable-next-line prefer-destructuring
-        localSeq.push(index);
+        localSeq.push(index + 1);
       }
     }
     return localSeq;
@@ -232,7 +233,7 @@ function CourseCreactionForm() {
     for (const index in themeClicked.isClicked) {
       if (themeClicked.isClicked[index] === true) {
         // eslint-disable-next-line prefer-destructuring
-        themeSeq.push(index);
+        themeSeq.push(index + 26);
       }
     }
     return themeSeq;
