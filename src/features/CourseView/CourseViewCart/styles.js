@@ -28,6 +28,9 @@ export const Nickname = styled.p`
   color: #0de073;
   font-weight: bold;
   text-decoration: underline;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const AfterNickname = styled.p`

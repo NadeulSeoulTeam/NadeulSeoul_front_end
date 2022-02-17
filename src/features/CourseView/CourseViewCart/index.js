@@ -65,6 +65,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
   }, []);
   useEffect(() => {
     console.log(userSeqCookie, '보여줘!!!!');
+    console.log(courseInfo, 'ㅠㅠㅠㅠㅠ');
   }, [userSeqCookie]);
   // 댓글 작성 리랜더링
   useEffect(() => {
@@ -181,23 +182,34 @@ function CourseViewCart({ curationSeq, courseInfo }) {
     }
     if (userSeqCookie.userSeq === courseInfo.userinfos.userSeq) {
       return (
-        <LikeBtn active={!!isLiked} type="submit" onClick={userClickTrash}>
-          🗑️
-        </LikeBtn>
+        <div>
+          <BtnExplain>눌러서 삭제하기</BtnExplain>
+          <LikeBtn active={!!isLiked} type="submit" onClick={userClickTrash}>
+            🗑️
+          </LikeBtn>
+        </div>
       );
     }
     return (
-      <LikeBtn active={!!isLiked} type="submit" onClick={userClickLike}>
-        👍
-      </LikeBtn>
+      <div>
+        <BtnExplain>눌러서 좋아요 표시하기</BtnExplain>
+        <LikeBtn active={!!isLiked} type="submit" onClick={userClickLike}>
+          👍
+        </LikeBtn>
+      </div>
     );
+  };
+  const onNicknameClick = (seq) => {
+    navigate(`/mypage/${seq}`);
   };
   return (
     <Container>
       <RightDiv>
-        {courseInfo !== null && courseInfo.userInfos !== undefined ? (
-          <Nickname>
-            {/* {courseInfo.userInfos.emoji} */}
+        {courseInfo !== null && courseInfo.userinfos !== undefined ? (
+          <Nickname
+            onClick={() => onNicknameClick(courseInfo.userinfos.userSeq)}
+          >
+            {courseInfo.userinfos.emoji}
             {courseInfo.userinfos.nickname}
           </Nickname>
         ) : (
@@ -207,14 +219,18 @@ function CourseViewCart({ curationSeq, courseInfo }) {
         <AfterNickname>의 나들코스</AfterNickname>
       </RightDiv>
       {/* 사진 없을 때에는 아예 이 부분 렌더링 안 되게 해야 함!!! */}
-      {courseInfo !== null && courseInfo.fileList === 0 ? (
+      {courseInfo !== null &&
+      courseInfo.fileList !== undefined &&
+      courseInfo.fileList.length !== 0 ? (
         <Picture>
-          <Thumbnail src="/test_img/0.JPG" />
-          <CourseStoreLoad>사진 더보기</CourseStoreLoad>
+          <Thumbnail
+            src={`http://13.124.34.5/api/v1/image/${courseInfo.fileList[0]}`}
+          />
+          <CourseStoreLoad pictureList={courseInfo.fileList} />
         </Picture>
       ) : (
         <Picture>
-          <Thumbnail src="/test_img/0.JPG" />
+          <Thumbnail src="http://13.124.34.5/api/v1/image/4" />
           <CourseStoreLoad>사진 더보기</CourseStoreLoad>
         </Picture>
       )}
@@ -248,7 +264,6 @@ function CourseViewCart({ curationSeq, courseInfo }) {
         )}
       </div>
       <div style={{ textAlign: 'end', padding: '0 1.5rem' }}>
-        <BtnExplain>눌러서 좋아요 표시하기</BtnExplain>
         {likeButton()}
       </div>
       {/* <div style={{ textAlign: 'end', padding: '0 1.5rem' }}>

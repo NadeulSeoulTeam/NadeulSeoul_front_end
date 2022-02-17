@@ -64,6 +64,7 @@ function CourseCreactionForm() {
     fileList: [],
     courseRoute: carts,
   });
+  const [formDataSend, setFormDataSend] = useState();
   // 지역 태그 선택 boolean
   // eslint-disable-next-line no-unused-vars
 
@@ -304,20 +305,15 @@ function CourseCreactionForm() {
       'curationRequestDto',
       new Blob([JSON.stringify(data)], { type: 'application/json' })
     );
-    // console.log(courseInfo);
-    // // courseInfo.fileList = formData;
-    // // 전부 formdata에 넣어서 보내주기
-    // // dispatch(courseInfoPost(formData));
-    dispatch(courseInfoPost(formData));
-    // dispatch(courseImagePost(formData));
+    handleOpen();
+
+    setFormDataSend(formData);
     setCourseInfo(courseInfo);
-    // console.log(data);
-    // handleOpen();
   };
   // course 정보 backend 송신 함수
   const sendFinalCourseInfo = () => {
     // navigaion
-    navigate(`/`);
+    dispatch(courseInfoPost(formDataSend)).then(() => navigate(`/`));
   };
 
   // input 값 저장하기
