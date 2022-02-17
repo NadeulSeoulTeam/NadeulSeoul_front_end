@@ -12,7 +12,7 @@ import {
 
 // assets
 
-function CurationCard({ thumbnail, title, good, curationSeq }) {
+function CurationCard({ thumnail, title, good, curationSeq }) {
   const navigate = useNavigate();
   const onClickGotoMyCuration = () => {
     console.log(curationSeq);
@@ -24,7 +24,7 @@ function CurationCard({ thumbnail, title, good, curationSeq }) {
       {/* <Wrapper elevation={0} onClick={() => selectCourse(curation)}> */}
       <ImageDiv>
         <CurationImage
-          src={`http://13.124.34.5/api/v1/image/${thumbnail}`}
+          src={`http://13.124.34.5/api/v1/image/${thumnail}`}
           alt="default image"
         />
         <LikeChip>👍 {good}</LikeChip>
