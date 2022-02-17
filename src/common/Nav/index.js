@@ -10,6 +10,7 @@ import {
   WhiteHolder,
   GreenHolder,
   Icon,
+  HomeBtn,
   Nickname,
   CenterDiv,
   Text,
@@ -74,6 +75,10 @@ function Nav() {
     navigate(`/course`);
   };
 
+  const onHomeClick = () => {
+    navigate(`/`);
+  };
+
   const openedBar = (
     <div>
       <Slide direction="right" in={isOpen} mountOnEnter unmountOnExit>
@@ -83,6 +88,7 @@ function Nav() {
       </Slide>
       <Slide direction="right" in={isOpen} mountOnEnter unmountOnExit>
         <Container>
+          <HomeBtn onClick={onHomeClick}>🏠 Home</HomeBtn>
           {isAuthenticated() ? (
             <Nickname onClick={onClickNickname}>
               {getUserInfo()?.nickname}

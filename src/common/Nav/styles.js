@@ -46,6 +46,21 @@ export const Icon = styled(MenuIcon)`
   }
 `;
 
+export const HomeBtn = styled.p`
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #c4c4c4;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  margin: 20px 0;
+  cursor: pointer;
+  &:hover {
+    color: #0de073;
+  }
+`;
+
 export const Nickname = styled.p`
   font-family: 'Hahmlet';
   font-weight: bold;
@@ -54,7 +69,7 @@ export const Nickname = styled.p`
   position: absolute;
   width: 250px;
   height: 35.2px;
-  top: 1rem;
+  top: 1.2rem;
   left: 50%;
   transform: translate(-50%, 0%);
   cursor: pointer;
