@@ -30,6 +30,7 @@ function EditUserInfo() {
   const [nickname, setNickname] = useState(getUserInfo().nickname);
   const [emoji, setEmoji] = useState(getUserInfo().emoji); // getUserInfo에 있는 이모지 바로 넣어서 뜰수 있도록
   // const [id, setId] = useState('');
+  // const { checkNicknameError } = useSelector((state) => state.auth);
   const [nicknameErr, setNicknameErr] = useState({
     validationStatus: '',
     errorMsg: '',
@@ -41,6 +42,7 @@ function EditUserInfo() {
 
   const navigate = useNavigate();
   const [isDuplicated, setIsDuplicated] = useState(false);
+  const [isChecked, setIsCheckd] = useState(false);
 
   useEffect(() => {
     if (nickname === '') {
@@ -78,6 +80,7 @@ function EditUserInfo() {
 
   const onNicknameChange = (e) => {
     const nicknameInput = e.currentTarget.value;
+    setIsCheckd(false);
 
     if (nicknameInput === '') {
       setNicknameErr({
@@ -129,6 +132,9 @@ function EditUserInfo() {
   };
 
   const onClickEditInfo = useCallback(() => {
+    if (isChecked === false) {
+      return alert('아이디 중복 검사를 해주세요');
+    }
     if (isDuplicated === false) {
       return alert('중복된 아이디 입니다.');
     }
@@ -152,17 +158,22 @@ function EditUserInfo() {
     dispatch(checkNickname(nickNamedata))
       .unwrap()
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           setIsDuplicated(true);
+          setIsCheckd(true);
           alert(`${response.data.message}`);
+        } else if (response.data.status === 'NICKNAME_DUPLICATION') {
+          alert('중복된 닉네임입니다.');
         }
       })
       .catch((error) => {
-        console.log(error.response.data);
-        if (error.data.status === 'NICKNAME_DUPLICATION') {
-          alert(`${error.data.message}`);
-        }
+        // console.log(checkNicknameError);
+        // console.log(error);
+        // if (error.status === 'NICKNAME_DUPLICATION') {
+        //   alert(`${error.message}`);
+        // }
+        console.log(error);
+        alert('중복된이름입니다.');
       });
   }, [nickname]);
 
