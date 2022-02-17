@@ -269,7 +269,7 @@ function CourseCreactionForm() {
     // formData.append('transportation', courseInfo.transportation);
     // formData.append('local', courseInfo.local);
     // formData.append('theme', courseInfo.theme);
-    dispatch(courseImagePost(formData));
+    // dispatch(courseImagePost(formData));
     // 2번 272~~~~304
     const arr = [];
     for (let i = 0; i < courseInfo.courseRoute.length; i += 1) {
@@ -295,12 +295,15 @@ function CourseCreactionForm() {
       local: courseInfo.local,
       theme: courseInfo.theme,
     };
-
+    formData.append(
+      'curationRequestDto',
+      new Blob([JSON.stringify(data)], { type: 'application/json' })
+    );
     // console.log(courseInfo);
     // // courseInfo.fileList = formData;
     // // 전부 formdata에 넣어서 보내주기
     // // dispatch(courseInfoPost(formData));
-    dispatch(courseInfoPost(data));
+    dispatch(courseInfoPost(formData));
     // dispatch(courseImagePost(formData));
     setCourseInfo(courseInfo);
     // console.log(data);
