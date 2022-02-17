@@ -42,6 +42,8 @@ import {
   BtnExplain,
   StarBtn,
   CourseTitle,
+  CourseHeader,
+  CourseTags,
 } from './styles';
 
 function CourseViewMap({ curationSeq, courseInfo }) {
@@ -210,7 +212,13 @@ function CourseViewMap({ curationSeq, courseInfo }) {
 
   return (
     <div>
-      <CourseTitle>{courseInfo.title}</CourseTitle>
+      <CourseHeader>
+        <CourseTitle>{courseInfo.title}</CourseTitle>
+        <CourseTags>로컬태그</CourseTags>
+        <CourseTags>
+          테마태그 근데 길어지면 망함 이거어떡함 하나씩만 띄울까?
+        </CourseTags>
+      </CourseHeader>
       <Map
         clicked={clickedMarkerInfo}
         className="map"

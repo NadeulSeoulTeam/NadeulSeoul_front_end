@@ -74,9 +74,7 @@ export const StarBtn = styled.button`
 `;
 
 export const CourseTitle = styled.div`
-  position: absolute;
-  top: 25px;
-  left: 60px;
+  display: inline;
   background-color: #0de073;
   color: white;
   font-family: 'Hahmlet';
@@ -84,5 +82,23 @@ export const CourseTitle = styled.div`
   font-size: 1.2rem;
   padding: 8px 20px;
   border-radius: 30px;
+`;
+
+export const CourseHeader = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 25px;
+  left: 60px;
   z-index: 2;
+  height: 44px;
+  background-color: white;
+  border-radius: 30px;
+  padding-right: 20px;
+`;
+
+export const CourseTags = styled.span`
+  font-weight: bold;
+  font-size: 0.8rem;
+  padding-left: 6px;
 `;

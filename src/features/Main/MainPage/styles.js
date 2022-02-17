@@ -118,10 +118,18 @@ export const CurationTitle = styled.p`
 export const CurationGrid = styled(Grid)`
   && {
     display: flex;
+    margin: 3rem 3rem 0 3rem;
+    padding-bottom: 3rem;
     overflow-x: scroll;
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
       display: none;
     }
   }
+`;
+
+export const NoResult = styled.p`
+  margin: auto;
+  font-weight: bold;
+  font-size: 0.9rem;
 `;

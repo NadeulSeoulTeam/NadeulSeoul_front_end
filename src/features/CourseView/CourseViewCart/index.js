@@ -149,6 +149,12 @@ function CourseViewCart({ curationSeq, courseInfo }) {
     // 댓글 비동기 통신 다시하기
   };
 
+  const onEnter = (e) => {
+    if (e.key === 'Enter') {
+      putComment();
+    }
+  };
+
   const userClickLike = () => {
     // 비동기 통신
     if (isLiked) {
@@ -219,6 +225,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
             size="small"
             value={userComment}
             onChange={commentWrite}
+            onKeyPress={onEnter}
             placeholder="댓글을 남겨주세요!"
           />
         )}

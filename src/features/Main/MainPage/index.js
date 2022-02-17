@@ -26,6 +26,7 @@ import {
   LikeChip,
   CurationTitle,
   CurationGrid,
+  NoResult,
 } from './styles';
 
 // actions
@@ -99,9 +100,12 @@ function MainPage() {
 
   // 태그 조건부 랜더링
   const tagSelectRender = (content) => {
-    if (content === undefined) return <div />;
+    console.log('여기');
+    console.log(content);
+    if (content === undefined)
+      return <NoResult>🙄 선택하신 태그를 가진 코스가 없어요.</NoResult>;
     return content.map((curation) => (
-      <Wrapper>
+      <Wrapper elevation={0}>
         <ImageDiv>
           <CurationImage alt="profile_img" src={sampleImg} />
           <LikeChip>👍{curation.good}</LikeChip>
