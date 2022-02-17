@@ -91,7 +91,7 @@ export const checkNickname = createAsyncThunk(
       const response = await axios.post('auth/users/nickname', data);
       return response;
     } catch (error) {
-      return rejectWithValue(error.response);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -144,7 +144,7 @@ const authSlice = createSlice({
     [checkNickname.rejected]: (state, action) => {
       state.checkNicknameLoading = false;
       state.checkNicknameDone = false;
-      state.checkNicknameError = action.error.message;
+      state.checkNicknameError = action.payload;
     },
     [editUserInfo.pending]: (state) => {
       state.editUserInfoLoading = true;
