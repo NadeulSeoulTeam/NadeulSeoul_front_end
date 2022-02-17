@@ -73,10 +73,12 @@ function Nav() {
 
   const naviCourseMake = () => {
     navigate(`/course`);
+    onHolderClick();
   };
 
   const onHomeClick = () => {
     navigate(`/`);
+    onHolderClick();
   };
 
   const openedBar = (
@@ -144,10 +146,7 @@ function Nav() {
             </div>
           ) : (
             <div>
-              <GreenText
-                style={{ top: '8.3rem' }}
-                onClick={() => onLoinClick()}
-              >
+              <GreenText style={{ top: '8.3rem' }} onClick={onLoinClick}>
                 로그인 / 회원가입
               </GreenText>
               <GreenBtn disabled>나만의 코스 만들기</GreenBtn>
