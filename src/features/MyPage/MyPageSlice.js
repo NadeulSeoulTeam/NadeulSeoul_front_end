@@ -493,6 +493,7 @@ const MyPageSlice = createSlice({
     [loadUser.rejected]: (state, action) => {
       state.loadUserLoading = false;
       state.loadUserError = action.error.message;
+      console.log(action.error.message);
     },
     // 장바구니
     [setLikePlaceBasket.pending]: (state) => {
