@@ -16,7 +16,20 @@ export const getCourseInfo = createAsyncThunk(
     }
   }
 );
+// 코스 삭제
+export const deleteCourseInfo = createAsyncThunk(
+  'CourseView/CourseInfo/delete',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`auth/curations/${data.curationSeq}`);
+      console.log(response.data, '삭제시도');
 
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
 // 댓글 가져오기
 export const getCommentList = createAsyncThunk(
   'CourseView/CommentInfo',
@@ -81,6 +94,7 @@ export const clickLikeCancel = createAsyncThunk(
       const response = await axios.delete(
         `auth/curations/bookmarks/${data.curationSeq}`
       );
+      console.log(response.data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -90,7 +104,7 @@ export const clickLikeCancel = createAsyncThunk(
 
 // 스토어(좋아요) 누르기
 export const clickStoreLike = createAsyncThunk(
-  'StoreView/like',
+  'CourseView/like',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post(
@@ -108,12 +122,13 @@ export const clickStoreLike = createAsyncThunk(
 
 // 스토어(좋아요) 취소
 export const clickStoreLikeCancel = createAsyncThunk(
-  'StoreView/likeCancel',
+  'CourseView/likeCancel',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
         `auth/stores/bookmarks/${data.storeSeq}`
       );
+      console.log(response.data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -123,7 +138,7 @@ export const clickStoreLikeCancel = createAsyncThunk(
 
 // 스토어(좋아요) 확인
 export const clickStoreLikeCheck = createAsyncThunk(
-  'StoreView/likeCancel',
+  'CourseView/likeCancel',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(
@@ -152,6 +167,9 @@ export const initialState = {
   courseInfoLoading: false,
   courseInfoDone: false,
   courseInfoError: null,
+  courseDeleteLoading: false,
+  courseDeleteDone: false,
+  courseDeleteError: null,
   comment: '', // 댓글 보내기
   sendCommentLoading: false,
   sendCommentDone: false,
@@ -211,10 +229,28 @@ const course = createSlice({
       // 들어오는 정보 맞춰 주기
       state.courseInfo = action.payload.data;
       state.courseInfoDone = true;
+      console.log(action.payload);
     },
     [getCourseInfo.rejected]: (state, action) => {
       state.courseInfoLoading = false;
       state.courseInfoError = action.error.message;
+      console.log(action.error.message);
+    },
+    [deleteCourseInfo.pending]: (state) => {
+      state.courseDeleteLoading = true;
+      state.courseDeleteInfoDone = false;
+      state.courseInfoDeleteError = null;
+    },
+    [deleteCourseInfo.fulfilled]: (state, action) => {
+      state.courseDeleteLoading = false;
+      // 들어오는 정보 맞춰 주기
+      state.courseInfo = action.payload.data;
+      state.courseDeleteInfoDone = true;
+      console.log(action.payload);
+    },
+    [deleteCourseInfo.rejected]: (state, action) => {
+      state.courseDeleteLoading = false;
+      state.courseInfoDeleteError = action.error.message;
       console.log(action.error.message);
     },
     // comment 보내기
