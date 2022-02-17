@@ -25,7 +25,7 @@ export const MainTitle = styled.h1`
   font-family: 'Hahmlet';
   font-size: 48px;
   color: #0de073;
-  margin: 0;
+  margin-bottom: 2rem;
 `;
 
 export const GreenBtn = styled(Button)`
@@ -67,12 +67,12 @@ export const SampleTags = styled(Button)`
 `;
 
 export const TagOpener = styled.p`
-  display: inline;
-  color: #c4c4c4;
-  font-size: 0.8rem;
+  color: #0de073;
+  font-size: 0.9rem;
+  font-weight: bold;
   text-decoration: underline;
   cursor: pointer;
-  margin: 0 2px;
+  margin: 20px;
 `;
 
 export const Wrapper = styled(Card)`

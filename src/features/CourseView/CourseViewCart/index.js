@@ -55,7 +55,6 @@ function CourseViewCart({ curationSeq, courseInfo }) {
   const [comments, setComments] = useState([]);
   const [infComment, setInfComment] = useState([]);
   const { getComment, isLiked } = useSelector((state) => state.courseView);
-  // 현재 카트에 리스트가 저장되어있는 배열
 
   // infinite scroll
   const [ref, inView] = useInView();
@@ -168,6 +167,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
         <Nickname>넣어야댐</Nickname>
         <AfterNickname>의 나들코스</AfterNickname>
       </RightDiv>
+      {/* 사진 없을 때에는 아예 이 부분 렌더링 안 되게 해야 함!!! */}
       <Picture>
         <Thumbnail src="/test_img/0.JPG" />
         <CourseStoreLoad>사진 더보기</CourseStoreLoad>
@@ -201,7 +201,14 @@ function CourseViewCart({ curationSeq, courseInfo }) {
           👍
         </LikeBtn>
       </div>
+      {/* <div style={{ textAlign: 'end', padding: '0 1.5rem' }}>
+        <BtnExplain>눌러서 코스 삭제</BtnExplain>
+        <LikeBtn active={} type="submit" onClick={}>
+          🧨
+        </LikeBtn>
+      </div> */}
       <GreenDash />
+      {/* CommentArea 길이 css 수정은 완료 hasPics={hasPics} 로 넘겨주세요 */}
       <CommentArea>{mapCommentToComponent()}</CommentArea>
       <CommentCreationArea>
         {user && (
