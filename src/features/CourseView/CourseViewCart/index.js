@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 // material UI
 // import Card from '@mui/material/Card';
-
-// css
 import axios from 'axios';
+import { useNavigate } from 'react-router';
+import { getUserInfo } from '../../../common/api/JWT-Token';
+// css
 import {
   Container,
   RightDiv,
@@ -31,7 +32,6 @@ import {
 } from './styles';
 
 // dummy data
-import testdata from '../testdata';
 import {
   sendComment,
   clickLike,
@@ -39,13 +39,14 @@ import {
   getCommentList,
   isLike,
   setCommentStartEmpty,
+  deleteCourseInfo,
 } from '../CourseViewSlice';
 import CourseViewComment from './CourseViewComment';
 import CourseStoreLoad from '../CourseStoreLoad';
 
 function CourseViewCart({ curationSeq, courseInfo }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [course, setCourse] = useState(testdata);
   // 이 시점에서 getCourseInfo?
   const [user, setUser] = useState(true);
   const [commentWrote, setCommentWrote] = useState(false);
@@ -56,12 +57,15 @@ function CourseViewCart({ curationSeq, courseInfo }) {
   const [comments, setComments] = useState([]);
   const [infComment, setInfComment] = useState([]);
   const { getComment, isLiked } = useSelector((state) => state.courseView);
-
+  const [userSeqCookie, setUserSeqCookie] = useState(getUserInfo('userinfo'));
   // infinite scroll
   const [ref, inView] = useInView();
   useEffect(() => {
     dispatch(setCommentStartEmpty());
   }, []);
+  useEffect(() => {
+    console.log(userSeqCookie, '보여줘!!!!');
+  }, [userSeqCookie]);
   // 댓글 작성 리랜더링
   useEffect(() => {
     setLoading(true);
@@ -98,11 +102,6 @@ function CourseViewCart({ curationSeq, courseInfo }) {
     }
   }, [inView, loading]);
   useEffect(() => {}, [comments]);
-  const mapTransportationToComponent = () => {
-    return course.data.transportation.map((transportation) => (
-      <Transportation>{transportation}</Transportation>
-    ));
-  };
 
   const mapCommentToComponent = () => {
     console.log(getComment);
@@ -163,36 +162,83 @@ function CourseViewCart({ curationSeq, courseInfo }) {
     }
     setLikeClicked(!likeClicked);
   };
-
+  const userClickTrash = () => {
+    dispatch(deleteCourseInfo({ curationSeq })).then(() => {
+      navigate('/');
+    });
+  };
+  const likeButton = () => {
+    if (
+      courseInfo === null ||
+      userSeqCookie === undefined ||
+      courseInfo.userinfos === undefined
+    )
+      return <div />;
+    console.log(userSeqCookie.userSeq);
+    console.log(courseInfo.userinfos.userSeq);
+    if (userSeqCookie.userSeq === courseInfo.userinfos.userSeq) {
+      return (
+        <LikeBtn active={!!isLiked} type="submit" onClick={userClickTrash}>
+          🗑️
+        </LikeBtn>
+      );
+    }
+    return (
+      <LikeBtn active={!!isLiked} type="submit" onClick={userClickLike}>
+        👍
+      </LikeBtn>
+    );
+  };
   return (
     <Container>
       <RightDiv>
-        <Nickname>넣어야댐</Nickname>
+        {courseInfo !== null && courseInfo.userInfos !== undefined ? (
+          <Nickname>
+            {/* {courseInfo.userInfos.emoji} */}
+            {courseInfo.userinfos.nickname}
+          </Nickname>
+        ) : (
+          <div />
+        )}
+
         <AfterNickname>의 나들코스</AfterNickname>
       </RightDiv>
       {/* 사진 없을 때에는 아예 이 부분 렌더링 안 되게 해야 함!!! */}
-      <Picture>
-        <Thumbnail src="/test_img/0.JPG" />
-        <CourseStoreLoad>사진 더보기</CourseStoreLoad>
-      </Picture>
-      <Description>{courseInfo.description}</Description>
+      {courseInfo !== null && courseInfo.fileList === 0 ? (
+        <Picture>
+          <Thumbnail src="/test_img/0.JPG" />
+          <CourseStoreLoad>사진 더보기</CourseStoreLoad>
+        </Picture>
+      ) : (
+        <Picture>
+          <Thumbnail src="/test_img/0.JPG" />
+          <CourseStoreLoad>사진 더보기</CourseStoreLoad>
+        </Picture>
+      )}
+      {courseInfo !== null && courseInfo.description !== undefined ? (
+        <Description>{courseInfo.description}</Description>
+      ) : (
+        <div />
+      )}
+
       <div style={{ display: 'inline-block' }}>
         <SubTitle>교통편</SubTitle>
         <SubTitle>코스 예산</SubTitle>
         <SubTitle>함께 한 인원</SubTitle>
       </div>
       <div style={{ display: 'inline-block' }}>
-        {courseInfo.transportation === undefined ? (
-          <Content />
+        {courseInfo !== null && courseInfo.transportation !== undefined ? (
+          <Content>{courseInfo.transportation}</Content>
         ) : (
-          <Content>교통수단</Content>
+          // 폰트 작게 해야 할듯
+          <div />
         )}
-        {courseInfo.budget === null ? (
+        {courseInfo === null ? (
           <Content />
         ) : (
           <Content>{courseInfo.budget}원 / 1인</Content>
         )}
-        {courseInfo.personnel === null ? (
+        {courseInfo === null ? (
           <Content />
         ) : (
           <Content>{courseInfo.personnel}</Content>
@@ -200,9 +246,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
       </div>
       <div style={{ textAlign: 'end', padding: '0 1.5rem' }}>
         <BtnExplain>눌러서 좋아요 표시하기</BtnExplain>
-        <LikeBtn active={!!isLiked} type="submit" onClick={userClickLike}>
-          👍
-        </LikeBtn>
+        {likeButton()}
       </div>
       {/* <div style={{ textAlign: 'end', padding: '0 1.5rem' }}>
         <BtnExplain>눌러서 코스 삭제</BtnExplain>
