@@ -121,8 +121,8 @@ function CourseViewMap({ curationSeq, courseInfo }) {
           phone: clickedMarkerInfo.storeInfoDto.phone,
           storeName: clickedMarkerInfo.storeInfoDto.storeName,
           placeUrl: clickedMarkerInfo.place_url,
-          lat: clickedMarkerInfo.storeInfoDto.x,
-          lng: clickedMarkerInfo.storeInfoDto.y,
+          x: clickedMarkerInfo.storeInfoDto.x,
+          y: clickedMarkerInfo.storeInfoDto.y,
         };
         dispatch(clickStoreLike(data));
       }

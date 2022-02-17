@@ -198,6 +198,7 @@ export const initialState = {
   clickStoreLikeCheckDone: false,
   clickStoreLikeCheckError: null,
   likeStoreClicked: false,
+  totalPages: 0,
 };
 const course = createSlice({
   name: 'courseView',
@@ -317,9 +318,12 @@ const course = createSlice({
     },
     [getCommentList.fulfilled]: (state, action) => {
       state.getCommentLoading = false;
-      for (let i = 0; i < action.payload.data.content.length; i += 1) {
-        state.getComment.push(action.payload.data.content[i]);
-      }
+      console.log(action.payload.data.content);
+      // for (let i = 0; i < action.payload.data.content.length; i += 1) {
+      //   state.getComment.push(action.payload.data.content[i]);
+      // }
+      state.getComment = action.payload.data.content;
+      state.totalPages = action.payload.data.totalPages;
       state.getCommentDone = true;
     },
     [getCommentList.rejected]: (state, action) => {

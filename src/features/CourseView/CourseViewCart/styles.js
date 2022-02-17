@@ -105,7 +105,8 @@ export const LikeBtn = styled.button`
 
 export const CommentArea = styled.div`
   margin: 0 1.5rem;
-  overflow: auto;
+  height: 300px;
+  display: 'flex',
   ${({ hasPics }) => {
     return hasPics ? `{ height: 190px; }` : `{ height: 310px; }`;
   }}
