@@ -18,14 +18,14 @@ import {
 } from './styles';
 
 // component
-import CurationCard from '../../Card/CurationCard';
+// import CurationCard from '../../Card/CurationCard';
 import CurationCardLikePlace from '../../Card/CurationCardLikePlace';
 
 // actions
 import {
-  loadPostsInfinityLikeNadle,
+  // loadPostsInfinityLikeNadle,
   loadPostsInfinityLikePlace,
-  loadPostsInfinityMyNadle,
+  // loadPostsInfinityMyNadle,
   setLikePlaceBasket,
 } from '../../MyPageSlice';
 
@@ -39,9 +39,7 @@ function a11yProps(index) {
 }
 
 function BasicTabs() {
-  const { LikeNadles, MyNadles, LikePlaces, myCourse } = useSelector(
-    (state) => state.mypage
-  );
+  const { LikePlaces, myCourse } = useSelector((state) => state.mypage);
 
   const params = useParams();
   console.log(params.id);
@@ -56,6 +54,7 @@ function BasicTabs() {
   const onClickSendCourse = () => {
     const data = {
       storeSeqList: myCourse,
+      userSeq: params.id,
     };
     dispatch(setLikePlaceBasket(data))
       .unwrap()
@@ -68,79 +67,81 @@ function BasicTabs() {
       });
   };
 
-  const [myNadlepage, setMyNadlepage] = useState(0);
-  const [likeNadlepage, setLikeNadlepage] = useState(0);
+  // const [myNadlepage, setMyNadlepage] = useState(0);
+  // const [likeNadlepage, setLikeNadlepage] = useState(0);
   const [likePlacepage, setLikePlacepage] = useState(0);
 
   // 내 나들
-  useEffect(() => {
-    const data = {
-      myNadlepage,
-      size: 10,
-      myPageId,
-    };
-    dispatch(loadPostsInfinityMyNadle(data))
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  }, [myNadlepage]);
+  // useEffect(() => {
+  //   const data = {
+  //     myNadlepage,
+  //     size: 10,
+  //     myPageId,
+  //   };
+  //   dispatch(loadPostsInfinityMyNadle(data))
+  //     .unwrap()
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response.data);
+  //     });
+  // }, [myNadlepage]);
 
-  function onScrollMyNadle() {
-    // window.scrollY : 얼마나 내렸는지
-    // document.documentElement.clientHeight : 화면에 보이는 길이
-    // document.documentElement.scrollHeight : 총길이
-    if (
-      window.scrollY + document.documentElement.clientHeight >
-      document.documentElement.scrollHeight - 950
-    ) {
-      setMyNadlepage(myNadlepage + 1);
-    }
-  }
+  // function onScrollMyNadle() {
+  //   // window.scrollY : 얼마나 내렸는지
+  //   // document.documentElement.clientHeight : 화면에 보이는 길이
+  //   // document.documentElement.scrollHeight : 총길이
+  //   if (
+  //     window.scrollY + document.documentElement.clientHeight >
+  //     document.documentElement.scrollHeight - 950
+  //   ) {
+  //     setMyNadlepage(myNadlepage + 1);
+  //   }
+  // }
 
-  useEffect(() => {
-    window.addEventListener('scroll', onScrollMyNadle);
-    return () => {
-      window.removeEventListener('scroll', onScrollMyNadle);
-    };
-  }, [onScrollMyNadle]);
+  // useEffect(() => {
+  //   window.addEventListener('scroll', onScrollMyNadle);
+  //   return () => {
+  //     window.removeEventListener('scroll', onScrollMyNadle);
+  //   };
+  // }, [onScrollMyNadle]);
 
-  // 찜한 나들 코스
+  // // 찜한 나들 코스
 
-  useEffect(() => {
-    const data = {
-      likeNadlepage,
-      size: 10,
-      myPageId,
-    };
-    dispatch(loadPostsInfinityLikeNadle(data))
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  }, [likeNadlepage]);
+  // useEffect(() => {
+  //   const data = {
+  //     likeNadlepage,
+  //     size: 10,
+  //     myPageId,
+  //   };
+  //   dispatch(loadPostsInfinityLikeNadle(data))
+  //     .unwrap()
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response.data);
+  //     });
+  // }, [likeNadlepage]);
 
-  function onScrollLikeNadle() {
-    if (
-      window.scrollY + document.documentElement.clientHeight >
-      document.documentElement.scrollHeight - 950
-    ) {
-      setLikeNadlepage(likeNadlepage + 1);
-    }
-  }
+  // function onScrollLikeNadle() {
+  //   if (
+  //     window.scrollY + document.documentElement.clientHeight >
+  //     document.documentElement.scrollHeight - 950
+  //   ) {
+  //     console.log('페이지 체크 : ');
+  //     console.log(likeNadlepage);
+  //     setLikeNadlepage(likeNadlepage + 1);
+  //   }
+  // }
 
-  useEffect(() => {
-    window.addEventListener('scroll', onScrollLikeNadle);
-    return () => {
-      window.removeEventListener('scroll', onScrollLikeNadle);
-    };
-  }, [onScrollLikeNadle]);
+  // useEffect(() => {
+  //   window.addEventListener('scroll', onScrollLikeNadle);
+  //   return () => {
+  //     window.removeEventListener('scroll', onScrollLikeNadle);
+  //   };
+  // }, [onScrollLikeNadle]);
 
   // 찜한 장소
 
@@ -150,7 +151,7 @@ function BasicTabs() {
       size: 10,
       myPageId,
     };
-    dispatch(loadPostsInfinityLikePlace(data))
+    return dispatch(loadPostsInfinityLikePlace(data))
       .unwrap()
       .then((response) => {
         console.log(response);
@@ -163,8 +164,10 @@ function BasicTabs() {
   function onScrollLikePlace() {
     if (
       window.scrollY + document.documentElement.clientHeight >
-      document.documentElement.scrollHeight - 950
+      document.documentElement.scrollHeight - 300
     ) {
+      console.log('페이지 체크 : ');
+      console.log(likePlacepage);
       setLikePlacepage(likePlacepage + 1);
     }
   }
@@ -190,7 +193,7 @@ function BasicTabs() {
         <Underline />
       </Box>
       <GreyBox value={value} />
-      <TabPanel value={value} index={0}>
+      {/* <TabPanel value={value} index={0}>
         <ContentArea>
           {MyNadles.map((v) => (
             // eslint-disable-next-line react/no-array-index-key
@@ -199,6 +202,7 @@ function BasicTabs() {
               thumbnail={v.thumbnail}
               title={v.title}
               good={v.good}
+              curationSeq={v.curationSeq}
             />
           ))}
         </ContentArea>
@@ -212,10 +216,11 @@ function BasicTabs() {
               title={v.title}
               thumbnail={v.thumbnail}
               good={v.good}
+              curationSeq={v.curationSeq}
             />
           ))}
         </ContentArea>
-      </TabPanel>
+      </TabPanel> */}
       <TabPanel value={value} index={2}>
         <div style={{ display: 'flex', justifyContent: 'end' }}>
           <GreenBtn disabled={myCourse.length < 1} onClick={onClickSendCourse}>

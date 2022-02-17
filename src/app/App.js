@@ -66,7 +66,7 @@ function App() {
           <Route path="/mypage/:id/follower" element={<FollowersList />} />
           <Route path="/mypage/:id/followee" element={<FollowingsList />} />
           <Route path="/Course" element={<Course />} />
-          <Route path="/CourseCreationForm" element={<CourseCreationForm />}/>
+          <Route path="/CourseCreationForm" element={<CourseCreationForm />} />
           <Route path="/StoreView" element={<StoreView />} />
           <Route path="*" element={<Error404 />} />
         </Routes>

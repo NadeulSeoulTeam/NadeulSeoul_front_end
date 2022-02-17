@@ -1,29 +1,16 @@
-import React, { useEffect } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { Link } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // custom style
 import { Wrapper, UserEmoji, UserName } from './styles';
 
-// action
-// import { select } from './MainSlice';
-
 function UserListItem({ user }) {
-  // const dispatch = useDispatch();
-
-  // const selectUser = (selectedUser) => {
-  //   dispatch(select(selectedUser));
-  // };
-
-  useEffect(() => {
-    console.log(user, 'user');
-  }, []);
-
+  const navigate = useNavigate();
+  const onClickGoToMyPage = () => {
+    navigate(`/mypage/${user.userSeq}`);
+  };
   return (
-    <Wrapper
-      elevation={0}
-      // onClick={() => selectCourse(curation)}
-    >
+    <Wrapper elevation={0} onClick={onClickGoToMyPage}>
       <UserEmoji>{user.emoji}</UserEmoji>
       <UserName>{user.nickname}</UserName>
     </Wrapper>

@@ -19,8 +19,9 @@ import {
   InputLabelGreen,
   TextInput,
   GreenBtn,
-  VerticalDiv,
+  ArticleDiv,
   EmojiPicker,
+  MiniBtn,
 } from './styles';
 
 function EditUserInfo() {
@@ -169,39 +170,32 @@ function EditUserInfo() {
     <Container>
       <MainTitle>나들서울</MainTitle>
       <SubTitle>회원정보 수정</SubTitle>
-      <VerticalDiv>
+      <ArticleDiv>
         <div style={{ margin: '10px 0' }}>
           <InputLabelGreen>*</InputLabelGreen>
           <InputLabel>닉네임</InputLabel>
         </div>
-        <div
-          style={{
-            margin: !(nicknameErr.validationStatus === 'SUCCESS')
-              ? '35px 0 10px 0'
-              : '10px 0',
-          }}
-        >
+        <span style={{ position: 'relative' }}>
+          <TextInput
+            variant="outlined"
+            value={nickname}
+            onChange={onNicknameChange}
+            error={!(nicknameErr.validationStatus === 'SUCCESS')}
+            helperText={
+              !(nicknameErr.validationStatus === 'SUCCESS')
+                ? nicknameErr.errorMsg
+                : ''
+            }
+            placeholder="닉네임을 입력해주세요."
+          />
+          <MiniBtn onClick={onClickNickNameCheck}>중복 검사</MiniBtn>
+        </span>
+      </ArticleDiv>
+      <ArticleDiv>
+        <div style={{ margin: '10px 0' }}>
           <InputLabelGreen>*</InputLabelGreen>
           <InputLabel>이모지</InputLabel>
         </div>
-      </VerticalDiv>
-      <VerticalDiv>
-        <TextInput
-          variant="outlined"
-          value={nickname}
-          // onChange={(e) => {
-          //   onNicknameChange(e, validateNickname(e));
-          // }}
-          onChange={onNicknameChange}
-          error={!(nicknameErr.validationStatus === 'SUCCESS')}
-          helperText={
-            !(nicknameErr.validationStatus === 'SUCCESS')
-              ? nicknameErr.errorMsg
-              : ''
-          }
-          placeholder="닉네임을 입력해주세요."
-        />
-        <GreenBtn onClick={onClickNickNameCheck}>닉네임 중복검사</GreenBtn>
         <TextInput
           variant="outlined"
           disabled
@@ -212,7 +206,7 @@ function EditUserInfo() {
           }
           placeholder="아래에서 이모지를 골라주세요."
         />
-      </VerticalDiv>
+      </ArticleDiv>
       <div>
         <EmojiPicker
           onSelect={(e) => {

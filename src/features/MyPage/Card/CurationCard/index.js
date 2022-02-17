@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 // style
 import {
@@ -12,10 +12,16 @@ import {
 
 // assets
 
-function CurationCard({ thumbnail, title, good }) {
+function CurationCard({ thumbnail, title, good, curationSeq }) {
+  const navigate = useNavigate();
+
+  const onClickGotoMyCuration = () => {
+    console.log(curationSeq);
+    navigate(`/courseview/${curationSeq}`);
+  };
   return (
     // 여기서 상세 curation으로 onClick 매서드 사용해소 navigate로 이동
-    <Wrapper elevation={0}>
+    <Wrapper elevation={0} onClick={onClickGotoMyCuration}>
       {/* <Wrapper elevation={0} onClick={() => selectCourse(curation)}> */}
       <ImageDiv>
         <CurationImage src={thumbnail} alt="default image" />

@@ -73,8 +73,8 @@ function MainPage() {
   }
 
   useEffect(() => {
-    setLocalClicked(Array(localTag.length).fill(false));
-    setThemeClicked(Array(themeTag.length).fill(false));
+    setLocalClicked(Array(localTag?.length).fill(false));
+    setThemeClicked(Array(themeTag?.length).fill(false));
   }, []);
 
   useEffect(() => {
@@ -134,17 +134,6 @@ function MainPage() {
     if (themeClicked[codeSeq - 26]) setClicked(clicked + 1);
     else setClicked(clicked - 1);
   };
-
-  useEffect(() => {
-    // dispatch(LoadUserInfo())
-    //   .unwrap()
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-  });
 
   useEffect(() => {
     dispatch(fetchLocalTags());

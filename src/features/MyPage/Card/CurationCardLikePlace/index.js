@@ -27,7 +27,6 @@ function CurationCardLikePlace({
   const dispatch = useDispatch();
   const { myCourse } = useSelector((state) => state.mypage);
 
-  console.log(myCourse);
   // 정리 4 onClick 이벤트 분기 , 알고리즘
   const onClickCourseMakeUnderSix = () => {
     setIsClicked((prev) => !prev);
