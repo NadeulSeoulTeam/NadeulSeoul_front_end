@@ -104,6 +104,9 @@ export const CommentArea = styled.div`
   height: 190px;
   margin: 0 1.5rem;
   overflow: auto;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const CommentCreationArea = styled.div`

@@ -38,6 +38,7 @@ import {
   clickLikeCancel,
   getCommentList,
   isLike,
+  setCommentStartEmpty,
 } from '../CourseViewSlice';
 import CourseViewComment from './CourseViewComment';
 import CourseStoreLoad from '../CourseStoreLoad';
@@ -59,7 +60,9 @@ function CourseViewCart({ curationSeq, courseInfo }) {
 
   // infinite scroll
   const [ref, inView] = useInView();
-
+  useEffect(() => {
+    dispatch(setCommentStartEmpty());
+  }, []);
   // 댓글 작성 리랜더링
   useEffect(() => {
     setLoading(true);

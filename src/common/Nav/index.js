@@ -70,6 +70,10 @@ function Nav() {
     onHolderClick();
   };
 
+  const naviCourseMake = () => {
+    navigate(`/course`);
+  };
+
   const openedBar = (
     <div>
       <Slide direction="right" in={isOpen} mountOnEnter unmountOnExit>
@@ -128,7 +132,7 @@ function Nav() {
               <GreenText style={{ top: '9.6rem' }} onClick={onClickBoard}>
                 문의게시판
               </GreenText>
-              <GreenBtn>나만의 코스 만들기</GreenBtn>
+              <GreenBtn onClick={naviCourseMake}>나만의 코스 만들기</GreenBtn>
             </div>
           ) : (
             <div>
