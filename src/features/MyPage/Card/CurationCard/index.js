@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import defaultPic from '../../../../img/default_pic.png';
 // style
 import {
   Wrapper,
@@ -23,10 +23,15 @@ function CurationCard({ thumnail, title, good, curationSeq }) {
     <Wrapper elevation={0} onClick={onClickGotoMyCuration}>
       {/* <Wrapper elevation={0} onClick={() => selectCourse(curation)}> */}
       <ImageDiv>
-        <CurationImage
-          src={`http://13.124.34.5/api/v1/image/${thumnail}`}
-          alt="default image"
-        />
+        {thumnail !== undefined && thumnail !== 0 && thumnail !== null ? (
+          <CurationImage
+            src={`http://13.124.34.5/api/v1/image/${thumnail}`}
+            alt="default image"
+          />
+        ) : (
+          <CurationImage src={defaultPic} alt="default image" />
+        )}
+
         <LikeChip>👍 {good}</LikeChip>
       </ImageDiv>
       <CurationTitle>{title}</CurationTitle>
