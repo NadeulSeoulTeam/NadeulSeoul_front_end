@@ -347,6 +347,7 @@ export const initialState = {
   hasMoreLikePlace: true,
   FollowInfo: FollowList, // 팔로잉, 팔로워 정보 test
   followeeUsers: null,
+  anotherFolloweeUsers: null, // 다른 유저의 팔로잉 정보
   followerUsers: null,
   mainPosts: [], // 문의게시판 목록
   singlePost: null, // 문의 게시판 상세 정보
