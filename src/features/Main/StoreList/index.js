@@ -56,7 +56,7 @@ function StoreList() {
     }
   };
 
-  const onThrottleDragMove = throttle(onDragMove, 30);
+  const onThrottleDragMove = throttle(onDragMove, 100);
 
   const mapToComponent = (data) => {
     if (hotStore === undefined) return <div />;

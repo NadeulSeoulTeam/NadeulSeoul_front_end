@@ -1,3 +1,5 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useState } from 'react';
@@ -46,6 +48,7 @@ import {
 } from '../CourseViewSlice';
 import CourseViewComment from './CourseViewComment';
 import CourseStoreLoad from '../CourseStoreLoad';
+import defaultPic from '../../../img/default_pic.png';
 
 function CourseViewCart({ curationSeq, courseInfo }) {
   const navigate = useNavigate();
@@ -242,7 +245,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
         </Picture>
       ) : (
         <Picture>
-          <Thumbnail src="/default_pic.png" />
+          <Thumbnail src={defaultPic} />
           <CourseStoreLoad pictureList={courseInfo.fileList} />
         </Picture>
       )}

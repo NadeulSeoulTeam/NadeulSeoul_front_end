@@ -3,11 +3,11 @@
 /* eslint-disable import/no-named-as-default */
 import React, { useEffect, useState } from 'react';
 // import { StylesProvider } from '@material-ui/core/styles';
-
 import { useDispatch, useSelector } from 'react-redux';
 
 // components
 import { useNavigate } from 'react-router';
+import defaultPic from '../../../img/default_pic.png';
 import StoreList from '../StoreList';
 import TagList from '../TagList';
 import UserList from '../UserList';
@@ -121,10 +121,17 @@ function MainPage() {
     return content.map((curation) => (
       <Wrapper elevation={0} onClick={() => selectCourse(curation)}>
         <ImageDiv>
-          <CurationImage
-            alt="profile_img"
-            src={`http://13.124.34.5/api/v1/image/${curation.thumnail}`}
-          />
+          {curation.thumnail !== null &&
+          curation.thumnail !== undefined &&
+          curation.thumnail !== 0 ? (
+            <CurationImage
+              alt="profile_img"
+              src={`http://13.124.34.5/api/v1/image/${curation.thumnail}`}
+            />
+          ) : (
+            <CurationImage alt="profile_img" src={defaultPic} />
+          )}
+
           <LikeChip>👍{curation.good}</LikeChip>
         </ImageDiv>
         <CurationTitle>{curation.title}</CurationTitle>
