@@ -42,21 +42,19 @@ function App() {
         <GlobalFonts />
         <Routes>
           {/* private */}
-          <Route Route path="/questions" element={<BoardList />} />
-          <Route path="/questions/:QuestionId" element={<BoardListItem />} />
-          <Route path="/questions/new" element={<BoardForm />} />
           <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
-            <Route
-              path="/CourseCreationForm"
-              element={<CourseCreationForm />}
-            />
+            <Route path="/CourseCreationForm" element={<CourseCreationForm />}/>
+            <Route Route path="/questions" element={<BoardList />} />
+            <Route path="/questions/new" element={<BoardForm />} />
+            <Route path="/questions/:QuestionId" element={<BoardListItem />} />
+            <Route path="/member/edit" element={<EditUserInfo />} />
           </Route>
 
-          <Route path="/member/edit" element={<EditUserInfo />} />
           {/* Only public Not Authenticated */}
-          <Route path="/member/signup" element={<UserForm />} />
-          <Route path="/member/signin" element={<SignIn />} />
-          <Route element={<PublicRoute isAuthenticated={isLoggedIn} />} />
+          <Route element={<PublicRoute isAuthenticated={isLoggedIn} />} >
+            <Route path="/member/signin" element={<SignIn />} />
+            <Route path="/member/signup" element={<UserForm />} />
+          </Route>
 
           {/* Public & private */}
           <Route path="/courseview/:curationNo" element={<CourseView />} />

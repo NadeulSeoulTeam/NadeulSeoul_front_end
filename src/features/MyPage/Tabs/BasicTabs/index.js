@@ -209,30 +209,34 @@ function BasicTabs() {
       <GreyBox value={value} />
       <TabPanel value={value} index={0}>
         <ContentArea>
-          {MyNadles?.map((v) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <CurationCard
-              key={v.curationSeq + 957}
-              thumnail={v.thumnail}
-              title={v.title}
-              good={v.good}
-              curationSeq={v.curationSeq}
-            />
-          ))}
+          {MyNadles?.length
+            ? MyNadles?.map((v) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <CurationCard
+                  key={v.curationSeq + 957}
+                  thumnail={v.thumnail}
+                  title={v.title}
+                  good={v.good}
+                  curationSeq={v.curationSeq}
+                />
+              ))
+            : '내 나들코스가 없습니다.'}
         </ContentArea>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <ContentArea>
-          {LikeNadles?.map((v) => (
-            <CurationCard
-              // eslint-disable-next-line react/no-array-index-key
-              key={v.curationSeq + 257}
-              title={v.title}
-              thumnail={v.thumnail}
-              good={v.good}
-              curationSeq={v.curationSeq}
-            />
-          ))}
+          {LikeNadles?.length
+            ? LikeNadles?.map((v) => (
+                <CurationCard
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={v.curationSeq + 257}
+                  title={v.title}
+                  thumnail={v.thumnail}
+                  good={v.good}
+                  curationSeq={v.curationSeq}
+                />
+              ))
+            : '찜한 나들코스가 없습니다.'}
         </ContentArea>
       </TabPanel>
       <TabPanel value={value} index={2}>
@@ -242,15 +246,17 @@ function BasicTabs() {
           </GreenBtn>
         </div>
         <ContentArea>
-          {LikePlaces?.map((v) => (
-            <CurationCardLikePlace
-              key={v.storeSeq + 641}
-              storeSeq={v.storeSeq}
-              storeName={v.storeName}
-              addressName={v.addressName}
-              categoryName={v.categoryName}
-            />
-          ))}
+          {LikePlaces?.length
+            ? LikePlaces?.map((v) => (
+                <CurationCardLikePlace
+                  key={v.storeSeq + 641}
+                  storeSeq={v.storeSeq}
+                  storeName={v.storeName}
+                  addressName={v.addressName}
+                  categoryName={v.categoryName}
+                />
+              ))
+            : '찜한 장소가 없습니다.'}
         </ContentArea>
       </TabPanel>
     </Box>
