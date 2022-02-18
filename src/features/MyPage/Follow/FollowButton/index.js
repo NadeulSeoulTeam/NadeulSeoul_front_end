@@ -19,6 +19,7 @@ function FollowButton({ userId }) {
   // 팔로잉 목록 출력, 현재 meanstrike계정에 로그인 했다고 가정
   console.log(userId);
 
+  console.log(followeeUsers);
   const myId = getUserInfo().userSeq; // 1번 사용자가 로그인했다고 가정
   const isFollowing = followeeUsers?.find((v) => v.followeeSeq === userId);
   const params = useParams();
