@@ -1,5 +1,6 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
@@ -8,21 +9,43 @@ import PropTypes from 'prop-types';
 import FollowBtn from './styles';
 
 // actions
-import { follow, loadUser, unfollow, loadFollowings } from '../../MyPageSlice';
+import {
+  follow,
+  loadUser,
+  unfollow,
+  loadFollowings,
+  anotherLoadFollowings,
+} from '../../MyPageSlice';
 
 // cookie
 import { getUserInfo } from '../../../../common/api/JWT-Token';
 
 function FollowButton({ userId }) {
   const dispatch = useDispatch();
-  const { followeeUsers } = useSelector((state) => state.mypage);
-  // 팔로잉 목록 출력, 현재 meanstrike계정에 로그인 했다고 가정
+  const { followeeUsers, anotherFolloweeUsers } = useSelector(
+    (state) => state.mypage
+  );
   console.log(userId);
 
-  console.log(followeeUsers);
+  console.log(followeeUsers); // 내가 지금 접근한 사람의 팔로잉 리스트
+  console.log(anotherFolloweeUsers); // 현재 나의 팔로잉 리스트
   const myId = getUserInfo().userSeq; // 1번 사용자가 로그인했다고 가정
-  const isFollowing = followeeUsers?.find((v) => v.followeeSeq === userId);
   const params = useParams();
+
+  // 정리 리스트 안 객체 값 비교 , 현재 내가 접근한 사람과 나의 팔로잉 리스트 비교 => 둘이 중복으로 팔로잉 하는 사람 배열
+  // 이
+  const result = followeeUsers.filter(({ followeeSeq: id1 }) =>
+    anotherFolloweeUsers?.some(({ followeeSeq: id2 }) => id2 === id1)
+  );
+  const isFollowing = anotherFolloweeUsers?.find(
+    (v) => v.followeeSeq === userId
+  );
+  console.log(isFollowing);
+
+  console.log(result);
+  useEffect(() => {
+    dispatch(anotherLoadFollowings(getUserInfo().userSeq));
+  }, []);
   const onClickButton = useCallback(async () => {
     if (isFollowing) {
       dispatch(unfollow(userId))

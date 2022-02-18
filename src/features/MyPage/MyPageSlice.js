@@ -174,9 +174,22 @@ export const loadFollowers = createAsyncThunk(
   }
 );
 
-// 팔로잉 목록 조회
+// 내 팔로잉 목록 조회
 export const loadFollowings = createAsyncThunk(
   'mypage/loadFollowings',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`/mypage/${data}/followee`);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.resonse.data);
+    }
+  }
+);
+
+// 현재 접근한 페이지 유저 팔로잉 목록 조회
+export const anotherLoadFollowings = createAsyncThunk(
+  'mypage/anotherLoadFollowings',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(`/mypage/${data}/followee`);
@@ -376,6 +389,9 @@ export const initialState = {
   loadFollowingsLoading: false, // 팔로잉 목록 조회 시도
   loadFollowingsDone: false,
   loadFollowingsError: null,
+  loadAnotherFollowingsLoading: false, // 현재 접근한 팔로잉 유저 팔로잉 목록 조회 시도
+  loadAnotherFollowingsDone: false,
+  loadAnotherFollowingsError: null,
   loadFollowersLoading: false, // 팔로워 목록 조회 시도
   loadFollowersDone: false,
   loadFollowersError: null,
@@ -560,6 +576,21 @@ const MyPageSlice = createSlice({
     [loadFollowings.rejected]: (state, action) => {
       state.loadFollowingsLoading = true;
       state.loadFollowingsError = action.error.message;
+    },
+    // 현재 접근한 팔로잉 유저 정보 조회
+    [anotherLoadFollowings.pending]: (state) => {
+      state.loadAnotherFollowingsLoading = true;
+      state.loadAnotherFollowingsDone = false;
+      state.loadAnotherFollowingsError = null;
+    },
+    [anotherLoadFollowings.fulfilled]: (state, action) => {
+      state.loadAnotherFollowingsLoading = false;
+      state.anotherFolloweeUsers = action.payload.data;
+      state.loadAnotherFollowingsDone = true;
+    },
+    [anotherLoadFollowings.rejected]: (state, action) => {
+      state.loadAnotherFollowingsLoading = true;
+      state.loadAnotherFollowingsError = action.error.message;
     },
     // 팔로우 request
     [follow.pending]: (state) => {
