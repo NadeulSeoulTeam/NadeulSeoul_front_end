@@ -13,6 +13,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import ImageUploading from 'react-images-uploading';
 import { Axios } from 'axios';
+import { getUserInfo } from '../../../common/api/JWT-Token';
 
 import {
   getCourse,
@@ -313,7 +314,9 @@ function CourseCreactionForm() {
   // course 정보 backend 송신 함수
   const sendFinalCourseInfo = () => {
     // navigaion
-    dispatch(courseInfoPost(formDataSend)).then(() => navigate(`/`));
+    dispatch(courseInfoPost(formDataSend)).then(() =>
+      navigate(`/mypage/${getUserInfo().userSeq}`)
+    );
   };
 
   // input 값 저장하기

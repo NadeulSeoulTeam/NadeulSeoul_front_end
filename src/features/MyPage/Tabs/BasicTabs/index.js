@@ -43,8 +43,7 @@ function a11yProps(index) {
 
 function BasicTabs() {
   const { LikePlaces, myCourse, MyNadles, LikeNadles } = useSelector(
-    (state) => state.mypage,
-    shallowEqual
+    (state) => state.mypage
   );
   const params = useParams();
   const location = useLocation();
@@ -54,7 +53,7 @@ function BasicTabs() {
   // console.log(MyNadles);
   const myPageId = params.id;
   const dispatch = useDispatch();
-  const [value, setValue] = useState(2);
+  const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
