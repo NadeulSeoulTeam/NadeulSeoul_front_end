@@ -241,12 +241,12 @@ function CourseViewCart({ curationSeq, courseInfo }) {
           <Thumbnail
             src={`http://13.124.34.5/api/v1/image/${courseInfo.fileList[0]}`}
           />
-          <CourseStoreLoad pictureList={courseInfo.fileList} />
+          <CourseStoreLoad pictureList={courseInfo?.fileList} />
         </Picture>
       ) : (
         <Picture>
           <Thumbnail src={defaultPic} />
-          <CourseStoreLoad pictureList={courseInfo.fileList} />
+          <CourseStoreLoad pictureList={courseInfo?.fileList} />
         </Picture>
       )}
       {courseInfo !== null && courseInfo.description !== undefined ? (

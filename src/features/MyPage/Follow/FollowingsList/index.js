@@ -31,7 +31,7 @@ function FollowingsList() {
   // const MyId = getUserInfo().userSeq; // 1번 사용자가 로그인 했다고 가정 => 토큰으로 대체
 
   useEffect(() => {
-    dispatch(loadFollowings(params.id))
+    return dispatch(loadFollowings(params.id))
       .unwrap()
       .then((response) => {
         console.log(response);
@@ -39,7 +39,7 @@ function FollowingsList() {
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, []);
+  }, [params.id]);
 
   const onClickGotoMypage = useCallback(
     (id) => () => {
@@ -47,7 +47,7 @@ function FollowingsList() {
     },
     []
   );
-
+  console.log(followeeUsers);
   console.log(getUserInfo().userSeq);
   const isMe = followeeUsers?.find(
     (v) => v.followerSeq === getUserInfo().userSeq

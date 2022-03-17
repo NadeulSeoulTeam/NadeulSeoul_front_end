@@ -4,7 +4,6 @@ import Container from './styles';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  console.log(children);
   return (
     <Container
       role="tabpanel"
