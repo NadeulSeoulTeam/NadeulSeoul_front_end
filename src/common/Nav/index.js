@@ -44,6 +44,7 @@ function Nav() {
       .unwrap()
       .then(() => {
         // window.location.reload();
+        alert('로그아웃 되었습니다.');
         navigate('/');
       })
       .catch((error) => {
