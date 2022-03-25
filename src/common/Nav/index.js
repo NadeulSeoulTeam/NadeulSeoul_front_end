@@ -1,7 +1,7 @@
 // import React from 'react';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 // import MenuIcon from '@mui/icons-material/Menu';
 import Slide from '@mui/material/Slide';
@@ -45,14 +45,16 @@ function Nav() {
       .then(() => {
         // window.location.reload();
         alert('로그아웃 되었습니다.');
-        navigate('/');
+        // navigate('/');
+        Link('/');
       })
       .catch((error) => {
         console.log(error.response.data);
       });
     onHolderClick();
   };
-  const onLoinClick = () => {
+
+  const onLoginClick = () => {
     navigate('/member/signin');
     onHolderClick();
   };
@@ -147,7 +149,7 @@ function Nav() {
             </div>
           ) : (
             <div>
-              <GreenText style={{ top: '8.3rem' }} onClick={onLoinClick}>
+              <GreenText style={{ top: '8.3rem' }} onClick={onLoginClick}>
                 로그인 / 회원가입
               </GreenText>
               <GreenBtn disabled>나만의 코스 만들기</GreenBtn>
