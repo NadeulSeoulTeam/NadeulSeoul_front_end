@@ -15,6 +15,9 @@ export const initialState = {
   email: '',
   nickname: '',
   emoji: '',
+  googleLoginLoading: false, // 구글로그인 redirect 페이지 요청 시도
+  googleLoginDone: false,
+  googleLoginError: null,
   signupLoading: false, // 회원가입 요청 시도
   signupDone: false,
   signupError: null,
@@ -28,6 +31,21 @@ export const initialState = {
   editUserInfoDone: false,
   editUserInfoError: null,
 };
+
+// google login 정보 받기
+// export const googleLogin = createAsyncThunk(
+//   'member/googleLogin',
+//   async (data, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.get('auth/google-login');
+//       console.log(response);
+//       return response;
+//     } catch (error) {
+//       return rejectWithValue(error.response);
+//     }
+//   }
+// )
+
 
 // 회원가입
 
