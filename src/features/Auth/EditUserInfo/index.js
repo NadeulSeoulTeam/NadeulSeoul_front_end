@@ -153,7 +153,7 @@ function EditUserInfo() {
     nickname,
   };
 
-  // 정리3 usecallback과 onChange와의 관계
+  // 정리3 usecallback과 onChange와의 관계 => deps안적으면 안돼!
   const onClickNickNameCheck = useCallback(() => {
     dispatch(checkNickname(nickNamedata))
       .unwrap()

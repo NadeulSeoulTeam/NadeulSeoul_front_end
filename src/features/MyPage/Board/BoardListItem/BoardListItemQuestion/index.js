@@ -97,7 +97,6 @@ function BoardListItemQuestion({ questionTitle, question, PostId }) {
   useEffect(() => {
     setTitle(singlePost?.questionTitle);
     setContext(singlePost?.question);
-    console.log(title, context);
   }, []);
   return (
     <>

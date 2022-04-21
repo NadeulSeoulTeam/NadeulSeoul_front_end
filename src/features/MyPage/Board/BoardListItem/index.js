@@ -17,7 +17,8 @@ import { getUserInfo } from '../../../../common/api/JWT-Token';
 
 function BoardListItem() {
   const dispatch = useDispatch();
-  const { PostId, singlePost } = useSelector((state) => state.mypage);
+  const { PostId } = useSelector((state) => state.mypage);
+  const { singlePost } = useSelector((state) => state.mypage);
   const [loadingFinish, setLoadingFinish] = useState(false);
 
   // 정리해서 남겨두기 1 useNaviate와 localstorage를 활용해서 새로고침 이후에도 state값 유지시키기
@@ -28,16 +29,17 @@ function BoardListItem() {
   window.localStorage.setItem('data', savedPostid);
   const isAdmin = getUserInfo().role !== 'ROLE_MEMBER';
 
-  console.log(savedPostid);
+  // console.log(savedPostid);
   useEffect(() => {
     const saved = window.localStorage.getItem('data');
     if (saved !== null) {
       setId(saved);
     }
   }, [savedPostid]);
+
   // 정리해서 남겨두기 2
   // jsx가 리로딩 되기전에, 값을 최신화 업데이트 하고싶을떄,,  componentWillUnmount
-  // 게시글, 답변 로딩 -> update를 누른다 -> component did unmount 실행 -> update jsx 실행
+  // 게시글, 답변 로딩 -> update를 누른다 -> componentWillUnmountt 실행 -> update jsx 실행
   useEffect(() => {
     const data = {
       questionSeq: savedPostid,

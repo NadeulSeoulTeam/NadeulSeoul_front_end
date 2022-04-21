@@ -28,12 +28,12 @@ import BoardList from '../features/MyPage/Board/BoardList';
 import BoardListItem from '../features/MyPage/Board/BoardListItem';
 import BoardForm from '../features/MyPage/Board/BoardForm';
 import StoreView from '../features/StoreView';
+import EditUserInfo from '../features/Auth/EditUserInfo';
 
 // authenticated
 import isAuthenticated, { isLoggedIn } from '../common/api/isAuthenticated';
 import PrivateRoute from '../common/routes/PrivateRoute';
 import PublicRoute from '../common/routes/PublicRoute';
-import EditUserInfo from '../features/Auth/EditUserInfo';
 
 function App() {
   return (

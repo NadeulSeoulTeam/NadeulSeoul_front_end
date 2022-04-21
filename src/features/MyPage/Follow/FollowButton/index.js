@@ -31,7 +31,7 @@ function FollowButton({ userId }) {
   const params = useParams();
 
   // 정리 리스트 안 객체 값 비교 , 현재 내가 접근한 사람과 나의 팔로잉 리스트 비교 => 둘이 중복으로 팔로잉 하는 사람 배열
-  console.log(userId); // 현재 접근한 멤버 id
+  // console.log(userId); // 현재 접근한 멤버 id
   const result = followeeUsers?.filter(({ followeeSeq: id1 }) =>
     anotherFolloweeUsers?.some(({ followeeSeq: id2 }) => id2 === id1)
   );
