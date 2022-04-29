@@ -2,34 +2,11 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
 import React, { useEffect, useState } from 'react';
-// import { StylesProvider } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-
-// components
 import { useNavigate } from 'react-router';
-import defaultPic from '../../../img/default_pic.png';
-import StoreList from '../StoreList';
-import TagList from '../TagList';
-import UserList from '../UserList';
-import CurationList from '../CurationList';
-import SearchBar from '../../../common/SearchBar';
 
-// custom style
-import {
-  TopWrapper,
-  BottomWrapper,
-  MainTitle,
-  SubTitle,
-  TagOpener,
-  Wrapper,
-  ImageDiv,
-  CurationImage,
-  LikeChip,
-  CurationTitle,
-  CurationGrid,
-  NoResult,
-  SeparatorBtn,
-} from './styles';
+// VAC
+import MainPageView from './mainpage.view';
 
 // actions
 import {
@@ -44,20 +21,22 @@ import {
 import { getLoginSuccess } from '../../../common/api/JWT-Token';
 
 function MainPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [localClicked, setLocalClicked] = useState();
   const [themeClicked, setThemeClicked] = useState();
   const [clicked, setClicked] = useState(0);
   const [clicks, setClicks] = useState(true);
   const [likes, setLikes] = useState(false);
   const [news, setNews] = useState(false);
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
   const [tagsSelectedContent, setTagsSelectedContent] = useState();
-  // const { themeTag, localTag } = useSelector((state) => state.main);
+
   const { localTag, themeTag, localNThemeTagsSelected } = useSelector(
     (state) => state.main
   );
+
   const handleOpen = () => {
     setOpen(!open);
   };
@@ -109,35 +88,34 @@ function MainPage() {
 
   const selectCourse = (selectedCourse) => {
     dispatch(select(selectedCourse));
-
     navigate(`/courseview/${selectedCourse.curationSeq}`);
   };
 
   // 태그 조건부 랜더링
-  const tagSelectRender = (content) => {
-    console.log(content);
-    if (content === undefined || content.length === 0)
-      return <NoResult>🙄 선택하신 태그를 가진 코스가 없어요.</NoResult>;
-    return content.map((curation) => (
-      <Wrapper elevation={0} onClick={() => selectCourse(curation)}>
-        <ImageDiv>
-          {curation.thumnail !== null &&
-          curation.thumnail !== undefined &&
-          curation.thumnail !== 0 ? (
-            <CurationImage
-              alt="profile_img"
-              src={`http://13.124.34.5/api/v1/image/${curation.thumnail}`}
-            />
-          ) : (
-            <CurationImage alt="profile_img" src={defaultPic} />
-          )}
+  // const tagSelectRender = (content) => {
+  //   console.log(content);
+  //   if (content === undefined || content.length === 0)
+  //     return <NoResult>🙄 선택하신 태그를 가진 코스가 없어요.</NoResult>;
+  //   return content.map((curation) => (
+  //     <Wrapper elevation={0} onClick={() => selectCourse(curation)}>
+  //       <ImageDiv>
+  //         {curation.thumnail !== null &&
+  //         curation.thumnail !== undefined &&
+  //         curation.thumnail !== 0 ? (
+  //           <CurationImage
+  //             alt="profile_img"
+  //             src={`http://13.124.34.5/api/v1/image/${curation.thumnail}`}
+  //           />
+  //         ) : (
+  //           <CurationImage alt="profile_img" src={defaultPic} />
+  //         )}
 
-          <LikeChip>👍{curation.good}</LikeChip>
-        </ImageDiv>
-        <CurationTitle>{curation.title}</CurationTitle>
-      </Wrapper>
-    ));
-  };
+  //         <LikeChip>👍{curation.good}</LikeChip>
+  //       </ImageDiv>
+  //       <CurationTitle>{curation.title}</CurationTitle>
+  //     </Wrapper>
+  //   ));
+  // };
 
   useEffect(() => {
     if (localNThemeTagsSelected.content !== undefined) {
@@ -166,6 +144,8 @@ function MainPage() {
     dispatch(fetchThemeTags());
     // console.log(themeTag, localTag);
   }, []);
+
+  // 코스 나열 기준(조회순, 좋아요순, 최신순)
   const clicksClicked = () => {
     setClicks(true);
     setLikes(false);
@@ -181,50 +161,26 @@ function MainPage() {
     setLikes(false);
     setNews(true);
   };
-  return (
-    <div>
-      <TopWrapper>
-        <MainTitle>나들서울</MainTitle>
-        <SearchBar />
-        <TagOpener onClick={handleOpen}>눌러서 코스 검색하기▼</TagOpener>
-        {open ? (
-          <TagList
-            themeClicked={themeClicked}
-            localClicked={localClicked}
-            setLocalBoolean={setLocalBoolean}
-            setThemeBoolean={setThemeBoolean}
-          />
-        ) : null}
-      </TopWrapper>
-      {clicked === 0 ? (
-        <BottomWrapper>
-          <SubTitle>지금 HOT한 코스</SubTitle>
-          <CurationList />
-          <SubTitle>열정적인 나들러</SubTitle>
-          <UserList />
-          <SubTitle>나들러들이 많이 찜한 장소</SubTitle>
-          <StoreList />
-        </BottomWrapper>
-      ) : (
-        <div>
-          <div style={{ textAlign: 'end', margin: '1rem 5rem 2rem 0' }}>
-            <SeparatorBtn type="submit" active={clicks} onClick={clicksClicked}>
-              조회순
-            </SeparatorBtn>
-            <SeparatorBtn type="submit" active={likes} onClick={likesClicked}>
-              좋아요
-            </SeparatorBtn>
-            <SeparatorBtn type="submit" active={news} onClick={newClicked}>
-              최신순
-            </SeparatorBtn>
-          </div>
-          <CurationGrid>
-            <div>{tagSelectRender(tagsSelectedContent)}</div>
-          </CurationGrid>
-        </div>
-      )}
-    </div>
-  );
+
+  const props = {
+    localClicked,
+    themeClicked,
+    setLocalBoolean,
+    setThemeBoolean,
+    clicked,
+    clicks,
+    likes,
+    news,
+    open,
+    tagsSelectedContent,
+    selectCourse,
+    handleOpen,
+    clicksClicked,
+    likesClicked,
+    newClicked,
+  };
+
+  return <MainPageView {...props} />;
 }
 
 export default MainPage;
