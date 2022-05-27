@@ -15,6 +15,9 @@ export const initialState = {
   email: '',
   nickname: '',
   emoji: '',
+  accessCode: '',
+  clientId: '',
+  scope: '',
   googleLoginLoading: false, // 구글로그인 redirect 페이지 요청 시도
   googleLoginDone: false,
   googleLoginError: null,
@@ -33,27 +36,28 @@ export const initialState = {
 };
 
 // google login 정보 받기
-// export const googleLogin = createAsyncThunk(
-//   'member/googleLogin',
-//   async (data, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.get('auth/google-login');
-//       console.log(response);
-//       return response;
-//     } catch (error) {
-//       return rejectWithValue(error.response);
-//     }
-//   }
-// )
-
+export const googleLogin = createAsyncThunk(
+  'member/googleLogin',
+  async (data, { rejectWithValue }) => {
+    console.log('안됨');
+    try {
+      const response = await axios.get('auth/users/google');
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error.response);
+      return rejectWithValue(error.response);
+    }
+  }
+);
 
 // 회원가입
-
 export const signup = createAsyncThunk(
   'member/signup',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post('auth/users/signup', data);
+      console.log(response);
       return response;
     } catch (error) {
       console.log(error);
@@ -119,6 +123,23 @@ const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    [googleLogin.pending]: (state) => {
+      state.googleLoginLoading = true;
+      state.googleLoginDone = false;
+      state.googleLoginError = null;
+    },
+    [googleLogin.fulfilled]: (state, action) => {
+      state.googleLoginLoading = false;
+      state.googleLoginDone = true;
+      state.googleLoginError = null;
+      state.clientId = action.payload.clientId;
+      state.scope = action.payload.scope;
+    },
+    [googleLogin.pending]: (state, action) => {
+      state.googleLoginLoading = false;
+      state.googleLoginDone = false;
+      state.googleLoginError = action.error.message;
+    },
     [signup.pending]: (state) => {
       state.signupLoading = true;
       state.signupDone = false;
