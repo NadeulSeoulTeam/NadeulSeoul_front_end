@@ -41,7 +41,7 @@ export const googleLogin = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log('안됨');
     try {
-      const response = await axios.get('auth/users/google');
+      const response = await axios.get('users/google');
       console.log(response);
       return response;
     } catch (error) {
@@ -135,7 +135,7 @@ const authSlice = createSlice({
       state.clientId = action.payload.clientId;
       state.scope = action.payload.scope;
     },
-    [googleLogin.pending]: (state, action) => {
+    [googleLogin.rejected]: (state, action) => {
       state.googleLoginLoading = false;
       state.googleLoginDone = false;
       state.googleLoginError = action.error.message;
