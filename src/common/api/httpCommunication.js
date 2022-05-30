@@ -2,7 +2,7 @@ import baseAxios from 'axios';
 import { getToken } from './JWT-Token';
 
 const axios = baseAxios.create({
-  baseURL: 'http://nadeulseoul.ga/',
+  baseURL: 'http://nadeulseoul.ga/api/v1',
 });
 
 axios.interceptors.request.use((config) => {

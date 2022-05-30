@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // import Card from '@mui/material/Card';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { set } from 'lodash';
 import { getUserInfo } from '../../../common/api/JWT-Token';
 // css
 import {
@@ -34,6 +35,7 @@ import {
   LeftIcon,
   RightIcon,
   IconContainer,
+  DislikeBtn,
 } from './styles';
 
 // dummy data
@@ -60,7 +62,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
   const [likeClicked, setLikeClicked] = useState(false);
   const [page, setPage] = useState(0);
   const [comments, setComments] = useState([]);
-  const [infComment, setInfComment] = useState([]);
+  const [clickable, setClickable] = useState(false);
   const { getComment, isLiked, totalPages } = useSelector(
     (state) => state.courseView
   );
@@ -75,10 +77,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
   useEffect(() => {
     dispatch(setCommentStartEmpty());
   }, []);
-  useEffect(() => {
-    console.log(userSeqCookie, '보여줘!!!!');
-    console.log(courseInfo, 'ㅠㅠㅠㅠㅠ');
-  }, [userSeqCookie]);
+  useEffect(() => {}, [userSeqCookie]);
   // 댓글 작성 리랜더링
   useEffect(() => {
     dispatch(getCommentList({ curationSeq, pageNumber: page, pageSize: 6 }));
@@ -87,21 +86,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
   useEffect(() => {
     dispatch(isLike({ curationSeq }));
   }, [likeClicked]);
-  // 무한 스크롤 리랜더링
-  // useEffect(() => {
-  //   dispatch(getCommentList({ curationSeq, pageNumber: page, pageSize: 10 }));
-  // }, [page]);
-  // const getComments = useCallback(async () => {
-  //   setLoading(true);
-  //   await axios
-  //     .get(`/api/v1/curations/comments/${curationSeq}?page=${page}&size=${10}`)
-  //     .then((res) => {
-  //       setComments((prevState) => [...prevState, res]);
-  //     })
-  //     .then(() => console.log(comments));
 
-  //   setLoading(false);
-  // }, [page]);
   useEffect(() => {}, [getComment]);
 
   useEffect(() => {}, [comments]);
@@ -138,12 +123,10 @@ function CourseViewCart({ curationSeq, courseInfo }) {
   const putComment = () => {
     dispatch(sendComment({ content: userComment, curationSeq }))
       .then(() => {
-        console.log(commentWrote, '전');
         dispatch(getCommentList({ curationSeq, pageNumber: 0, pageSize: 10 }));
         setUserComment('');
       })
       .then(() => {
-        console.log(commentWrote, '후');
         setCommentWrote(!commentWrote);
       });
 
@@ -158,17 +141,19 @@ function CourseViewCart({ curationSeq, courseInfo }) {
 
   const userClickLike = () => {
     // 비동기 통신
+
+    setClickable(true);
     if (isLiked) {
-      // true->false
-      dispatch(clickLikeCancel({ curationSeq }));
+      dispatch(clickLikeCancel({ curationSeq })).then(() => {
+        setLikeClicked(!likeClicked);
+        setClickable(false);
+      });
     } else {
-      // false->true
-      // const formData = new FormData();
-      // formData.append('member_seq', user.member_seq);
-      // formData.append('curation_seq', course.curation_seq);
-      dispatch(clickLike({ curationSeq }));
+      dispatch(clickLike({ curationSeq })).then(() => {
+        setLikeClicked(!likeClicked);
+        setClickable(false);
+      });
     }
-    setLikeClicked(!likeClicked);
   };
   const userClickTrash = () => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
@@ -198,9 +183,19 @@ function CourseViewCart({ curationSeq, courseInfo }) {
     return (
       <div>
         <BtnExplain>눌러서 좋아요 표시하기</BtnExplain>
-        <LikeBtn active={!!isLiked} type="submit" onClick={userClickLike}>
-          👍
-        </LikeBtn>
+        {isLiked ? (
+          <LikeBtn disabled={clickable} type="submit" onClick={userClickLike}>
+            👍
+          </LikeBtn>
+        ) : (
+          <DislikeBtn
+            disabled={clickable}
+            type="submit"
+            onClick={userClickLike}
+          >
+            👍
+          </DislikeBtn>
+        )}
       </div>
     );
   };
@@ -208,12 +203,10 @@ function CourseViewCart({ curationSeq, courseInfo }) {
     navigate(`/mypage/${seq}`);
   };
   const setPageLeft = () => {
-    console.log('왼쪽');
     if (page === 0) return;
     setPage(page - 1);
   };
   const setPageRight = () => {
-    console.log('오른쪽');
     if (page === totalPages - 1) return;
     setPage(page + 1);
   };

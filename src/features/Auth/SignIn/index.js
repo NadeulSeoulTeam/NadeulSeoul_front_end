@@ -15,7 +15,7 @@ function SignIn() {
     <Container>
       <MainTitle>나들서울</MainTitle>
       {/* <GoogleButton href="#" onClick={popupOpen}> */}
-      <GoogleButton href="http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth/redirect">
+      <GoogleButton href="http://nadeulseoul.ga:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth/redirect">
         <GoogleIcon />
         <ButtonText>구글 계정으로 이용하기</ButtonText>
       </GoogleButton>

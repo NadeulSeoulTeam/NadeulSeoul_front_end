@@ -124,11 +124,19 @@ export const LikeBtn = styled.button`
   z-index: 3;
   text-align: center;
   cursor: pointer;
-  ${({ active }) => {
-    return active ? `opacity: 1` : `opacity: 0.2`;
-  }};
+  opacity: 1;
 `;
-
+export const DislikeBtn = styled.button`
+  right: 0.5rem;
+  font-size: 1.3rem;
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
+  z-index: 3;
+  text-align: center;
+  cursor: pointer;
+  opacity: 0.2;
+`;
 export const CommentArea = styled.div`
   margin: 0 1.5rem;
   display: 'flex',
