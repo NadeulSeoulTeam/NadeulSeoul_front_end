@@ -38,13 +38,12 @@ export const clickLikeCancel = createAsyncThunk(
 
 // 스크랩(좋아요) 확인
 export const clickLikeCheck = createAsyncThunk(
-  'StoreView/likeCancel',
+  'StoreView/likeCheck',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(
         `auth/stores/bookmarks/${data.storeSeq}`
       );
-      console.log(response.data);
       return response.data;
     } catch (err) {
       console.log(err.response);
@@ -92,23 +91,18 @@ export const initialState = {
 };
 
 const store = createSlice({
-  name: 'StoreReducer',
+  name: 'StoreView',
   initialState,
   reducers: {
     // add: (state, action) => {
     //   state.push({ text: action.payload, id: Date.now() });
     // },
     addCourse: (state, action) => {
-      console.log('addCourse');
-      console.log(action.payload);
       state.course.push(action.payload);
     },
     deleteCourse: (state, action) => {
-      console.log('deleteCourse');
-      console.log(action.payload, 'action');
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < state.course.length; i++) {
-        console.log(state.course[i].id, 'course');
         if (state.course[i].id === action.payload.id) {
           state.course.splice(i, 1);
           break;
@@ -116,16 +110,12 @@ const store = createSlice({
       }
     },
     updateCourse: (state, action) => {
-      console.log('updateCourse');
       state.course = action.payload;
     },
     keywordInput: (state, action) => {
-      console.log('keywordInput Start');
-      console.log(action.payload);
       state.searchKeyword = action.payload;
     },
     searchDataInputs: (state, action) => {
-      console.log('SearchDataInput Start');
       state.searchData.data = action.payload.data;
       state.searchData.status = action.payload.status;
       // state.searchData.pagination = action.payload.pagination;
@@ -143,17 +133,14 @@ const store = createSlice({
     moveToList: (state, action) => {
       state.Lat = action.payload.lat;
       state.Lng = action.payload.lng;
-      console.log(state.Lat, state.Lng, 'langlat set123123');
     },
     setClicked: (state, action) => {
       state.clicked = action.payload;
     },
     setStore: (state, action) => {
-      console.log(action.payload, 'asdasda');
       state.store = action.payload;
     },
     setClickedIndex: (state, action) => {
-      console.log(action.payload);
       state.clickedIndex = action.payload;
     },
   },
@@ -196,7 +183,6 @@ const store = createSlice({
     [clickLikeCheck.fulfilled]: (state, action) => {
       state.clickLikeCheckLoading = false;
       state.clickLikeCheckDone = true;
-      console.log(action.payload);
       if (action.payload.data === null) return;
       state.likeClicked = action.payload.data.isBookmark;
     },
