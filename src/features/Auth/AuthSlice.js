@@ -16,8 +16,6 @@ export const initialState = {
   nickname: '',
   emoji: '',
   accessCode: '',
-  clientId: '',
-  scope: '',
   googleLoginLoading: false, // 구글로그인 redirect 페이지 요청 시도
   googleLoginDone: false,
   googleLoginError: null,
@@ -39,9 +37,25 @@ export const initialState = {
 export const googleLogin = createAsyncThunk(
   'member/googleLogin',
   async (data, { rejectWithValue }) => {
-    console.log('안됨');
     try {
       const response = await axios.get('users/google');
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error.response);
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
+// AuthorizationCode 보내고 AccessToken 받기 (BE 수정중)
+export const sendAuthCode = createAsyncThunk(
+  'member/sendAuthCode',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`users/google/token`, {
+        code: data,
+      });
       console.log(response);
       return response;
     } catch (error) {
@@ -128,12 +142,10 @@ const authSlice = createSlice({
       state.googleLoginDone = false;
       state.googleLoginError = null;
     },
-    [googleLogin.fulfilled]: (state, action) => {
+    [googleLogin.fulfilled]: (state) => {
       state.googleLoginLoading = false;
       state.googleLoginDone = true;
       state.googleLoginError = null;
-      state.clientId = action.payload.clientId;
-      state.scope = action.payload.scope;
     },
     [googleLogin.rejected]: (state, action) => {
       state.googleLoginLoading = false;

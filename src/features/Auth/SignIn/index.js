@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { googleLogin } from '../AuthSlice';
 
 // custom style
@@ -14,18 +14,13 @@ import {
 
 function SignIn() {
   const dispatch = useDispatch();
-  const { clientId, scope } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    console.log(clientId);
-    console.log(scope);
-  }, [clientId, scope]);
 
   const googleLoginHandler = () => {
-    console.log('잘들어감');
-    dispatch(googleLogin());
-    // const GOOGLE_LOGIN_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=http://localhost:3000/oauth/redirect&response_type=code&scope=${scope}`;
-    // window.open(GOOGLE_LOGIN_URL);
+    dispatch(googleLogin()).then((response) => {
+      const { clientId, scope } = response.payload.data.data;
+      const GOOGLE_LOGIN_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=http://localhost:3000/oauth/redirect&response_type=code&scope=${scope}`;
+      window.open(GOOGLE_LOGIN_URL);
+    });
   };
 
   return (
