@@ -4,8 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getToken } from '../../common/api/JWT-Token';
 
 import axios from '../../common/api/httpCommunication';
-// import _concat from 'lodash/concat';
-// import _remove from 'lodash/remove';
+
 // 큐레이션 요청
 export const courseInfoPost = createAsyncThunk(
   '/CourseCreationForm',
