@@ -51,8 +51,6 @@ function FollowersList() {
   const isMe = followerUsers?.find(
     (v) => v.followeeSeq === getUserInfo().userSeq
   );
-  console.log(isMe);
-  console.log(followerUsers);
 
   // 요청을 한번만 보낼수가 없다! 유저벌 팔로잉 팔로워 리스트도 가져와야하기 떄문에!
   // 내 팔로잉 팔로우 리스트를 가져올때는 한번의 요청으로도 가능하지만,
