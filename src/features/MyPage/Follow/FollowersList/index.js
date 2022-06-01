@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +29,9 @@ function FollowersList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
+  const [isMe, setIsme] = useState(
+    followerUsers?.find((v) => v.followeeSeq === getUserInfo().userSeq)
+  );
 
   useEffect(() => {
     dispatch(loadFollowers(params.id))
@@ -48,9 +52,6 @@ function FollowersList() {
   );
 
   console.log(getUserInfo().userSeq);
-  const isMe = followerUsers?.find(
-    (v) => v.followeeSeq === getUserInfo().userSeq
-  );
 
   // 요청을 한번만 보낼수가 없다! 유저벌 팔로잉 팔로워 리스트도 가져와야하기 떄문에!
   // 내 팔로잉 팔로우 리스트를 가져올때는 한번의 요청으로도 가능하지만,
