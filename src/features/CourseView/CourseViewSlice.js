@@ -362,6 +362,7 @@ const course = createSlice({
       state.clickLikeCancelLoading = false;
       state.clickLikeCancelError = action.error.message;
     },
+    // 초기 확인
     [clickStoreLikeCheck.pending]: (state) => {
       state.clickStoreLikeCheckLoading = true;
       state.clickStoreLikeCheckDone = false;
@@ -377,6 +378,40 @@ const course = createSlice({
     [clickStoreLikeCheck.rejected]: (state, action) => {
       state.clickStoreLikeCheckLoading = false;
       state.clickStoreLikeCheckError = action.error.message;
+    },
+    // like click
+    [clickStoreLike.pending]: (state) => {
+      state.clickStoreLikeLoading = true;
+      state.clickStoreLikeDone = false;
+      state.clickStoreLikeError = null;
+    },
+    [clickStoreLike.fulfilled]: (state, action) => {
+      state.clickStoreLikeLoading = false;
+      state.clickStoreLikeDone = true;
+      console.log(action.payload);
+      if (action.payload.status !== 'OK') return;
+      state.likeStoreClicked = true;
+    },
+    [clickStoreLike.rejected]: (state, action) => {
+      state.clickStoreLikeLoading = false;
+      state.clickStoreLikeError = action.error.message;
+    },
+    // click like cancel
+    [clickStoreLikeCancel.pending]: (state) => {
+      state.clickStoreLikeCancelLoading = true;
+      state.clickStoreLikeCancelDone = false;
+      state.clickStoreLikeCancelError = null;
+    },
+    [clickStoreLikeCancel.fulfilled]: (state, action) => {
+      state.clickStoreLikeCancelLoading = false;
+      state.clickStoreLikeCancelDone = true;
+      console.log(action.payload);
+      if (action.payload.status !== 'OK') return;
+      state.likeStoreClicked = false;
+    },
+    [clickStoreLikeCancel.rejected]: (state, action) => {
+      state.clickStoreLikeCancelLoading = false;
+      state.clickStoreLikeCancelError = action.error.message;
     },
   },
 });
