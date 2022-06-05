@@ -91,9 +91,6 @@ function CourseViewMap({ curationSeq, courseInfo }) {
     console.log(likeStoreClicked);
   }, [clickedMarkerInfo, likeClicked]);
 
-  useEffect(() => {
-    console.log(likeStoreClicked);
-  }, [likeStoreClicked]);
   // 마커 클릭 이벤트
   const markerClickEventHandler = () => {
     let clickedIndex = null;
@@ -109,7 +106,6 @@ function CourseViewMap({ curationSeq, courseInfo }) {
     // 비동기 통신
     if (likeStoreClicked) {
       // true->false
-      console.log('?');
       dispatch(clickStoreLikeCancel(clickedMarkerInfo.storeInfoDto));
     } else {
       dispatch(
@@ -125,7 +121,6 @@ function CourseViewMap({ curationSeq, courseInfo }) {
         })
       );
     }
-    console.log('clicked');
     setLikeClicked(!likeClicked);
   };
   // 클릭시 랜더링 되는 정보
