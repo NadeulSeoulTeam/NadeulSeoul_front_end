@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 // material UI
 
@@ -6,11 +6,6 @@ import React, { useEffect } from 'react';
 import { StoreCard, StoreName, StoreDescription } from './styles';
 
 function StoreListItem({ addToCart, search, index, active }) {
-  useEffect(() => {
-    console.log('courselistitem start');
-    console.log(search);
-  }, []);
-
   return (
     <StoreCard active={active} onClick={() => addToCart(search, index)}>
       <StoreName active={active}>{search.place_name}</StoreName>

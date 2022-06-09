@@ -47,7 +47,6 @@ function StoreList() {
     dispatch(setClicked(true));
     dispatch(moveToList(latlng));
     dispatch(setStore(search));
-    console.log(index, clickedIndex);
   };
   const mapToComponent = (data) => {
     return data.map((search, index) => (
@@ -61,15 +60,12 @@ function StoreList() {
       </div>
     ));
   };
+
   useEffect(() => {
     setDataItem(mapToComponent(searchData));
-    console.log(searchData, 'searchData');
   }, []);
 
-  useEffect(() => {}, [searchData]);
-  useEffect(() => {
-    console.log(storeClicked);
-  }, [storeClicked]);
+  useEffect(() => {}, [searchData, storeClicked]);
 
   return (
     <div>

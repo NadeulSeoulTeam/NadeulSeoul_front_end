@@ -31,7 +31,6 @@ function StoreInfo() {
     storeData.hasOwnProperty('place_name') && (
       <StoreCard>
         <div id="roadview" style={{ width: '100%', height: '300px' }} />
-        {/* <CloseBtn onClick={() => } /> */}
         <CardHeader>{storeData.place_name}</CardHeader>
         <CardScript>{storeData.category_name}</CardScript>
         <CardScript>{storeData.address_name}</CardScript>

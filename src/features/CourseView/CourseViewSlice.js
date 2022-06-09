@@ -18,7 +18,7 @@ export const getCourseInfo = createAsyncThunk(
 );
 // 코스 삭제
 export const deleteCourseInfo = createAsyncThunk(
-  'CourseView/CourseInfo/delete',
+  'CourseView/deleteCourseInfo',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.delete(`auth/curations/${data.curationSeq}`);
@@ -104,7 +104,7 @@ export const clickLikeCancel = createAsyncThunk(
 
 // 스토어(좋아요) 누르기
 export const clickStoreLike = createAsyncThunk(
-  'CourseView/like',
+  'CourseView/clickStoreLike',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post(
@@ -122,7 +122,7 @@ export const clickStoreLike = createAsyncThunk(
 
 // 스토어(좋아요) 취소
 export const clickStoreLikeCancel = createAsyncThunk(
-  'CourseView/likeCancel',
+  'CourseView/clickStoreLikeCancel',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
@@ -138,7 +138,7 @@ export const clickStoreLikeCancel = createAsyncThunk(
 
 // 스토어(좋아요) 확인
 export const clickStoreLikeCheck = createAsyncThunk(
-  'CourseView/likeCancel',
+  'CourseView/clickStoreLikeCheck',
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get(
@@ -201,7 +201,7 @@ export const initialState = {
   totalPages: 0,
 };
 const course = createSlice({
-  name: 'courseView',
+  name: 'CourseView',
   initialState,
   reducers: {
     setCourse: (state, action) => {
