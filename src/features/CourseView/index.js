@@ -32,9 +32,16 @@ function CourseView() {
   }, [courseInfoError]);
   return (
     <div>
-      <CourseViewMap curationSeq={params.curationNo} courseInfo={courseInfo} />
+      {courseInfo !== null && (
+        <>
+          <CourseViewMap
+            curationSeq={params.curationNo}
+            courseInfo={courseInfo}
+          />
 
-      <CourseStoreLoad courseInfo={courseInfo} />
+          <CourseStoreLoad courseInfo={courseInfo} />
+        </>
+      )}
     </div>
   );
 }
