@@ -17,7 +17,7 @@ function UserList() {
     dispatch(fetchUsers());
   }, []);
   useEffect(() => {
-    console.log(users, 'users!!!!');
+    console.log(users, 'users 불러오기 완료');
   }, [users]);
   const throttle = (func, ms) => {
     let throttled = false;
@@ -62,14 +62,12 @@ function UserList() {
   };
 
   return (
-    // <Grid container>{mapToComponent(userList)}</Grid>;
     <StoreGrid
       ref={scrollRef}
       onMouseDown={onDragStart}
       onMouseMove={isDrag ? onThrottleDragMove : null}
       onMouseUp={onDragEnd}
     >
-      {/* {mapToComponent(userList)} */}
       {mapToComponent(users)}
     </StoreGrid>
   );
