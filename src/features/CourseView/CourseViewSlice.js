@@ -114,7 +114,6 @@ export const clickStoreLike = createAsyncThunk(
 
       return response.data;
     } catch (err) {
-      console.log(err);
       return rejectWithValue(err);
     }
   }
