@@ -213,7 +213,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
   return (
     <Container>
       <RightDiv>
-        {courseInfo !== null && courseInfo.userinfos !== undefined ? (
+        {courseInfo.userinfos !== undefined ? (
           <Nickname
             onClick={() => onNicknameClick(courseInfo.userinfos.userSeq)}
           >
@@ -227,9 +227,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
         <AfterNickname>의 나들코스</AfterNickname>
       </RightDiv>
       {/* 사진 없을 때에는 아예 이 부분 렌더링 안 되게 해야 함!!! */}
-      {courseInfo !== null &&
-      courseInfo.fileList !== undefined &&
-      courseInfo.fileList.length !== 0 ? (
+      {courseInfo.fileList !== undefined && courseInfo.fileList.length !== 0 ? (
         <Picture>
           <Thumbnail
             src={`http://13.124.34.5/api/v1/image/${courseInfo.fileList[0]}`}
@@ -253,7 +251,7 @@ function CourseViewCart({ curationSeq, courseInfo }) {
         <SubTitle>함께 한 인원</SubTitle>
       </div>
       <div style={{ display: 'inline-block' }}>
-        {courseInfo !== null && courseInfo.transportation !== undefined ? (
+        {courseInfo.transportation !== undefined ? (
           <Content>{courseInfo.transportation}</Content>
         ) : (
           // 폰트 작게 해야 할듯
