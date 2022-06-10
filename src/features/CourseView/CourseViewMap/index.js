@@ -76,7 +76,7 @@ function CourseViewMap({ curationSeq, courseInfo }) {
   const likeStoreClicked = useSelector(
     (state) => state.courseView.likeStoreClicked
   );
-  const [likeClicked, setLikeClicked] = useState(false);
+
   useEffect(() => {
     setTempLatLng([]);
   }, []);
@@ -89,7 +89,7 @@ function CourseViewMap({ curationSeq, courseInfo }) {
       );
     console.log(clickedMarkerInfo);
     console.log(likeStoreClicked);
-  }, [clickedMarkerInfo, likeClicked]);
+  }, [clickedMarkerInfo]);
 
   // 마커 클릭 이벤트
   const markerClickEventHandler = () => {
@@ -121,7 +121,6 @@ function CourseViewMap({ curationSeq, courseInfo }) {
         })
       );
     }
-    setLikeClicked(!likeClicked);
   };
   // 클릭시 랜더링 되는 정보
   const clickRender = (info) => {
