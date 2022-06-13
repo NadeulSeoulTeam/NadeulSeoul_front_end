@@ -8,8 +8,11 @@ export const TextToggleBtn = styled.button`
   margin: 0;
   border: none;
   background: transparent;
+  cursor: pointer;
   ${({ active }) => {
-    return active ? `{color: #0de073; font-weight: bold;}` : `color: #c4c4c4`;
+    return active
+      ? `{color: #0de073; font-weight: bold; &:hover { color: #d1f0df; }}`
+      : `{color: #c4c4c4; &:hover { color: #d1f0df; font-weight: bold;}}`;
   }}
 `;
 

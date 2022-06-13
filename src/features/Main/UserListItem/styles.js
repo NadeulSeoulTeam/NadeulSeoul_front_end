@@ -5,10 +5,11 @@ import Avatar from '@mui/material/Avatar';
 export const Wrapper = styled(Card)`
   && {
     background-color: transparent;
-    margin: 0 20px 0 0;
+    margin: 1%;
     text-align: center;
     cursor: pointer;
     width: 10vw;
+    flex-shrink: 0;
   }
 `;
 
@@ -16,7 +17,7 @@ export const UserEmoji = styled(Avatar)`
   && {
     width: 10vw;
     height: 10vw;
-    font-size: 4vw;
+    font-size: 5vw;
     background-color: #d1f0df;
   }
 `;
