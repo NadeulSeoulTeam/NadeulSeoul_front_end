@@ -48,9 +48,6 @@ function BasicTabs() {
   const params = useParams();
   const location = useLocation();
   const navigateState = location;
-  // console.log(navigateState);
-  // console.log(params.id);
-  // console.log(MyNadles);
   const myPageId = params.id;
   const dispatch = useDispatch();
   const [value, setValue] = useState(0);
@@ -84,77 +81,77 @@ function BasicTabs() {
   const [likePlacepage, setLikePlacepage] = useState(0);
 
   // 내 나들
-  useEffect(() => {
-    const data = {
-      myNadlepage,
-      size: 30,
-      myPageId,
-    };
+  // useEffect(() => {
+  //   const data = {
+  //     myNadlepage,
+  //     size: 30,
+  //     myPageId,
+  //   };
 
-    dispatch(loadPostsInfinityMyNadle(data))
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  }, [myNadlepage]);
+  //   dispatch(loadPostsInfinityMyNadle(data))
+  //     .unwrap()
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response.data);
+  //     });
+  // }, [myNadlepage]);
 
-  function onScrollMyNadle() {
-    // window.scrollY : 얼마나 내렸는지
-    // document.documentElement.clientHeight : 화면에 보이는 길이
-    // document.documentElement.scrollHeight : 총길이
-    if (
-      window.scrollY + document.documentElement.clientHeight >
-      document.documentElement.scrollHeight - 950
-    ) {
-      setMyNadlepage(myNadlepage + 1);
-    }
-  }
+  // function onScrollMyNadle() {
+  //   // window.scrollY : 얼마나 내렸는지
+  //   // document.documentElement.clientHeight : 화면에 보이는 길이
+  //   // document.documentElement.scrollHeight : 총길이
+  //   if (
+  //     window.scrollY + document.documentElement.clientHeight >
+  //     document.documentElement.scrollHeight - 950
+  //   ) {
+  //     setMyNadlepage(myNadlepage + 1);
+  //   }
+  // }
 
-  useEffect(() => {
-    window.addEventListener('scroll', onScrollMyNadle);
-    return () => {
-      window.removeEventListener('scroll', onScrollMyNadle);
-    };
-  }, [onScrollMyNadle]);
+  // useEffect(() => {
+  //   window.addEventListener('scroll', onScrollMyNadle);
+  //   return () => {
+  //     window.removeEventListener('scroll', onScrollMyNadle);
+  //   };
+  // }, [onScrollMyNadle]);
 
-  // // 찜한 나들 코스
+  // // // 찜한 나들 코스
 
-  useEffect(() => {
-    const data = {
-      likeNadlepage,
-      size: 30,
-      myPageId,
-    };
-    dispatch(loadPostsInfinityLikeNadle(data))
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  }, [likeNadlepage]);
+  // useEffect(() => {
+  //   const data = {
+  //     likeNadlepage,
+  //     size: 30,
+  //     myPageId,
+  //   };
+  //   dispatch(loadPostsInfinityLikeNadle(data))
+  //     .unwrap()
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response.data);
+  //     });
+  // }, [likeNadlepage]);
 
-  function onScrollLikeNadle() {
-    if (
-      window.scrollY + document.documentElement.clientHeight >
-      document.documentElement.scrollHeight - 950
-    ) {
-      console.log('페이지 체크 : ');
-      console.log(likeNadlepage);
-      setLikeNadlepage(likeNadlepage + 1);
-    }
-  }
+  // function onScrollLikeNadle() {
+  //   if (
+  //     window.scrollY + document.documentElement.clientHeight >
+  //     document.documentElement.scrollHeight - 950
+  //   ) {
+  //     console.log('페이지 체크 : ');
+  //     console.log(likeNadlepage);
+  //     setLikeNadlepage(likeNadlepage + 1);
+  //   }
+  // }
 
-  useEffect(() => {
-    window.addEventListener('scroll', onScrollLikeNadle);
-    return () => {
-      window.removeEventListener('scroll', onScrollLikeNadle);
-    };
-  }, [onScrollLikeNadle]);
+  // useEffect(() => {
+  //   window.addEventListener('scroll', onScrollLikeNadle);
+  //   return () => {
+  //     window.removeEventListener('scroll', onScrollLikeNadle);
+  //   };
+  // }, [onScrollLikeNadle]);
 
   // 찜한 장소
 
@@ -212,7 +209,7 @@ function BasicTabs() {
             ? MyNadles?.map((v) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <CurationCard
-                  key={v.curationSeq + 957}
+                  key={Math.random().toString(36).substr(2, 5)}
                   thumnail={v.thumnail}
                   title={v.title}
                   good={v.good}
@@ -228,7 +225,7 @@ function BasicTabs() {
             ? LikeNadles?.map((v) => (
                 <CurationCard
                   // eslint-disable-next-line react/no-array-index-key
-                  key={v.curationSeq + 257}
+                  key={Math.random().toString(36).substr(2, 5)}
                   title={v.title}
                   thumnail={v.thumnail}
                   good={v.good}
@@ -248,7 +245,7 @@ function BasicTabs() {
           {LikePlaces?.length
             ? LikePlaces?.map((v) => (
                 <CurationCardLikePlace
-                  key={v.storeSeq + 641}
+                  key={Math.random().toString(36).substr(2, 5)}
                   storeSeq={v.storeSeq}
                   storeName={v.storeName}
                   addressName={v.addressName}
