@@ -1,11 +1,11 @@
 /* eslint-disable no-self-assign */
 /* eslint-disable no-unused-expressions */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
+import _concat from 'lodash/concat';
 import shortId from 'shortid';
 import axios from '../../common/api/httpCommunication';
 
-// 문의 게시판 createData
+// test for 인피니티
 const randomNum = Math.random() * 5;
 const randomNumFloor = Math.floor(randomNum);
 export const generateDummyCard = (number) =>
@@ -25,68 +25,6 @@ export const generateDummyCardLikePlcae = (number) =>
       addressName: '서울시 서대문구 장천동 53-20 ',
       categoryName: '오코노미야끼 전문식당',
     }));
-
-export const User = [
-  {
-    id: 1,
-    nickname: 'meanstrike',
-    emoji: '🐳',
-    Followings: 4,
-    Followers: 3,
-  },
-  {
-    id: 2,
-    nickname: 'taw1019',
-    emoji: '🍎',
-    Followings: 2,
-    Followers: 3,
-  },
-];
-
-export const FollowList = [
-  {
-    id: 1,
-    nickname: 'meanstrike',
-    emoji: '🐳',
-    FollowingsList: [
-      { nickname: 'han', id: '2', emoji: '🐶' },
-      { nickname: 'kim', id: '3', emoji: '🐱' },
-      { nickname: 'nam', id: '5', emoji: '🐭' },
-      { nickname: 'taw1019', id: '7', emoji: '🍎' },
-    ],
-    FollowersList: [
-      { nickname: 'heyhey', id: '6', emoji: '🦅' },
-      { nickname: 'yoo', id: '4', emoji: '🦆' },
-      { nickname: 'nam', id: '5', emoji: '🐭' },
-    ],
-  },
-  {
-    id: 2,
-    nickname: 'taw1019',
-    emoji: '🍎',
-    FollowingsList: [
-      { nickname: 'han', id: '2', emoji: '🐶' },
-      { nickname: 'kim', id: '3', emoji: '🐱' },
-    ],
-    FollowersList: [
-      { nickname: 'heyhey', id: '6', emoji: '🦅' },
-      { nickname: 'yoo', id: '4', emoji: '🦆' },
-      { nickname: 'meanstrike', id: '1', emoji: '🐳' },
-    ],
-  },
-];
-
-// 문의 게시판 상세내용
-
-export const BoardListItem = {
-  question_seq: '1',
-  member_seq: '1',
-  question_title: '안녕하세요. 관리자님 나들서울 잘 쓰고 있습니다.',
-  question_content: '늘 잘 사용하고 있습니다. 너무 행복합니다 ',
-  question_date: Date.now(),
-  answer: '앞으로도 잘 써주세영',
-  answer_date: '2022, 0202',
-};
 
 // 인피니티 스크롤 for 찜한 나들 코스
 
@@ -349,7 +287,6 @@ export const removeAnswer = createAsyncThunk(
 // 기본 state
 // 서버 연결하면 기존의 dummydate 연결 풀어야 함
 export const initialState = {
-  userInfo: User, // 내 정보 test
   user: null,
   count: 0,
   followinfoToList: null,
@@ -358,7 +295,6 @@ export const initialState = {
   LikePlaces: [], // infinity scroll LikePlaces
   InfinityPostsLikePlace: [], // infinity scroll LikePlace
   hasMoreLikePlace: true,
-  FollowInfo: FollowList, // 팔로잉, 팔로워 정보 test
   followeeUsers: null,
   anotherFolloweeUsers: null, // 다른 유저의 팔로잉 정보
   followerUsers: null,
@@ -452,6 +388,15 @@ const MyPageSlice = createSlice({
     getPageCount(state, action) {
       state.pageCount = action.payload;
     },
+    clearLikePlaces(state) {
+      state.LikePlaces = [];
+    },
+    clearLikeNadles(state) {
+      state.LikeNadles = [];
+    },
+    claerMyNadles(state) {
+      state.MyNadles = [];
+    },
   },
   extraReducers: {
     // 인피니티 스크롤 LikeNadles
@@ -463,7 +408,10 @@ const MyPageSlice = createSlice({
     [loadPostsInfinityLikeNadle.fulfilled]: (state, action) => {
       state.loadInfinityLikeNadlesLoading = false;
       state.loadInfinityLikeNadlesDone = true;
-      state.LikeNadles = action.payload.data.data.content;
+      state.LikeNadles = _concat(
+        state.LikeNadles,
+        action.payload.data.data.content
+      );
       // if (state.count === 0) {
       //   state.LikeNadles = [];
       // }
@@ -489,7 +437,10 @@ const MyPageSlice = createSlice({
     [loadPostsInfinityLikePlace.fulfilled]: (state, action) => {
       state.loadInfinityLikePlacesLoading = false;
       state.loadInfinityLikePlacesDone = true;
-      state.LikePlaces = action.payload.data.data.content;
+      state.LikePlaces = _concat(
+        state.LikePlaces,
+        action.payload.data.data.content
+      );
     },
     [loadPostsInfinityLikePlace.rejected]: (state, action) => {
       state.loadInfinityLikePlacesLoading = false;
@@ -503,7 +454,10 @@ const MyPageSlice = createSlice({
     },
     [loadPostsInfinityMyNadle.fulfilled]: (state, action) => {
       state.loadInfinityMyNadlesLoading = false;
-      state.MyNadles = action.payload.data.data.content;
+      state.MyNadles = _concat(
+        state.MyNadles,
+        action.payload.data.data.content
+      );
       // state.MyNadles = action.payload.data.data.content.concat(state.MyNadles);
       // state.MyNadles = state.MyNadles.filter(
       //   (value, index, self) =>
@@ -777,5 +731,8 @@ export const {
   changedMypage,
   getParamsId,
   getPageCount,
+  clearLikePlaces,
+  clearLikeNadles,
+  claerMyNadles,
 } = MyPageSlice.actions;
 export default MyPageSlice.reducer;
