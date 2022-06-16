@@ -28,12 +28,12 @@ import BoardList from '../features/MyPage/Board/BoardList';
 import BoardListItem from '../features/MyPage/Board/BoardListItem';
 import BoardForm from '../features/MyPage/Board/BoardForm';
 import StoreView from '../features/StoreView';
+import EditUserInfo from '../features/Auth/EditUserInfo';
 
 // authenticated
 import isAuthenticated, { isLoggedIn } from '../common/api/isAuthenticated';
 import PrivateRoute from '../common/routes/PrivateRoute';
 import PublicRoute from '../common/routes/PublicRoute';
-import EditUserInfo from '../features/Auth/EditUserInfo';
 
 function App() {
   return (
@@ -43,7 +43,10 @@ function App() {
         <Routes>
           {/* private */}
           <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
-            <Route path="/CourseCreationForm" element={<CourseCreationForm />}/>
+            <Route
+              path="/CourseCreationForm"
+              element={<CourseCreationForm />}
+            />
             <Route Route path="/questions" element={<BoardList />} />
             <Route path="/questions/new" element={<BoardForm />} />
             <Route path="/questions/:QuestionId" element={<BoardListItem />} />
@@ -51,7 +54,7 @@ function App() {
           </Route>
 
           {/* Only public Not Authenticated */}
-          <Route element={<PublicRoute isAuthenticated={isLoggedIn} />} >
+          <Route element={<PublicRoute isAuthenticated={isLoggedIn} />}>
             <Route path="/member/signin" element={<SignIn />} />
             <Route path="/member/signup" element={<UserForm />} />
           </Route>

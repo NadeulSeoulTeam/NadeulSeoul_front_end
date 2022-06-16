@@ -50,6 +50,7 @@ import {
   CourseHeader,
   CourseTags,
 } from './styles';
+import CourseViewMapStore from './CourseViewMapStore';
 
 function CourseViewMap({ curationSeq, courseInfo }) {
   // 뒤로 가기에 대한 처리
@@ -72,7 +73,9 @@ function CourseViewMap({ curationSeq, courseInfo }) {
   const [beforeInfo, setBeforeInfo] = useState();
 
   // star clicked
-  const { likeStoreClicked } = useSelector((state) => state.courseView);
+  const likeStoreClicked = useSelector(
+    (state) => state.courseView.likeStoreClicked
+  );
   const [likeClicked, setLikeClicked] = useState(false);
   useEffect(() => {
     setTempLatLng([]);
@@ -85,8 +88,9 @@ function CourseViewMap({ curationSeq, courseInfo }) {
         })
       );
     console.log(clickedMarkerInfo);
+    console.log(likeStoreClicked);
   }, [clickedMarkerInfo, likeClicked]);
-  // useEffect(() => {}, [likeStoreClicked]);
+
   // 마커 클릭 이벤트
   const markerClickEventHandler = () => {
     let clickedIndex = null;
@@ -102,22 +106,21 @@ function CourseViewMap({ curationSeq, courseInfo }) {
     // 비동기 통신
     if (likeStoreClicked) {
       // true->false
-      console.log('?');
       dispatch(clickStoreLikeCancel(clickedMarkerInfo.storeInfoDto));
     } else {
-      const data = {
-        storeSeq: Number(clickedMarkerInfo.storeInfoDto.storeSeq),
-        addressName: clickedMarkerInfo.storeInfoDto.addressName,
-        categoryName: clickedMarkerInfo.storeInfoDto.categoryName,
-        phone: clickedMarkerInfo.storeInfoDto.phone,
-        storeName: clickedMarkerInfo.storeInfoDto.storeName,
-        placeUrl: clickedMarkerInfo.place_url,
-        x: clickedMarkerInfo.storeInfoDto.x,
-        y: clickedMarkerInfo.storeInfoDto.y,
-      };
-      dispatch(clickStoreLike(data));
+      dispatch(
+        clickStoreLike({
+          storeSeq: Number(clickedMarkerInfo.storeInfoDto.storeSeq),
+          addressName: clickedMarkerInfo.storeInfoDto.addressName,
+          categoryName: clickedMarkerInfo.storeInfoDto.categoryName,
+          phone: clickedMarkerInfo.storeInfoDto.phone,
+          storeName: clickedMarkerInfo.storeInfoDto.storeName,
+          placeUrl: clickedMarkerInfo.place_url,
+          x: clickedMarkerInfo.storeInfoDto.x,
+          y: clickedMarkerInfo.storeInfoDto.y,
+        })
+      );
     }
-    console.log('clicked');
     setLikeClicked(!likeClicked);
   };
   // 클릭시 랜더링 되는 정보
@@ -128,35 +131,12 @@ function CourseViewMap({ curationSeq, courseInfo }) {
     // store 정보 랜더링
     // eslint-disable-next-line consistent-return
     return (
-      <div>
-        <Slide
-          direction="left"
-          in={info !== undefined}
-          mountOnEnter
-          unmountOnExit
-        >
-          <Cart>
-            <DetailCard className="store_cart" sx={{ minWidth: 275 }}>
-              {/* <CardActions>
-              </CardActions> */}
-              <CloseBtn onClick={() => setClickMarkerInfo(undefined)} />
-              <BtnExplain>눌러서 찜하기</BtnExplain>
-              <StarBtn
-                active={!!likeStoreClicked}
-                type="submit"
-                onClick={userClickHeart}
-              >
-                💚
-              </StarBtn>
-              <div style={{ padding: '1.5rem 1.5rem 3rem 1.5rem' }}>
-                <CardHeader>{info.storeName}</CardHeader>
-                <CardScript>{info.addressName}</CardScript>
-                <CardScript>{info.categoryName}</CardScript>
-              </div>
-            </DetailCard>
-          </Cart>
-        </Slide>
-      </div>
+      <CourseViewMapStore
+        likeStoreClicked={likeStoreClicked}
+        userClickHeart={userClickHeart}
+        setClickMarkerInfo={setClickMarkerInfo}
+        info={info}
+      />
     );
   };
 

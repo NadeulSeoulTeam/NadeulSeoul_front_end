@@ -43,6 +43,7 @@ function MyPage() {
 
   // 로그인한 사람의 팔로잉 팔로우 정보 가져오기
   useEffect(() => {
+    console.log('여긴가요?! 제발요');
     dispatch(loadFollowers(getUserInfo().userSeq))
       .unwrap()
       .then((response) => {

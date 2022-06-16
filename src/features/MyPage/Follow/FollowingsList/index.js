@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +29,9 @@ function FollowingsList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
-  // const MyId = getUserInfo().userSeq; // 1번 사용자가 로그인 했다고 가정 => 토큰으로 대체
+  const [isMe, setIsMe] = useState(
+    followeeUsers?.find((v) => v.followerSeq === getUserInfo().userSeq)
+  );
 
   useEffect(() => {
     dispatch(loadFollowings(params.id))
@@ -39,18 +42,13 @@ function FollowingsList() {
       .catch((err) => {
         console.log(err.response.data);
       });
-  }, []);
+  }, [params.id]);
 
   const onClickGotoMypage = useCallback(
     (id) => () => {
       navigate(`/mypage/${id}`);
     },
     []
-  );
-
-  console.log(getUserInfo().userSeq);
-  const isMe = followeeUsers?.find(
-    (v) => v.followerSeq === getUserInfo().userSeq
   );
 
   return (
