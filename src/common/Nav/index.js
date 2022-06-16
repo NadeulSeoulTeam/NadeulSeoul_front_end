@@ -1,5 +1,5 @@
 // import React from 'react';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -27,6 +27,8 @@ import isAuthenticated from '../api/isAuthenticated';
 import { getUserInfo } from '../api/JWT-Token';
 
 function Nav() {
+  const openedNav = useRef();
+  const closedNav = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,6 +36,22 @@ function Nav() {
   const onHolderClick = () => {
     setIsOpen(!isOpen);
   };
+
+  // Navbar 기본 여닫기 + 그 외 영역 클릭 시 닫히게
+  const handleClick = ({ target }) => {
+    if (isOpen && !openedNav.current.contains(target)) {
+      setIsOpen(false);
+    } else if (!isOpen && closedNav.current.contains(target)) {
+      setIsOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('click', handleClick);
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, [isOpen]);
 
   const onLogoutClick = () => {
     dispatch(logout())
@@ -79,13 +97,19 @@ function Nav() {
   };
 
   const openedBar = (
-    <>
+    <div>
       <Slide direction="right" in={isOpen} mountOnEnter unmountOnExit>
-        <WhiteHolder onClick={onHolderClick}>
+        <WhiteHolder>
           <Icon style={{ color: '#0de073' }} />
         </WhiteHolder>
       </Slide>
-      <Slide direction="right" in={isOpen} mountOnEnter unmountOnExit>
+      <Slide
+        direction="right"
+        ref={openedNav}
+        in={isOpen}
+        mountOnEnter
+        unmountOnExit
+      >
         <Container>
           <HomeBtn onClick={onHomeClick}>🏠 Home</HomeBtn>
           {isAuthenticated() ? (
@@ -151,19 +175,15 @@ function Nav() {
           )}
         </Container>
       </Slide>
-    </>
+    </div>
   );
 
-  return (
-    <div>
-      {isOpen ? (
-        openedBar
-      ) : (
-        <GreenHolder onClick={() => onHolderClick()}>
-          <Icon style={{ color: 'white' }} />
-        </GreenHolder>
-      )}
-    </div>
+  return isOpen ? (
+    openedBar
+  ) : (
+    <GreenHolder ref={closedNav}>
+      <Icon style={{ color: 'white' }} />
+    </GreenHolder>
   );
 }
 
