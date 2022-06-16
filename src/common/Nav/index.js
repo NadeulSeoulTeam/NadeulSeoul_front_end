@@ -31,10 +31,6 @@ function Nav() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // 실제로는 cookie에서 user 정보 받아오기? 일단 지금은 그냥 state로 했어욥! 넵!
-  // const [isLogged, setIsLogged] = useState(false);
-
-  // 정리5 함수안에 함수,, 이걸 왜 몰랏지,,
   const onHolderClick = () => {
     setIsOpen(!isOpen);
   };
@@ -43,9 +39,7 @@ function Nav() {
     dispatch(logout())
       .unwrap()
       .then(() => {
-        // window.location.reload();
         alert('로그아웃 되었습니다.');
-        // navigate('/');
         Link('/');
       })
       .catch((error) => {
@@ -85,7 +79,7 @@ function Nav() {
   };
 
   const openedBar = (
-    <div>
+    <>
       <Slide direction="right" in={isOpen} mountOnEnter unmountOnExit>
         <WhiteHolder onClick={onHolderClick}>
           <Icon style={{ color: '#0de073' }} />
@@ -157,13 +151,13 @@ function Nav() {
           )}
         </Container>
       </Slide>
-    </div>
+    </>
   );
 
   return (
     <div>
       {isOpen ? (
-        <div>{openedBar}</div>
+        openedBar
       ) : (
         <GreenHolder onClick={() => onHolderClick()}>
           <Icon style={{ color: 'white' }} />
