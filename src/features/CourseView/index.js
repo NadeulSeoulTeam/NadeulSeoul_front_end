@@ -22,7 +22,6 @@ function CourseView() {
     );
   }, []);
   useEffect(() => {
-    console.log(courseInfoError, courseInfo);
     if (courseInfo === null) navigate('/');
   }, [courseInfo]);
   useEffect(() => {
