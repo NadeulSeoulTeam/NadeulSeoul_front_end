@@ -14,9 +14,6 @@ function SearchBar() {
   const search = () => {
     navigate(`/storeview`, { state: searchInput });
   };
-  useEffect(() => {
-    console.log(searchInput);
-  }, [searchInput]);
 
   const keyPress = (e) => {
     setSearchInput(e.target.value);

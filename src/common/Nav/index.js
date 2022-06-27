@@ -1,7 +1,7 @@
 // import React from 'react';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 // import MenuIcon from '@mui/icons-material/Menu';
 import Slide from '@mui/material/Slide';
@@ -27,31 +27,46 @@ import isAuthenticated from '../api/isAuthenticated';
 import { getUserInfo } from '../api/JWT-Token';
 
 function Nav() {
+  const openedNav = useRef();
+  const closedNav = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // 실제로는 cookie에서 user 정보 받아오기? 일단 지금은 그냥 state로 했어욥! 넵!
-  // const [isLogged, setIsLogged] = useState(false);
-
-  // 정리5 함수안에 함수,, 이걸 왜 몰랏지,,
   const onHolderClick = () => {
     setIsOpen(!isOpen);
   };
+
+  // Navbar 기본 여닫기 + 그 외 영역 클릭 시 닫히게
+  const handleClick = ({ target }) => {
+    if (isOpen && !openedNav.current.contains(target)) {
+      setIsOpen(false);
+    } else if (!isOpen && closedNav.current.contains(target)) {
+      setIsOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('click', handleClick);
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, [isOpen]);
 
   const onLogoutClick = () => {
     dispatch(logout())
       .unwrap()
       .then(() => {
-        // window.location.reload();
-        navigate('/');
+        alert('로그아웃 되었습니다.');
+        Link('/');
       })
       .catch((error) => {
         console.log(error.response.data);
       });
     onHolderClick();
   };
-  const onLoinClick = () => {
+
+  const onLoginClick = () => {
     navigate('/member/signin');
     onHolderClick();
   };
@@ -84,11 +99,17 @@ function Nav() {
   const openedBar = (
     <div>
       <Slide direction="right" in={isOpen} mountOnEnter unmountOnExit>
-        <WhiteHolder onClick={onHolderClick}>
+        <WhiteHolder>
           <Icon style={{ color: '#0de073' }} />
         </WhiteHolder>
       </Slide>
-      <Slide direction="right" in={isOpen} mountOnEnter unmountOnExit>
+      <Slide
+        direction="right"
+        ref={openedNav}
+        in={isOpen}
+        mountOnEnter
+        unmountOnExit
+      >
         <Container>
           <HomeBtn onClick={onHomeClick}>🏠 Home</HomeBtn>
           {isAuthenticated() ? (
@@ -146,7 +167,7 @@ function Nav() {
             </div>
           ) : (
             <div>
-              <GreenText style={{ top: '8.3rem' }} onClick={onLoinClick}>
+              <GreenText style={{ top: '8.3rem' }} onClick={onLoginClick}>
                 로그인 / 회원가입
               </GreenText>
               <GreenBtn disabled>나만의 코스 만들기</GreenBtn>
@@ -157,16 +178,12 @@ function Nav() {
     </div>
   );
 
-  return (
-    <div>
-      {isOpen ? (
-        <div>{openedBar}</div>
-      ) : (
-        <GreenHolder onClick={() => onHolderClick()}>
-          <Icon style={{ color: 'white' }} />
-        </GreenHolder>
-      )}
-    </div>
+  return isOpen ? (
+    openedBar
+  ) : (
+    <GreenHolder ref={closedNav}>
+      <Icon style={{ color: 'white' }} />
+    </GreenHolder>
   );
 }
 

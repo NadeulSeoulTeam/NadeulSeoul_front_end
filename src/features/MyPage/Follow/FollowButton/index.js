@@ -6,7 +6,6 @@ import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
 
 // style
-import { get } from 'lodash';
 import FollowBtn from './styles';
 
 // actions
@@ -17,6 +16,7 @@ import {
   loadFollowings,
   anotherLoadFollowings,
 } from '../../MyPageSlice';
+import { LoadUserInfo } from '../../../Main/MainSlice';
 
 // cookie
 import { getUserInfo } from '../../../../common/api/JWT-Token';
@@ -47,8 +47,8 @@ function FollowButton({ userId }) {
         .unwrap()
         .then((response) => {
           console.log(response);
-          dispatch(loadUser(params.id));
           setIsFollowing(false);
+          dispatch(LoadUserInfo());
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -58,8 +58,8 @@ function FollowButton({ userId }) {
         .unwrap()
         .then((response) => {
           console.log(response);
-          dispatch(loadUser(params.id));
           setIsFollowing(true);
+          dispatch(LoadUserInfo());
         })
         .catch((err) => {
           console.log(err.response.data);
