@@ -19,7 +19,7 @@ import {
 import FollowButton from '../FollowButton';
 
 // actions
-import { loadFollowings } from '../../MyPageSlice';
+import { loadFollowings, anotherLoadFollowings } from '../../MyPageSlice';
 
 // cookie
 import { getUserInfo } from '../../../../common/api/JWT-Token';
@@ -28,10 +28,22 @@ function FollowingsList() {
   const { followeeUsers } = useSelector((state) => state.mypage);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [myId, setMyId] = useState(getUserInfo().userSeq);
   const params = useParams();
   const [isMe, setIsMe] = useState(
     followeeUsers?.find((v) => v.followerSeq === getUserInfo().userSeq)
   );
+
+  useEffect(() => {
+    dispatch(anotherLoadFollowings(myId))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }, []);
 
   useEffect(() => {
     dispatch(loadFollowings(params.id))
