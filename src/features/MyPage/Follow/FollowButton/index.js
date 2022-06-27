@@ -1,21 +1,15 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
-import PropTypes from 'prop-types';
 
 // style
 import FollowBtn from './styles';
 
 // actions
-import {
-  follow,
-  loadUser,
-  unfollow,
-  loadFollowings,
-  anotherLoadFollowings,
-} from '../../MyPageSlice';
+import { follow, unfollow } from '../../MyPageSlice';
 import { LoadUserInfo } from '../../../Main/MainSlice';
 
 // cookie
@@ -33,20 +27,18 @@ function FollowButton({ userId }) {
       anotherFolloweeUsers?.some(({ followeeSeq: id2 }) => id2 === id1)
     )
   );
-  const [isFollowing, setIsFollowing] = useState(
-    result?.find((v) => v.followeeSeq === userId)
-  );
 
-  useEffect(() => {
-    dispatch(anotherLoadFollowings(myId));
-  }, []);
+  const resultRef = useRef(result);
+  resultRef.current = result;
+  const [isFollowing, setIsFollowing] = useState(
+    resultRef.current?.find((v) => v.followeeSeq === userId)
+  );
 
   const onClickButton = useCallback(() => {
     if (isFollowing) {
       dispatch(unfollow(userId))
         .unwrap()
         .then((response) => {
-          console.log(response);
           setIsFollowing(false);
           dispatch(LoadUserInfo());
         })
